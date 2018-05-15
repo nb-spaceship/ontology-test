@@ -23,7 +23,7 @@ def main(argv = None):
 
 		test_type = ""
 		test_name = ""
-		opts = [('-t', 'restful'), ('-n', 'get_blk_by_hash.json')]
+		#opts = [('-t', 'restful'), ('-n', 'get_blk_by_hash.json')]
 		for op, value in opts:
 			if op in ("-t", "--type"):
 				test_type = value

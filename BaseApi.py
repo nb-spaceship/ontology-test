@@ -74,6 +74,7 @@ class BaseApi:
 
 	@abstractmethod
 	def runAll(self):
-		for root, dirs, files in os.walk(self.CONFIG_PATH):  
-			for file in files:
-				self.run(file)
+		for i in os.listdir(self.CONFIG_PATH):
+			file = os.path.join(self.CONFIG_PATH, i)
+			if os.path.isfile(file):
+				self.run(i)
