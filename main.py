@@ -4,7 +4,7 @@ from Restful import RestfulApi
 from WebSocket import WSApi
 
 #init doc
-__doc__ = "[1] -h --help\n" + "[2] -t --test"
+__doc__ = "[1] -h --help    \n[2] -t --type    \n[3] -n --test_config_name"
 #end doc
 
 
