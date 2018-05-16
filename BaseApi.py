@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from config import Config
 from MultiThread import MyThread
 from abc import ABCMeta, abstractmethod
@@ -14,7 +15,8 @@ class BaseApi:
 
 	def load_cfg(self, cfg):
 		cfg_file = open(cfg, "rb")
-		cfg_json = json.load(cfg_file)
+		cfg_json = json.loads(cfg_file.read().decode("utf-8"))
+		cfg_file.close()
 		return cfg_json
 
 	def multithread_run(self, api_name, cfg_request, cfg_response):
@@ -31,17 +33,17 @@ class BaseApi:
 			t.join()
 			result = result and self.judge_result(api_name, cfg_response, t.get_result())
 			response = t.get_result()
-			print "[ THREAD %d ]" % thread_list.index(t)
-			print "[ RESULT   ]" + json.dumps(response, indent = 4)
+			print("[ THREAD %d ]" % thread_list.index(t))
+			print("[ RESULT   ]" + json.dumps(response, indent = 4))
 
 		return (result, response)
 
 	@abstractmethod
 	def judge_result(self, api_name, except_respons, real_respones):
 		for key in except_respons.keys():
-			if real_respones.has_key(key) and real_respones[key] == except_respons[key]:
+			if real_respones and key in real_respones and real_respones[key] == except_respons[key]:
 				continue
-			elif real_respones.has_key(key.capitalize()) and real_respones[key.capitalize()] == except_respons[key]:
+			elif real_respones and key.capitalize() in real_respones and real_respones[key.capitalize()] == except_respons[key]:
 				continue
 			else:
 				return False
@@ -54,23 +56,23 @@ class BaseApi:
 	@abstractmethod
 	def run(self, api_name):
 		start_time = time.time()
-		print "[-------------------------------]"
-		print "[ RUN      ] "+ self.TYPE + "." +api_name.split('.')[0]
+		print("[-------------------------------]")
+		print("[ RUN      ] "+ self.TYPE + "." +api_name.split('.')[0])
 		cfg_content = self.load_cfg(self.CONFIG_PATH + "/" + api_name)
 		cfg_request = cfg_content["REQUEST"]
 		cfg_response = cfg_content["RESPONSE"]
-		print "[ PARAMS   ]" + json.dumps(cfg_content, indent = 4)
+		print("[ PARAMS   ]" + json.dumps(cfg_content, indent = 4))
 
 		(result, response) = self.multithread_run(api_name, cfg_request, cfg_response)
 		end_time = time.time()
 		time_consumed = (end_time - start_time) * 1000
 		
 		if result:
-			print "[ OK       ] " + self.TYPE + "."+api_name.split('.')[0]," (%d ms)" % (time_consumed)
+			print("[ OK       ] " + self.TYPE + "."+api_name.split('.')[0]," (%d ms)" % (time_consumed))
 		else:
-			print "[ Failed   ] " + self.TYPE + "."+api_name.split('.')[0]," (%d ms)"% (time_consumed)
-		print "[-------------------------------]"
-		print ""
+			print("[ Failed   ] " + self.TYPE + "."+api_name.split('.')[0]," (%d ms)"% (time_consumed))
+		print("[-------------------------------]")
+		print("")
 
 	@abstractmethod
 	def runAll(self):

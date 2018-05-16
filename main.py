@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys, getopt
 from RPC import RPCApi
 from Restful import RestfulApi
@@ -18,7 +19,7 @@ def main(argv = None):
 	try:
 		try:
 			opts, args = getopt.getopt(sys.argv[1:], "ht:n:", ["help", "type=", "name="])
-		except getopt.error, msg:
+		except getopt.error as msg:
 			raise Usage(msg)
 
 		test_type = ""
@@ -30,7 +31,7 @@ def main(argv = None):
 			if op in ("-n", "--name"):
 				test_name = value if ".json" in value else value+'.json'
 			if op in ("-h", "--help"):
-				print __doc__
+				print(__doc__)
 				return 0
 
 		if test_type == "rpc":
@@ -56,7 +57,7 @@ def main(argv = None):
 		else:
 			raise Usage("no test name")
 
-	except Usage, err:
+	except Usage as err:
 		print >> sys.stderr, err.msg
 		print >> sys.stderr, "for help use --help"
 		return 2

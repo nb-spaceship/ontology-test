@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import urllib
-import urllib2
+import urllib.request
 
 from config import Config
 import json
@@ -15,18 +15,17 @@ class RestfulApi(BaseApi):
 	def connnet(self, api_request):
 		api_url = Config.RESTFUL_URL + api_request["api"]
 		api_command = "GET"
-		if api_request.has_key("command"):
+		if "command" in api_request:
 			api_command = api_request["command"]
 
 		if api_command == "POST":
 			api_post_data = None
-			if api_request.has_key("params"):
+			if "params" in api_request:
 				api_post_data = api_request["params"]
 			#api_post_data_encode = urllib.urlencode(json.dumps(api_post_data))
-			req = urllib2.Request(url = api_url, data = json.dumps(api_post_data))
-			print req
-			response = urllib2.urlopen(req)
-			return json.loads(response.read())
+			req = urllib.request.Request(url = api_url, data = json.dumps(api_post_data))
+			response = urllib.request.urlopen(req)
+			return json.loads(response.read().decode("utf-8"))
 		else:
-			response = urllib2.urlopen(api_url)
-			return json.loads(response.read())
+			response = urllib.request.urlopen(api_url)
+			return json.loads(response.read().decode("utf-8"))
