@@ -1,0 +1,5 @@
+{
+	"RPC_URL" : "http://localhost:20336/jsonrpc",
+	"RESTFUL_URL" : "http://localhost:20334",
+	"WS_URL" : "ws://localhost:20335"
+}
