@@ -13,8 +13,6 @@ class TaskData:
 		ret = []   
 		for filename in os.listdir(self.PATH):
 			fullfilename = os.path.join(self.PATH, filename)
-			print(filename)
-			print(fullfilename)
 			if os.path.isfile(fullfilename):
 				ret.append(fullfilename)
 				self.INDEX = self.INDEX + 1

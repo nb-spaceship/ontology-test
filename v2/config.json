@@ -1,5 +1,5 @@
 {
-	"RPC_URL" : "http://localhost:20336/jsonrpc",
-	"RESTFUL_URL" : "http://localhost:20334",
-	"WS_URL" : "ws://localhost:20335"
+	"RPC_URL" : "http://139.219.133.116:20336/jsonrpc",
+	"RESTFUL_URL" : "http://139.219.133.116:20334",
+	"WS_URL" : "ws://139.219.133.116:20335"
 }

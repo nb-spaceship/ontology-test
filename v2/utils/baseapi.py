@@ -7,6 +7,7 @@ import time
 import os
 import urllib
 import urllib.request
+import requests
 
 class BaseApi:
 	def __init__(self):
@@ -79,12 +80,12 @@ class BaseApi:
 			return json.loads(response.read().decode("utf-8"))
 
 	def connnet_rpc(self, api_request):
-		response = requests.post(Config.RPC_URL, data=json.dumps(request), headers=Config.RPC_HEADERS)
-		return response.json()
+		response = requests.post(Config.RPC_URL, data=json.dumps(api_request), headers=Config.RPC_HEADERS)
+		return response.json() 
 
 	def connnet_ws(self, api_request):
 		ws = create_connection(Config.WS_URL)
-		ws.send(json.dumps(request))
+		ws.send(json.dumps(api_request))
 		response = ws.recv()
 		ws.close()
 		return json.loads(response)
