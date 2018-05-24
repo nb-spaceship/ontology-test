@@ -27,9 +27,9 @@ class Config():
 
 	THREAD = 1
 
+	RPC_HEADERS = {'content-type': 'application/json'}
 	#RPC CONFIG
 	RPC_URL = cfg_json["RPC_URL"]
-	RPC_HEADERS = {'content-type': 'application/json'}
 
 	#Restful CONFIG
 	RESTFUL_URL = cfg_json["RESTFUL_URL"]
@@ -39,6 +39,3 @@ class Config():
 
 	#CLIRPC_URL CONFIG
 	CLIRPC_URL = cfg_json["CLIRPC_URL"]
-
-		
-

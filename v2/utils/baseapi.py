@@ -26,7 +26,7 @@ class BaseApi:
 		response = None
 
 		for i in range(Config.THREAD):
-			t = MyThread(self.connnet, args=cfg_request)
+			t = MyThread(self.connnetweb, args=cfg_request)
 			thread_list.append(t)
 			t.start()
 
@@ -51,14 +51,15 @@ class BaseApi:
 				self.assertEqual(0, 1)
 		return True
 
-	@abstractmethod
-	def connnet(self, request):
+	def connnetweb(self, request):
 		if self.TYPE == "restful":
 			return self.connnet_restful(request)
 		elif self.TYPE == "ws":
 			return self.connnet_ws(request)
 		elif self.TYPE == "rpc":
-			return self.connnet_rpc(request)
+			return self.connnet_rpc(Config.RPC_URL, request)
+		elif self.TYPE == "clirpc":
+			return self.connnet_rpc(Config.CLIRPC_URL, request)
 
 	def connnet_restful(self, api_request):
 		api_url = Config.RESTFUL_URL + api_request["api"]
@@ -79,8 +80,8 @@ class BaseApi:
 			response = urllib.request.urlopen(api_url)
 			return json.loads(response.read().decode("utf-8"))
 
-	def connnet_rpc(self, api_request):
-		response = requests.post(Config.RPC_URL, data=json.dumps(api_request), headers=Config.RPC_HEADERS)
+	def connnet_rpc(self, url, api_request):
+		response = requests.post(url, data=json.dumps(api_request), headers=Config.RPC_HEADERS)
 		return response.json() 
 
 	def connnet_ws(self, api_request):

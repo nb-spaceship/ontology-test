@@ -7,6 +7,7 @@ import urllib.request
 import json
 import os
 import websocket
+from websocket import create_connection
 
 from utils.config import Config
 from utils.baseapi import BaseApi
@@ -24,25 +25,13 @@ class TestWebSocket(unittest.TestCase, BaseApi):
 		self.runsingle(api_file)
 
 	def test_heartbeat(self):
-		def on_message(ws, message):
-			print(message)
+		ws = create_connection(Config.WS_URL)
+		ws.send(json.dumps(self.load_cfg("tasks/websocket/heartbeat.json")))
+		ws.send(json.dumps(self.load_cfg("tasks/websocket/subscribe.json")))
 
-		def on_error(ws, error):
-			print(error)
-
-		def on_close(ws):
-			print("### closed ###")
-
-		def on_open(ws):
-			print("### open ###")
-
-		ws = websocket.WebSocketApp(Config.WS_URL,
-									on_message = on_message,
-									on_error = on_error,
-									on_close = on_close)
-		ws.on_open = on_open
-		ws.run_forever()
-
+		while True:
+			response = ws.recv()
+			print("response: " + json.dumps(json.loads(response)))
 
 if __name__ == '__main__':
     unittest.main()	
