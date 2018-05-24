@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, getopt
 from utils.rpc import RPC
+from utils.cli import CLI
 from utils.restful import Restful
 from utils.websocket import WS
 
@@ -57,7 +58,11 @@ def main(argv = None):
 			else:
 				wstest.run(test_name)
 		elif test_type == "cli":
-			pass
+			wstest = CLI()
+			if test_name == "":
+				wstest.runAll()
+			else:
+				wstest.run(test_name)
 		else:
 			raise Usage("no test name")
 

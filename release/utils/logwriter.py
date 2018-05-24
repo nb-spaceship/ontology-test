@@ -16,7 +16,9 @@ class LogWriter():
 			os.makedirs(pathstr + "/restful") 
 		if not os.path.exists(pathstr + "/websocket"):
 			os.makedirs(pathstr + "/websocket")
-
+		if not os.path.exists(pathstr + "/clirpc"):
+			os.makedirs(pathstr + "/clirpc")
+			
 		return pathstr
 
 	#write

@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] clirpc.siginvoketx
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "Params": {
+            "address": "ff00000000000000000000000000000000000001",
+            "version": 0,
+            "method": "name",
+            "args": []
+        },
+        "Method": "siginvoketx",
+        "Qid": "t"
+    }
+}
+[ THREAD 0 ]
+[ RESULT   ]{
+    "qid": "t",
+    "method": "siginvoketx",
+    "error_code": 1003,
+    "error_info": "invalid params",
+    "result": null
+}
+[ Failed   ] clirpc.siginvoketx (46 ms)
+[-------------------------------]
+
