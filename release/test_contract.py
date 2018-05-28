@@ -27,7 +27,7 @@ class TestContract(unittest.TestCase):
 	def setUp(self):
 		pass
 
-	@ddt.data(*TaskData("tasks/contract").tasks())
+	@ddt.data(*TaskData("contract").tasks())
 	def test_main(self, task):
 		#step 1: signed tx
 		LoggerInstance.open("contract/" + task.name())

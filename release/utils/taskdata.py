@@ -36,7 +36,7 @@ class Task:
 
 class TaskData:
 	def __init__(self, path):
-		self.PATH = path
+		self.PATH = "tasks/" + path
 
 	def tasks(self):
 		ret = []   

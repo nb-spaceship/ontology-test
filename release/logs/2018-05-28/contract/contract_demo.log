@@ -1,0 +1,74 @@
+[-------------------------------]
+[ RUN      ] clirpc.contract_demo
+[ PARAMS   ]{
+    "RESPONSE": {},
+    "REQUEST": {
+        "Params": {
+            "version": 0,
+            "params": [
+                {
+                    "type": "string",
+                    "value": "GetHeight"
+                },
+                {
+                    "type": "array",
+                    "value": [
+                        {
+                            "type": "string",
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "gas_pimit": 0,
+            "address": "TMhwCRaT4aMtj6h6unqeCJWUn8vomadk7s",
+            "gas_price": 0
+        },
+        "Qid": "t",
+        "Method": "siginvoketx"
+    }
+}
+[ THREAD 0 ]
+[ RESULT   ]{
+    "result": {
+        "signed_tx": "00d10fa10b5b000000000000000000000000000000000136e09de012eedd5199169eab9542dfc2b965c7802667000080be13d259e7f89177c1253b270cbeebdb5e65b3000d0051c1094765744865696768740001012312020258a22a27047610cd58cfc2d02aeda8381dd6f430dc5ddedb854b803271ab69f401014101b534c8c2b035216a9a0f760c1499af82a54155e2be7d438aa685e890edb0529def9cf36b067d4a7c72d3f66b5ca32374b19f4a5a3536bd7eb76352e50f7e6508"
+    },
+    "qid": "t",
+    "error_info": "",
+    "error_code": 0,
+    "method": "siginvoketx"
+}
+[ OK       ] clirpc.contract_demo (62 ms)
+[-------------------------------]
+
+[-------------------------------]
+[ RUN      ] clirpc.sendrawtransaction
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "method": "sendrawtransaction",
+        "params": [
+            "00d10fa10b5b000000000000000000000000000000000136e09de012eedd5199169eab9542dfc2b965c7802667000080be13d259e7f89177c1253b270cbeebdb5e65b3000d0051c1094765744865696768740001012312020258a22a27047610cd58cfc2d02aeda8381dd6f430dc5ddedb854b803271ab69f401014101b534c8c2b035216a9a0f760c1499af82a54155e2be7d438aa685e890edb0529def9cf36b067d4a7c72d3f66b5ca32374b19f4a5a3536bd7eb76352e50f7e6508",
+            1
+        ],
+        "id": 1
+    }
+}
+[ THREAD 0 ]
+[ RESULT   ]{
+    "result": {
+        "State": 1,
+        "Gas": 30000,
+        "Result": "3f1f"
+    },
+    "id": 1,
+    "desc": "SUCCESS",
+    "error": 0,
+    "jsonpc": "2.0"
+}
+[ OK       ] clirpc.sendrawtransaction (46 ms)
+[-------------------------------]
+

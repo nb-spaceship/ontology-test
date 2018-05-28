@@ -65,7 +65,7 @@ def main(argv = None):
 			raise Usage("no test name")
 
 		if test_name == "":
-			for task in TaskData("tasks/" + test_type).tasks():
+			for task in TaskData(test_type).tasks():
 				LoggerInstance.open(test_type + "/" + task.name())
 				task_runner.run(task.name(), task.data(), LoggerInstance)
 				LoggerInstance.close()

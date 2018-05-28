@@ -14,8 +14,7 @@ class BaseApi:
 		self.TYPE = None
 		self.CONFIG_PATH = None
 		pass
-
-		logger.close()
+		
 	def multithread_run(self, logwriter, cfg_request, cfg_response):
 		result = True
 		thread_list = []

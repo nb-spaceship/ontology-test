@@ -27,35 +27,38 @@ class TestWebAPI(unittest.TestCase):
 	def setUp(self):
 		pass
 
-	@ddt.data(*TaskData("tasks/rpc").tasks())
+	@ddt.data(*TaskData("rpc").tasks())
 	def test_rpc(self, task):
-		LoggerInstance.open("rpc/" + task.name())
+		logpath = "rpc/" + task.name()
+		LoggerInstance.open(logpath)
 		(result, response) = rpc.run(task.name(), task.data(), LoggerInstance)
 		LoggerInstance.close()
 		if result:
-			LoggerInstance.append_record(task.name(), "pass", "rpc/" + task.name())
+			LoggerInstance.append_record(task.name(), "pass", logpath)
 		else:
-			LoggerInstance.append_record(task.name(), "fail", "rpc/" + task.name())
+			LoggerInstance.append_record(task.name(), "fail", logpath)
 
-	@ddt.data(*TaskData("tasks/ws").tasks())
+	@ddt.data(*TaskData("ws").tasks())
 	def test_ws(self, task):
-		LoggerInstance.open("ws/" + task.name())
+		logpath = "ws/" + task.name()
+		LoggerInstance.open(logpath)
 		(result, response) = ws.run(task.name(), task.data(), LoggerInstance)
 		LoggerInstance.close()
 		if result:
-			LoggerInstance.append_record(task.name(), "pass", "ws/" + task.name())
+			LoggerInstance.append_record(task.name(), "pass", logpath)
 		else:
-			LoggerInstance.append_record(task.name(), "fail", "ws/" + task.name())
+			LoggerInstance.append_record(task.name(), "fail", logpath)
 
-	@ddt.data(*TaskData("tasks/restful").tasks())
+	@ddt.data(*TaskData("restful").tasks())
 	def test_restful(self, task):
-		LoggerInstance.open("restful/" + task.name())
+		logpath = "restful/" + task.name()
+		LoggerInstance.open(logpath)
 		(result, response) = restful.run(task.name(), task.data(), LoggerInstance)
 		LoggerInstance.close()
 		if result:
-			LoggerInstance.append_record(task.name(), "pass", "restful/" + task.name())
+			LoggerInstance.append_record(task.name(), "pass", logpath)
 		else:
-			LoggerInstance.append_record(task.name(), "fail", "restful/" + task.name())
+			LoggerInstance.append_record(task.name(), "fail", logpath)
 
 if __name__ == '__main__':
     unittest.main()	
