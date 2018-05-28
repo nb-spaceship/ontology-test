@@ -12,7 +12,7 @@ class Restful(BaseApi):
 		BaseApi.TYPE = "restful"
 		BaseApi.CONFIG_PATH = "tasks/restful"
 
-	def connnet(self, api_request):
+	def con(self, api_request):
 		api_url = Config.RESTFUL_URL + api_request["api"]
 		api_command = "GET"
 		if "command" in api_request:

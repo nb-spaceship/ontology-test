@@ -11,6 +11,6 @@ class RPC(BaseApi):
         BaseApi.TYPE = "rpc"
         BaseApi.CONFIG_PATH = "tasks/rpc"
 
-    def connnet(self, request):
+    def con(self, request):
         response = requests.post(Config.RPC_URL, data=json.dumps(request), headers=Config.RPC_HEADERS)
         return response.json()

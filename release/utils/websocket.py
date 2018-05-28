@@ -18,7 +18,7 @@ class WS(BaseApi):
 		self.LONG_LIVE_WS = None
 		pass
 
-	def connnet(self, request):
+	def con(self, request):
 		ws = create_connection(Config.WS_URL)
 		ws.send(json.dumps(request))
 		response = ws.recv()
@@ -46,7 +46,7 @@ class WS(BaseApi):
 							on_open = on_open)
 		WS.LONG_LIVE_WS.run_forever()
 
-	def run_long_connection(self):
+	def long_live_connnet(self):
 		t1 = threading.Thread(target=self.ws_thread)
 		t1.start()
 
