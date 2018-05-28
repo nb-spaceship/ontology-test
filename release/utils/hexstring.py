@@ -27,9 +27,10 @@ def HexToByte(hexStr):
     
 
 if __name__ == '__main__':
-    b = toHexString("./asset.wasm")
-    print (b)
+    print ByteToHex("TMfPjThoyw4S66cXTUtrc1BHk67fnHJuuY")
+    # b = toHexString("./asset.wasm")
+    # print (b)
 
-    a = HexToByte(b)
-    for i in a:
-        print("%x" % i)
+    # a = HexToByte(b)
+    # for i in a:
+    #     print("%x" % i)
