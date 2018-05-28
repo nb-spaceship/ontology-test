@@ -67,12 +67,12 @@ def main(argv = None):
 		if test_name == "":
 			for task in TaskData("tasks/" + test_type).tasks():
 				LoggerInstance.open(test_type + "/" + task.name())
-				task_runner.run(task, LoggerInstance)
+				task_runner.run(task.name(), task.data(), LoggerInstance)
 				LoggerInstance.close()
 		else:
 			task = Task(test_name)
 			LoggerInstance.open(test_type + "/" + task.name())
-			task_runner.run(task, LoggerInstance)
+			task_runner.run(task.name(), task.data(), LoggerInstance)
 			LoggerInstance.close()
 
 	except Usage as err:

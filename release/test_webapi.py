@@ -25,12 +25,12 @@ class TestWebAPI(unittest.TestCase):
 		pass
 
 	def setUp(self):
-		print("setUp")
+		pass
 
 	@ddt.data(*TaskData("tasks/rpc").tasks())
 	def test_rpc(self, task):
 		LoggerInstance.open("rpc/" + task.name())
-		(result, response) = rpc.run(task, LoggerInstance)
+		(result, response) = rpc.run(task.name(), task.data(), LoggerInstance)
 		LoggerInstance.close()
 		if result:
 			LoggerInstance.append_record(task.name(), "pass", "rpc/" + task.name())
@@ -40,7 +40,7 @@ class TestWebAPI(unittest.TestCase):
 	@ddt.data(*TaskData("tasks/ws").tasks())
 	def test_ws(self, task):
 		LoggerInstance.open("ws/" + task.name())
-		(result, response) = ws.run(task, LoggerInstance)
+		(result, response) = ws.run(task.name(), task.data(), LoggerInstance)
 		LoggerInstance.close()
 		if result:
 			LoggerInstance.append_record(task.name(), "pass", "ws/" + task.name())
@@ -50,7 +50,7 @@ class TestWebAPI(unittest.TestCase):
 	@ddt.data(*TaskData("tasks/restful").tasks())
 	def test_restful(self, task):
 		LoggerInstance.open("restful/" + task.name())
-		(result, response) = restful.run(task, LoggerInstance)
+		(result, response) = restful.run(task.name(), task.data(), LoggerInstance)
 		LoggerInstance.close()
 		if result:
 			LoggerInstance.append_record(task.name(), "pass", "restful/" + task.name())

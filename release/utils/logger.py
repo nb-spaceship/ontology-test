@@ -6,7 +6,7 @@ class Logger():
 	def __init__(self):
 		#pathstr = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
 		pathstr = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
-		for subpath in ["rpc", "restful", "ws", "cli"]:
+		for subpath in ["rpc", "restful", "ws", "cli", "contract"]:
 			if not os.path.exists(pathstr + "/" + subpath):
 				os.makedirs(pathstr + "/" + subpath)		
 		self.prefix = pathstr

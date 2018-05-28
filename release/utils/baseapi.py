@@ -51,11 +51,11 @@ class BaseApi:
 		pass
 
 	@abstractmethod
-	def run(self, task, logger):
+	def run(self, name, request, logger):
 		start_time = time.time()
 		logger.print("[-------------------------------]")
-		logger.print("[ RUN      ] "+ self.TYPE + "." +task.name())
-		cfg_content = task.data()
+		logger.print("[ RUN      ] "+ self.TYPE + "." + name)
+		cfg_content = request
 		cfg_request = cfg_content["REQUEST"]
 		cfg_response = cfg_content["RESPONSE"]
 		logger.print("[ PARAMS   ]" + json.dumps(cfg_content, indent = 4))
@@ -65,9 +65,9 @@ class BaseApi:
 		time_consumed = (end_time - start_time) * 1000
 		
 		if result:
-			logger.print("[ OK       ] " + self.TYPE + "."+task.name()+" (%d ms)" % (time_consumed))
+			logger.print("[ OK       ] " + self.TYPE + "."+ name +" (%d ms)" % (time_consumed))
 		else:
-			logger.print("[ Failed   ] " + self.TYPE + "."+task.name()+" (%d ms)"% (time_consumed))
+			logger.print("[ Failed   ] " + self.TYPE + "."+ name +" (%d ms)"% (time_consumed))
 		logger.print("[-------------------------------]")
 		logger.print("")
 		return (result, response)

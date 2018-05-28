@@ -11,6 +11,6 @@ class CLI(BaseApi):
         BaseApi.TYPE = "clirpc"
         BaseApi.CONFIG_PATH = "tasks/clirpc"
 
-    def connnet(self, request):
+    def con(self, request):
         response = requests.post(Config.CLIRPC_URL, data=json.dumps(request), headers=Config.RPC_HEADERS)
         return response.json()

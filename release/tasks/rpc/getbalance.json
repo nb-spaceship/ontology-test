@@ -1,4 +1,5 @@
 {
+	"info" : "get balance of base58 account address",
 	"REQUEST": {
 	  "jsonrpc": "2.0",
 	  "method": "getbalance",
