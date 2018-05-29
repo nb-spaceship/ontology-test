@@ -22,7 +22,6 @@ rpc = RPC()
 cli = CLI()
 
 def call_contract(task):
-	logger.open("contract/" + task.name())
 	#step 1: signed tx
 	logger.print("[-------------------------------]")
 	logger.print("[ RUN      ] "+ "contract" + "/" + task.name())
@@ -41,14 +40,14 @@ def call_contract(task):
 		response["result"]["Result String"] = str(HexToByte(response["result"]["Result"]).decode('utf-8'))
 
 	logger.print("[ 2. CALL CONTRACT ] " + json.dumps(sendrawtxtask.data(), indent = 4))
-
 	if result:
 		logger.print("[ OK       ] ")
 		logger.append_record(task.name(), "pass", "contract/" + task.name())
 	else:
 		logger.print("[ Failed   ] ")
 		logger.append_record(task.name(), "fail", "contract/" + task.name())
-	logger.close()
+
+	return (result, response)
 
 @ddt.ddt
 class TestContract(unittest.TestCase):
@@ -59,10 +58,17 @@ class TestContract(unittest.TestCase):
 		print("TestMutiContract")
 		pass
 
+	def start(self, task):
+		logger.open("contract/" + task.name())
+
+	def finish(self, task):
+		logger.close()
+
 	@ddt.data(*TaskData("contract").tasks())
 	def test_main(self, task):
+		self.start(task)
 		call_contract(task)
-
+		self.finish(task)
 
 if __name__ == '__main__':
     unittest.main()	

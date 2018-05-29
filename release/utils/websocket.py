@@ -13,17 +13,25 @@ from utils.baseapi import BaseApi
 class WS(BaseApi):
 	LONG_LIVE_WS = None
 	def __init__(self):
-		BaseApi.TYPE = "websocket"
-		BaseApi.CONFIG_PATH = "tasks/websocket"
+		self.TYPE = "websocket"
 		self.LONG_LIVE_WS = None
 		pass
 
-	def con(self, request):
-		ws = create_connection(Config.WS_URL)
-		ws.send(json.dumps(request))
-		response = ws.recv()
-		ws.close()
-		return json.loads(response)		
+	def con(self, ip, request):
+		try:
+			url = ""
+			if ip:
+				url = "ws://" + ip + ":20335"
+			else:
+				url = Config.WS_URL
+
+			ws = create_connection(url)
+			ws.send(json.dumps(request))
+			response = ws.recv()
+			ws.close()
+			return json.loads(response)
+		except Exception as e:
+			return json.loads("{\"Desc\": \"Connection Error\", \"Error\": \"Connection Error\"}")	
 
 	#special test case
 	def ws_thread(self):

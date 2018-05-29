@@ -7,10 +7,17 @@ from utils.config import Config
 from utils.baseapi import BaseApi
 
 class RPC(BaseApi):
-    def __init__(self):
-        BaseApi.TYPE = "rpc"
-        BaseApi.CONFIG_PATH = "tasks/rpc"
+	def __init__(self):
+		self.TYPE = "rpc"
 
-    def con(self, request):
-        response = requests.post(Config.RPC_URL, data=json.dumps(request), headers=Config.RPC_HEADERS)
-        return response.json()
+	def con(self, ip, request):
+		try:
+			con_url = ""
+			if ip:
+				con_url = "http://" + ip + ":20336/jsonrpc"
+			else:
+				con_url = Config.RPC_URL
+			response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS)
+			return response.json()
+		except Exception as e:
+			return json.loads("{\"Desc\": \"Connection Error\", \"Error\": \"Connection Error\"}")
