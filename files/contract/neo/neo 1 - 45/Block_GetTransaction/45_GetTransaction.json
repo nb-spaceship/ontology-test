@@ -10,14 +10,14 @@
             "params": [
                 {
                     "type": "string",
-                    "value": "GetBlockTransaction_45"
+                    "value": "GetBlockTransaction_40"
                 },
                 {
                     "type": "array",
                     "value": [
                         {
                             "type": "int",
-                            "value": "1"
+                            "value": "65536"
                         }
                     ]
                 }

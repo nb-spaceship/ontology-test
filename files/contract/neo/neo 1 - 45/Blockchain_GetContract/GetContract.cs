@@ -20,11 +20,11 @@ namespace Neo.SmartContract
             }
         }
 
-        public static Contract GetContract(object script_hash)
+        public static byte[] GetContract(object script_hash)
         {
             byte[] _script_hash = (byte[])script_hash;
-            return Blockchain.GetContract(_script_hash);
+            Contract contract = Blockchain.GetContract(_script_hash);
+            return contract.Script;
         }
     }
 }
-
