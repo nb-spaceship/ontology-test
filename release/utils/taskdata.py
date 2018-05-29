@@ -42,6 +42,6 @@ class TaskData:
 		ret = []   
 		for filename in os.listdir(self.PATH):
 			fullfilename = os.path.join(self.PATH, filename)
-			if os.path.isfile(fullfilename):
+			if os.path.isfile(fullfilename) and os.path.splitext(fullfilename)[1] == ".json":
 				ret.append(Task(fullfilename))
 		return ret
