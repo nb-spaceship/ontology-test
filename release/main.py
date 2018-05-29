@@ -27,7 +27,7 @@ def main(argv = None):
 		argv = sys.argv
 	try:
 		try:
-			opts, args = getopt.getopt(sys.argv[1:], "ht:n:", ["help", "type=", "name=", "long"])
+			opts, args = getopt.getopt(sys.argv[1:], "ht:n:", ["help", "type=", "name=", "long="])
 		except getopt.error as msg:
 			raise Error(msg)
 
@@ -36,8 +36,14 @@ def main(argv = None):
 		#opts = [('-t', 'restful'), ('-n', 'get_blk_by_hash.json')]
 		for op, value in opts:
 			if op == "--long":
+				print(value)
 				wstest = WS()
-				wstest.long_live_connnet()
+				if value == '':
+					wstest.long_live_connnet()
+				elif int(value) > 0:
+					wstest.long_live_connnet(True, int(value))
+				else:
+					wstest.long_live_connnet(False)
 				return 0
 			if op in ("-t", "--type"):
 				test_type = value

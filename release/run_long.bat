@@ -1,1 +1,1 @@
-python main.py -t ws -n long
+python main.py --long 5
