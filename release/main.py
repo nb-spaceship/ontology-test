@@ -6,15 +6,10 @@ from utils.restful import Restful
 from utils.websocket import WS
 from utils.logger import LoggerInstance
 from utils.taskdata import *
-
+from utils.error import Error
 #init doc
 __doc__ = "[1] -h --help    \n[2] -t --type    \n[3] -n --test_config_name"
 #end doc
-
-
-class Usage(Exception):
-	def __init__(self, msg):
-		self.msg = msg
 
 def run(connection, name):
 	connection = None
@@ -34,7 +29,7 @@ def main(argv = None):
 		try:
 			opts, args = getopt.getopt(sys.argv[1:], "ht:n:", ["help", "type=", "name=", "long"])
 		except getopt.error as msg:
-			raise Usage(msg)
+			raise Error(msg)
 
 		test_type = ""
 		test_name = ""
@@ -62,7 +57,7 @@ def main(argv = None):
 		elif test_type == "cli":
 			task_runner = CLI()
 		else:
-			raise Usage("no test name")
+			raise Error("no test name")
 
 		if test_name == "":
 			for task in TaskData(test_type).tasks():
@@ -75,7 +70,7 @@ def main(argv = None):
 			task_runner.run(task.name(), task.data(), LoggerInstance)
 			LoggerInstance.close()
 
-	except Usage as err:
+	except Error as err:
 		print >> sys.stderr, err.msg
 		print >> sys.stderr, "for help use --help"
 		return 2

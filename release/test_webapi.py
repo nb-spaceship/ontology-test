@@ -18,6 +18,7 @@ from utils.logger import LoggerInstance
 rpc = RPC()
 ws = WS()
 restful = Restful()
+logger = LoggerInstance
 
 @ddt.ddt
 class TestWebAPI(unittest.TestCase):
@@ -30,35 +31,35 @@ class TestWebAPI(unittest.TestCase):
 	@ddt.data(*TaskData("rpc").tasks())
 	def test_rpc(self, task):
 		logpath = "rpc/" + task.name()
-		LoggerInstance.open(logpath)
-		(result, response) = rpc.run(task.name(), task.data(), LoggerInstance)
-		LoggerInstance.close()
+		logger.open(logpath)
+		(result, response) = rpc.run(task.name(), task.data(), logger)
+		logger.close()
 		if result:
-			LoggerInstance.append_record(task.name(), "pass", logpath)
+			logger.append_record(task.name(), "pass", logpath)
 		else:
-			LoggerInstance.append_record(task.name(), "fail", logpath)
+			logger.append_record(task.name(), "fail", logpath)
 
 	@ddt.data(*TaskData("ws").tasks())
 	def test_ws(self, task):
 		logpath = "ws/" + task.name()
-		LoggerInstance.open(logpath)
-		(result, response) = ws.run(task.name(), task.data(), LoggerInstance)
-		LoggerInstance.close()
+		logger.open(logpath)
+		(result, response) = ws.run(task.name(), task.data(), logger)
+		logger.close()
 		if result:
-			LoggerInstance.append_record(task.name(), "pass", logpath)
+			logger.append_record(task.name(), "pass", logpath)
 		else:
-			LoggerInstance.append_record(task.name(), "fail", logpath)
+			logger.append_record(task.name(), "fail", logpath)
 
 	@ddt.data(*TaskData("restful").tasks())
 	def test_restful(self, task):
 		logpath = "restful/" + task.name()
-		LoggerInstance.open(logpath)
-		(result, response) = restful.run(task.name(), task.data(), LoggerInstance)
-		LoggerInstance.close()
+		logger.open(logpath)
+		(result, response) = restful.run(task.name(), task.data(), logger)
+		logger.close()
 		if result:
-			LoggerInstance.append_record(task.name(), "pass", logpath)
+			logger.append_record(task.name(), "pass", logpath)
 		else:
-			LoggerInstance.append_record(task.name(), "fail", logpath)
+			logger.append_record(task.name(), "fail", logpath)
 
 if __name__ == '__main__':
     unittest.main()	
