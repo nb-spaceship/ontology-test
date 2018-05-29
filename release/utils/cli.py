@@ -7,10 +7,18 @@ from utils.config import Config
 from utils.baseapi import BaseApi
 
 class CLI(BaseApi):
-    def __init__(self):
-        BaseApi.TYPE = "clirpc"
-        BaseApi.CONFIG_PATH = "tasks/clirpc"
+	def __init__(self):
+		self.TYPE = "clirpc"
 
-    def con(self, request):
-        response = requests.post(Config.CLIRPC_URL, data=json.dumps(request), headers=Config.RPC_HEADERS)
-        return response.json()
+	def con(self, ip, request):
+		try:
+			url = ""
+			if ip:
+				url = "http://" + ip + ":20336/jsonrpc"
+			else:
+				url = Config.CLIRPC_URL
+
+			response = requests.post(url, data=json.dumps(request), headers=Config.RPC_HEADERS)
+			return response.json()
+		except Exception as e:
+			return json.loads("{\"Desc\": \"Connection Error\", \"Error\": \"Connection Error\"}")

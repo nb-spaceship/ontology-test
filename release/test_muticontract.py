@@ -30,9 +30,19 @@ class TestMutiContract(unittest.TestCase):
 		print("TestMutiContract")
 		pass
 
+	def start(self, task):
+		logger.open("contract/" + task.name())
+
+	def finish(self, task):
+		logger.close()
+
 	def test_main(self):
 		task = Task("tasks/contract/contract_demo")
+		self.start(task)
 		call_contract(task)
+		call_contract(task)
+		call_contract(task)
+		self.finish(task)
 
 if __name__ == '__main__':
     unittest.main()	

@@ -12,7 +12,6 @@ import os
 class BaseApi:
 	def __init__(self):
 		self.TYPE = None
-		self.CONFIG_PATH = None
 		pass
 
 	def multithread_run(self, logger, cfg_request, cfg_response):
@@ -47,11 +46,11 @@ class BaseApi:
 		return True
 
 	@abstractmethod
-	def con(self, request):
+	def con(self, ip, request):
 		pass
 
 	@abstractmethod
-	def run(self, name, request, logger = None):
+	def run(self, name, request, logger = None, need_judge = True):
 		start_time = time.time()
 		if logger:
 			logger.print("[-------------------------------]")
@@ -62,15 +61,27 @@ class BaseApi:
 		if logger:
 			logger.print("[ PARAMS   ]" + json.dumps(cfg_content, indent = 4))
 
-		(result, response) = self.multithread_run(logger, cfg_request, cfg_response)
+		#(result, response) = self.multithread_run(logger, cfg_request, cfg_response)
+		node_index = cfg_content["node_index"] if "node_index" in cfg_content else None
+		node_ip = None
+		if node_index:
+			node_ip = Config.SERVICES[int(node_index)]
+
+		response = self.con(node_ip, cfg_request)
+		if logger:
+			logger.print("[ RESULT   ]" + json.dumps(response, indent = 4))
+
 		end_time = time.time()
 		time_consumed = (end_time - start_time) * 1000
 		
-		if logger:
-			if result:
-				logger.print("[ OK       ] " + self.TYPE + "."+ name +" (%d ms)" % (time_consumed))
-			else:
-				logger.print("[ Failed   ] " + self.TYPE + "."+ name +" (%d ms)"% (time_consumed))
-			logger.print("[-------------------------------]")
-			logger.print("")
+		result = True
+		if need_judge:
+			result = self.judge_result(cfg_response, response)
+			if logger:
+				if result:
+					logger.print("[ OK       ] " + self.TYPE + "."+ name +" (%d ms)" % (time_consumed))
+				else:
+					logger.print("[ Failed   ] " + self.TYPE + "."+ name +" (%d ms)"% (time_consumed))
+				logger.print("[-------------------------------]")
+				logger.print("")
 		return (result, response)
