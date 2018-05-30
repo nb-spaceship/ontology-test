@@ -49,18 +49,18 @@ class TaskData:
 	def __init__(self, path):
 		self.PATH = "tasks/" + path
 
-	def tasks(self, recursive = False):
+	def tasks(self, recursive = True):
 		ret = []
 		if recursive:
-			for filename in os.listdir(self.PATH):
-				fullpath = os.path.join(self.PATH, filename)
-				if os.path.isfile(fullpath) and os.path.splitext(fullpath)[1] == ".json":
-					ret.append(Task(fullpath))
-		else:
 			for root, dirs, files in os.walk(self.PATH):
 				for file in files:
 					fullpath = root + "/" + file
 					if os.path.isfile(fullpath) and os.path.splitext(fullpath)[1] == ".json":
 						ret.append(Task(fullpath))
-
+		else:
+			for filename in os.listdir(self.PATH):
+				fullpath = os.path.join(self.PATH, filename)
+				if os.path.isfile(fullpath) and os.path.splitext(fullpath)[1] == ".json":
+					ret.append(Task(fullpath))
+			
 		return ret
