@@ -1,0 +1,28 @@
+{
+	"REQUEST": {
+		"Qid": "t",
+		"Method": "siginvoketx",
+		"Params": {
+			"gas_price": 0,
+			"gas_pimit": 0,
+			"address": "TMeuzPXRcDQaew6fPHyJNqdwqDaFCPEenN",
+			"version": 1,
+			"params": [
+				{
+					"type": "string",
+					"value": "CallingScriptHash"
+				},
+				{
+					"type": "array",
+					"value": [
+						{
+							"type": "string",
+							"value": ""
+						}
+					]
+				}
+			]
+		}
+	},
+	"RESPONSE": {}
+}
