@@ -25,10 +25,6 @@ def HexToByte(hexStr):
         result[i] = int(hexStr[i * 2: i * 2 + 2],16)
     return result
     
-
-if __name__ == '__main__':
-    pass
-    # print ByteToHex("TMfPjThoyw4S66cXTUtrc1BHk67fnHJuuY")
     # b = toHexString("./asset.wasm")
     # print (b)
 
