@@ -6,24 +6,38 @@ import json
 from utils.config import Config
 
 class Task:
+	def __init__(self, name, ijson):
+		self._path = ""
+		self._type = "rpc"
+		if "type" in self._taskjson:
+			self._type = self._taskjson["type"]
+		self._name = name
+		self._taskjson = ijson
+		self._data = ijson
+
 	def __init__(self, path = ""):
-		self.path = path
-		if path:
-			self._taskjson = self.load_cfg(path)
-			self._name = os.path.basename(path).replace('.json', '')
+		self._path = path
+		self._type = "rpc"
+		if self._path:
+			self._taskjson = self.load_cfg(self._path)
+			self._name = os.path.basename(self._path).replace('.json', '')
 
 		if self._taskjson:
-			self._type = "";
+			if "type" in self._taskjson:
+				self._type = self._taskjson["type"]
 			self._data = self._taskjson
 
 	def path(self):
-		return self.path
+		return self._path
 
 	def log_path(self):
-		return self.path.replace('tasks/', '').replace(".json", ".log")
+		return self._path.replace('tasks/', '').replace(".json", ".log")
 
 	def dir(self):
-		return self.path.replace(os.path.basename(path), '')
+		return self._path.replace(os.path.basename(self._path), '')
+
+	def set_type(self, itype):
+		self._type = itype
 
 	def type(self):
 		return self._type
@@ -44,6 +58,7 @@ class Task:
 		cfg_json = json.loads(cfg_file.read().decode("utf-8"))
 		cfg_file.close()
 		return cfg_json
+
 
 class TaskData:
 	def __init__(self, path):

@@ -10,59 +10,41 @@ import sys, getopt
 
 sys.path.append('..')
 
+
+import utils.commonapi
+import utils.base
 from utils.config import Config
-from utils.baseapi import BaseApi
-from utils.rpc import RPC
-from utils.websocket import WS
-from utils.restful import Restful
-from utils.taskdata import TaskData
+from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-rpc = RPC()
-ws = WS()
-restful = Restful()
 logger = LoggerInstance
 
 class TestWebAPI(ParametrizedTestCase):
-	def setUpClass():
-		pass
-
-	def setUp(self):
-		pass
-
-	def test_rpc(self):
-		task = self.param
+	def start(self, task):
 		logger.open(task.log_path())
-		(result, response) = rpc.run(task.name(), task.data(), logger)
-		logger.close()
+
+	def finish(self, task, result, msg):
 		if result:
+			logger.print("[ OK       ] ")
 			logger.append_record(task.name(), "pass", task.log_path())
 		else:
+			logger.print("[ Failed   ] " + msg)
 			logger.append_record(task.name(), "fail", task.log_path())
-
-	def test_ws(self):
-		task = self.param
-		logger.open(task.log_path())
-		(result, response) = ws.run(task.name(), task.data(), logger)
 		logger.close()
-		if result:
-			logger.append_record(task.name(), "pass", task.log_path())
-		else:
-			logger.append_record(task.name(), "fail", task.log_path())
 
-	def test_restful(self):
+	def test_webapi(self):
 		task = self.param
-		logger.open(task.log_path())
-		(result, response) = restful.run(task.name(), task.data(), logger)
-		logger.close()
-		if result:
-			logger.append_record(task.name(), "pass", task.log_path())
-		else:
-			logger.append_record(task.name(), "fail", task.log_path())
+		self.start(task)
+		(result, response) = utils.commonapi.run_single_task(task)
+		self.finish(task, result, "")
 
 ####################################################
 if __name__ == '__main__':
+	ws = utils.base.WebSocket()
+	ws.exec()
+	#exit()	
+
 	filterfile = ""
 	opts, args = getopt.getopt(sys.argv[1:], "n:", ["name="])
 	for op, value in opts:
@@ -72,10 +54,15 @@ if __name__ == '__main__':
 	suite = unittest.TestSuite()    
 	if filterfile == '':
 		for task in TaskData('rpc').tasks():
-			suite.addTest(TestWebAPI("test_rpc", param = task))
+			task.set_type("rpc")
+			suite.addTest(TestWebAPI("test_webapi", param = task))
 		for task in TaskData('restful').tasks():
-			suite.addTest(TestWebAPI("test_restful", param = task))
+			task.set_type("restful")
+			suite.addTest(TestWebAPI("test_webapi", param = task))
 		for task in TaskData('ws').tasks():
-			suite.addTest(TestWebAPI("test_ws", param = task))
+			task.set_type("ws")
+			suite.addTest(TestWebAPI("test_webapi", param = task))
+	else:
+		suite.addTest(TestWebAPI("test_webapi", param = Task(filterfile)))
 
 	unittest.TextTestRunner(verbosity=2).run(suite)

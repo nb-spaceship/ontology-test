@@ -11,10 +11,6 @@ import sys, getopt
 sys.path.append('..')
 
 from utils.config import Config
-from utils.baseapi import BaseApi
-from utils.rpc import RPC
-from utils.websocket import WS
-from utils.cli import CLI
 from utils.restful import Restful
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
@@ -22,11 +18,9 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-from utils.common_api import call_contract
+from utils.commonapi import call_contract
 
 logger = LoggerInstance
-rpc = RPC()
-cli = CLI()
 
 ####################################################
 #test cases

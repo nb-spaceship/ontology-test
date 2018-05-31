@@ -1,9 +1,9 @@
 {
 	"REQUEST": {
 	  "jsonrpc": "2.0",
-	  "method": "getblock",
-	  "params": [100, 1],
-	  "id": 1
+	  "method": "getversion",
+	  "params": [],
+	  "id": 3
 	},
 	"RESPONSE": {
 	  "error":0

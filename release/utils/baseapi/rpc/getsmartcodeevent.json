@@ -1,9 +1,9 @@
 {
 	"REQUEST": {
 	  "jsonrpc": "2.0",
-	  "method": "sendrawtransaction",
-	  "params": ["", 1],
-	  "id": 1
+	  "method": "getsmartcodeevent",
+	  "params": [3],
+	  "id": 3
 	},
 	"RESPONSE": {
 	  "error":0

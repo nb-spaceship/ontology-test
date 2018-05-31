@@ -1,8 +1,8 @@
 {
 	"REQUEST": {
 	  "jsonrpc": "2.0",
-	  "method": "getblock",
-	  "params": [100, 1],
+	  "method": "getbestblockhash",
+	  "params": [],
 	  "id": 1
 	},
 	"RESPONSE": {
