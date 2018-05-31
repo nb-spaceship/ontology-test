@@ -32,7 +32,14 @@ class Logger():
 		print(str)
 		self.logfile.write(str + "\n")
 
-	def close(self):
+	def close(self, name = None, result = None):
+		if not result is None:
+			if result:
+				self.print("[ OK       ] ")
+				self.append_record(name, "pass", self.logpath)
+			else:
+				self.print("[ Failed   ] ")
+				self.append_record(name, "fail", self.logpath)
 		self.logfile.close()
 
 	def append_record(self, name, status, logpath):

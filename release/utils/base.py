@@ -129,7 +129,8 @@ def con_ws(ip, request):
 		return json.loads("{\"Desc\": \"Connection Error\", \"Error\": \"Connection Error\"}")
 
 class WebSocket():
-	LONG_LIVE_WS = None
+	def __init__(self):
+		self.LONG_LIVE_WS = None
 
 	#special test case
 	def ws_thread(self, message_cb = None):
@@ -147,17 +148,17 @@ class WebSocket():
 		def on_open(ws):
 			print("### open ###")
 
-		WebSocket.LONG_LIVE_WS = websocket.WebSocketApp(Config.WS_URL,
+		self.LONG_LIVE_WS = websocket.WebSocketApp(Config.WS_URL,
 							on_message = on_message,
 							on_error = on_error,
 							on_close = on_close,
 							on_open = on_open)
-		WebSocket.LONG_LIVE_WS.run_forever()
+		self.LONG_LIVE_WS.run_forever()
 
 	def ws_heartbeat_thread(self, heartbeat_gap = 5):
 		while True:
 			time.sleep(heartbeat_gap)
-			WebSocket.LONG_LIVE_WS.send(json.dumps(Task("../utils/baseapi/ws/heartbeat.json").data()["REQUEST"]))
+			self.LONG_LIVE_WS.send(json.dumps(Task("../utils/baseapi/ws/heartbeat.json").data()["REQUEST"]))
 
 	def exec(self, heartbeat_gap = 5, message_cb = None):
 		t1 = threading.Thread(target=self.ws_thread, args=(message_cb,))
@@ -172,7 +173,7 @@ class WebSocket():
 				if ".json" not in command:
 					command = command + ".json"
 				
-				WebSocket.LONG_LIVE_WS.send(json.dumps(Task("tasks/ws/" + command).data()["REQUEST"]))
+				self.LONG_LIVE_WS.send(json.dumps(Task("tasks/ws/" + command).data()["REQUEST"]))
 				#ws.send(json.dumps(self.load_cfg(request)))
 			except Exception as e:
 				print(e)
