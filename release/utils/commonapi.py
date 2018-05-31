@@ -144,15 +144,15 @@ def run_single_task(task, need_judge = True, process_log = True):
 			logger.print("")
 	return (result, response)
 
-#run task1 and task2，and compare task1's result and task2's result 
+#run task1 and task2, compare task1's result and task2's result 
 def run_pair_task(task1, task2, compare_src_key = None, compare_dist_key = None):
 	result = True
 
-	(result1, response1) = rpc.run(task1.name(), task1.data(), logger)
+	(result1, response1) = run_single_task(task1)
 	if not result1:
 		return result1
 
-	(result2, response2) = rpc.run(task2.name(), task2.data(), logger)
+	(result2, response2) = run_single_task(task2)
 	if not result2:
 		return result2
 

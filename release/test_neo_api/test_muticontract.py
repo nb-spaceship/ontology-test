@@ -9,19 +9,11 @@ import os
 sys.path.append('..')
 
 from utils.config import Config
-from utils.baseapi import BaseApi
-from utils.rpc import RPC
-from utils.websocket import WS
-from utils.cli import CLI
-from utils.restful import Restful
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
 from utils.hexstring import *
-from test_contract import call_contract
 
 logger = LoggerInstance
-rpc = RPC()
-cli = CLI()
 
 class TestMutiContract(unittest.TestCase):
 	def setUpClass():
