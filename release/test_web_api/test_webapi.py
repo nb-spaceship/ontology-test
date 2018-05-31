@@ -41,10 +41,6 @@ class TestWebAPI(ParametrizedTestCase):
 
 ####################################################
 if __name__ == '__main__':
-	ws = utils.base.WebSocket()
-	ws.exec()
-	#exit()	
-
 	filterfile = ""
 	opts, args = getopt.getopt(sys.argv[1:], "n:", ["name="])
 	for op, value in opts:
