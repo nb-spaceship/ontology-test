@@ -7,6 +7,7 @@ import json
 import os
 import sys, getopt
 import time
+import requests
 
 import utils.base
 from utils.config import Config
@@ -52,6 +53,34 @@ def cmp(expect_data, cmp_data):
 			return False
 		else:
 			return True
+
+
+def check_state(node_list):
+	request = {
+		"method": "get_states_md5",
+		"jsonrpc": "2.0",
+		"id": 0,
+	}
+
+	md5 = None
+	if node_list:
+		for index in node_list:
+			ip = Config.SERVICES[index]
+			response = utils.base.con_test_service(ip, request)
+			if not response or "result" not in response:
+				print("no md5: "+ ip)
+				return False
+			else:
+				print(response["result"])
+				if not md5:
+					md5 = response["result"]
+				elif md5 is not response["result"]:
+					print("not same")
+					return False
+	else:
+		return False
+
+	return True
 
 def call_contract(task, judge = True):
 	taskdata = task.data()

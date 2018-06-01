@@ -27,6 +27,7 @@ class Config():
 
 	THREAD = 1
 
+	TEST_SERVICE_PORT = 23635
 	SERVICES = cfg_json["NODES"]
 
 	RPC_HEADERS = {'content-type': 'application/json'}

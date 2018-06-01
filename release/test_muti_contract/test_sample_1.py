@@ -21,7 +21,8 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 #test cases
 class TestSample1(ParametrizedTestCase):
 	def test_main(self):
-		logger.open("TestSample1.log")
+		logger.open("TestSample1.log", "TestSample1")
+		result = False
 		try:
 			#step 1
 			task1 = Task("tasks/sample_step1.json")
@@ -36,7 +37,7 @@ class TestSample1(ParametrizedTestCase):
 				raise Error("error")
 		except Exception as e:
 			print(e.msg)
-		logger.close("TestSample1", result)
+		logger.close(result)
 
 ####################################################
 if __name__ == '__main__':
