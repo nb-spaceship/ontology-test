@@ -209,3 +209,11 @@ def run_pair_task(task1, task2, compare_src_key = None, compare_dist_key = None)
 
 	return result
 
+def pause(msg):
+	print(msg)
+	command = ""
+	try:
+		command = sys.stdin.readline().strip('\n')
+	except Exception as e:
+		print(e)
+	return command
