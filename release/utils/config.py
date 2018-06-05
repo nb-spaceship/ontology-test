@@ -48,3 +48,5 @@ class Config():
 	TOOLS_PATH = ROOT_PATH + "/" + "tools"
 
 	UTILS_PATH = ROOT_PATH + "/" + "utils"
+
+	BASEAPI_PATH = UTILS_PATH + "/baseapi"
