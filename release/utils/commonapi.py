@@ -132,8 +132,8 @@ def deploy_contract(task):
 
 def sign_transction(task, judge = True, process_log = True):
 	task.set_type("cli")
-  	(result, response) = run_single_task(task, judge, process_log)
-  	return (result, response)
+	(result, response) = run_single_task(task, judge, process_log)
+	return (result, response)
 
 #运行合约
 #task: 需要执行的task
