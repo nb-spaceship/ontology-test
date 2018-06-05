@@ -51,6 +51,9 @@ class Task:
 	def to_json(self):
 		return self._taskjson
 
+	def request(self):
+		return self._data["REQUEST"]
+
 	def load_cfg(self, cfg):
 		if ".json" not in cfg:
 			cfg = cfg + ".json"

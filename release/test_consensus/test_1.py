@@ -33,7 +33,7 @@ class TestConsensus(ParametrizedTestCase):
 			#step 2 check block
 			txhash = response["txhash"]
 			task2 = Task(Config.BASEAPI_PATH + "/rpc/getblock.json")
-			task2.data()["REQUEST"]["txhash"] = txhash
+			task2.request()["txhash"] = txhash
 			(result, response) = run_single_task(task2)
 			if not result:
 				raise Error("check block error")
