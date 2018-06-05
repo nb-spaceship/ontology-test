@@ -56,7 +56,7 @@ def cmp(expect_data, cmp_data):
 			return True
 
 #检查节点服务器State数据库是否一致
-def check_state(node_list):
+def check_node_state(node_list):
 	request = {
 		"method": "get_states_md5",
 		"jsonrpc": "2.0",
@@ -81,6 +81,10 @@ def check_state(node_list):
 	else:
 		return False
 
+	return True
+
+#检查节点服务器State数据库是否一致
+def check_node_all(node_list):
 	return True
 
 #部署合约
