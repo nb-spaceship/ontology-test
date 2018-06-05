@@ -126,7 +126,7 @@ def deploy_contract(task):
 		return None
 
 
-def call_contract(task, judge = True):
+def call_contract(task, judge = True, pre = True):
   try:
   	logger.print("[-------------------------------]")
   	logger.print("[ RUN      ] "+ "contract" + "." + task.name())
@@ -157,7 +157,11 @@ def call_contract(task, judge = True):
   		raise Error("no signed tx")
   
   	sendrawtxtask = Task("../utils/baseapi/rpc/sendrawtransaction.json")
-  	sendrawtxtask.data()["REQUEST"]["params"][0] = signed_tx
+  	if pre:
+  		sendrawtxtask.data()["REQUEST"]["params"] = [signed_tx, 1]
+  	else:
+  		sendrawtxtask.data()["REQUEST"]["params"] = [signed_tx]
+  		
   	(result, response) = run_single_task(sendrawtxtask, True, False)
   
   	sendrawtxtask.data()["RESPONSE"] = response
