@@ -1,0 +1,1 @@
+echo "123456" | ./ontology contract deploy --needstore=true --code=$1 --name=$2 --version="1" --author=tester --desc=$3 --email="tester@xxxxxxx.com"

@@ -2,7 +2,7 @@
 import json
 
 class Config():
-	cfg_file = open("config.json", "rb")
+	cfg_file = open("../config.json", "rb")
 	cfg_json = json.loads(cfg_file.read().decode("utf-8"))
 	cfg_file.close()
 
@@ -42,3 +42,9 @@ class Config():
 
 	#CLIRPC_URL CONFIG
 	CLIRPC_URL = cfg_json["CLIRPC_URL"]
+
+	ROOT_PATH = cfg_json["PATH"]["root"]
+
+	TOOLS_PATH = ROOT_PATH + "/" + "tools"
+
+	UTILS_PATH = ROOT_PATH + "/" + "utils"

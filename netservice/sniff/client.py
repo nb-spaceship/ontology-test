@@ -77,16 +77,19 @@ if __name__ == "__main__":
     log(sc.get_netcard_info())
     
     result = sc.sniff("eth0", timeout = 5)
-    log(json.dumps(result))
-    result = sc.sniff("eth0", count = 5)
-    log(json.dumps(result))
-    sc.start_sniff("eth0", "icmp")
-    exec_cmd("ping "+target_ip+" -c 5")
-    packet = sc.grab_packet()
-    while packet:
-        log(json.dumps(packet))
-        packet = sc.grab_packet()
-    result = sc.stop_sniff()
-    log(result)
+
+    # result = sc.sniff("eth0", timeout = 5)
+    # log(json.dumps(result))
+    # result = sc.sniff("eth0", count = 5)
+    # log(json.dumps(result))
+    # sc.start_sniff("eth0", "icmp")
+    # exec_cmd("ping "+target_ip+" -c 5")
+    # packet = sc.grab_packet()
+    # while packet:
+    #     log(json.dumps(packet))
+    #     packet = sc.grab_packet()
+    # result = sc.stop_sniff()
+    # log(result)
+
 
     
