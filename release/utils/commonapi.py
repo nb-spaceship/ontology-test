@@ -22,8 +22,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 logger = LoggerInstance
 
 
-
-
+#比较两边数据是否一致
 def cmp(expect_data, cmp_data):
 	if isinstance(expect_data, dict):
 		"""若为dict格式"""
@@ -56,7 +55,7 @@ def cmp(expect_data, cmp_data):
 		else:
 			return True
 
-
+#检查节点服务器State数据库是否一致
 def check_state(node_list):
 	request = {
 		"method": "get_states_md5",
@@ -84,6 +83,8 @@ def check_state(node_list):
 
 	return True
 
+#部署合约
+#返回值： 部署的合约地址
 def deploy_contract(task):
 	deploy_first = False
 	deploy_code_path = ""
@@ -125,7 +126,11 @@ def deploy_contract(task):
 	else:
 		return None
 
-
+#运行合约
+#task: 需要执行的task
+#judge：是否需要比较结果
+#pre: 是否需要预执行
+# 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
 def call_contract(task, judge = True, pre = True):
   try:
   	logger.print("[-------------------------------]")
@@ -161,7 +166,7 @@ def call_contract(task, judge = True, pre = True):
   		sendrawtxtask.data()["REQUEST"]["params"] = [signed_tx, 1]
   	else:
   		sendrawtxtask.data()["REQUEST"]["params"] = [signed_tx]
-  		
+
   	(result, response) = run_single_task(sendrawtxtask, True, False)
   
   	sendrawtxtask.data()["RESPONSE"] = response
@@ -185,7 +190,12 @@ def call_contract(task, judge = True, pre = True):
   except Error as err:
   	return (False, err.msg)
 
-def run_single_task(task, need_judge = True, process_log = True):
+#执行单个webapi
+# task: 需要执行的task
+# judge: 是否需要结果判断
+# process_log： 是否需要记录运行log
+# 返回值: (result: True or False, response: 网络请求)
+def run_single_task(task, judge = True, process_log = True):
 	connecttype = task.type()
 	name = task.name()
 	start_time = time.time()
@@ -213,7 +223,7 @@ def run_single_task(task, need_judge = True, process_log = True):
 	time_consumed = (end_time - start_time) * 1000
 	
 	result = True
-	if need_judge:
+	if judge:
 		result = cmp(cfg_response, response)
 		if process_log:
 			if result:
@@ -224,7 +234,10 @@ def run_single_task(task, need_judge = True, process_log = True):
 			logger.print("")
 	return (result, response)
 
-#run task1 and task2, compare task1's result and task2's result 
+#运行两个task
+#假设 task1生成reponse1， task2得到reponse2， compare_src_key为 key1|key2, compare_dist_key为 key3|key4
+#最终会比较reponse1["key1"]["key2"]和reponse2["key3"]["key4"]
+#result: 比较结果 True or False
 def run_pair_task(task1, task2, compare_src_key = None, compare_dist_key = None):
 	result = True
 
@@ -260,6 +273,9 @@ def run_pair_task(task1, task2, compare_src_key = None, compare_dist_key = None)
 
 	return result
 
+#暂停测试，需手动输入才能返回
+# msg:暂停原因
+# 返回值: 手动输入的值
 def pause(msg):
 	print(msg)
 	command = ""
