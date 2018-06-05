@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import re
 import ddt
 import unittest
 import urllib
@@ -87,18 +88,20 @@ def deploy_contract(task):
 	deploy_first = False
 	deploy_code_path = ""
 	deploy_contract_addr = None
-	for key in task_item:
+	for key in task.data():
 		if key.upper() == "DEPLOY":
-			deploy_first = task_item[key]
+			deploy_first = task.data()[key]
 		elif key.upper() == "CODE_PATH":
-			deploy_code_path = task_item[key]
-
+			deploy_code_path = task.data()[key]
+	
 	if deploy_first:
 		logger.print("[ DEPLOY ] ")
-		cmd = Config.TOOLS_PATH + " " + deploy_code_path + " name" + " this is desc" + " > tmp"
+		cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + deploy_code_path + " name" + " \"this is desc\"" + " > tmp"
 		p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+		print(cmd)
 		begintime = time.time()
 		secondpass = 0
+		timeout = 3
 		while p.poll() is None:
 			secondpass = time.time() - begintime
 			if secondpass > timeout:
@@ -115,7 +118,7 @@ def deploy_contract(task):
 		for line in contents:
 			regroup = re.search(r'Contract Address:(([0-9]|[a-z]|[A-Z])*)', line)
 			if regroup:
-				deploy_contract_addr = regroup[1]
+				deploy_contract_addr = regroup.group(1)
 				if deploy_contract_addr:
 					break
 		return deploy_contract_addr
@@ -124,58 +127,59 @@ def deploy_contract(task):
 
 
 def call_contract(task, judge = True):
-	logger.print("[-------------------------------]")
-	logger.print("[ RUN      ] "+ "contract" + "." + task.name())
-	
-	taskdata = task.data()
-
-	deploy_contract_addr = deploy_contract(task)
-		
-	#step 1: signed tx
-	expect_response = None
-	if "RESPONSE" in taskdata:
-		expect_response = taskdata["RESPONSE"]
-
-	task.set_type("cli")
-	if deploy_contract_addr:
-		taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
-
-	(result, response) = run_single_task(task, True, False)
-	task.data()["RESPONSE"] = response
-	logger.print("[ 1. SIGNED TX ] " + json.dumps(taskdata, indent = 4))
-
-	#step 2: call contract
-	signed_tx = None
-	if not response is None and "result" in response and not response["result"] is None and "signed_tx" in response["result"]:
-		signed_tx = response["result"]["signed_tx"]
-
-	if signed_tx == None or signed_tx == '':
-		raise Error("no signed tx")
-
-	sendrawtxtask = Task("../utils/baseapi/rpc/sendrawtransaction.json")
-	sendrawtxtask.data()["REQUEST"]["params"][0] = signed_tx
-	(result, response) = run_single_task(sendrawtxtask, True, False)
-
-	sendrawtxtask.data()["RESPONSE"] = response
-	sendrawtxtask.data()["EXPECT RESPONSE"] = expect_response
-
-	if not response is None and ("result" in response and "Result" in response["result"]):
-		response["result"]["Result String"] = HexToByte(response["result"]["Result"]).decode('iso-8859-1')
-	
-	logger.print("[ 2. CALL CONTRACT ] " + json.dumps(sendrawtxtask.data(), indent = 4))
-
-	if response is None or "error" not in response or str(response["error"]) != '0':
-		raise Error("call contract error")
-
-	if judge and expect_response:
-		result = cmp(expect_response, response)
-		if not result:
-			raise Error("not except result")
-
-	return (result, response)
-
-except Error as err:
-	return (False, err.msg)
+  try:
+  	logger.print("[-------------------------------]")
+  	logger.print("[ RUN      ] "+ "contract" + "." + task.name())
+  	
+  	taskdata = task.data()
+  
+  	deploy_contract_addr = deploy_contract(task)
+  		
+  	#step 1: signed tx
+  	expect_response = None
+  	if "RESPONSE" in taskdata:
+  		expect_response = taskdata["RESPONSE"]
+  
+  	task.set_type("cli")
+  	if deploy_contract_addr:
+  		taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
+  
+  	(result, response) = run_single_task(task, True, False)
+  	task.data()["RESPONSE"] = response
+  	logger.print("[ 1. SIGNED TX ] " + json.dumps(taskdata, indent = 4))
+  
+  	#step 2: call contract
+  	signed_tx = None
+  	if not response is None and "result" in response and not response["result"] is None and "signed_tx" in response["result"]:
+  		signed_tx = response["result"]["signed_tx"]
+  
+  	if signed_tx == None or signed_tx == '':
+  		raise Error("no signed tx")
+  
+  	sendrawtxtask = Task("../utils/baseapi/rpc/sendrawtransaction.json")
+  	sendrawtxtask.data()["REQUEST"]["params"][0] = signed_tx
+  	(result, response) = run_single_task(sendrawtxtask, True, False)
+  
+  	sendrawtxtask.data()["RESPONSE"] = response
+  	sendrawtxtask.data()["EXPECT RESPONSE"] = expect_response
+  
+  	if not response is None and ("result" in response and "Result" in response["result"]):
+  		response["result"]["Result String"] = HexToByte(response["result"]["Result"]).decode('iso-8859-1')
+  	
+  	logger.print("[ 2. CALL CONTRACT ] " + json.dumps(sendrawtxtask.data(), indent = 4))
+  
+  	if response is None or "error" not in response or str(response["error"]) != '0':
+  		raise Error("call contract error")
+  
+  	if judge and expect_response:
+  		result = cmp(expect_response, response)
+  		if not result:
+  			raise Error("not except result")
+  
+  	return (result, response)
+  
+  except Error as err:
+  	return (False, err.msg)
 
 def run_single_task(task, need_judge = True, process_log = True):
 	connecttype = task.type()

@@ -43,7 +43,7 @@ class Config():
 	#CLIRPC_URL CONFIG
 	CLIRPC_URL = cfg_json["CLIRPC_URL"]
 
-	ROOT_PATH = cfg_json["PATH"]["root"]
+	ROOT_PATH = cfg_json["ROOT_PATH"]
 
 	TOOLS_PATH = ROOT_PATH + "/" + "tools"
 
