@@ -1,9 +1,9 @@
 {
     "DEPLOY" : true,
-    "CODE_PATH" : "tasks/getbalance.neo",
+    "CODE_PATH" : "tasks/sample.neo",
     "REQUEST": {
         "Qid": "t",
-        "Method": "siginvoketx",
+        "Method": "signeovminvoketx",
         "Params": {
             "gas_price": 0,
             "gas_pimit": 0,
