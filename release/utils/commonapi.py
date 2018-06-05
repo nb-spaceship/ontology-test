@@ -130,6 +130,11 @@ def deploy_contract(task):
 	else:
 		return None
 
+def sign_transction(task, judge = True, process_log = True):
+	task.set_type("cli")
+  	(result, response) = run_single_task(task, judge, process_log)
+  	return (result, response)
+
 #运行合约
 #task: 需要执行的task
 #judge：是否需要比较结果
@@ -149,11 +154,11 @@ def call_contract(task, judge = True, pre = True):
   	if "RESPONSE" in taskdata:
   		expect_response = taskdata["RESPONSE"]
   
-  	task.set_type("cli")
   	if deploy_contract_addr:
   		taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
   
-  	(result, response) = run_single_task(task, True, False)
+  	(result, response) = sign_transction(task, True, False)
+
   	task.data()["RESPONSE"] = response
   	logger.print("[ 1. SIGNED TX ] " + json.dumps(taskdata, indent = 4))
   
