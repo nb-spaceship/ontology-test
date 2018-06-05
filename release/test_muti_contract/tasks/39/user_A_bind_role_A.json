@@ -1,0 +1,32 @@
+{
+	"REQUEST": {
+		"Qid": "t",
+		"Method": "signativeinvoketx",
+		"Params": {
+			"gas_price": 0,
+			"gas_limit": 40000,
+			"address": "ff00000000000000000000000000000000000006",
+			"method": "assignOntIDsToRole",
+			"version": 0,
+			"params": [
+				[
+					[
+						[
+							[
+								"目标合约地址",
+								"目标合约管理员id",
+								"角色roleA",
+								[
+									"用户A"
+								],
+								"公钥编号keyno"
+							]
+						]
+						
+					]
+				]
+			]
+		}
+	},
+	"RESPONSE": {}
+}

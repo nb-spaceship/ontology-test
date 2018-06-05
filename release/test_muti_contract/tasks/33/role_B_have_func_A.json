@@ -1,0 +1,32 @@
+{
+	"REQUEST": {
+		"Qid": "t",
+		"Method": "signativeinvoketx",
+		"Params": {
+			"gas_price": 0,
+			"gas_limit": 40000,
+			"address": "ff00000000000000000000000000000000000006",
+			"method": "assignFuncsToRole",
+			"version": 0,
+			"params": [
+				[
+					[
+						[
+							[
+								"contractB的地址",
+								"用户A",
+								"roleB",
+								[
+									"contractB_Func_A"
+								],
+								"公钥编号keyno"
+							]
+						]
+						
+					]
+				]
+			]
+		}
+	},
+	"RESPONSE": {}
+}

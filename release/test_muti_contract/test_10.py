@@ -6,6 +6,7 @@ import urllib.request
 import json
 import os
 import sys, getopt
+import time
 
 sys.path.append('..')
 
@@ -47,11 +48,20 @@ class TestSample1(ParametrizedTestCase):
 			if not result:
 				raise Error("user_A_bind_role_A error")
 
-			#step 5 user_A_invoke_func_C
-			task5 = Task("tasks/user_A_invoke_func_C.json")
+			#step 5 user_A_delegate_role_A
+			task5 = Task("tasks/user_A_delegate_role_A.json")
 			(result, response) = call_contract(task5)
 			if not result:
+				raise Error("user_A_delegate_role_A error")
+			
+			time.sleep(10)
+
+			#step 7 user_A_invoke_func_C
+			task7 = Task("tasks/user_A_invoke_func_C.json")
+			(result, response) = call_contract(task7)
+			if not result:
 				raise Error("user_A_invoke_func_C error")
+				
 		except Exception as e:
 			print(e.msg)
 		logger.close("TestSample1", result)

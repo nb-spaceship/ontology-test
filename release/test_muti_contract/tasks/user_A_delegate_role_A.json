@@ -1,0 +1,32 @@
+{
+	"REQUEST": {
+		"Qid": "t",
+		"Method": "signativeinvoketx",
+		"Params": {
+			"gas_price": 0,
+			"gas_limit": 40000,
+			"address": "ff00000000000000000000000000000000000006",
+			"method": "delegate",
+			"version": 0,
+			"params": [
+				[
+					[
+						[
+							[
+								"目标合约地址",
+								"转让者的ONT ID",
+								"代理人的ONT ID",
+								"代理的角色",
+								"5",
+								"1",
+								"公钥编号keyno"
+							]
+						]
+						
+					]
+				]
+			]
+		}
+	},
+	"RESPONSE": {}
+}

@@ -47,11 +47,18 @@ class TestSample1(ParametrizedTestCase):
 			if not result:
 				raise Error("user_A_bind_role_A error")
 
-			#step 5 user_A_invoke_func_C
-			task5 = Task("tasks/user_A_invoke_func_C.json")
+			#step 5 user_A_delegate_role_B
+			task5 = Task("tasks/user_A_delegate_role_B.json")
 			(result, response) = call_contract(task5)
 			if not result:
-				raise Error("user_A_invoke_func_C error")
+				raise Error("user_A_delegate_role_B error")
+
+			#step 6 user_A_invoke_func_B
+			task6 = Task("tasks/user_A_invoke_func_B.json")
+			(result, response) = call_contract(task6)
+			if not result:
+				raise Error("user_A_invoke_func_B error")
+				
 		except Exception as e:
 			print(e.msg)
 		logger.close("TestSample1", result)

@@ -23,35 +23,35 @@ class TestSample1(ParametrizedTestCase):
 	def test_main(self):
 		logger.open("TestSample1.log")
 		try:
-			#step 1
+			#step 1 invoke_init
 			task1 = Task("tasks/invoke_init.json")
 			(result, response) = call_contract(task1)
 			if not result:
-				raise Error("error")
+				raise Error("invoke_init error")
 
-			#step 2
+			#step 2 role_A_have_func_A_C
 			task2 = Task("tasks/role_A_have_func_A_C.json")
 			(result, response) = call_contract(task2)
 			if not result:
-				raise Error("error")
+				raise Error("role_A_have_func_A_C error")
 
-			#step 3
+			#step 3 role_B_have_func_B_C
 			task3 = Task("tasks/role_B_have_func_B_C.json")
 			(result, response) = call_contract(task3)
 			if not result:
-				raise Error("error")
+				raise Error("role_B_have_func_B_C error")
 
-			#step 4
-			task4 = Task("tasks/user_A_become_role_A.json")
+			#step 4 user_A_bind_role_A
+			task4 = Task("tasks/user_A_bind_role_A.json")
 			(result, response) = call_contract(task4)
 			if not result:
-				raise Error("error")
+				raise Error("user_A_bind_role_A error")
 
-			#step 5
+			#step 5 user_A_invoke_func_A
 			task5 = Task("tasks/user_A_invoke_func_A.json")
-			(result, response) = call_contract(task4)
+			(result, response) = call_contract(task5)
 			if not result:
-				raise Error("error")
+				raise Error("user_A_invoke_func_A error")
 		except Exception as e:
 			print(e.msg)
 		logger.close("TestSample1", result)
