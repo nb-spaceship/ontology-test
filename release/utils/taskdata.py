@@ -9,8 +9,11 @@ class Task:
 	def __init__(self, name, ijson):
 		self._path = ""
 		self._type = "rpc"
-		if "type" in self._taskjson:
-			self._type = self._taskjson["type"]
+
+		for key in self._taskjson:
+			if key.upper() == "TYPE":
+				self._type = self._taskjson[key]
+				break
 		self._name = name
 		self._taskjson = ijson
 		self._data = ijson
@@ -23,8 +26,10 @@ class Task:
 			self._name = os.path.basename(self._path).replace('.json', '')
 
 		if self._taskjson:
-			if "type" in self._taskjson:
-				self._type = self._taskjson["type"]
+			for key in self._taskjson:
+				if key.upper() == "TYPE":
+					self._type = self._taskjson[key]
+					break
 			self._data = self._taskjson
 
 	def path(self):

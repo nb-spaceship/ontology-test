@@ -42,15 +42,15 @@ def con(itype, ip, request):
 
 		if not connecttype:
 			#default use rpc
-			connecttype = "rpc"
+			connecttype = "RPC"
 
-		if connecttype == "rpc":
+		if connecttype.upper() == "RPC":
 			return con_rpc(ip, request)
-		elif connecttype == "cli":
+		elif connecttype == "CLI":
 			return con_cli(ip, request)
-		elif connecttype == "restful":
+		elif connecttype == "RESTFUL":
 			return con_restful(ip, request)
-		elif connecttype == "ws":
+		elif connecttype == "WS":
 			return con_ws(ip, request)
 
 	return None
