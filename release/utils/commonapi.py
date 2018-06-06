@@ -153,69 +153,73 @@ def sign_transction(task, judge = True, process_log = True):
 	(result, response) = run_single_task(task, judge, process_log)
 	return (result, response)
 
+def call_signed_contract(signed_tx, pre = True):
+	sendrawtxtask = Task(Config.BASEAPI_PATH + "/rpc/sendrawtransaction.json")
+	if pre:
+		sendrawtxtask.request()["params"] = [signed_tx, 1]
+	else:
+		sendrawtxtask.request()["params"] = [signed_tx]
+
+	(result, response) = run_single_task(sendrawtxtask, True, False)
+
+	sendrawtxtask.data()["RESPONSE"] = response
+
+	if not response is None and ("result" in response and "Result" in response["result"]):
+		response["result"]["Result String"] = HexToByte(response["result"]["Result"]).decode('iso-8859-1')
+
+	logger.print("[ CALL CONTRACT ] " + json.dumps(sendrawtxtask.data(), indent = 4))
+
+	return (result, response)
+
 #运行合约
 #task: 需要执行的task
 #judge：是否需要比较结果
 #pre: 是否需要预执行
 # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
 def call_contract(task, judge = True, pre = True):
-  try:
-  	logger.print("[-------------------------------]")
-  	logger.print("[ RUN      ] "+ "contract" + "." + task.name())
-  	
-  	taskdata = task.data()
-  
-  	deploy_contract_addr = deploy_contract(task)
-  		
-  	#step 1: signed tx
-  	expect_response = None
-  	if "RESPONSE" in taskdata:
-  		expect_response = taskdata["RESPONSE"]
-  
-  	if deploy_contract_addr:
-  		taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
-  
-  	(result, response) = sign_transction(task, True, False)
+	try:
+		logger.print("[-------------------------------]")
+		logger.print("[ RUN      ] "+ "contract" + "." + task.name())
+		
+		taskdata = task.data()
 
-  	task.data()["RESPONSE"] = response
-  	logger.print("[ 1. SIGNED TX ] " + json.dumps(taskdata, indent = 4))
-  
-  	#step 2: call contract
-  	signed_tx = None
-  	if not response is None and "result" in response and not response["result"] is None and "signed_tx" in response["result"]:
-  		signed_tx = response["result"]["signed_tx"]
-  
-  	if signed_tx == None or signed_tx == '':
-  		raise Error("no signed tx")
-  
-  	sendrawtxtask = Task("../utils/baseapi/rpc/sendrawtransaction.json")
-  	if pre:
-  		sendrawtxtask.data()["REQUEST"]["params"] = [signed_tx, 1]
-  	else:
-  		sendrawtxtask.data()["REQUEST"]["params"] = [signed_tx]
+		deploy_contract_addr = deploy_contract(task)
+			
+		#step 1: signed tx
+		expect_response = None
+		if "RESPONSE" in taskdata:
+			expect_response = taskdata["RESPONSE"]
 
-  	(result, response) = run_single_task(sendrawtxtask, True, False)
-  
-  	sendrawtxtask.data()["RESPONSE"] = response
-  	sendrawtxtask.data()["EXPECT RESPONSE"] = expect_response
-  
-  	if not response is None and ("result" in response and "Result" in response["result"]):
-  		response["result"]["Result String"] = HexToByte(response["result"]["Result"]).decode('iso-8859-1')
-  	
-  	logger.print("[ 2. CALL CONTRACT ] " + json.dumps(sendrawtxtask.data(), indent = 4))
-  
-  	if response is None or "error" not in response or str(response["error"]) != '0':
-  		raise Error("call contract error")
-  
-  	if judge and expect_response:
-  		result = cmp(expect_response, response)
-  		if not result:
-  			raise Error("not except result")
-  
-  	return (result, response)
-  
-  except Error as err:
-  	return (False, err.msg)
+		if deploy_contract_addr:
+			taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
+
+		(result, response) = sign_transction(task, True, False)
+
+		task.data()["RESPONSE"] = response
+		logger.print("[ SIGNED TX ] " + json.dumps(taskdata, indent = 4))
+
+		#step 2: call contract
+		signed_tx = None
+		if not response is None and "result" in response and not response["result"] is None and "signed_tx" in response["result"]:
+			signed_tx = response["result"]["signed_tx"]
+
+		if signed_tx == None or signed_tx == '':
+			raise Error("no signed tx")
+
+		(result, response) = call_signed_contract(signed_tx, pre)
+
+		if response is None or "error" not in response or str(response["error"]) != '0':
+			raise Error("call contract error")
+
+		if judge and expect_response:
+			result = cmp(expect_response, response)
+			if not result:
+				raise Error("not except result")
+
+		return (result, response)
+
+	except Error as err:
+		return (False, err.msg)
 
 #执行单个webapi
 # task: 需要执行的task
