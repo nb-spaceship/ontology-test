@@ -55,14 +55,7 @@ def cmp(expect_data, cmp_data):
 		else:
 			return True
 
-#检查节点服务器State数据库是否一致
-def check_node_state(node_list):
-	request = {
-		"method": "get_states_md5",
-		"jsonrpc": "2.0",
-		"id": 0,
-	}
-
+def _check_md5(node_list, request):
 	md5 = None
 	if node_list:
 		for index in node_list:
@@ -80,12 +73,37 @@ def check_node_state(node_list):
 					return False
 	else:
 		return False
-
 	return True
 
 #检查节点服务器State数据库是否一致
+def check_node_state(node_list):
+	request = {
+		"method": "get_states_md5",
+		"jsonrpc": "2.0",
+		"id": 0,
+	}
+	return _check_md5(node_list, request)
+
+
+def check_node_ledgerevent(node_list):
+	request = {
+		"method": "get_ledgerevent_md5",
+		"jsonrpc": "2.0",
+		"id": 0,
+	}
+	return _check_md5(node_list, request)
+
+def check_node_block(node_list):
+	request = {
+		"method": "get_block_md5",
+		"jsonrpc": "2.0",
+		"id": 0,
+	}
+	return _check_md5(node_list, request)
+
+#检查节点服务器State数据库是否一致
 def check_node_all(node_list):
-	return True
+	return (check_node_state(node_list) and check_node_ledgerevent(node_list) and check_node_block(node_list))
 
 #部署合约
 #返回值： 部署的合约地址
