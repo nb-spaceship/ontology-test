@@ -217,6 +217,8 @@ def call_contract(task, judge = True, pre = True):
 			if not result:
 				raise Error("not except result")
 
+		response["signed_tx"] = signed_tx
+		response["address"] = taskdata["REQUEST"]["Params"]["address"]
 		return (result, response)
 
 	except Error as err:
