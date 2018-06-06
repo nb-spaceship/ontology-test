@@ -10,5 +10,5 @@
 				"139.219.135.92",
 				"139.219.136.15",
 				"139.219.128.181"],
-	"ROOT_PATH" : "~/ontology/test"
+	"ROOT_PATH" : "/home/ubuntu/ontology/test"
 }
