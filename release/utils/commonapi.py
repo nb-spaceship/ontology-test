@@ -134,6 +134,7 @@ def deploy_contract(task):
 
 		tmpfile = open("tmp", "r+")  # 打开文件
 		contents = tmpfile.readlines()
+		close(tmpfile)
 		for line in contents:
 			#for log
 			logger.print(line.strip('\n'))
