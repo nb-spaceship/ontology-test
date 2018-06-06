@@ -9,22 +9,13 @@
 			"method": "assignFuncsToRole",
 			"version": 0,
 			"params": [
+				"目标合约地址",
+				"目标合约管理员id",
+				"roleA",
 				[
-					[
-						[
-							[
-								"目标合约地址",
-								"目标合约管理员id",
-								"角色roleA",
-								[
-									"角色中的函数名A,C"
-								],
-								"公钥编号keyno"
-							]
-						]
-						
-					]
-				]
+					"角色中的函数名A,C"
+				],
+				"公钥编号keyno"	
 			]
 		}
 	},

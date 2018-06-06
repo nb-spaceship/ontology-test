@@ -1,4 +1,6 @@
 {
+	"DEPLOY" : true,
+	"CODE_PATH" : "tasks/code.neo",
 	"REQUEST": {
 		"Qid": "t",
 		"Method": "signeovminvoketx",
