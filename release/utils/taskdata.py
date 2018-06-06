@@ -6,22 +6,13 @@ import json
 from utils.config import Config
 
 class Task:
-	def __init__(self, name, ijson):
-		self._path = ""
+	def __init__(self, path = "", name = "", ijson = None):
 		self._type = "rpc"
-
-		for key in self._taskjson:
-			if key.upper() == "TYPE":
-				self._type = self._taskjson[key]
-				break
+		self._path = path
 		self._name = name
 		self._taskjson = ijson
-		self._data = ijson
 
-	def __init__(self, path = ""):
-		self._path = path
-		self._type = "rpc"
-		if self._path:
+		if self._path is not "":
 			self._taskjson = self.load_cfg(self._path)
 			self._name = os.path.basename(self._path).replace('.json', '')
 
@@ -30,7 +21,8 @@ class Task:
 				if key.upper() == "TYPE":
 					self._type = self._taskjson[key]
 					break
-			self._data = self._taskjson
+
+		self._data = self._taskjson
 
 	def path(self):
 		return self._path
