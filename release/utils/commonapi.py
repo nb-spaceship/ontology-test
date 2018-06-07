@@ -107,47 +107,41 @@ def check_node_all(node_list):
 
 #部署合约
 #返回值： 部署的合约地址
-def deploy_contract(task):
-	deploy_first = False
-	deploy_code_path = ""
-	deploy_contract_addr = None
-	for key in task.data():
-		if key.upper() == "DEPLOY":
-			deploy_first = task.data()[key]
-		elif key.upper() == "CODE_PATH":
-			deploy_code_path = task.data()[key]
-	
-	if deploy_first:
-		logger.print("[ DEPLOY ] ")
-		cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + deploy_code_path + " name" + " \"this is desc\"" + " > tmp"
-		p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-		print(cmd)
-		begintime = time.time()
-		secondpass = 0
-		timeout = 3
-		while p.poll() is None:
-			secondpass = time.time() - begintime
-			if secondpass > timeout:
-				p.terminate()
-				print("Error: execute " + cmd + " time out!")
-			time.sleep(0.1)
-
-		tmpfile = open("tmp", "r+")  # 打开文件
-		contents = tmpfile.readlines()
-		tmpfile.close()
-		for line in contents:
-			#for log
-			logger.print(line.strip('\n'))
-
-		for line in contents:
-			regroup = re.search(r'Contract Address:(([0-9]|[a-z]|[A-Z])*)', line)
-			if regroup:
-				deploy_contract_addr = regroup.group(1)
-				if deploy_contract_addr:
-					break
-		return deploy_contract_addr
-	else:
+def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
+	if not neo_code_path or neo_code_path == "":
 		return None
+
+	deploy_contract_addr = None
+	
+	logger.print("[ DEPLOY ] ")
+	cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" > tmp"
+	p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+	print(cmd)
+	begintime = time.time()
+	secondpass = 0
+	timeout = 3
+	while p.poll() is None:
+		secondpass = time.time() - begintime
+		if secondpass > timeout:
+			p.terminate()
+			print("Error: execute " + cmd + " time out!")
+		time.sleep(0.1)
+
+	tmpfile = open("tmp", "r+")  # 打开文件
+	contents = tmpfile.readlines()
+	tmpfile.close()
+	for line in contents:
+		#for log
+		logger.print(line.strip('\n'))
+
+	for line in contents:
+		regroup = re.search(r'Contract Address:(([0-9]|[a-z]|[A-Z])*)', line)
+		if regroup:
+			deploy_contract_addr = regroup.group(1)
+			if deploy_contract_addr:
+				break
+	return deploy_contract_addr
+
 
 def sign_transction(task, judge = True, process_log = True):
 	task.set_type("cli")
@@ -184,8 +178,18 @@ def call_contract(task, judge = True, pre = True):
 		
 		taskdata = task.data()
 
-		deploy_contract_addr = deploy_contract(task)
-			
+		deploy_first = False;
+		deploy_code_path = None;
+		deploy_contract_addr = None
+		for key in taskdata:
+			if key.upper() == "DEPLOY":
+				deploy_first = taskdata[key]
+			if key.upper() == "CODE_PATH":
+				deploy_code_path = taskdata[key]
+
+		if deploy_first:
+			deploy_contract_addr = deploy_contract(deploy_code_path)
+
 		#step 1: signed tx
 		expect_response = None
 		if "RESPONSE" in taskdata:

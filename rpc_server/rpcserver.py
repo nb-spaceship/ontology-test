@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import leveldb
 import hashlib
 import socket
 import urllib
-
+import json
 from werkzeug.wrappers import Request, Response
 from werkzeug.serving import run_simple
 
@@ -30,28 +32,63 @@ def get_host_ip():
 
     return ip
 
+def con_cli(request):
+  try:
+    url = "http://127.0.0.1:20000/cli"
+    response = requests.post(url, data=json.dumps(request), headers={'content-type': 'application/json'})
+    return response.json()
+  except Exception as e:
+    print(e)
+    return json.loads("{\"Desc\": \"Connection Error\", \"Error\": \"Connection Error\"}")
+
 
 @dispatcher.add_method
 def get_states_md5(**kwargs):
 	"""
 	Get md5 value of leveldb named states
 	"""
-	return get_db_md5(config.LEVELDB_PATH_STATES)
+	return get_db_md5(config.NODE_PATH + "/Chain/states")
 
 @dispatcher.add_method
 def get_block_md5(**kwargs):
 	"""
 	Get md5 value of leveldb named block
 	"""
-	return get_db_md5(config.LEVELDB_PATH_BLOCK)
+	return get_db_md5(config.NODE_PATH + "/Chain/block")
 
 @dispatcher.add_method
 def get_ledgerevent_md5(**kwargs):
 	"""
 	Get md5 value of leveldb named ledgerevent
 	"""
-	return get_db_md5(config.LEVELDB_PATH_LEDGEREVENT)
+	return get_db_md5(config.NODE_PATH + "/Chain/ledgerevent")
 
+@dispatcher.add_method
+def siginvoketx(**kwargs):
+  request = {
+    "Qid": "t",
+    "Method": "siginvoketx",
+    "Params": kwargs
+  }
+  return con_cli(request)
+
+@dispatcher.add_method
+def signeovminvoketx(**kwargs):
+  request = {
+    "Qid": "t",
+    "Method": "signeovminvoketx",
+    "Params": kwargs
+  }
+  return con_cli(request)
+
+@dispatcher.add_method
+def signativeinvoketx(**kwargs):
+  request = {
+    "Qid": "t",
+    "Method": "signativeinvoketx",
+    "Params": kwargs
+  }
+  return con_cli(request)
 
 @Request.application
 def application(request):
@@ -59,8 +96,10 @@ def application(request):
     dispatcher["get_states_md5"] = get_states_md5
     dispatcher["get_block_md5"] = get_block_md5
     dispatcher["get_ledgerevent_md5"] = get_ledgerevent_md5
+    dispatcher["signeovminvoketx"] = signeovminvoketx
+    dispatcher["signativeinvoketx"] = signativeinvoketx
+    dispatcher["siginvoketx"] = siginvoketx
     
-
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
     return Response(response.json, mimetype='application/json')
