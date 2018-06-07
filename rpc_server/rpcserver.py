@@ -5,6 +5,7 @@ import hashlib
 import socket
 import urllib
 import json
+import requests
 from werkzeug.wrappers import Request, Response
 from werkzeug.serving import run_simple
 
@@ -65,29 +66,8 @@ def get_ledgerevent_md5(**kwargs):
 
 @dispatcher.add_method
 def siginvoketx(**kwargs):
-  request = {
-    "Qid": "t",
-    "Method": "siginvoketx",
-    "Params": kwargs
-  }
-  return con_cli(request)
-
-@dispatcher.add_method
-def signeovminvoketx(**kwargs):
-  request = {
-    "Qid": "t",
-    "Method": "signeovminvoketx",
-    "Params": kwargs
-  }
-  return con_cli(request)
-
-@dispatcher.add_method
-def signativeinvoketx(**kwargs):
-  request = {
-    "Qid": "t",
-    "Method": "signativeinvoketx",
-    "Params": kwargs
-  }
+  print("recive siginvoketx")
+  request = kwargs
   return con_cli(request)
 
 @Request.application
@@ -96,8 +76,6 @@ def application(request):
     dispatcher["get_states_md5"] = get_states_md5
     dispatcher["get_block_md5"] = get_block_md5
     dispatcher["get_ledgerevent_md5"] = get_ledgerevent_md5
-    dispatcher["signeovminvoketx"] = signeovminvoketx
-    dispatcher["signativeinvoketx"] = signativeinvoketx
     dispatcher["siginvoketx"] = siginvoketx
     
     response = JSONRPCResponseManager.handle(

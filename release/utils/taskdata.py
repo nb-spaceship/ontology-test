@@ -11,6 +11,7 @@ class Task:
 		self._path = path
 		self._name = name
 		self._taskjson = ijson
+		self._nodeindex = None
 
 		if self._path is not "":
 			self._taskjson = self.load_cfg(self._path)
@@ -20,7 +21,8 @@ class Task:
 			for key in self._taskjson:
 				if key.upper() == "TYPE":
 					self._type = self._taskjson[key]
-					break
+				if key.upper() == "NODE_INDEX":
+					self._nodeindex = self._taskjson[key]
 
 		self._data = self._taskjson
 
@@ -50,6 +52,12 @@ class Task:
 
 	def request(self):
 		return self._data["REQUEST"]
+
+	def set_request(self, request):
+		self._data["REQUEST"] = request
+
+	def node_index(self):
+		return self._nodeindex
 
 	def load_cfg(self, cfg):
 		if ".json" not in cfg:

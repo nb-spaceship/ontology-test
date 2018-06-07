@@ -144,9 +144,24 @@ def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
 
 
 def sign_transction(task, judge = True, process_log = True):
-	task.set_type("cli")
-	(result, response) = run_single_task(task, judge, process_log)
-	return (result, response)
+	if task.node_index():
+		task.set_type("st")
+		request = task.request()
+		task.set_request({
+							"method": "siginvoketx",
+							"jsonrpc": "2.0",
+							"id": 0,
+						})
+		task.request()["params"] = request
+
+		(result, response) = run_single_task(task, judge, process_log)
+		if result:
+			response = response["result"]
+		return (result, response)
+	else:
+		task.set_type("cli")
+		(result, response) = run_single_task(task, judge, process_log)
+		return (result, response)
 
 def call_signed_contract(signed_tx, pre = True):
 	sendrawtxtask = Task(Config.BASEAPI_PATH + "/rpc/sendrawtransaction.json")
@@ -248,7 +263,7 @@ def run_single_task(task, judge = True, process_log = True):
 		logger.print("[ PARAMS   ]" + json.dumps(cfg_content, indent = 4))
 
 	#(result, response) = self.multithread_run(logger, cfg_request, cfg_response)
-	node_index = cfg_content["node_index"] if "node_index" in cfg_content else None
+	node_index = task.node_index()
 	node_ip = None
 	if node_index:
 		node_ip = Config.SERVICES[int(node_index)]

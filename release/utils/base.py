@@ -52,7 +52,8 @@ def con(itype, ip, request):
 			return con_restful(ip, request)
 		elif connecttype.upper() == "WS":
 			return con_ws(ip, request)
-
+		elif connecttype.upper() == "ST":
+			return con_test_service(ip, request)
 	return None
 
 def con_cli(ip, request):
