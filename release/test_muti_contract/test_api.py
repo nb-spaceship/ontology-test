@@ -154,7 +154,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     return call_contract(Task(name="withdraw_user_role", ijson=request))
 
 
-def invoke_function(contract_address, function_str):
+def invoke_function(contract_address, function_str, callerOntID, public_key="1"):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -174,7 +174,11 @@ def invoke_function(contract_address, function_str):
                         "value": [
                             {
                                 "type": "bytearray",
-                                "value": ""
+                                "value": callerOntID
+                            },
+                            {
+                                "type": "int",
+                                "value": public_key
                             }
                         ]
                     }

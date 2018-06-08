@@ -28,7 +28,6 @@ logger = LoggerInstance
 ####################################################
 # test cases
 
-
 class TestMutiContract_2(ParametrizedTestCase):
     def test_main(self):
         logger.open("TestMutiContract_3.log", "TestMutiContract_3")
@@ -58,7 +57,7 @@ class TestMutiContract_2(ParametrizedTestCase):
                 raise("bind_user_role error")
 
             # setp 2 用户C访问B函数
-            (result, response) = invoke_function(contract_address, "B")
+            (result, response) = invoke_function(contract_address, "B", ontID_C)
             if not result:
                 raise Error("invoke_function error")
         

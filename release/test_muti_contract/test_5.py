@@ -53,7 +53,7 @@ class TestMutiContract_5(ParametrizedTestCase):
                 raise("bind_user_role error")
             
             # setp 2 用户A访问B函数
-            (result, response) = invoke_function(contract_address, "B")
+            (result, response) = invoke_function(contract_address, "B", ontID_A)
             if not result:
                 raise Error("invoke_function error")
         

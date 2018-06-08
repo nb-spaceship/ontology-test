@@ -22,7 +22,6 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
-from test_common import *
 
 def set_premise(neo_path):
     result = False
@@ -52,6 +51,4 @@ def set_premise(neo_path):
     else:
         raise("set_premise error")
 
-
-    
             
