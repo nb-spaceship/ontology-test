@@ -55,7 +55,7 @@ class TestMutiContract_2(ParametrizedTestCase):
             time.sleep(30)
             
             # setp 2 用户B不可以访问A函数
-            (result, response) = invoke_function(contract_address, "B")
+            (result, response) = invoke_function(contract_address, "B", ontID_B)
             if not result:
                 raise Error("invoke_function error")
         

@@ -55,7 +55,7 @@ class TestMutiContract_2(ParametrizedTestCase):
             time.sleep(20)
             
             # setp 2 用户B访问A函数
-            (result, response) = invoke_function(contract_address, "A")
+            (result, response) = invoke_function(contract_address, "A", ontID_B)
             if not result:
                 raise Error("invoke_function error")
         

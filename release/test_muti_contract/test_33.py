@@ -23,6 +23,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
 from test_common import *
+from test_conf import *
 logger = LoggerInstance
 
 ####################################################
@@ -34,17 +35,22 @@ class TestMutiContract_2(ParametrizedTestCase):
         logger.open("TestMutiContract_3.log", "TestMutiContract_3")
         result = False
         try:
-            # 初始化合约B管理员为A用户, 智能A调用
+            # 初始化合约B管理员为A用户,
+            ontID_A = ByteToHex(b"did:ont:TA7TSQ5aJcA8sU5MpqJNyTG1r13AQYLYpR")
+            ontID_B = ByteToHex(b"did:ont:TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4") 
+            
             contract_address_B = deploy_contract("./tasks/contractB.neo")
-            adminOntID_A = ByteToHex(b"TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
-            (result, response) = init_admin(contract_address_A, adminOntID_A)
+            (result, response) = init_admin(contract_address_B, )
             if not result:
                 raise("init_admin error")
             
-            # 部署智能合约B, A用户去调用
-            contract_address_B = deploy_contract("./tasks/contractB.neo")
+            # 部署智能合约A
+            contract_address_A = deploy_contract("./tasks/contractA.neo")
 
-
+            # A用户去调用A方法
+            (result, response) = invoke_function(contract_address_A, "contractA_Func_A", ontID_A)
+            if not result:
+                raise Error("invoke_function error")
         
         except Exception as e:
             print(e.msg)
