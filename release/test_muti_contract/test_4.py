@@ -1,68 +1,61 @@
 # -*- coding:utf-8 -*-
+import re
 import ddt
 import unittest
 import urllib
 import urllib.request
 import json
 import os
-import sys, getopt
+import sys
+import getopt
+import time
+import requests
+import subprocess
 
 sys.path.append('..')
 
+import utils.base
 from utils.config import Config
 from utils.taskdata import TaskData, Task
-from utils.logger import LoggerInstance as logger
+from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
+from test_api import *
+from test_common import *
+logger = LoggerInstance
 
 ####################################################
-#test cases
-class TestSample1(ParametrizedTestCase):
-	def test_main(self):
-		logger.open("TestSample1.log")
-		try:
-			#step 1 invoke_init
-			task1 = Task("tasks/invoke_init.json")
-			(result, response) = call_contract(task1)
-			if not result:
-				raise Error("invoke_init error")
+# test cases
 
-			#step 2 role_A_have_func_A_C
-			task2 = Task("tasks/role_A_have_func_A_C.json")
-			(result, response) = call_contract(task2)
-			if not result:
-				raise Error("role_A_have_func_A_C error")
 
-			#step 3 role_B_have_func_B_C
-			task3 = Task("tasks/role_B_have_func_B_C.json")
-			(result, response) = call_contract(task3)
-			if not result:
-				raise Error("role_B_have_func_B_C error")
+class TestMutiContract_4(ParametrizedTestCase):
+    def test_main(self):
+        logger.open("TestMutiContract_4.log", "TestMutiContract_4")
+        result = False
+        try:
+            
+            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_4.neo")
 
-			#step 4 user_A_bind_role_A
-			task4 = Task("tasks/user_A_bind_role_A.json")
-			(result, response) = call_contract(task4)
-			if not result:
-				raise Error("user_A_bind_role_A error")
-
-			#step 5 user_A_bind_role_B
-			task5 = Task("tasks/user_A_bind_role_B.json")
-			(result, response) = call_contract(task5)
-			if not result:
-				raise Error("user_A_bind_role_B error")
-
-			#step 6 user_A_invoke_func_B
-			task6 = Task("tasks/user_A_invoke_func_B.json")
-			(result, response) = call_contract(task6)
-			if not result:
-				raise Error("user_A_invoke_func_B error")
-				
-		except Exception as e:
-			print(e.msg)
-		logger.close("TestSample1", result)
-
+            # setp 1 绑定用户A拥有roleA角色
+            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
+            if not result:
+                raise("bind_user_role error")
+            
+            # setp 1 绑定用户A拥有roleB角色
+            (result, response) = bind_user_role(contract_address,adminOntID, roleB_hex, [ontID_A])
+            if not result:
+                raise("bind_user_role error")
+            
+            # setp 2 用户A访问A函数
+            (result, response) = invoke_function(contract_address, "B")
+            if not result:
+                raise Error("invoke_function error")
+        
+        except Exception as e:
+            print(e.msg)
+            logger.close(result)
+    
 ####################################################
 if __name__ == '__main__':
-	unittest.main()	    
+    unittest.main()

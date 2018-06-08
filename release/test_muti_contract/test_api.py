@@ -25,7 +25,7 @@ def init_admin(contract_address, admin_address):
             "Method": "signeovminvoketx",
             "Params": {
                 "gas_price": 0,
-                "gas_pimit": 0,
+                "gas_limit": 1000000000,
                 "address": contract_address,
                 "version": 1,
                 "params": [
@@ -45,20 +45,20 @@ def init_admin(contract_address, admin_address):
                 ]
             }
         },
-        "REPONSE":{"error" : 0}
+        "RESPONSE":{"error" : 0}
     }
 
     return call_contract(Task(name="init_admin", ijson=request))
 
 
-def bind_role_function(contract_address, admin_address, role_str, functions, public_key=1):
+def bind_role_function(contract_address, admin_address, role_str, functions, public_key="1"):
     request = {
         "REQUEST": {
             "Qid": "t",
             "Method": "signativeinvoketx",
             "Params": {
                 "gas_price": 0,
-                "gas_limit": 40000,
+                "gas_limit": 1000000000,
                 "address": "ff00000000000000000000000000000000000006",
                 "method": "assignFuncsToRole",
                 "version": 0,
@@ -71,20 +71,20 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
                 ]
             }
         },
-        "REPONSE":{"error" : 0}
+        "RESPONSE":{"error" : 0}
     }
 
     return call_contract(Task(name="bind_role_function", ijson=request))
 
 
-def bind_user_role(contract_address, admin_address, role_str, users, public_key=1):
+def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key="1"):
     request = {
         "REQUEST": {
             "Qid": "t",
             "Method": "signativeinvoketx",
             "Params": {
                 "gas_price": 0,
-                "gas_limit": 40000,
+                "gas_limit": 1000000000,
                 "address": "ff00000000000000000000000000000000000006",
                 "method": "assignOntIDsToRole",
                 "version": 0,
@@ -92,24 +92,24 @@ def bind_user_role(contract_address, admin_address, role_str, users, public_key=
                     contract_address,
                     admin_address,
                     role_str,
-                    users,
+                    ontIDs,
                     public_key
                 ]
             }
         },
-        "REPONSE":{"error" : 0}
+        "RESPONSE":{"error" : 0}
     }
     return call_contract(Task(name="bind_role_function", ijson=request))
 
 
-def delegate_user_role(contract_address, owner_user, delegate_user, delegate_role, interval, level, public_key=1):
+def delegate_user_role(contract_address, owner_user, delegate_user, delegate_role, period, level, public_key="1"):
     request = {
         "REQUEST": {
             "Qid": "t",
             "Method": "signativeinvoketx",
             "Params": {
                 "gas_price": 0,
-                "gas_limit": 40000,
+                "gas_limit": 1000000000,
                 "address": "ff00000000000000000000000000000000000006",
                 "method": "delegate",
                 "version": 0,
@@ -118,25 +118,25 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
                     owner_user,
                     delegate_user,
                     delegate_role,
-                    interval,
+                    period,
                     level,
                     public_key
                 ]
             }
         },
-        "REPONSE":{"error" : 0}
+        "RESPONSE":{"error" : 0}
     }
     return call_contract(Task(name="delegate_user_role", ijson=request))
 
 
-def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role, public_key=1):
+def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role, public_key="1"):
     request = {
         "REQUEST": {
             "Qid": "t",
             "Method": "signativeinvoketx",
             "Params": {
                 "gas_price": 0,
-                "gas_limit": 40000,
+                "gas_limit": 1000000000,
                 "address": "ff00000000000000000000000000000000000006",
                 "method": "withdraw",
                 "version": 0,
@@ -149,7 +149,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
                 ]
             }
         },
-        "REPONSE":{"error" : 0}
+        "RESPONSE":{"error" : 0}
     }
     return call_contract(Task(name="withdraw_user_role", ijson=request))
 
@@ -161,7 +161,7 @@ def invoke_function(contract_address, function_str):
             "Method": "signeovminvoketx",
             "Params": {
                 "gas_price": 0,
-                "gas_limit": 0,
+                "gas_limit": 1000000000,
                 "address": contract_address,
                 "version": 1,
                 "params": [
@@ -181,6 +181,6 @@ def invoke_function(contract_address, function_str):
                 ]
             }
         },
-        "REPONSE":{"error" : 0}
+        "RESPONSE":{"error" : 0}
     }
     return call_contract(Task(name="invoke_function", ijson=request))

@@ -29,21 +29,31 @@ logger = LoggerInstance
 # test cases
 
 
-class TestMutiContract_3(ParametrizedTestCase):
+class TestMutiContract_2(ParametrizedTestCase):
     def test_main(self):
         logger.open("TestMutiContract_3.log", "TestMutiContract_3")
         result = False
         try:
             
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_3.neo")
+            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_5.neo")
 
-            # setp 1 绑定用户A拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
+            # setp 1 绑定roleA角色绑定到用户A
+            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A, ontID_B])
+            if not result:
+                raise("bind_user_role error")
+			
+			# setp 1 用户B授权用户A拥有角色A的权限
+            (result, response) = delegate_user_role(contract_address, ontID_B, ontID_A, roleA_hex, "10000", "1")
+            if not result:
+                raise("bind_user_role error")
+			
+			# setp 1 收回授权用户A拥有的roleA角色
+            (result, response) = withdraw_user_role(contract_address, ontID_B, ontID_A, roleA_hex)
             if not result:
                 raise("bind_user_role error")
             
-            # setp 2 用户A访问A函数
-            (result, response) = invoke_function(contract_address, "B")
+            # setp 2 用户A访问C函数
+            (result, response) = invoke_function(contract_address, "C")
             if not result:
                 raise Error("invoke_function error")
         
