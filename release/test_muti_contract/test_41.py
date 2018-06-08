@@ -29,9 +29,9 @@ logger = LoggerInstance
 
 ####################################################
 # test cases
-class TestMutiContract_40(ParametrizedTestCase):
+class TestMutiContract_41(ParametrizedTestCase):
     def test_main(self):
-        logger.open("TestMutiContract_40.log", "TestMutiContract_40")
+        logger.open("TestMutiContract_41.log", "TestMutiContract_41")
         result = False
         try:
             (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise_b("38_contract.neo")
@@ -45,7 +45,7 @@ class TestMutiContract_40(ParametrizedTestCase):
             # time.sleep(5)
 
             # 用户B调用智能合约A中的A方法
-            (result, response) = invoke_function_transfer(contract_address, "A", ontID_A, ontID_B, 10)
+            (result, response) = invoke_function_approve(contract_address, "A", ontID_A, ontID_B, 10)
             if not result:
                 raise Error("invoke_function error")
         
@@ -53,7 +53,7 @@ class TestMutiContract_40(ParametrizedTestCase):
             print(e.msg)
             logger.close(result)
     
-    def invoke_function_transfer(self, contract_address, function_str, from_str, to_str, amount):
+    def invoke_function_approve(self, contract_address, function_str, from_str, to_str, amount):
         request = {
             "REQUEST": {
                 "Qid": "t",

@@ -12,13 +12,8 @@ namespace Example
         [Appcall("80881676d7a87f5d9cd3d1656f819158584cc091")] //智能合约B的地址
         public static extern object ContractB(string op, object[] token, object[] args);
 
-        [Appcall("ff00000000000000000000000000000000000006")]
-        public static extern byte[] AuthContract(string op, object[] args);
-
         public static object Main(string operation, object[] token)
         {
-           if (operation == "init") return init(args); 
-
            if (operation == "contractA_Func_A")
            {
                return ContractA_Func_A(token);
@@ -31,21 +26,6 @@ namespace Example
             object ret = ContractB("contractB_Func_A", token, null);
             return ret;
         }
-
-        public static bool init(object[] args)
-        {
-            object[] _args = new object[1]; 
-
-            initContractAdminParam param;
-            param.adminOntID = (byte[]) args[0];
-
-            _args[0] = Neo.SmartContract.Framework.Helper.Serialize(param);
-            byte[] ret = AuthContract("initContractAdmin", _args);
-
-            return ret[0] == 1;
-        }
-
-
     }
 }
 /*

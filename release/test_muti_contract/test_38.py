@@ -1,46 +1,90 @@
 # -*- coding:utf-8 -*-
+import re
 import ddt
 import unittest
 import urllib
 import urllib.request
 import json
 import os
-import sys, getopt
+import sys
+import getopt
 import time
+import requests
+import subprocess
 
 sys.path.append('..')
 
+import utils.base
 from utils.config import Config
 from utils.taskdata import TaskData, Task
-from utils.logger import LoggerInstance as logger
+from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
+from test_api import *
+from test_common import *
+from test_conf import Conf
+
+logger = LoggerInstance
 
 ####################################################
-#test cases
-class TestSample1(ParametrizedTestCase):
-	def test_main(self):
-		logger.open("TestSample1.log")
-		try:
-			#step 1 初始化智能合约A的管理员为用户A，所有人账户充足
-			task1 = Task("tasks/38/invoke_init.json")
-			(result, response) = call_contract(task1)
-			if not result:
-				raise Error("invoke_init error")
-			
-			#step 2 用户A调用智能合约A中的A方法
-			task1 = Task("tasks/33/invoke_init.json")
-			(result, response) = call_contract(task1)
-			if not result:
-				raise Error("invoke_init error")
-			
+# test cases
+class TestMutiContract_38(ParametrizedTestCase):
+    def test_main(self):
+        logger.open("TestMutiContract_38.log", "TestMutiContract_38")
+        result = False
+        try:
+            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise_b("38_contract.neo")
 
-		except Exception as e:
-			print(e.msg)
-		logger.close("TestSample1", result)
-
+            # 用户A调用智能合约A中的A方法
+            (result, response) = invoke_function_transfer(contract_address, "A", ontID_A, ontID_B, 10)
+            if not result:
+                raise Error("invoke_function error")
+        
+        except Exception as e:
+            print(e.msg)
+            logger.close(result)
+    
+    def invoke_function_transfer(self, contract_address, function_str, from_str, to_str, amount):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signeovminvoketx",
+                "Params": {
+                    "gas_price": 0,
+                    "gas_limit": 1000000000,
+                    "address": contract_address,
+                    "version": 1,
+                    "params": [
+                        {
+                            "type": "string",
+                            "value": function_str
+                        },
+                        {
+                            "type": "array",
+                            "value": [
+                                {
+                                    "type": "bytearray",
+                                    "value": from_str
+                                },
+                                {
+                                    "type": "bytearray",
+                                    "value": to_str
+                                },
+                                {
+                                    "type": "int",
+                                    "value": amount
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "RESPONSE":{"error" : 0}
+        }
+        return call_contract(Task(name="invoke_function", ijson=request))
+    
 ####################################################
 if __name__ == '__main__':
-	unittest.main()	    
+    unittest.main()
+
