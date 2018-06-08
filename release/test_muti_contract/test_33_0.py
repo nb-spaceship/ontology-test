@@ -31,21 +31,11 @@ logger = LoggerInstance
 
 class TestMutiContract_2(ParametrizedTestCase):
     def test_main(self):
-        logger.open("TestMutiContract_2.log", "TestMutiContract_2")
+        logger.open("TestMutiContract_3.log", "TestMutiContract_3")
         result = False
         try:
             
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_2.neo")
-
-            # setp 1 绑定用户A拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
-            if not result:
-                raise("bind_user_role error")
-            
-            # setp 2 用户A访问A函数
-            (result, response) = invoke_function(contract_address, "C", ontID_A)
-            if not result:
-                raise Error("invoke_function error")
+            contract_address = deploy_contract("./tasks/contractB.neo")
         
         except Exception as e:
             print(e.msg)
@@ -54,3 +44,4 @@ class TestMutiContract_2(ParametrizedTestCase):
 ####################################################
 if __name__ == '__main__':
     unittest.main()
+

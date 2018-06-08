@@ -28,7 +28,7 @@ namespace Example
 
         public static object Main(string operation, params object[] args)
         {
-            if (operation == "initContractAdmin")
+            if (operation == "init")
             {
                 return init(args);
             }
@@ -54,7 +54,6 @@ namespace Example
             return false;
         }
 
-        
 
         public static int A()
         {
@@ -71,7 +70,7 @@ namespace Example
             return 2 + 2;
         }
         
-        public static bool init(object[] args)
+        public static int init(object[] args)
         {
             object[] _args = new object[1]; 
 
@@ -81,7 +80,7 @@ namespace Example
             _args[0] = Neo.SmartContract.Framework.Helper.Serialize(param);
             byte[] ret = AuthContract("initContractAdmin", _args);
 
-            return ret[0] == 1;
+            return ret[0];
         }
         
         public static bool verifyToken(string operation, object[] token)

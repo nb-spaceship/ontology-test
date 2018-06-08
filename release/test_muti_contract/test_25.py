@@ -29,36 +29,36 @@ logger = LoggerInstance
 # test cases
 
 
-class TestMutiContract_8(ParametrizedTestCase):
+class TestMutiContract_2(ParametrizedTestCase):
     def test_main(self):
-        logger.open("TestMutiContract_8.log", "TestMutiContract_8")
+        logger.open("TestMutiContract_3.log", "TestMutiContract_3")
         result = False
         try:
             
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_8.neo")
+            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_5.neo")
 
-            # setp 1 绑定用户A拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
+            # setp 1 绑定用户A，用户B拥有roleA角色
+            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A, ontID_B])
             if not result:
                 raise("bind_user_role error")
-			
-			# setp 1 绑定用户B拥有roleB角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleB_hex, [ontID_B])
+						
+			# setp 1 用户A授权用户B拥有roleA角色
+            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_C, roleA_hex, "10000", "1")
             if not result:
                 raise("bind_user_role error")
-	
-			# setp 1 用户B授权用户A拥有角色B的权限
-            (result, response) = delegate_user_role(contract_address, ontID_B, ontID_A, roleB_hex, "10000", "1")
-            if not result:
-                raise("bind_user_role error")
-			
-			# setp 1 收回授权用户A拥有的roleB角色
-            (result, response) = withdraw_user_role(contract_address, ontID_B, ontID_A, roleB_hex)
+            
+            # setp 1 用户B授权用户B拥有roleA角色
+            (result, response) = delegate_user_role(contract_address, ontID_B, ontID_C, roleA_hex, "10000", "1")
             if not result:
                 raise("bind_user_role error")
                         
-            # setp 2 用户A访问B函数
-            (result, response) = invoke_function(contract_address, "B", ontID_A)
+            # setp 1 用户A撤回用户C拥有的roleA角色
+            (result, response) = withdraw_user_role(contract_address, ontID_A, ontID_C, roleA_hex)
+            if not result:
+                raise("bind_user_role error")
+			
+            # setp 2 用户C访问A函数
+            (result, response) = invoke_function(contract_address, "A", ontID_C)
             if not result:
                 raise Error("invoke_function error")
         

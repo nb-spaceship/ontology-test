@@ -1,45 +1,62 @@
 # -*- coding:utf-8 -*-
+import re
 import ddt
 import unittest
 import urllib
 import urllib.request
 import json
 import os
-import sys, getopt
+import sys
+import getopt
 import time
+import requests
+import subprocess
 
 sys.path.append('..')
 
+import utils.base
 from utils.config import Config
 from utils.taskdata import TaskData, Task
-from utils.logger import LoggerInstance as logger
+from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
+from test_api import *
+from test_common import *
+from test_conf import *
+logger = LoggerInstance
 
 ####################################################
-#test cases
-class TestSample1(ParametrizedTestCase):
-	def test_main(self):
-		logger.open("TestSample1.log")
-		try:
-			#step 1 初始化contractB的管理员
-			task1 = Task("tasks/33/invoke_init.json")
-			(result, response) = call_contract(task1)
-			if not result:
-				raise Error("invoke_init error")
+# test cases
 
-			#step 2 user_A_invoke_func_A
-			task2 = Task("tasks/33/user_A_invoke_func_A.json")
-			(result, response) = call_contract(task2)
-			if not result:
-				raise Error("user_A_invoke_func_A error")		
-				
-		except Exception as e:
-			print(e.msg)
-		logger.close("TestSample1", result)
 
+class TestMutiContract_2(ParametrizedTestCase):
+    def test_main(self):
+        logger.open("TestMutiContract_3.log", "TestMutiContract_3")
+        result = False
+        try:
+            # 初始化合约B管理员为A用户,
+            ontID_A = ByteToHex(b"did:ont:TA7TSQ5aJcA8sU5MpqJNyTG1r13AQYLYpR")
+            ontID_B = ByteToHex(b"did:ont:TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4") 
+            
+            contract_address_B = deploy_contract("./tasks/contractB.neo")
+            (result, response) = init_admin(contract_address_B, )
+            if not result:
+                raise("init_admin error")
+            
+            # 部署智能合约A
+            contract_address_A = deploy_contract("./tasks/contractA.neo")
+
+            # A用户去调用A方法
+            (result, response) = invoke_function(contract_address_A, "contractA_Func_A", ontID_A)
+            if not result:
+                raise Error("invoke_function error")
+        
+        except Exception as e:
+            print(e.msg)
+            logger.close(result)
+    
 ####################################################
 if __name__ == '__main__':
-	unittest.main()	    
+    unittest.main()
+
