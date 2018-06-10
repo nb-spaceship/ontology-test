@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys, getopt
-
+import time
 sys.path.append('..')
 
 from utils.config import Config
@@ -61,6 +61,7 @@ def main(argv = None):
 				if _node >= 0:
 					if _action == "start":
 						start_node(_node, DEFAULT_NODE_ARGS)
+						time.sleep(3)
 					elif _action == "stop":
 						stop_node(_node)
 					elif _action == "replace_config":
@@ -72,6 +73,7 @@ def main(argv = None):
 						replace_config(_node, cfg_json)
 					elif _action == "restart":
 						start_node(_node, DEFAULT_NODE_ARGS, True, True)
+						time.sleep(3)
 					else:
 						raise(Usage("no action: " + str(_action)))
 				else:

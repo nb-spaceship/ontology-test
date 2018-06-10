@@ -89,6 +89,7 @@ def replace_node_config(**kwargs):
 
 @dispatcher.add_method
 def start_node(**kwargs):
+  os.system("rm -rf " + config.NODE_PATH + "/Chain")
   clear_chain=None
   clear_log=None
   node_args=None
@@ -100,16 +101,18 @@ def start_node(**kwargs):
     node_args = kwargs["node_args"]
 
   if clear_chain:
-    os.popen("rm -rf " + config.NODE_PATH + "/Chain")
+    os.system("rm -rf " + config.NODE_PATH + "/Chain")
   if clear_log:
-    os.popen("rm -rf " + config.NODE_PATH + "/Log")
+    os.system("rm -rf " + config.NODE_PATH + "/Log")
 
   if node_args:
-    cmd = "echo 123456|" + config.NODE_PATH + "/ontology " + "-w=\"" + config.NODE_PATH + "/wallet.dat\" " + node_args + " &"
+    cmd = "cd " + config.NODE_PATH + "\n";
+    cmd += "echo 123456|" + config.NODE_PATH + "/ontology " + "-w=\"" + config.NODE_PATH + "/wallet.dat\" " + node_args + " &"
     print(cmd)
     os.system(cmd)
   else:
-    cmd = "echo 123456|" + config.NODE_PATH + "/ontology " + "-w=\"" + config.NODE_PATH + "/wallet.dat\" " + " &"
+    cmd = "cd " + config.NODE_PATH + "\n";
+    cmd += "echo 123456|" + config.NODE_PATH + "/ontology " + "-w=\"" + config.NODE_PATH + "/wallet.dat\" " + " &"
     print(cmd)
     os.system(cmd)
 
