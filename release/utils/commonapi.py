@@ -56,23 +56,23 @@ def cmp(expect_data, cmp_data):
 
 def _check_md5(node_list, request):
 	md5 = None
+	isSame = True
 	if node_list:
 		for index in node_list:
-			ip = Config.SERVICES[index]
+			ip = Config.SERVICES[int(index)]
 			response = utils.base.con_test_service(ip, request)
 			if not response or "result" not in response:
 				print("no md5: "+ ip)
-				return False
+				isSame = False
 			else:
-				print(response["result"])
+				print(response["result"] + " [" + ip + "]")
 				if not md5:
 					md5 = response["result"]
-				elif md5 is not response["result"]:
-					print("not same")
-					return False
+				elif md5 != response["result"]:
+					isSame = False
 	else:
-		return False
-	return True
+		isSame = False
+	return isSame
 
 #检查节点服务器State数据库是否一致
 def check_node_state(node_list):
@@ -329,7 +329,7 @@ def run_pair_task(task1, task2, compare_src_key = None, compare_dist_key = None)
 # msg:暂停原因
 # 返回值: 手动输入的值
 def pause(msg):
-	print(msg)
+	print("[ PAUSE     ] " + msg)
 	command = ""
 	try:
 		command = sys.stdin.readline().strip('\n')

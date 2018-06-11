@@ -54,32 +54,46 @@ def main(argv = None):
 		if len(_nodes) <= 0:
 			raise(Usage("please set -n which is node index..."))
 
-		for _node in _nodes:
-			print(_action + ": " + str(_node))
-			if _node:
-				_node = int(_node)
-				if _node >= 0:
-					if _action == "start":
-						start_node(_node, DEFAULT_NODE_ARGS)
-						time.sleep(3)
-					elif _action == "stop":
-						stop_node(_node)
-					elif _action == "replace_config":
-						cfg_json = None
-						if _value:
-							cfg_file = open(_value, "rb")
-							cfg_json = json.loads(cfg_file.read().decode("utf-8"))
-							cfg_file.close()
-						replace_config(_node, cfg_json)
-					elif _action == "restart":
-						start_node(_node, DEFAULT_NODE_ARGS, True, True)
-						time.sleep(3)
+		if _action == "check_state":
+			print(check_node_state(_nodes))
+		elif _action == "check_block":
+			print(check_node_block(_nodes))
+		elif _action == "check_ledgerevent":
+			print(check_node_ledgerevent(_nodes))
+		elif _action == "check_all":
+			print("check state:")
+			print(check_node_state(_nodes))
+			print("\ncheck block:")
+			print(check_node_block(_nodes))
+			print("\ncheck ledgerevent:")
+			print(check_node_ledgerevent(_nodes))
+		else:
+			for _node in _nodes:
+				print(_action + ": " + str(_node))
+				if _node:
+					_node = int(_node)
+					if _node >= 0:
+						if _action == "start":
+							start_node(_node, DEFAULT_NODE_ARGS)
+							time.sleep(3)
+						elif _action == "stop":
+							stop_node(_node)
+						elif _action == "replace_config":
+							cfg_json = None
+							if _value:
+								cfg_file = open(_value, "rb")
+								cfg_json = json.loads(cfg_file.read().decode("utf-8"))
+								cfg_file.close()
+							replace_config(_node, cfg_json)
+						elif _action == "restart":
+							start_node(_node, DEFAULT_NODE_ARGS, True, True)
+							time.sleep(3)
+						else:
+							raise(Usage("no action: " + str(_action)))
 					else:
-						raise(Usage("no action: " + str(_action)))
+						raise(Usage("error node: " + str(_node)))
 				else:
 					raise(Usage("error node: " + str(_node)))
-			else:
-				raise(Usage("error node: " + str(_node)))
 
 	except Usage as err:
 		print(err.msg)
