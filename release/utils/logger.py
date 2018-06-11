@@ -9,7 +9,8 @@ class Logger():
 		self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 
 	def __del__(self):
-		self.collectionfile.close()
+		if self.init:
+			self.collectionfile.close()
 
 	def open(self, filepath, title = None):
 		if not self.init:

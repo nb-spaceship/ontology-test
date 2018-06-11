@@ -107,12 +107,12 @@ def start_node(**kwargs):
 
   if node_args:
     cmd = "cd " + config.NODE_PATH + "\n";
-    cmd += "echo 123456|" + config.NODE_PATH + "/ontology " + "-w=\"" + config.NODE_PATH + "/wallet.dat\" " + node_args + " &"
+    cmd += "echo 123456|" + config.NODE_PATH + "/ontology -w=\"" + config.NODE_PATH + "/wallet.dat\" --config=\"" + config.NODE_PATH + "/config.json\" " + node_args + " &"
     print(cmd)
     os.system(cmd)
   else:
     cmd = "cd " + config.NODE_PATH + "\n";
-    cmd += "echo 123456|" + config.NODE_PATH + "/ontology " + "-w=\"" + config.NODE_PATH + "/wallet.dat\" " + " &"
+    cmd += "echo 123456|" + config.NODE_PATH + "/ontology -w=\"" + config.NODE_PATH + "/wallet.dat\" --config=\"" + config.NODE_PATH + "/config.json\" " + " &"
     print(cmd)
     os.system(cmd)
 
