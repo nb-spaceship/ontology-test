@@ -18,14 +18,19 @@ from config import Configure as config
 setproctitle.setproctitle("test_service")
 
 def get_db_md5(db_name):
+  print("---------------------------------")
   db = leveldb.LevelDB(db_name)
   md5 = hashlib.md5()
   iter = db.RangeIter()
   
+  i = 0
   for (key, value) in iter:
     md5.update(key)
     md5.update(value)
-  
+    print(i)
+    print(key)
+    print(value)
+    i = i + 1
   return md5.hexdigest()
 
 def get_host_ip():
