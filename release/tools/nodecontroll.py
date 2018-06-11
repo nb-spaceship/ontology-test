@@ -80,10 +80,13 @@ def main(argv = None):
 							stop_node(_node)
 						elif _action == "replace_config":
 							cfg_json = None
-							if _value:
-								cfg_file = open(_value, "rb")
-								cfg_json = json.loads(cfg_file.read().decode("utf-8"))
-								cfg_file.close()
+							if _value == "":
+								print("use default config.")
+								_value = "config.json"
+							cfg_file = open(_value, "rb")
+							cfg_json = json.loads(cfg_file.read().decode("utf-8"))
+							cfg_file.close()
+
 							replace_config(_node, cfg_json)
 						elif _action == "restart":
 							start_node(_node, DEFAULT_NODE_ARGS, True, True)
