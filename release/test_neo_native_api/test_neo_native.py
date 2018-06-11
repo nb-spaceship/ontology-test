@@ -17,7 +17,7 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-from utils.commonapi import call_contract
+from utils.commonapi import *
 
 logger = LoggerInstance
 
