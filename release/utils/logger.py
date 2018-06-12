@@ -7,6 +7,7 @@ class Logger():
 		#pathstr = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
 		self.init = False
 		self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
+		self.logfile = None
 
 	def __del__(self):
 		if self.init:
@@ -31,7 +32,8 @@ class Logger():
 	#write
 	def print(self, str):
 		print(str)
-		self.logfile.write(str + "\n")
+		if self.logfile:
+			self.logfile.write(str + "\n")
 
 	def close(self, result = None, msg = None):
 		if not result is None:
@@ -41,7 +43,8 @@ class Logger():
 			else:
 				self.print("[ Failed   ] ")
 				self.append_record(self.logtitle, "fail", self.logpath)
-		self.logfile.close()
+		if self.logfile:
+			self.logfile.close()
 
 	def append_record(self, name, status, logpath):
 		self.collectionfile.write(name + "," + status + "," + logpath + "\n")

@@ -20,8 +20,13 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 class RPC:
 	def getbestblockhash(self):
-		pass
-
+		task = Task(Config.BASEAPI_PATH + "/rpc/getbestblockhash.json")
+		taskrequest = task.request()
+		params = []
+		taskrequest["params"] = params
+		task.set_request(taskrequest)
+		return run_single_task(task)
+		
 	def getblock(self, height, blockhash, verbose = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblock.json")
 		taskrequest = task.request()
