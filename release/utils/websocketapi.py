@@ -40,7 +40,7 @@ class WebSocketApi:
 		task.set_type("ws")
 		return run_single_task(task)
 
-	def getblocktxsbyheight(self, height)
+	def getblocktxsbyheight(self, height):
 		task = Task(Config.BASEAPI_PATH + "/ws/getconnectioncount.json")
 		task.set_type("ws")
 

@@ -85,7 +85,7 @@ class RestfulApi:
 		return run_single_task(task)
 
 	def getstorage(self, script_hash, key):
-		task = Task(Config.BASEAPI_PATH + "/restful/post_raw_tx.json")
+		task = Task(Config.BASEAPI_PATH + "/restful/get_storage.json")
 		task.set_type("restful")
 		taskrequest = task.request()
 		taskrequest["api"] = "/api/v1/storage/"+ str(script_hash) + "/" + str(key)
@@ -93,9 +93,59 @@ class RestfulApi:
 		return run_single_task(task)
 
 	def getbalance(self, addr):
-		task = Task(Config.BASEAPI_PATH + "/restful/post_raw_tx.json")
+		task = Task(Config.BASEAPI_PATH + "/restful/get_balance.json")
 		task.set_type("restful")
 		taskrequest = task.request()
 		taskrequest["api"] = "/api/v1/balance/"+ str(addr)
 		task.set_request(taskrequest)
+		return run_single_task(task)
+
+	def getcontract(self, script_hash):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_contract_state.json")
+		task.set_type("restful")
+		taskrequest = task.request()
+		taskrequest["api"] = "/api/v1/contract/"+ str(script_hash)
+		task.set_request(taskrequest)
+		return run_single_task(task)
+
+	def getsmartcodeeventbyheight(self, height):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_smtcode_evt_txs.json")
+		task.set_type("restful")
+		taskrequest = task.request()
+		taskrequest["api"] = "/api/v1/smartcode/event/transactions/"+ str(height)
+		task.set_request(taskrequest)
+		return run_single_task(task)
+
+	def getsmartcodeeventbyhash(self, txhash):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_smtcode_evts.json")
+		task.set_type("restful")
+		taskrequest = task.request()
+		taskrequest["api"] = "/api/v1/smartcode/event/txhash/"+ str(txhash)
+		task.set_request(taskrequest)
+		return run_single_task(task)
+
+	def getblockheightbytxhash(self, txhash):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_blk_hgt_by_txhash.json")
+		task.set_type("restful")
+		taskrequest = task.request()
+		taskrequest["api"] = "/api/v1/block/height/txhash/"+ str(txhash)
+		task.set_request(taskrequest)
+		return run_single_task(task)
+
+	def getblockheightbytxhash(self, _hash):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_merkle_proof.json")
+		task.set_type("restful")
+		taskrequest = task.request()
+		taskrequest["api"] = "/api/v1/merkleproof/"+ str(_hash)
+		task.set_request(taskrequest)
+		return run_single_task(task)
+
+	def getgasprice(self, _hash):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_gasprice.json")
+		task.set_type("restful")
+		return run_single_task(task)
+
+	def getallowance(self, _hash):
+		task = Task(Config.BASEAPI_PATH + "/restful/get_allowance.json")
+		task.set_type("restful")
 		return run_single_task(task)
