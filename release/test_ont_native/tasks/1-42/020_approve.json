@@ -1,0 +1,38 @@
+{
+    "DEPLOY" : true,
+	"CODE_PATH" : "tasks/ont_1_42.neo", 
+	"REQUEST": {
+        "Qid": "t",
+        "Method": "signeovminvoketx",
+        "Params": {
+            "gas_price": 0,
+            "gas_limit": 1000000000,
+            "address": "8016dc67c2741462c652a8859143749db4db22ec",
+            "version": 1,
+            "params": [
+                {
+                    "type": "string",
+                    "value": "approve"
+                },
+                {
+                    "type": "array",
+                    "value": [
+                        {
+                            "type": "bytearray",
+                            "value": "from ontid"
+                        },
+                        {
+                            "type": "bytearray",
+                            "value": "to ontid"
+                        },
+                        {
+                            "type": "int",
+                            "value": "-1"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "RESPONSE": {}
+}
