@@ -55,12 +55,12 @@ class RestfulApi:
 		return run_single_task(task)
 
 	def getblockheight(self, _hash, raw = 0):
-		task = Task(Config.BASEAPI_PATH + "/restful/get_blk_by_hash.json")
+		task = Task(Config.BASEAPI_PATH + "/restful/get_blk_height.json")
 		task.set_type("restful")
 		return run_single_task(task)
 
 	def getblockhashbyheight(self, height):
-		task = Task(Config.BASEAPI_PATH + "/restful/get_blk_by_hash.json")
+		task = Task(Config.BASEAPI_PATH + "/restful/get_blk_hash.json")
 		task.set_type("restful")
 		taskrequest = task.request()
 		taskrequest["api"] = "/api/v1/block/hash/" + str(height)
