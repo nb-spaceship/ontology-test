@@ -25,9 +25,16 @@ class WebSocketApi:
 		task.set_type("ws")
 		return run_single_task(task)
 		
-	def subscribe(self):
+	def subscribe(self, contractaddrlist, sevent = False, sjsonblock = False, srawblock = False, sblocktxhashs = False):
 		task = Task(Config.BASEAPI_PATH + "/ws/subscribe.json")
 		task.set_type("ws")
+		taskrequest = task.request()
+		taskrequest["ConstractsFilter"] = contractaddrlist
+		taskrequest["SubscribeEvent"] = sevent
+		taskrequest["SubscribeJsonBlock"] = sjsonblock
+		taskrequest["SubscribeRawBlock"] = srawblock
+		taskrequest["SubscribeBlockTxHashs"] = sblocktxhashs
+		task.set_request(taskrequest)
 		return run_single_task(task)
 
 	def getgenerateblocktime(self):
