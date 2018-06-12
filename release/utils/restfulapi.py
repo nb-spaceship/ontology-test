@@ -75,11 +75,13 @@ class RestfulApi:
 		task.set_request(taskrequest)
 		return run_single_task(task)
 
-	def postrawtx(self, rawtxdata, pre = 0):
+	def postrawtx(self, rawtxdata, action = "sendrawtransaction", version = "1.0.0", pre = 0):
 		task = Task(Config.BASEAPI_PATH + "/restful/post_raw_tx.json")
 		task.set_type("restful")
 		taskrequest = task.request()
 		taskrequest["api"] = "/api/v1/transaction?preExec="+ str(pre)
+		taskrequest["params"]["Action"] = action
+		taskrequest["params"]["Version"] = version
 		taskrequest["params"]["Data"] = rawtxdata
 		task.set_request(taskrequest)
 		return run_single_task(task)
