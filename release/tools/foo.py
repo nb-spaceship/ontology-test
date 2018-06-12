@@ -40,6 +40,9 @@ def func(a,b):
 
 
 if __name__ == '__main__':
-    f = func
-    f(3,4)
-    #func()
+    #f = func
+    #f(3,4)
+    #func(3,4)
+    b = bytearray(1)
+    b[0] = 0xff
+    print(int(b[0]))
