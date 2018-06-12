@@ -68,12 +68,14 @@ class RPCApi:
 		task = Task(Config.BASEAPI_PATH + "/rpc/getgenerateblocktime.json")
 		return run_single_task(task)
 
-	def getrawtransaction(self, transactionhash):
+	def getrawtransaction(self, transactionhash, verbose = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getrawtransaction.json")
 		taskrequest = task.request()
 		params = []
 		if transactionhash != None:
 			params.append(transactionhash)
+		if verbose != None:
+			params.append(verbose)
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 		return run_single_task(task)
