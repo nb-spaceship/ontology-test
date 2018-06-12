@@ -54,7 +54,7 @@ class RestfulApi:
 		task.set_request(taskrequest)
 		return run_single_task(task)
 
-	def getblockheight(self, _hash, raw = 0):
+	def getblockheight(self):
 		task = Task(Config.BASEAPI_PATH + "/restful/get_blk_height.json")
 		task.set_type("restful")
 		return run_single_task(task)
@@ -132,7 +132,7 @@ class RestfulApi:
 		task.set_request(taskrequest)
 		return run_single_task(task)
 
-	def getblockheightbytxhash(self, _hash):
+	def getmerkleproofbytxhash(self, _hash):
 		task = Task(Config.BASEAPI_PATH + "/restful/get_merkle_proof.json")
 		task.set_type("restful")
 		taskrequest = task.request()
