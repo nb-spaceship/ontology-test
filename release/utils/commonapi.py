@@ -104,13 +104,13 @@ def check_node_block(node_list):
 def check_node_all(node_list):
 	return (check_node_state(node_list) and check_node_ledgerevent(node_list) and check_node_block(node_list))
 
-#部署合约
-#返回值： 部署的合约地址
-def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
+
+def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
 	if not neo_code_path or neo_code_path == "":
 		return None
 
 	deploy_contract_addr = None
+	deploy_contract_txhash = None
 	
 	logger.print("[ DEPLOY ] ")
 	cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" > tmp"
@@ -137,8 +137,19 @@ def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
 		regroup = re.search(r'Contract Address:(([0-9]|[a-z]|[A-Z])*)', line)
 		if regroup:
 			deploy_contract_addr = regroup.group(1)
-			if deploy_contract_addr:
-				break
+
+		regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
+		if regroup:
+			deploy_contract_txhash = regroup.group(1)
+
+		if deploy_contract_addr and deploy_contract_txhash:
+			break
+
+	return (deploy_contract_addr, deploy_contract_txhash)
+#部署合约
+#返回值： 部署的合约地址
+def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
+	(deploy_contract_addr, deploy_contract_txhash) = deploy_contract_full(neo_code_path, name, desc)
 	return deploy_contract_addr
 
 
