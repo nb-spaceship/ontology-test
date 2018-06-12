@@ -25,12 +25,15 @@ def get_db_md5(db_name):
   
   i = 0
   for (key, value) in iter:
-    md5.update(key)
-    md5.update(value)
-    print(i)
-    print(key)
-    print(value)
-    i = i + 1
+    if key[0] in [0x03, 0x04, 0x05, 0x07, 0x08]:
+      md5.update(key)
+      md5.update(value)
+      print(i)
+      print(key[0])
+      print(key)
+      print(value)
+      i = i + 1
+
   return md5.hexdigest()
 
 def get_host_ip():

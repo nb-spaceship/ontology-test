@@ -17,8 +17,9 @@ from utils.taskdata import TaskData, Task
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.commonapi import *
 
-class RPC:
+class RPCApi:
 	def getbestblockhash(self):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getbestblockhash.json")
 		taskrequest = task.request()
@@ -26,7 +27,7 @@ class RPC:
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 		return run_single_task(task)
-		
+
 	def getblock(self, height, blockhash, verbose = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblock.json")
 		taskrequest = task.request()
@@ -35,7 +36,7 @@ class RPC:
 			params.append(height)
 
 		if blockhash:
-			params.append(height)
+			params.append(blockhash)
 
 		if verbose:
 			params.append(verbose)
