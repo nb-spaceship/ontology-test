@@ -37,14 +37,27 @@ class WebSocketApi:
 		task.set_request(taskrequest)
 		return run_single_task(task)
 
-	def getgenerateblocktime(self):
+	def getgenerateblocktime(self, param = None):
 		task = Task(Config.BASEAPI_PATH + "/ws/getgenerateblocktime.json")
 		task.set_type("ws")
+
+		if param and isinstance(param, dict):
+			taskrequest = task.request()
+			for key in param:
+				taskrequest[key] = param[key]
+			task.set_request(taskrequest)
+
 		return run_single_task(task)
 
-	def getconnectioncount(self):
+	def getconnectioncount(self, param = None):
 		task = Task(Config.BASEAPI_PATH + "/ws/getconnectioncount.json")
 		task.set_type("ws")
+		if param and isinstance(param, dict):
+			taskrequest = task.request()
+			for key in param:
+				taskrequest[key] = param[key]
+			task.set_request(taskrequest)
+
 		return run_single_task(task)
 
 	def getblocktxsbyheight(self, height):
