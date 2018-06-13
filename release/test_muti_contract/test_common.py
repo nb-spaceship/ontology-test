@@ -98,6 +98,10 @@ def set_premise_b(neo_path):
     ontID_B = ByteToHex(b"did:ont:TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4") 
     ontID_C = ByteToHex(b"did:ont:TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
 
+    address_A = ByteToHex(b"TA7TSQ5aJcA8sU5MpqJNyTG1r13AQYLYpR")
+    address_B = ByteToHex(b"TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4")
+    address_C = ByteToHex(b"TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
+
 
     contract_address = deploy_contract(neo_path)
 
@@ -115,7 +119,7 @@ def set_premise_b(neo_path):
         raise(Error("bind_user_role error"))
 
     if result:
-        return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C)
+        return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C,address_A,address_B,address_C)
     else:
         raise(Error("set_premise error"))
 
