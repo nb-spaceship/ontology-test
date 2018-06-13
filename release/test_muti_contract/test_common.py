@@ -37,19 +37,19 @@ def set_premise(neo_path):
     contract_address = deploy_contract(neo_path)
     (result, response) = init_admin(contract_address, adminOntID)
     if not result:
-        raise("init_admin error")
+        raise(Error("init_admin error"))
     
     (result, response) = bind_role_function(contract_address, adminOntID, roleA_hex, ["A", "C"])
     if not result:
-        raise("bind_role_function error [1]")
+        raise(Error("bind_role_function error [1]"))
     
     (result, response) = bind_role_function(contract_address, adminOntID, roleB_hex , ["B", "C"])
     if not result:
-        raise("bind_role_function error [2]")
+        raise(Error("bind_role_function error [2]"))
     if result:
         return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C)
     else:
-        raise("set_premise error")
+        raise(Error("set_premise error"))
 
 def set_premise_a(neo_path_a, neo_path_b):
 
@@ -71,22 +71,22 @@ def set_premise_a(neo_path_a, neo_path_b):
 
     (result, response) = init_admin(contract_address_B, ontID_A)
     if not result:
-        raise("init_admin error")
+        raise(Error("init_admin error"))
 
     # 用户A创建角色A
     (result, response) = bind_role_function(contract_address_B, ontID_A , roleA_hex, ["contractB_Func_A"])
     if not result:
-        raise("bind_role_function error [1]")
+        raise(Error("bind_role_function error [1]"))
 
     # setp 1 用户A绑定角色A
     (result, response) = bind_user_role(contract_address_B, ontID_A, roleA_hex, [ontID_A])
     if not result:
-        raise("bind_user_role error")
+        raise(Error("bind_user_role error"))
     
     if result:
         return (contract_address_A, contract_address_B, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C)
     else:
-        raise("set_premise error")
+        raise(Error("set_premise error"))
 
 def set_premise_b(neo_path):
     contract_address = None
@@ -103,20 +103,20 @@ def set_premise_b(neo_path):
 
     (result, response) = init_admin(contract_address, ontID_A)
     if not result:
-        raise("init_admin error")
+        raise(Error("init_admin error"))
 
     (result, response) = bind_role_function(contract_address, ontID_A, roleA_hex, ["A"])
     if not result:
-        raise("bind_role_function error [1]")
+        raise(Error("bind_role_function error [1]"))
 
         # setp 1 用户A绑定角色A
     (result, response) = bind_user_role(contract_address_B, ontID_A, roleA_hex, [ontID_A])
     if not result:
-        raise("bind_user_role error")
+        raise(Error("bind_user_role error"))
 
     if result:
         return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C)
     else:
-        raise("set_premise error")
+        raise(Error("set_premise error"))
 
             

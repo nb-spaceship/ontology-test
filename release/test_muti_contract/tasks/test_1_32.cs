@@ -73,7 +73,7 @@ namespace Example
 
         public static object InitContractAdmin(object[] args)
         {
-            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
             byte[] adminOntID = (byte[])args[0];
             object[] param = new object[1];
             param[0] = new initContractAdminParam { AdminOntID = adminOntID };
@@ -83,7 +83,7 @@ namespace Example
 
         public static bool VerifyToken(string operation, object[] token)
         {
-            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
             
             byte[] contractAddr = ExecutionEngine.ExecutingScriptHash;
             byte[] caller = (byte[])token[0];

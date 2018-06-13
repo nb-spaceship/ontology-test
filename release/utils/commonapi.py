@@ -59,7 +59,7 @@ def _check_md5(node_list, request):
 	isSame = True
 	if node_list:
 		for index in node_list:
-			ip = Config.SERVICES[int(index)]
+			ip = Config.SERVICES[int(index)]["ip"]
 			response = utils.base.con_test_service(ip, request)
 			if not response or "result" not in response:
 				print("no md5: "+ ip)
@@ -128,7 +128,6 @@ def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
 
 	tmpfile = open("tmp", "r+")  # 打开文件
 	contents = tmpfile.readlines()
-	tmpfile.close()
 	for line in contents:
 		#for log
 		logger.print(line.strip('\n'))
@@ -144,7 +143,7 @@ def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
 
 		if deploy_contract_addr and deploy_contract_txhash:
 			break
-
+	tmpfile.close()
 	return (deploy_contract_addr, deploy_contract_txhash)
 #部署合约
 #返回值： 部署的合约地址
@@ -154,7 +153,8 @@ def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
 
 
 def sign_transction(task, judge = True, process_log = True):
-	if task.node_index():
+	if task.node_index() != None:
+		print("sign transction with other node: " + str(task.node_index()))
 		task.set_type("st")
 		request = task.request()
 		task.set_request({
@@ -164,7 +164,7 @@ def sign_transction(task, judge = True, process_log = True):
 						})
 		task.request()["params"] = request
 
-		(result, response) = run_single_task(task, judge, process_log)
+		(result, response) = run_single_task(task, False, process_log)
 		if result:
 			response = response["result"]
 		return (result, response)
@@ -173,13 +173,16 @@ def sign_transction(task, judge = True, process_log = True):
 		(result, response) = run_single_task(task, judge, process_log)
 		return (result, response)
 
-def call_signed_contract(signed_tx, pre = True):
+def call_signed_contract(signed_tx, pre = True, node_index = None):
 	sendrawtxtask = Task(Config.BASEAPI_PATH + "/rpc/sendrawtransaction.json")
 	if pre:
 		sendrawtxtask.request()["params"] = [signed_tx, 1]
 	else:
 		sendrawtxtask.request()["params"] = [signed_tx]
 
+	if node_index != None:
+		sendrawtxtask.data()["NODE_INDEX"] = node_index
+		
 	(result, response) = run_single_task(sendrawtxtask, True, False)
 
 	sendrawtxtask.data()["RESPONSE"] = response
@@ -196,13 +199,13 @@ def call_signed_contract(signed_tx, pre = True):
 #judge: 是否需要比较结果
 #pre: 是否需要预执行
 # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
-def call_contract(task, judge = True, pre = True):
+def call_contract(task, judge = True, pre = True, twice = False):
 	try:
 		logger.print("[-------------------------------]")
 		logger.print("[ RUN      ] "+ "contract" + "." + task.name())
 		
 		taskdata = task.data()
-
+		node_index = None
 		deploy_first = False;
 		deploy_code_path = None;
 		deploy_contract_addr = None
@@ -211,6 +214,8 @@ def call_contract(task, judge = True, pre = True):
 				deploy_first = taskdata[key]
 			if key.upper() == "CODE_PATH":
 				deploy_code_path = taskdata[key]
+			if key.upper() == "NODE_INDEX":
+				node_index = int(taskdata[key])
 
 		if deploy_first:
 			deploy_contract_addr = deploy_contract(deploy_code_path)
@@ -236,8 +241,12 @@ def call_contract(task, judge = True, pre = True):
 		if signed_tx == None or signed_tx == '':
 			raise Error("no signed tx")
 
-		(result, response) = call_signed_contract(signed_tx, pre)
-
+		if twice:
+			(result, response) = call_signed_contract(signed_tx, False, node_index)
+			(result, response) = call_signed_contract(signed_tx, True, node_index)
+		else:
+			(result, response) = call_signed_contract(signed_tx, pre, node_index)
+	
 		if response is None or "error" not in response or str(response["error"]) != '0':
 			raise Error("call contract error")
 
@@ -247,7 +256,8 @@ def call_contract(task, judge = True, pre = True):
 				raise Error("not except result")
 
 		response["signed_tx"] = signed_tx
-		response["address"] = taskdata["REQUEST"]["Params"]["address"]
+		if deploy_contract_addr:
+			response["address"] = taskdata["REQUEST"]["Params"]["address"]
 		return (result, response)
 
 	except Error as err:
@@ -275,9 +285,11 @@ def run_single_task(task, judge = True, process_log = True):
 	#(result, response) = self.multithread_run(logger, cfg_request, cfg_response)
 	node_index = task.node_index()
 	node_ip = None
-	if node_index:
-		node_ip = Config.SERVICES[int(node_index)]
-
+	print(node_index)
+	if node_index != None:
+		node_ip = Config.SERVICES[int(node_index)]["ip"]
+		print("run on other service: " + str(node_index) + "  " + node_ip)
+		
 	response = utils.base.con(connecttype, node_ip, cfg_request)
 	if process_log:
 		logger.print("[ RESULT   ]" + json.dumps(response, indent = 4))
@@ -361,7 +373,7 @@ def start_node(index, start_params, clear_chain = False, clear_log = False):
 		}
 	}
 
-	ip = Config.SERVICES[index]
+	ip = Config.SERVICES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
@@ -374,7 +386,7 @@ def stop_node(index):
 		"id": 0
 	}
 
-	ip = Config.SERVICES[index]
+	ip = Config.SERVICES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
@@ -453,7 +465,16 @@ def replace_config(index, config = None):
 		"params" : config
 	}
 
-	ip = Config.SERVICES[index]
+	ip = Config.SERVICES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
+
+def script_hash_bl_reserver(input):
+	rstrs = input[::-1]
+	output = ""
+	for i in range(0, len(input), 2):
+		output = output + rstrs[i + 1]
+		output = output + rstrs[i]
+	return output
+	

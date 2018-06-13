@@ -1,48 +1,31 @@
-# import base58
-
-# encodes = base58.b58encode('02802683d48aa9b34f9a0e91f5e27fedc8ac6486b1')
-
-# print(encodes)
-
-# print(base58.b58decode(encodes))
-# #base58.b58encode_check(b'hello world')
-
-# #base58.b58decode_check(b'3vQB7B6MrGQZaxCuFg4oh')
-# #base58.b58decode_check(b'4vQB7B6MrGQZaxCuFg4oh')
+# -*- coding: utf-8 -*-
+import sys, getopt
 import time
+sys.path.append('..')
 
-def deco01(func):
-    def wrapper(*args, **kwargs):
-        print("this is deco01")
-        startTime = time.time()
-        func(*args, **kwargs)
-        endTime = time.time()
-        msecs = (endTime - startTime)*1000
-        print("time is %d ms" %msecs)
-        print("deco01 end here")
-    return wrapper
+from utils.config import Config
+from utils.taskdata import TaskData, Task
+from utils.hexstring import *
+from utils.error import Error
+from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.commonapi import *
+from utils.contractapi import *
 
-def deco02(func):
-    def wrapper(*args, **kwargs):
-        print("this is deco02")
-        func(*args, **kwargs)
+#regIDWithPublicKey(0)
+#regIDWithPublicKey(1)
+#regIDWithPublicKey(2)
+#regIDWithPublicKey(3)
+#regIDWithPublicKey(4)
+#regIDWithPublicKey(5)
+#regIDWithPublicKey(6)
 
-        print("deco02 end here")
-    return wrapper
+print(len("1234"))
 
-@deco01
-@deco02
-def func(a,b):
-    print("hello，here is a func for add :")
-    time.sleep(1)
-    print("result is %d" %(a+b))
+strs = "qwertyuiop"
+rstrs = strs[::-1]
+output = ""
+for i in range(0, len(strs), 2):
+    output = output + rstrs[i + 1]
+    output = output + rstrs[i]
 
-
-
-if __name__ == '__main__':
-    #f = func
-    #f(3,4)
-    #func(3,4)
-    b = bytearray(1)
-    b[0] = 0xff
-    print(int(b[0]))
+print(output)
