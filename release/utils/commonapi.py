@@ -193,7 +193,7 @@ def call_signed_contract(signed_tx, pre = True):
 
 #运行合约
 #task: 需要执行的task
-#judge：是否需要比较结果
+#judge: 是否需要比较结果
 #pre: 是否需要预执行
 # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
 def call_contract(task, judge = True, pre = True):
