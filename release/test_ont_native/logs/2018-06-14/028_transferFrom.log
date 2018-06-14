@@ -4,8 +4,6 @@
     "REQUEST": {
         "Qid": "t",
         "Params": {
-            "gas_price": 0,
-            "address": "08b374c9747fc21d632c05892b645775d8991944",
             "params": [
                 {
                     "type": "string",
@@ -34,18 +32,20 @@
                 }
             ],
             "gas_limit": 1000000000,
-            "version": 1
+            "address": "08b374c9747fc21d632c05892b645775d8991944",
+            "version": 1,
+            "gas_price": 0
         },
         "Method": "signeovminvoketx"
     },
     "RESPONSE": {
-        "qid": "t",
-        "method": "signeovminvoketx",
-        "error_info": "ParseNeoVMInvokeParams error:Parse Param type:bytearray value:abc error:parse byte array param:abc error:encoding/hex: odd length hex string",
         "error_code": 1003,
-        "result": null
+        "error_info": "ParseNeoVMInvokeParams error:Parse Param type:bytearray value:abc error:parse byte array param:abc error:encoding/hex: odd length hex string",
+        "method": "signeovminvoketx",
+        "result": null,
+        "qid": "t"
     },
-    "CODE_PATH": "tasks/ont_1_42.neo",
-    "DEPLOY": false
+    "DEPLOY": false,
+    "CODE_PATH": "tasks/ont_1_42.neo"
 }
 [ Failed   ] no signed tx

@@ -4,8 +4,6 @@
     "REQUEST": {
         "Qid": "t",
         "Params": {
-            "gas_price": 0,
-            "address": "6408c4cc6c55700e96c38db184f3c1de8a260b02",
             "params": [
                 {
                     "type": "string",
@@ -30,38 +28,45 @@
                 }
             ],
             "gas_limit": 1000000000,
-            "version": 1
+            "address": "6408c4cc6c55700e96c38db184f3c1de8a260b02",
+            "version": 1,
+            "gas_price": 0
         },
         "Method": "signeovminvoketx"
     },
     "RESPONSE": {
-        "qid": "t",
-        "method": "signeovminvoketx",
-        "error_info": "",
         "error_code": 0,
+        "error_info": "",
+        "method": "signeovminvoketx",
         "result": {
-            "signed_tx": "00d17f4a225b000000000000000000ca9a3b00000000a0b2c0fa82789c91c79b41fd671195ea52fdb9784b4f1424b453d1388732a9d78228b572e05f7a082b90a914a0b2c0fa82789c91c79b41fd671195ea52fdb97853c1087472616e7366657267020b268adec1f384b18dc3960e70556cccc408640001414038212f07434aee3607bd0fb509a1616a065b8c4327a817af2c0c692723e0cd6ec6f21c23676ce249541c55701efe4729c87eb8918fdcfd321f68aa51e9f147812321032e907d3b2bad8187c59bd7ca9d89b992a4d66ccd30229f9b78258a39cabc5cf4ac"
-        }
+            "signed_tx": "00d1bb4f225b000000000000000000ca9a3b00000000a0b2c0fa82789c91c79b41fd671195ea52fdb9784b4f1424b453d1388732a9d78228b572e05f7a082b90a914a0b2c0fa82789c91c79b41fd671195ea52fdb97853c1087472616e7366657267020b268adec1f384b18dc3960e70556cccc4086400014140e02d1be4b32f86c43cac4ea825e99da3fe72cb106fa7ba9fe7eae39d3cc4d0f3da560b9bb316a32c04051d0248ac5345a4f58dc839862e5a3eff4558157610f12321032e907d3b2bad8187c59bd7ca9d89b992a4d66ccd30229f9b78258a39cabc5cf4ac"
+        },
+        "qid": "t"
     },
-    "CODE_PATH": "tasks/ont_1_42.neo",
-    "DEPLOY": false
+    "DEPLOY": false,
+    "CODE_PATH": "tasks/ont_1_42.neo"
 }
 [ CALL CONTRACT ] {
     "REQUEST": {
         "params": [
-            "00d17f4a225b000000000000000000ca9a3b00000000a0b2c0fa82789c91c79b41fd671195ea52fdb9784b4f1424b453d1388732a9d78228b572e05f7a082b90a914a0b2c0fa82789c91c79b41fd671195ea52fdb97853c1087472616e7366657267020b268adec1f384b18dc3960e70556cccc408640001414038212f07434aee3607bd0fb509a1616a065b8c4327a817af2c0c692723e0cd6ec6f21c23676ce249541c55701efe4729c87eb8918fdcfd321f68aa51e9f147812321032e907d3b2bad8187c59bd7ca9d89b992a4d66ccd30229f9b78258a39cabc5cf4ac",
+            "00d1bb4f225b000000000000000000ca9a3b00000000a0b2c0fa82789c91c79b41fd671195ea52fdb9784b4f1424b453d1388732a9d78228b572e05f7a082b90a914a0b2c0fa82789c91c79b41fd671195ea52fdb97853c1087472616e7366657267020b268adec1f384b18dc3960e70556cccc4086400014140e02d1be4b32f86c43cac4ea825e99da3fe72cb106fa7ba9fe7eae39d3cc4d0f3da560b9bb316a32c04051d0248ac5345a4f58dc839862e5a3eff4558157610f12321032e907d3b2bad8187c59bd7ca9d89b992a4d66ccd30229f9b78258a39cabc5cf4ac",
             1
         ],
         "method": "sendrawtransaction",
-        "jsonrpc": "2.0",
-        "id": 1
+        "id": 1,
+        "jsonrpc": "2.0"
     },
     "RESPONSE": {
+        "desc": "SUCCESS",
         "id": 1,
+        "result": {
+            "State": 1,
+            "Result": "01",
+            "Result String": "\u0001",
+            "Gas": 30000
+        },
         "jsonpc": "2.0",
-        "result": "",
-        "error": 47001,
-        "desc": "SMARTCODE EXEC ERROR"
+        "error": 0
     }
 }
-[ Failed   ] call contract error
+[ OK       ] 

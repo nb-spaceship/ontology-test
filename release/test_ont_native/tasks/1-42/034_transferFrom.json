@@ -7,7 +7,7 @@
         "Params": {
             "gas_price": 0,
             "gas_limit": 1000000000,
-            "address": "6408c4cc6c55700e96c38db184f3c1de8a260b02",
+            "address": "08b374c9747fc21d632c05892b645775d8991944",
             "version": 1,
             "params": [
                 {
@@ -19,15 +19,15 @@
                     "value": [
                         {
                             "type": "bytearray",
-                            "value": "a0b2c0fa82789c91c79b41fd671195ea52fdb978"
+                            "value": "send ontid"
                         },
                         {
                             "type": "bytearray",
-                            "value": "922fef396b3b3bb26600dc9caf27be5b16bc5e0f"
+                            "value": "8dfab22c3eecfd17f78539de97f92758c0e78e15"
                         },
                         {
                             "type": "bytearray",
-                            "value": "11111111111111111111111111111111111111111"
+                            "value": "54413754535135614a6341387355354d70714a4e795447317231334151594c597050"
                         },
                         {
                             "type": "int",
