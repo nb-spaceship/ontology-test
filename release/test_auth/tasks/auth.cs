@@ -59,14 +59,14 @@ namespace Example
         }
 
         
-        public static object InitContractAdmin(object[] args)
+        public static bool InitContractAdmin(object[] args)
         {
             byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
             byte[] adminOntID = (byte[])args[0];
             object[] param = new object[1];
             param[0] = new initContractAdminParam { AdminOntID = adminOntID };
-            
-            return Native.Invoke(0, address, "initContractAdmin", param);
+            byte[] res = Native.Invoke(0, address, "initContractAdmin", param);
+            return res[0] == 1;
         }
 
         public static bool VerifyToken(string operation, object[] token)
@@ -81,7 +81,7 @@ namespace Example
             object[] param = new object[1];
             param[0] = new verifyTokenParam { ContractAddr = contractAddr, Caller = caller, Fn = fn, KeyNo = keyNo };
             byte[] res = Native.Invoke(0, address, "verifyToken", param);
-            return true;
+            return res[0] == 1;
         }
 
     }

@@ -14,25 +14,16 @@ namespace Example
         {
             public byte[] From;
             public byte[] To;
-            public int Amount;
+            public UInt64 Amount;
         }
         
-        struct StateSend
+        public struct StateSend
         {
             public byte[] Send;
             public byte[] From;
             public byte[] To;
-            public int Amount;
+            public UInt64 Amount;
         }
-
-        // public static readonly byte[] form = "TGfS7kPrJzdN9iA55LCezaKDjKh9L4kLBH".ToScriptHash();
-        // public static readonly byte[] to = "TWd6eX917rgrB5UUG1fUoDg66Nbiv4gzkA".ToScriptHash();
-        // public static readonly byte[] send = "TGfS7kPrJzdN9iA55LCezaKDjKh9L4kLBH".ToScriptHash();
-
-        public static readonly byte[] from = null;
-        public static readonly byte[] to = null;
-        public static readonly byte[] send = null;
-
 
         public static object Main(string operation, params object[] args)
         {
@@ -55,10 +46,10 @@ namespace Example
 
         public static object TransferInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
-            from = args[0].ToString().ToScriptHash();
-            to = args[1].ToString().ToScriptHash();
-            int amount = (int)args[2];
+            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+            byte[] from = (byte[])args[0];
+            byte[] to = (byte[])args[1];
+            UInt64 amount = (UInt64)args[2];
             
             object[] param = new object[1];
             param[0] = new State { From = from, To = to, Amount = amount };
@@ -68,10 +59,10 @@ namespace Example
 
         public static object ApproveInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
-            from = args[0].ToString().ToScriptHash();
-            to = args[1].ToString().ToScriptHash();
-            int amount = (int)args[2];
+            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+            byte[] from = (byte[])args[0];
+            byte[] to = (byte[])args[1];
+            UInt64 amount = (UInt64)args[2];
             
             object[] param = new object[1];
             param[0] = new State { From = from, To = to, Amount = amount };
@@ -81,11 +72,11 @@ namespace Example
 
         public static object TransferFromInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
-            send = args[0].ToString().ToScriptHash();
-            from = args[1].ToString().ToScriptHash();
-            to = args[2].ToString().ToScriptHash();
-            int amount = (int)args[3];
+            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+            byte[] send = (byte[])args[0];
+            byte[] from = (byte[])args[1];
+            byte[] to = (byte[])args[2];
+            UInt64 amount = (UInt64)args[3];
             
             object[] param = new object[1];
             param[0] = new StateSend { Send = send, From = from, To = to, Amount = amount };

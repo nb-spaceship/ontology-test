@@ -18,7 +18,7 @@ namespace Example
         {
             public byte[] ContractAddr;
             public byte[] Caller;
-            public byte[] Fn;
+            public string Fn;
             public int KeyNo;
         }
 
@@ -71,14 +71,14 @@ namespace Example
             return "C";
         }
 
-        public static object InitContractAdmin(object[] args)
+        public static bool InitContractAdmin(object[] args)
         {
-            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
             byte[] adminOntID = (byte[])args[0];
             object[] param = new object[1];
             param[0] = new initContractAdminParam { AdminOntID = adminOntID };
-            
-            return Native.Invoke(0, address, "initContractAdmin", param);
+            byte[] res = Native.Invoke(0, address, "initContractAdmin", param);
+            return res[0] == 1;
         }
 
         public static bool VerifyToken(string operation, object[] token)
@@ -87,7 +87,7 @@ namespace Example
             
             byte[] contractAddr = ExecutionEngine.ExecutingScriptHash;
             byte[] caller = (byte[])token[0];
-            byte[] fn = operation.AsByteArray();
+            string fn = operation;
             int keyNo = (int)token[1];
             
             object[] param = new object[1];
