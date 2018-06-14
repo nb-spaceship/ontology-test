@@ -83,7 +83,7 @@ namespace Example
 
         public static bool VerifyToken(string operation, object[] token)
         {
-            byte[] address = { 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
             
             byte[] contractAddr = ExecutionEngine.ExecutingScriptHash;
             byte[] caller = (byte[])token[0];

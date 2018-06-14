@@ -1,15 +1,50 @@
 {
-	"RPC_URL": 	   "http://xxxx:20336/jsonrpc",
-	"CLIRPC_URL":  "http://127.0.0.1:20000/cli",
+	"RPC_URL": "http://xxxx:20336/jsonrpc",
+	"CLIRPC_URL": "http://127.0.0.1:20000/cli",
 	"RESTFUL_URL": "http://xxx:20334",
-	"WS_URL":      "ws://xxx:20335",
-	"NODES": ["139.219.133.116",
-				"139.219.138.114",
-				"139.219.140.190",
-				"139.219.141.104",
-				"139.219.135.92",
-				"139.219.136.15",
-				"139.219.128.181",
-				"139.219.135.117"],
-	"ROOT_PATH" : "/home/ubuntu/ontology/test"
+	"WS_URL": "ws://xxx:20335",
+	"NODES": [{
+		"ip": "139.219.133.116",
+		"ontid": "did:ont:AXABnKrrj8CgEb1co6DrAT78jjXXB87mYS",
+		"address": "AXABnKrrj8CgEb1co6DrAT78jjXXB87mYS",
+		"pubkey": "120203b82582103c4de05f355897e29caa556274dbd5a670bc1a9b4bbb4ad8d2027783"
+	},
+	{
+		"ip": "139.219.138.114",
+		"ontid": "did:ont:AUibFD5MWCEKAvVDttbkFyHYnuAQ6timoT",
+		"address": "AUibFD5MWCEKAvVDttbkFyHYnuAQ6timoT",
+		"pubkey": "120202840dadcce25f58317bc7d370b5cc53b1f58206447714227fb5d55258e79340b4"
+	},
+	{
+		"ip": "139.219.140.190",
+		"ontid": "did:ont:AUmJBzJY4pwTz9Ujj77sek788dvHNXVsYK",
+		"address": "AUmJBzJY4pwTz9Ujj77sek788dvHNXVsYK",
+		"pubkey": "12020397ba44bc0c021fa8bc996c24803ad3149ca4c97b0ba303025a76f547cc3f8924"
+	},
+	{
+		"ip": "139.219.141.104",
+		"ontid": "did:ont:AHwwtnmV2fowr33p6XcSdVUzPMov8ggXrW",
+		"address": "AHwwtnmV2fowr33p6XcSdVUzPMov8ggXrW",
+		"pubkey": "12020224724fa74a4eb8888df7152fa8f5fa0d74b10dac3f8cf41e3f9fecf65452c0e7"
+	},
+	{
+		"ip": "139.219.135.92",
+		"ontid": "did:ont:AKfTwtGRwoZaj53qWWmbFLidcpxDcm5vbM",
+		"address": "AKfTwtGRwoZaj53qWWmbFLidcpxDcm5vbM",
+		"pubkey": "1202026967e9c809d149f67c6142eb8d0e044029178a78fe9e8349663993f474e2fa30"
+	},
+	{
+		"ip": "139.219.136.15",
+		"ontid": "did:ont:AV7bXS7nq5qJkvGbVtpBF7EtrvVV76YPhx",
+		"address": "AV7bXS7nq5qJkvGbVtpBF7EtrvVV76YPhx",
+		"pubkey": "1202028be35b0253c1914fd84b88847034a8aa7fa5dbd3855da4267b7ddc41d31ff432"
+	},
+	{
+		"ip": "139.219.128.181",
+		"ontid": "did:ont:AGYK1XkXNtQqA4sWueZHUyfkExkEiwgLph",
+		"address": "AGYK1XkXNtQqA4sWueZHUyfkExkEiwgLph",
+		"pubkey": "120202424f7dd01abea32f8d33e3abab97d3f7dbaba490f8882742966fb30ed908aabd"
+	}],
+	"ROOT_PATH": "/home/ubuntu/ontology/test"
+	
 }

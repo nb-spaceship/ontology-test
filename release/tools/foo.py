@@ -1,11 +1,31 @@
-import base58
+# -*- coding: utf-8 -*-
+import sys, getopt
+import time
+sys.path.append('..')
 
-encodes = base58.b58encode('02802683d48aa9b34f9a0e91f5e27fedc8ac6486b1')
+from utils.config import Config
+from utils.taskdata import TaskData, Task
+from utils.hexstring import *
+from utils.error import Error
+from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.commonapi import *
+from utils.contractapi import *
 
-print(encodes)
+#regIDWithPublicKey(0)
+#regIDWithPublicKey(1)
+#regIDWithPublicKey(2)
+#regIDWithPublicKey(3)
+#regIDWithPublicKey(4)
+#regIDWithPublicKey(5)
+#regIDWithPublicKey(6)
 
-print(base58.b58decode(encodes))
-#base58.b58encode_check(b'hello world')
+print(len("1234"))
 
-#base58.b58decode_check(b'3vQB7B6MrGQZaxCuFg4oh')
-#base58.b58decode_check(b'4vQB7B6MrGQZaxCuFg4oh')
+strs = "qwertyuiop"
+rstrs = strs[::-1]
+output = ""
+for i in range(0, len(strs), 2):
+    output = output + rstrs[i + 1]
+    output = output + rstrs[i]
+
+print(output)

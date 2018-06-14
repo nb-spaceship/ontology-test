@@ -18,7 +18,7 @@ from utils.error import Error
 from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-def init_admin(contract_address, admin_address):
+def init_admin(contract_address, admin_address, node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -48,10 +48,13 @@ def init_admin(contract_address, admin_address):
         "RESPONSE":{"error" : 0}
     }
 
+    if node_index != None:
+        request["NODE_INDEX"] = node_index
+
     return call_contract(Task(name="init_admin", ijson=request))
 
 
-def bind_role_function(contract_address, admin_address, role_str, functions, public_key="1"):
+def bind_role_function(contract_address, admin_address, role_str, functions, public_key="1", node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -74,10 +77,13 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
         "RESPONSE":{"error" : 0}
     }
 
+    if node_index != None:
+        request["NODE_INDEX"] = node_index
+
     return call_contract(Task(name="bind_role_function", ijson=request))
 
 
-def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key="1"):
+def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key="1", node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -99,10 +105,14 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
         },
         "RESPONSE":{"error" : 0}
     }
+
+    if node_index != None:
+        request["NODE_INDEX"] = node_index
+
     return call_contract(Task(name="bind_role_function", ijson=request))
 
 
-def delegate_user_role(contract_address, owner_user, delegate_user, delegate_role, period, level, public_key="1"):
+def delegate_user_role(contract_address, owner_user, delegate_user, delegate_role, period, level, public_key="1", node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -126,10 +136,14 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
         },
         "RESPONSE":{"error" : 0}
     }
+
+    if node_index != None:
+        request["NODE_INDEX"] = node_index    
+
     return call_contract(Task(name="delegate_user_role", ijson=request))
 
 
-def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role, public_key="1"):
+def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role, public_key="1", node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -151,10 +165,13 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
         },
         "RESPONSE":{"error" : 0}
     }
+
+    if node_index != None:
+        request["NODE_INDEX"] = node_index  
     return call_contract(Task(name="withdraw_user_role", ijson=request))
 
 
-def invoke_function(contract_address, function_str, callerOntID, public_key="1"):
+def invoke_function(contract_address, function_str, callerOntID, public_key="1", node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -187,4 +204,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1")
         },
         "RESPONSE":{"error" : 0}
     }
+
+    if node_index != None:
+        request["NODE_INDEX"] = node_index
     return call_contract(Task(name="invoke_function", ijson=request))
