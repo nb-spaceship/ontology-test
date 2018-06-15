@@ -149,6 +149,7 @@ def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
 #返回值： 部署的合约地址
 def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
 	(deploy_contract_addr, deploy_contract_txhash) = deploy_contract_full(neo_code_path, name, desc)
+	time.sleep(6)
 	return deploy_contract_addr
 
 
@@ -201,7 +202,7 @@ def call_signed_contract(signed_tx, pre = True, node_index = None):
 # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
 def call_contract(task, judge = True, pre = True, twice = False):
 	try:
-		logger.print("[-------------------------------]")
+		logger.print("\n\n[-------------------------------]")
 		logger.print("[ RUN      ] "+ "contract" + "." + task.name())
 		
 		taskdata = task.data()
@@ -219,7 +220,6 @@ def call_contract(task, judge = True, pre = True, twice = False):
 
 		if deploy_first:
 			deploy_contract_addr = deploy_contract(deploy_code_path)
-
 		#step 1: signed tx
 		expect_response = None
 		if "RESPONSE" in taskdata:
@@ -242,8 +242,8 @@ def call_contract(task, judge = True, pre = True, twice = False):
 			raise Error("no signed tx")
 
 		if twice:
-			(result, response) = call_signed_contract(signed_tx, False, node_index)
 			(result, response) = call_signed_contract(signed_tx, True, node_index)
+			(result, response) = call_signed_contract(signed_tx, False, node_index)
 		else:
 			(result, response) = call_signed_contract(signed_tx, pre, node_index)
 	
@@ -258,6 +258,8 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		response["signed_tx"] = signed_tx
 		if deploy_contract_addr:
 			response["address"] = taskdata["REQUEST"]["Params"]["address"]
+			
+		time.sleep(5)
 		return (result, response)
 
 	except Error as err:

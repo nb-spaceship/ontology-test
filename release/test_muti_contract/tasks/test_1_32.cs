@@ -9,12 +9,12 @@ namespace Example
 {
     public class AppContract : SmartContract
     {
-        struct initContractAdminParam
+        public struct InitContractAdminParam
         {
-            public byte[] AdminOntID;
+            public byte[] adminOntID;
         }
         
-        struct verifyTokenParam
+        public struct VerifyTokenParam
         {
             public byte[] ContractAddr;
             public byte[] Caller;
@@ -22,11 +22,25 @@ namespace Example
             public int KeyNo;
         }
 
-        public static object Main(string operation, object[] token, params object[] args)
+		//did:ont:
+		 public static readonly byte[] mAdminOntID = { 
+                0x64, 0x69, 0x64, 0x3a, 0x6f, 0x6e, 0x74, 0x3a,
+				0x41, 0x65, 0x34, 0x70, 0x4b, 0x5a, 0x31, 0x73, 0x69,
+				0x50, 0x67, 0x70, 0x4c, 0x66, 0x42, 0x33, 0x57, 0x51,
+				0x38, 0x6a, 0x4d, 0x51, 0x38, 0x58, 0x62, 0x54, 0x54,
+				0x67, 0x53, 0x32, 0x33, 0x64, 0x56, 0x50};
+				
+        public static readonly byte[] authContractAddr = {
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x00, 0x06 };
+		
+		
+        public static object Main(string operation, object[] token,  object[] args)
         {
-            if (operation == "initContractAdmin")
+            if (operation == "init")
             {
-                return InitContractAdmin(args);
+                return init();
             }
 
             if (operation == "A")
@@ -53,7 +67,7 @@ namespace Example
                 return C();
             }
     
-            return "111";
+            return operation;
         }
 
         public static object A()

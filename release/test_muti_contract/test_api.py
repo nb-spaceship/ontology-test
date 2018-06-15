@@ -36,10 +36,19 @@ def init_admin(contract_address, admin_address, node_index = None):
                     {
                         "type": "array",
                         "value": [
-                            {
-                                "type": "bytearray",
-                                "value": admin_address
-                            }
+							{
+								"type" : "string",
+								"value" : ""
+							}
+                        ]
+                    },
+					{
+                        "type": "array",
+                        "value": [
+							{
+								"type" : "string",
+								"value" : ""
+							}
                         ]
                     }
                 ]
@@ -50,8 +59,8 @@ def init_admin(contract_address, admin_address, node_index = None):
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
-
-    return call_contract(Task(name="init_admin", ijson=request))
+	
+    return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
 
 def bind_role_function(contract_address, admin_address, role_str, functions, public_key="1", node_index = None):
@@ -62,7 +71,7 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-                "address": "ff00000000000000000000000000000000000006",
+                "address": "0600000000000000000000000000000000000000",
                 "method": "assignFuncsToRole",
                 "version": 0,
                 "params": [
@@ -80,7 +89,7 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
     if node_index != None:
         request["NODE_INDEX"] = node_index
 
-    return call_contract(Task(name="bind_role_function", ijson=request))
+    return call_contract(Task(name="bind_role_function", ijson=request), twice = True)
 
 
 def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key="1", node_index = None):
@@ -91,7 +100,7 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-                "address": "ff00000000000000000000000000000000000006",
+                "address": "0600000000000000000000000000000000000000",
                 "method": "assignOntIDsToRole",
                 "version": 0,
                 "params": [
@@ -109,7 +118,7 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
     if node_index != None:
         request["NODE_INDEX"] = node_index
 
-    return call_contract(Task(name="bind_role_function", ijson=request))
+    return call_contract(Task(name="bind_user_role", ijson=request), twice = True)
 
 
 def delegate_user_role(contract_address, owner_user, delegate_user, delegate_role, period, level, public_key="1", node_index = None):
@@ -120,7 +129,7 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-                "address": "ff00000000000000000000000000000000000006",
+                "address": "0600000000000000000000000000000000000000",
                 "method": "delegate",
                 "version": 0,
                 "params": [
@@ -140,7 +149,7 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
     if node_index != None:
         request["NODE_INDEX"] = node_index    
 
-    return call_contract(Task(name="delegate_user_role", ijson=request))
+    return call_contract(Task(name="delegate_user_role", ijson=request), twice = True)
 
 
 def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role, public_key="1", node_index = None):
@@ -151,7 +160,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-                "address": "ff00000000000000000000000000000000000006",
+                "address": "0600000000000000000000000000000000000000",
                 "method": "withdraw",
                 "version": 0,
                 "params": [
@@ -168,7 +177,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
 
     if node_index != None:
         request["NODE_INDEX"] = node_index  
-    return call_contract(Task(name="withdraw_user_role", ijson=request))
+    return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
 
 
 def invoke_function(contract_address, function_str, callerOntID, public_key="1", node_index = None):
@@ -198,6 +207,15 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
                                 "value": public_key
                             }
                         ]
+                    },
+					{
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "string",
+                                "value": ""
+                            }
+                        ]
                     }
                 ]
             }
@@ -207,4 +225,4 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
-    return call_contract(Task(name="invoke_function", ijson=request))
+    return call_contract(Task(name="invoke_function", ijson=request), twice = True)

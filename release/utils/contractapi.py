@@ -19,7 +19,7 @@ from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
 def regIDWithPublicKey(node_index):
-	address = Config.SERVICES[int(node_index)]["address"]
+	ontid = Config.SERVICES[int(node_index)]["ontid"]
 	pubkey = Config.SERVICES[int(node_index)]["pubkey"]
 	request = {
 		"REQUEST": {
@@ -31,10 +31,10 @@ def regIDWithPublicKey(node_index):
 			  "address":"0300000000000000000000000000000000000000",
 			  "method":"regIDWithPublicKey",
 			  "version":0,
-			  "params":[[
-					"did:ont:" + address,
+			  "params":[
+					ontid,
 					pubkey
-					]]
+					]
 		  }
 		},
 		"RESPONSE": {

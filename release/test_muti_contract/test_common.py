@@ -23,33 +23,41 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
 
-def set_premise(neo_path):
+class Common:
+    node_Admin = 2
+    ontID_Admin = ByteToHex(bytes(Config.SERVICES[node_Admin]["ontid"], encoding = "utf8"))
+
+    node_A = 3
+    ontID_A = ByteToHex(bytes(Config.SERVICES[node_A]["ontid"], encoding = "utf8"))
+
+    node_B = 4
+    ontID_B = ByteToHex(bytes(Config.SERVICES[node_B]["ontid"], encoding = "utf8"))
+
+    node_C = 5
+    ontID_C = ByteToHex(bytes(Config.SERVICES[node_C]["ontid"], encoding = "utf8"))
+
+    node_D = 6
+    ontID_D = ByteToHex(bytes(Config.SERVICES[node_D]["ontid"], encoding = "utf8"))
+    
+def set_premise(neo_path, roleA_hex, roleB_hex):
     result = False
     contract_address = None
-    adminOntID = ByteToHex(b"TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
-    roleA_hex = ByteToHex(b"roleA")
-    roleB_hex = ByteToHex(b"roleB")
+    
+    contract_address = "c49ae2606bb0bc2cb9dea8ad2847c952d2a24124"#deploy_contract(neo_path)
 
-    ontID_A = ByteToHex(b"did:ont:TA7TSQ5aJcA8sU5MpqJNyTG1r13AQYLYpR")
-    ontID_B = ByteToHex(b"did:ont:TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4") 
-    ontID_C = ByteToHex(b"did:ont:TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
-
-    contract_address = deploy_contract(neo_path)
-    (result, response) = init_admin(contract_address, adminOntID)
+    (result, response) = init_admin(contract_address, Common.ontID_Admin)
     if not result:
         raise(Error("init_admin error"))
-    
-    (result, response) = bind_role_function(contract_address, adminOntID, roleA_hex, ["A", "C"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, roleA_hex, ["A", "C"])
     if not result:
         raise(Error("bind_role_function error [1]"))
-    
-    (result, response) = bind_role_function(contract_address, adminOntID, roleB_hex , ["B", "C"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, roleB_hex , ["B", "C"])
     if not result:
         raise(Error("bind_role_function error [2]"))
-    if result:
-        return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C)
-    else:
+    if not result:
         raise(Error("set_premise error"))
+        
+    return contract_address
 
 def set_premise_a(neo_path_a, neo_path_b):
 
@@ -98,10 +106,6 @@ def set_premise_b(neo_path):
     ontID_B = ByteToHex(b"did:ont:TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4") 
     ontID_C = ByteToHex(b"did:ont:TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
 
-    address_A = ByteToHex(b"TA7TSQ5aJcA8sU5MpqJNyTG1r13AQYLYpR")
-    address_B = ByteToHex(b"TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4")
-    address_C = ByteToHex(b"TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
-
 
     contract_address = deploy_contract(neo_path)
 
@@ -119,7 +123,7 @@ def set_premise_b(neo_path):
         raise(Error("bind_user_role error"))
 
     if result:
-        return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C,address_A,address_B,address_C)
+        return (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C)
     else:
         raise(Error("set_premise error"))
 
