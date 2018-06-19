@@ -18,6 +18,33 @@ from utils.error import Error
 from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
+class Common:
+    ontid_map = {}
+
+    node_Admin = 2
+    ontID_Admin = ByteToHex(bytes(Config.SERVICES[node_Admin]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_Admin] = node_Admin
+    
+    node_A = 3
+    ontID_A = ByteToHex(bytes(Config.SERVICES[node_A]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_A] = node_A
+    
+    node_B = 4
+    ontID_B = ByteToHex(bytes(Config.SERVICES[node_B]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_B] = node_B
+    
+    node_C = 5
+    ontID_C = ByteToHex(bytes(Config.SERVICES[node_C]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_C] = node_C
+    
+    node_D = 6
+    ontID_D = ByteToHex(bytes(Config.SERVICES[node_D]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_D] = node_D
+    
+    roleA_hex = ByteToHex(b"roleA")
+    roleB_hex = ByteToHex(b"roleB")
+    
+
 def init_admin(contract_address, admin_address, node_index = None):
     request = {
         "REQUEST": {
@@ -36,19 +63,19 @@ def init_admin(contract_address, admin_address, node_index = None):
                     {
                         "type": "array",
                         "value": [
-							{
-								"type" : "string",
-								"value" : ""
-							}
+                            {
+                                "type" : "string",
+                                "value" : ""
+                            }
                         ]
                     },
-					{
+                    {
                         "type": "array",
                         "value": [
-							{
-								"type" : "string",
-								"value" : ""
-							}
+                            {
+                                "type" : "string",
+                                "value" : ""
+                            }
                         ]
                     }
                 ]
@@ -59,7 +86,7 @@ def init_admin(contract_address, admin_address, node_index = None):
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
-	
+    
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
 
@@ -147,7 +174,10 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
     }
 
     if node_index != None:
-        request["NODE_INDEX"] = node_index    
+        request["NODE_INDEX"] = node_index
+    else:
+        node_index = ontid_map[owner_user]
+        request["NODE_INDEX"] = node_index
 
     return call_contract(Task(name="delegate_user_role", ijson=request), twice = True)
 
@@ -176,7 +206,11 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     }
 
     if node_index != None:
-        request["NODE_INDEX"] = node_index  
+        request["NODE_INDEX"] = node_index
+    else:
+        node_index = ontid_map[call_user]
+        request["NODE_INDEX"] = node_index
+        
     return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
 
 
@@ -208,7 +242,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
                             }
                         ]
                     },
-					{
+                    {
                         "type": "array",
                         "value": [
                             {
@@ -225,4 +259,8 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
+    else:
+        node_index = ontid_map[callerOntID]
+        request["NODE_INDEX"] = node_index
+        
     return call_contract(Task(name="invoke_function", ijson=request), twice = True)

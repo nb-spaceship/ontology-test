@@ -22,26 +22,7 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
-
-class Common:
-    node_Admin = 2
-    ontID_Admin = ByteToHex(bytes(Config.SERVICES[node_Admin]["ontid"], encoding = "utf8"))
-
-    node_A = 3
-    ontID_A = ByteToHex(bytes(Config.SERVICES[node_A]["ontid"], encoding = "utf8"))
-
-    node_B = 4
-    ontID_B = ByteToHex(bytes(Config.SERVICES[node_B]["ontid"], encoding = "utf8"))
-
-    node_C = 5
-    ontID_C = ByteToHex(bytes(Config.SERVICES[node_C]["ontid"], encoding = "utf8"))
-
-    node_D = 6
-    ontID_D = ByteToHex(bytes(Config.SERVICES[node_D]["ontid"], encoding = "utf8"))
     
-    roleA_hex = ByteToHex(b"roleA")
-    roleB_hex = ByteToHex(b"roleB")
-	
 def set_premise(neo_path):
     result = False
     contract_address = None
