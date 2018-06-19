@@ -1,0 +1,104 @@
+{
+	"RPC_URL": "http://139.219.141.33:20336/jsonrpc",
+	"CLIRPC_URL": "http://127.0.0.1:20000/cli",
+	"RESTFUL_URL": "http://139.219.141.33:20334",
+	"WS_URL": "ws://139.219.141.33:20335",
+	"NODES": [{
+		"ip": "139.219.134.32",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.130.42",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.131.108",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.132.96",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.142.139",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.134.164",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.135.168",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.129.141",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.131.154",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.136.126",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.140.33",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.129.183",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.135.173",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.134.249",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.143.192",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	},
+	{
+		"ip": "139.219.131.74",
+		"ontid": "",
+		"address": "",
+		"pubkey": ""
+	}],
+	"ROOT_PATH": "/home/ubuntu/ontology/test"
+	
+}
