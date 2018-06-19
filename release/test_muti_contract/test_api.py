@@ -86,6 +86,9 @@ def init_admin(contract_address, admin_address, node_index = None):
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
+    else:
+        node_index = Common.ontid_map[admin_address]
+        request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
@@ -115,7 +118,10 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
-
+    else:
+        node_index = Common.ontid_map[admin_address]
+        request["NODE_INDEX"] = node_index
+        
     return call_contract(Task(name="bind_role_function", ijson=request), twice = True)
 
 
@@ -144,7 +150,10 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
-
+    else:
+        node_index = Common.ontid_map[admin_address]
+        request["NODE_INDEX"] = node_index
+        
     return call_contract(Task(name="bind_user_role", ijson=request), twice = True)
 
 
