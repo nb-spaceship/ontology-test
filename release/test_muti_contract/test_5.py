@@ -29,26 +29,23 @@ logger = LoggerInstance
 # test cases
 
 class TestMutiContract_5(ParametrizedTestCase):
-    def test_main(self):
-        roleA_hex = ByteToHex(b"roleA")
-        roleB_hex = ByteToHex(b"roleB")
-	
+    def test_main(self):	
         logger.open("TestMutiContract_5.log", "TestMutiContract_5")
         result = False
         try:
-            contract_address = set_premise("tasks/test_5.neo", roleA_hex, roleB_hex)
+            contract_address = set_premise("tasks/test_1.neo", Common.roleA_hex, Common.roleB_hex)
 
             # setp 1 绑定角色绑定到用户
-            (result, response) = bind_user_role(contract_address, Common.ontID_Admin, roleA_hex, [Common.ontID_A])
+            (result, response) = bind_user_role(contract_address, Common.ontID_Admin, Common.roleA_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
 			
-            (result, response) = bind_user_role(contract_address, Common.ontID_Admin, roleB_hex, [Common.ontID_B])
+            (result, response) = bind_user_role(contract_address, Common.ontID_Admin, Common.roleB_hex, [Common.ontID_B])
             if not result:
                 raise("bind_user_role error")
 			
 			# setp 1 用户B授权用户A拥有角色B的权限
-            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, roleB_hex, "100", "1", node_index = Common.node_B)
+            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex, "100", "1", node_index = Common.node_B)
             if not result:
                 raise("bind_user_role error")
             

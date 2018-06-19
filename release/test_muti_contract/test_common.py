@@ -39,19 +39,22 @@ class Common:
     node_D = 6
     ontID_D = ByteToHex(bytes(Config.SERVICES[node_D]["ontid"], encoding = "utf8"))
     
-def set_premise(neo_path, roleA_hex, roleB_hex):
+    roleA_hex = ByteToHex(b"roleA")
+    roleB_hex = ByteToHex(b"roleB")
+	
+def set_premise(neo_path):
     result = False
     contract_address = None
     
-    contract_address = "c49ae2606bb0bc2cb9dea8ad2847c952d2a24124"#deploy_contract(neo_path)
+    contract_address = deploy_contract(neo_path)
 
     (result, response) = init_admin(contract_address, Common.ontID_Admin)
     if not result:
         raise(Error("init_admin error"))
-    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, roleA_hex, ["A", "C"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, Common.roleA_hex, ["A", "C"])
     if not result:
         raise(Error("bind_role_function error [1]"))
-    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, roleB_hex , ["B", "C"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, Common.roleB_hex , ["B", "C"])
     if not result:
         raise(Error("bind_role_function error [2]"))
     if not result:
