@@ -4,9 +4,9 @@ import os
 
 class Logger():
 	def __init__(self):
-		#self.prefix = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
+		self.prefix = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
 		self.init = False
-		self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
+		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
 
 	def __del__(self):
