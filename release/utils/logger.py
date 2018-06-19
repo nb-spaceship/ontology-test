@@ -28,7 +28,7 @@ class Logger():
 
 		self.logpath = self.prefix + "/" + filepath
 		self.logfile = open(self.logpath, "w")  # 打开文件
-		self.logtitle = title
+		self.logtitle = title if title else os.path.splitext(filepath)[0]
 	#write
 	def print(self, str):
 		print(str)

@@ -24,7 +24,7 @@ logger = LoggerInstance
 #比较两边数据是否一致
 def cmp(expect_data, cmp_data):
 	if isinstance(expect_data, dict):
-		"""若为dict格式"""
+		# 若为dict格式
 		if not cmp_data or not isinstance(cmp_data, dict):
 			return False
 		for key in expect_data:
@@ -38,7 +38,7 @@ def cmp(expect_data, cmp_data):
 				return False
 		return True
 	elif isinstance(expect_data, list):
-		"""若为list格式"""
+		# 若为list格式
 		if not cmp_data or not isinstance(cmp_data, list):
 			return False
 
@@ -258,7 +258,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		response["signed_tx"] = signed_tx
 		if deploy_contract_addr:
 			response["address"] = taskdata["REQUEST"]["Params"]["address"]
-			
+		
 		time.sleep(5)
 		return (result, response)
 
