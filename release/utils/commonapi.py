@@ -479,4 +479,21 @@ def script_hash_bl_reserver(input):
 		output = output + rstrs[i + 1]
 		output = output + rstrs[i]
 	return output
-	
+
+
+def base58_to_address(input):
+	address = None
+	cmd = Config.TOOLS_PATH + "/base58ToAddress -base58 \"" + input + "\" > address.tmp"
+	os.system(cmd)
+	print(cmd)
+	tmpfile = open("address.tmp", "r+")  # 打开文件
+	contents = tmpfile.readlines()
+	for line in contents:
+		#for log
+		logger.print(line.strip('\n'))
+
+	for line in contents:
+		regroup = re.search(r'address: (([0-9]|[a-z]|[A-Z])*)', line)
+		if regroup:
+			address = regroup.group(1)
+	return address

@@ -11,6 +11,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.commonapi import *
 from utils.contractapi import *
 from utils.logger import LoggerInstance
+import base58
 
 regIDWithPublicKey(0)
 regIDWithPublicKey(1)
@@ -19,3 +20,4 @@ regIDWithPublicKey(3)
 regIDWithPublicKey(4)
 regIDWithPublicKey(5)
 regIDWithPublicKey(6)
+#print(ByteToHex(base58.b58decode(b'AepFgMk9A4m3kTJYs9fhqMMQrKfL9VR7nx')))
