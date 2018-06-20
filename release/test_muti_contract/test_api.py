@@ -223,7 +223,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
 
 
-def invoke_function(contract_address, function_str, callerOntID, public_key="1", node_index = None):
+def invoke_function(contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -253,12 +253,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
                     },
                     {
                         "type": "array",
-                        "value": [
-                            {
-                                "type": "string",
-                                "value": ""
-                            }
-                        ]
+                        "value": argvs
                     }
                 ]
             }
