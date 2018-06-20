@@ -4,9 +4,9 @@ import os
 
 class Logger():
 	def __init__(self):
-		#self.prefix = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
+		self.prefix = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
 		self.init = False
-		self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
+		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
 
 	def __del__(self):
@@ -28,7 +28,7 @@ class Logger():
 
 		self.logpath = self.prefix + "/" + filepath
 		self.logfile = open(self.logpath, "w")  # 打开文件
-		self.logtitle = title
+		self.logtitle = title if title else os.path.splitext(filepath)[0]
 	#write
 	def print(self, str):
 		print(str)
