@@ -97,25 +97,37 @@ def replace_node_config(**kwargs):
 
 @dispatcher.add_method
 def transfer_ont(**kwargs):
+  if os.path.exists(".tmp"):
+    os.remove(".tmp")
+
   _from = kwargs["from"]
   to = kwargs["to"]
   amount = kwargs["amount"]
 
   cmd = "cd " + config.NODE_PATH + "\n";
-  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\""
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\" > .tmp"
   print(cmd)
   os.system(cmd)
-  return True
+
+  tmpfile = open(config.NODE_PATH + "/.tmp", "r+")  # 打开文件
+  contents = tmpfile.readlines()
+  return contents
 
 @dispatcher.add_method
 def withdrawong(**kwargs):
+  if os.path.exists(".tmp"):
+    os.remove(".tmp")
+
   cmd = "cd " + config.NODE_PATH + "\n";
-  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset withdrawong 1"
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset withdrawong 1 > .tmp"
 
   print(cmd)
   os.system(cmd)
 
-  return True
+  tmpfile = open(config.NODE_PATH + "/.tmp", "r+")  # 打开文件
+  contents = tmpfile.readlines()
+
+  return contents
 
 @dispatcher.add_method
 def start_node(**kwargs):

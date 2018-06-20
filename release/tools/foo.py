@@ -21,6 +21,6 @@ import base58
 #regIDWithPublicKey(5)
 #regIDWithPublicKey(6)
 #print(ByteToHex(base58.b58decode(b'AepFgMk9A4m3kTJYs9fhqMMQrKfL9VR7nx')))
-transfer_ont(3, Config.SERVICES[3]["address"], Config.SERVICES[4]["address"], 1000000)
+print(json.dumps(transfer_ont(3, Config.SERVICES[3]["address"], Config.SERVICES[4]["address"], 1000000), indent = 4))
 time.sleep(5)
-withdrawong(3)
+print(json.dumps(withdrawong(3)))
