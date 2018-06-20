@@ -96,6 +96,28 @@ def replace_node_config(**kwargs):
   return True
 
 @dispatcher.add_method
+def transfer_ont(**kwargs):
+  _from = kwargs["from"]
+  to = kwargs["to"]
+  amount = kwargs["amount"]
+
+  cmd = "cd " + config.NODE_PATH + "\n";
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\""
+  print(cmd)
+  os.system(cmd)
+  return True
+
+@dispatcher.add_method
+def withdrawong(**kwargs):
+  cmd = "cd " + config.NODE_PATH + "\n";
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset withdrawong 1"
+
+  print(cmd)
+  os.system(cmd)
+
+  return True
+
+@dispatcher.add_method
 def start_node(**kwargs):
   os.system("rm -rf " + config.NODE_PATH + "/Chain")
   clear_chain=None
@@ -115,12 +137,12 @@ def start_node(**kwargs):
 
   if node_args:
     cmd = "cd " + config.NODE_PATH + "\n";
-    cmd += "echo 123456|" + config.NODE_PATH + "/ontology -w=\"" + config.NODE_PATH + "/wallet.dat\" --config=\"" + config.NODE_PATH + "/config.json\" " + node_args + " &"
+    cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology -w=\"" + config.NODE_PATH + "/wallet.dat\" --config=\"" + config.NODE_PATH + "/config.json\" " + node_args + " &"
     print(cmd)
     os.system(cmd)
   else:
     cmd = "cd " + config.NODE_PATH + "\n";
-    cmd += "echo 123456|" + config.NODE_PATH + "/ontology -w=\"" + config.NODE_PATH + "/wallet.dat\" --config=\"" + config.NODE_PATH + "/config.json\" " + " &"
+    cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology -w=\"" + config.NODE_PATH + "/wallet.dat\" --config=\"" + config.NODE_PATH + "/config.json\" " + " &"
     print(cmd)
     os.system(cmd)
 
@@ -136,7 +158,9 @@ def application(request):
     dispatcher["start_node"] = start_node
     dispatcher["stop_node"] = stop_node
     dispatcher["replace_node_config"] = replace_node_config
-    
+    dispatcher["transfer"] = transfer_ont
+    dispatcher["withdrawong"] = withdrawong
+
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
     return Response(response.json, mimetype='application/json')

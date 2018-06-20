@@ -13,11 +13,14 @@ from utils.contractapi import *
 from utils.logger import LoggerInstance
 import base58
 
-regIDWithPublicKey(0)
-regIDWithPublicKey(1)
-regIDWithPublicKey(2)
-regIDWithPublicKey(3)
-regIDWithPublicKey(4)
-regIDWithPublicKey(5)
-regIDWithPublicKey(6)
+#regIDWithPublicKey(0)
+#regIDWithPublicKey(1)
+#regIDWithPublicKey(2)
+#regIDWithPublicKey(3)
+#regIDWithPublicKey(4)
+#regIDWithPublicKey(5)
+#regIDWithPublicKey(6)
 #print(ByteToHex(base58.b58decode(b'AepFgMk9A4m3kTJYs9fhqMMQrKfL9VR7nx')))
+transfer_ont(3, Config.SERVICES[3]["address"], Config.SERVICES[4]["address"], 1000000)
+time.sleep(5)
+withdrawong(3)

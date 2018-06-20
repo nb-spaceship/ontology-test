@@ -472,6 +472,35 @@ def replace_config(index, config = None):
 
 	return response
 
+def transfer_ont(index, _from, to, amount):
+	request = {
+		"method": "transfer",
+		"jsonrpc": "2.0",
+		"id": 0,
+		"params" : {
+			"from" : _from,
+			"to" : to,
+			"amount" : amount
+		}
+	}
+
+	ip = Config.SERVICES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def withdrawong(index):
+	request = {
+		"method": "withdrawong",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.SERVICES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
 def script_hash_bl_reserver(input):
 	rstrs = input[::-1]
 	output = ""
