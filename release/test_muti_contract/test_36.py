@@ -34,24 +34,25 @@ class TestMutiContract_36(ParametrizedTestCase):
         logger.open("TestMutiContract_36.log", "TestMutiContract_36")
         result = False
         try:
-            (contract_address_A, contract_address_B, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise_a("./tasks/contractA.neo", "./tasks/contractB.neo")
+            (contract_address_A, contract_address_B) = set_premise_a("tasks/contractA.neo", "tasks/contractB.neo")
 
 			# setp 1 用户A授权用户B拥有角色A的权限
-            (result, response) = delegate_user_role(contract_address_B, Conf.ontID_A, Conf.ontID_B, Conf.roleA_hex, "5", "1")
+            (result, response) = delegate_user_role(contract_address_B, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "5", "1")
             if not result:
                 raise("bind_user_role error")
 
 			# ==================================================================
-            time.sleep(5)
+            print("wait 20s...")
+            time.sleep(20)
 
             # B用户去调用A方法
-            (result, response) = invoke_function(contract_address_A, "contractA_Func_A", Conf.ontID_B)
+            (result, response) = invoke_function(contract_address_A, "contractA_Func_A", Common.ontID_B)
             if not result:
                 raise Error("invoke_function error")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

@@ -23,7 +23,6 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
 from test_common import *
-from test_conf import Conf
 logger = LoggerInstance
 
 ####################################################
@@ -33,16 +32,16 @@ class TestMutiContract_34(ParametrizedTestCase):
         logger.open("TestMutiContract_34.log", "TestMutiContract_34")
         result = False
         try:
-            (contract_address_A, contract_address_B, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise_a("./tasks/contractA.neo", "./tasks/contractB.neo")
+            (contract_address_A, contract_address_B) = set_premise_a("tasks/contractA.neo", "tasks/contractB.neo")
 
-            # A用户去调用A方法
-            (result, response) = invoke_function(contract_address_A, "contractA_Func_A", Conf.ontID_B)
+            # B用户去调用A方法
+            (result, response) = invoke_function(contract_address_A, "contractA_Func_A", Common.ontID_B)
             if not result:
                 raise Error("invoke_function error")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

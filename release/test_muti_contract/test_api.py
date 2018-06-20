@@ -24,26 +24,26 @@ class Common:
     node_Admin = 2
     ontID_Admin = ByteToHex(bytes(Config.SERVICES[node_Admin]["ontid"], encoding = "utf8"))
     ontid_map[ontID_Admin] = node_Admin
-    
+	
     node_A = 3
     ontID_A = ByteToHex(bytes(Config.SERVICES[node_A]["ontid"], encoding = "utf8"))
     ontid_map[ontID_A] = node_A
-    
+	
     node_B = 4
     ontID_B = ByteToHex(bytes(Config.SERVICES[node_B]["ontid"], encoding = "utf8"))
     ontid_map[ontID_B] = node_B
-    
+	
     node_C = 5
     ontID_C = ByteToHex(bytes(Config.SERVICES[node_C]["ontid"], encoding = "utf8"))
     ontid_map[ontID_C] = node_C
-    
+	
     node_D = 6
     ontID_D = ByteToHex(bytes(Config.SERVICES[node_D]["ontid"], encoding = "utf8"))
     ontid_map[ontID_D] = node_D
-    
+	
     roleA_hex = ByteToHex(b"roleA")
     roleB_hex = ByteToHex(b"roleB")
-    
+	
 
 def init_admin(contract_address, admin_address, node_index = None):
     request = {
@@ -63,19 +63,19 @@ def init_admin(contract_address, admin_address, node_index = None):
                     {
                         "type": "array",
                         "value": [
-                            {
-                                "type" : "string",
-                                "value" : ""
-                            }
+							{
+								"type" : "string",
+								"value" : ""
+							}
                         ]
                     },
-                    {
+					{
                         "type": "array",
                         "value": [
-                            {
-                                "type" : "string",
-                                "value" : ""
-                            }
+							{
+								"type" : "string",
+								"value" : ""
+							}
                         ]
                     }
                 ]
@@ -88,8 +88,8 @@ def init_admin(contract_address, admin_address, node_index = None):
         request["NODE_INDEX"] = node_index
     else:
         node_index = Common.ontid_map[admin_address]
-        request["NODE_INDEX"] = node_index      
-    
+        request["NODE_INDEX"] = node_index		
+	
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
 
@@ -121,7 +121,7 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
     else:
         node_index = Common.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="bind_role_function", ijson=request), twice = True)
 
 
@@ -153,7 +153,7 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
     else:
         node_index = Common.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="bind_user_role", ijson=request), twice = True)
 
 
@@ -219,7 +219,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     else:
         node_index = Common.ontid_map[call_user]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
 
 
@@ -251,7 +251,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
                             }
                         ]
                     },
-                    {
+					{
                         "type": "array",
                         "value": argvs
                     }
@@ -266,5 +266,5 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
     else:
         node_index = Common.ontid_map[callerOntID]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="invoke_function", ijson=request), twice = True)

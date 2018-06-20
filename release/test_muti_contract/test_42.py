@@ -34,10 +34,10 @@ class TestMutiContract_42(ParametrizedTestCase):
         logger.open("TestMutiContract_42.log", "TestMutiContract_42")
         result = False
         try:
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise_b("38_contract.neo")
+            contract_address = set_premise_b("tasks/test_38.neo")
 
 			# setp 1 用户A授权用户B拥有角色A的权限
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "10000", "1")
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "10000", "1")
             if not result:
                 raise("bind_user_role error")
 
@@ -45,48 +45,20 @@ class TestMutiContract_42(ParametrizedTestCase):
             # time.sleep(5)
 
             # 用户B调用智能合约A中的A方法
-            (result, response) = invoke_function_allowence(contract_address, "A", ontID_C, ontID_A)
+            (result, response) = invoke_function(contract_address, "allowance", Common.ontID_B, argvs = [ {
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_C]["address"]))
+																				},
+																				{
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_A]["address"]))
+																				}])
             if not result:
                 raise Error("invoke_function error")
         
         except Exception as e:
             print(e.msg)
             logger.close(result)
-    
-    def invoke_function_allowence(self, contract_address, function_str, from_str, to_str):
-        request = {
-            "REQUEST": {
-                "Qid": "t",
-                "Method": "signeovminvoketx",
-                "Params": {
-                    "gas_price": 0,
-                    "gas_limit": 1000000000,
-                    "address": contract_address,
-                    "version": 1,
-                    "params": [
-                        {
-                            "type": "string",
-                            "value": function_str
-                        },
-                        {
-                            "type": "array",
-                            "value": [
-                                {
-                                    "type": "bytearray",
-                                    "value": from_str
-                                },
-                                {
-                                    "type": "bytearray",
-                                    "value": to_str
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            "RESPONSE":{"error" : 0}
-        }
-        return call_contract(Task(name="invoke_function", ijson=request))
     
 ####################################################
 if __name__ == '__main__':

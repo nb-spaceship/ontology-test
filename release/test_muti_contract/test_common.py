@@ -22,7 +22,7 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
-    
+	
 def set_premise(neo_path):
     result = False
     contract_address = None
@@ -51,7 +51,7 @@ def set_premise_a(neo_path_a, neo_path_b):
     # 初始化合约B管理员为A用户,
     contract_address_B = deploy_contract(neo_path_b)
 
-    # 部署智能合约A
+	# 部署智能合约A
     contract_address_A = deploy_contract(neo_path_a)
 
     (result, response) = init_admin(contract_address_B, Common.ontID_A)
@@ -81,7 +81,7 @@ def set_premise_b(neo_path):
     if not result:
         raise(Error("init_admin error"))
 
-    (result, response) = bind_role_function(contract_address, Common.ontID_A, Common.roleA_hex, ["transfer", "approve", "transferFrom"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_A, Common.roleA_hex, ["transfer", "approve", "transferFrom", "allowance"])
     if not result:
         raise(Error("bind_role_function error [1]"))
 

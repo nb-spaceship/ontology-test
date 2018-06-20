@@ -47,15 +47,15 @@ class TestMutiContract_6(ParametrizedTestCase):
                 raise("bind_user_role error")
 			
 			# setp 1 用户B授权用户A拥有角色B的权限 5 秒
-            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex, "5", "1", node_index = Common.node_B)
+            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex, "5", "1")
             if not result:
                 raise("bind_user_role error")
             
-            print("wait.......20s")
-            time.sleep(20)            
+            print("wait.......60s")
+            time.sleep(60)            
 
             # setp 2 用户A访问B函数
-            (result, response) = invoke_function(contract_address, "B", Common.ontID_A, node_index = Common.node_A)
+            (result, response) = invoke_function(contract_address, "B", Common.ontID_A)
             if not result:
                 raise Error("invoke_function error")
         

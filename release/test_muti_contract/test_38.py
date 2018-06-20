@@ -34,55 +34,27 @@ class TestMutiContract_38(ParametrizedTestCase):
         logger.open("TestMutiContract_38.log", "TestMutiContract_38")
         result = False
         try:
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise_b("38_contract.neo")
+            (contract_address) = set_premise_b("tasks/test_38.neo")
 
             # 用户A调用智能合约A中的A方法
-            (result, response) = invoke_function_transfer(contract_address, "A", ontID_A, ontID_B, 10)
+            (result, response) = invoke_function(contract_address, "transfer", Common.ontID_A, argvs = [ {
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_A]["address"]))
+																				},
+																				{
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_B]["address"]))
+																				},
+																				{
+																					"type": "int",
+																					"value": "10"
+																				}])
             if not result:
                 raise Error("invoke_function error")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
-    
-    def invoke_function_transfer(self, contract_address, function_str, from_str, to_str, amount):
-        request = {
-            "REQUEST": {
-                "Qid": "t",
-                "Method": "signeovminvoketx",
-                "Params": {
-                    "gas_price": 0,
-                    "gas_limit": 1000000000,
-                    "address": contract_address,
-                    "version": 1,
-                    "params": [
-                        {
-                            "type": "string",
-                            "value": function_str
-                        },
-                        {
-                            "type": "array",
-                            "value": [
-                                {
-                                    "type": "bytearray",
-                                    "value": from_str
-                                },
-                                {
-                                    "type": "bytearray",
-                                    "value": to_str
-                                },
-                                {
-                                    "type": "int",
-                                    "value": amount
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            "RESPONSE":{"error" : 0}
-        }
-        return call_contract(Task(name="invoke_function", ijson=request))
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

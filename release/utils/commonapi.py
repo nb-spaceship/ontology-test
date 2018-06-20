@@ -525,4 +525,5 @@ def base58_to_address(input):
 		regroup = re.search(r'address: (([0-9]|[a-z]|[A-Z])*)', line)
 		if regroup:
 			address = regroup.group(1)
+	tmpfile.close()
 	return address
