@@ -472,19 +472,19 @@ def replace_config(index, config = None):
 
 	return response
 
-def transfer_ont(index, _from, to, amount):
+def transfer_ont(from_index, to_index, amount):
 	request = {
 		"method": "transfer",
 		"jsonrpc": "2.0",
 		"id": 0,
 		"params" : {
-			"from" : _from,
-			"to" : to,
+			"from" : Config.SERVICES[from_index]["address"],
+			"to" : Config.SERVICES[to_index]["address"],
 			"amount" : amount
 		}
 	}
 
-	ip = Config.SERVICES[index]["ip"]
+	ip = Config.SERVICES[from_index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
