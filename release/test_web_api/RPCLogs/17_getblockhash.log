@@ -1,0 +1,30 @@
+[-------------------------------]
+[ RUN      ] rpc.17_getblockhash
+[ PARAMS   ]{
+    "REQUEST": {
+        "method": "getblockhash",
+        "params": [
+            "abc"
+        ],
+        "jsonrpc": "2.0",
+        "id": 1
+    },
+    "RESPONSE": {
+        "result": "",
+        "error": 42002,
+        "jsonpc": "2.0",
+        "id": 1,
+        "desc": "INVALID PARAMS"
+    }
+}
+[ RESULT   ]{
+    "result": "",
+    "error": 42002,
+    "jsonpc": "2.0",
+    "id": 1,
+    "desc": "INVALID PARAMS"
+}
+[ OK       ] rpc.17_getblockhash (6 ms)
+[-------------------------------]
+
+[ OK       ] 

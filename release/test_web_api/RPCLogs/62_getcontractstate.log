@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.62_getcontractstate
+[ PARAMS   ]{
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "params": [],
+        "method": "getcontractstate"
+    },
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "error": 42002,
+        "result": null,
+        "desc": "INVALID PARAMS",
+        "id": 1
+    }
+}
+[ RESULT   ]{
+    "jsonpc": "2.0",
+    "error": 42002,
+    "result": null,
+    "desc": "INVALID PARAMS",
+    "id": 1
+}
+[ OK       ] rpc.62_getcontractstate (7 ms)
+[-------------------------------]
+
+[ OK       ] 

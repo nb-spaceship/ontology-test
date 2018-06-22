@@ -1,0 +1,72 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.invoke_function_update
+[ SIGNED TX ] {
+    "RESPONSE": {
+        "error_info": "",
+        "error_code": 0,
+        "result": {
+            "signed_tx": "00d145582b5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b53286700c66b576a7cc8526a7cc8576a7cc801706a7cc80210276a7cc80210276a7cc80210276a7cc801646a7cc86c0c757064617465436f6e6669671400000000000000000000000000000000000000070068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140f64facd5ea1bcf0db9e357cc22deebdea6b1824c344159652672292019051289e90c38311fb6a5730ca893986f8348bf0ea32ebff6966a0f732e018da1b22d18232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac"
+        },
+        "qid": "t",
+        "method": "signativeinvoketx"
+    },
+    "REQUEST": {
+        "Params": {
+            "address": "0700000000000000000000000000000000000000",
+            "gas_limit": 1000000000,
+            "version": 0,
+            "gas_price": 0,
+            "params": [
+                "7",
+                "2",
+                "7",
+                "112",
+                "10000",
+                "10000",
+                "10000",
+                "100"
+            ],
+            "method": "updateConfig"
+        },
+        "Qid": "t",
+        "Method": "signativeinvoketx"
+    }
+}
+[ CALL CONTRACT ] {
+    "RESPONSE": {
+        "id": 1,
+        "jsonpc": "2.0",
+        "desc": "SMARTCODE EXEC ERROR",
+        "error": 47001,
+        "result": ""
+    },
+    "REQUEST": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "params": [
+            "00d145582b5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b53286700c66b576a7cc8526a7cc8576a7cc801706a7cc80210276a7cc80210276a7cc80210276a7cc801646a7cc86c0c757064617465436f6e6669671400000000000000000000000000000000000000070068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140f64facd5ea1bcf0db9e357cc22deebdea6b1824c344159652672292019051289e90c38311fb6a5730ca893986f8348bf0ea32ebff6966a0f732e018da1b22d18232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac",
+            1
+        ],
+        "method": "sendrawtransaction"
+    }
+}
+[ CALL CONTRACT ] {
+    "RESPONSE": {
+        "id": 1,
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "error": 0,
+        "result": "7523ad61c324c0107f785094e23170720d6b135b61b5047ba78a454df49c77ce"
+    },
+    "REQUEST": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "params": [
+            "00d145582b5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b53286700c66b576a7cc8526a7cc8576a7cc801706a7cc80210276a7cc80210276a7cc80210276a7cc801646a7cc86c0c757064617465436f6e6669671400000000000000000000000000000000000000070068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140f64facd5ea1bcf0db9e357cc22deebdea6b1824c344159652672292019051289e90c38311fb6a5730ca893986f8348bf0ea32ebff6966a0f732e018da1b22d18232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac"
+        ],
+        "method": "sendrawtransaction"
+    }
+}
+[ OK       ] 

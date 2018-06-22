@@ -1,0 +1,29 @@
+[-------------------------------]
+[ RUN      ] rpc.47_getstorage
+[ PARAMS   ]{
+    "REQUEST": {
+        "method": "getstorage",
+        "params": [
+            "03febccf81ac85e3d795bc5cbd4e84e907800000",
+            "1234560000"
+        ],
+        "id": 1,
+        "jsonrpc": "2.0"
+    },
+    "RESPONSE": {
+        "result": "",
+        "id": 1,
+        "error": 42002
+    }
+}
+[ RESULT   ]{
+    "desc": "INVALID PARAMS",
+    "jsonpc": "2.0",
+    "id": 1,
+    "result": "",
+    "error": 42002
+}
+[ OK       ] rpc.47_getstorage (7 ms)
+[-------------------------------]
+
+[ OK       ] 

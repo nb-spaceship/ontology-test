@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.06_getblock
+[ PARAMS   ]{
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "params": [
+            999999
+        ],
+        "method": "getblock"
+    },
+    "RESPONSE": {
+        "result": "",
+        "id": 1,
+        "error": 42002
+    }
+}
+[ RESULT   ]{
+    "result": "",
+    "jsonpc": "2.0",
+    "id": 1,
+    "error": 42002,
+    "desc": "INVALID PARAMS"
+}
+[ OK       ] rpc.06_getblock (6 ms)
+[-------------------------------]
+
+[ OK       ] 

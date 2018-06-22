@@ -1,0 +1,85 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.invoke_function_update
+[ SIGNED TX ] {
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "qid": "t",
+        "method": "signativeinvoketx",
+        "result": {
+            "signed_tx": "00d125692c5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7306400c66b576a7cc8526a7cc8576a7cc801706a7cc801646a7cc801646a7cc801646a7cc801646a7cc86c0c757064617465436f6e6669671400000000000000000000000000000000000000070068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140de2e8924f121e5355188196bb61ee954b490084eb888c4787e9fc062de617eb50b9b603d756f9856cd3db237eac54d49c6d0df3afce9384e1c898452538793dc232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        },
+        "error_info": "",
+        "error_code": 0
+    },
+    "REQUEST": {
+        "params": {
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "address": "0700000000000000000000000000000000000000",
+                "method": "updateConfig",
+                "version": 0,
+                "params": [
+                    "7",
+                    "2",
+                    "7",
+                    "112",
+                    "100",
+                    "100",
+                    "100",
+                    "100"
+                ],
+                "gas_limit": 1000000000
+            },
+            "Qid": "t"
+        },
+        "method": "siginvoketx",
+        "jsonrpc": "2.0",
+        "id": 0
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "params": [
+            "00d125692c5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7306400c66b576a7cc8526a7cc8576a7cc801706a7cc801646a7cc801646a7cc801646a7cc801646a7cc86c0c757064617465436f6e6669671400000000000000000000000000000000000000070068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140de2e8924f121e5355188196bb61ee954b490084eb888c4787e9fc062de617eb50b9b603d756f9856cd3db237eac54d49c6d0df3afce9384e1c898452538793dc232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac",
+            1
+        ],
+        "method": "sendrawtransaction",
+        "jsonrpc": "2.0",
+        "id": 1
+    },
+    "RESPONSE": {
+        "desc": "SUCCESS",
+        "error": 0,
+        "jsonpc": "2.0",
+        "result": {
+            "Gas": 30000,
+            "Result": "01",
+            "State": 1,
+            "Result String": "\u0001"
+        },
+        "id": 1
+    },
+    "NODE_INDEX": 5
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "params": [
+            "00d125692c5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7306400c66b576a7cc8526a7cc8576a7cc801706a7cc801646a7cc801646a7cc801646a7cc801646a7cc86c0c757064617465436f6e6669671400000000000000000000000000000000000000070068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140de2e8924f121e5355188196bb61ee954b490084eb888c4787e9fc062de617eb50b9b603d756f9856cd3db237eac54d49c6d0df3afce9384e1c898452538793dc232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        ],
+        "method": "sendrawtransaction",
+        "jsonrpc": "2.0",
+        "id": 1
+    },
+    "RESPONSE": {
+        "desc": "SUCCESS",
+        "error": 0,
+        "jsonpc": "2.0",
+        "result": "ff18f1bfce3d737f542ed73ca7ea54a2f6fa35294dfc174446b089ee9a6f001b",
+        "id": 1
+    },
+    "NODE_INDEX": 5
+}
+[ OK       ] 

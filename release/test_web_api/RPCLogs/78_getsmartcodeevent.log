@@ -1,0 +1,33 @@
+[-------------------------------]
+[ RUN      ] rpc.78_getsmartcodeevent
+[ PARAMS   ]{
+    "REQUEST": {
+        "method": "getsmartcodeevent",
+        "params": [
+            "a6f0c0fee8026576b7adce86d7555d68cd9f31c7a0d0e26b93c8e95d2f7956d2"
+        ],
+        "id": 1,
+        "jsonrpc": "2.0"
+    },
+    "RESPONSE": {
+        "error": 0,
+        "id": 1,
+        "result": {}
+    }
+}
+[ RESULT   ]{
+    "error": 0,
+    "id": 1,
+    "jsonpc": "2.0",
+    "result": {
+        "Notify": [],
+        "TxHash": "a6f0c0fee8026576b7adce86d7555d68cd9f31c7a0d0e26b93c8e95d2f7956d2",
+        "GasConsumed": 0,
+        "State": 1
+    },
+    "desc": "SUCCESS"
+}
+[ OK       ] rpc.78_getsmartcodeevent (6 ms)
+[-------------------------------]
+
+[ OK       ] 

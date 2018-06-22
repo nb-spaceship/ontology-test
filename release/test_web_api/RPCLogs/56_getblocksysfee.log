@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.56_getblocksysfee
+[ PARAMS   ]{
+    "RESPONSE": {
+        "result": "",
+        "error": 42002,
+        "id": 1
+    },
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "params": [
+            "abc"
+        ],
+        "method": "getblocksysfee"
+    }
+}
+[ RESULT   ]{
+    "desc": "SUCCESS",
+    "result": {},
+    "jsonpc": "2.0",
+    "error": 0,
+    "id": 1
+}
+[ Failed   ] rpc.56_getblocksysfee (8 ms)
+[-------------------------------]
+
+[ Failed   ] 

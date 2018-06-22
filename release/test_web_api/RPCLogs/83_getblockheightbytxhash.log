@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.83_getblockheightbytxhash
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 42002,
+        "id": 1,
+        "result": ""
+    },
+    "REQUEST": {
+        "params": [
+            123
+        ],
+        "method": "getblockheightbytxhash",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "error": 42002,
+    "id": 1,
+    "jsonpc": "2.0",
+    "result": "",
+    "desc": "INVALID PARAMS"
+}
+[ OK       ] rpc.83_getblockheightbytxhash (8 ms)
+[-------------------------------]
+
+[ OK       ] 

@@ -1,0 +1,25 @@
+[-------------------------------]
+[ RUN      ] restful.62_get_balance
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/balance/AV6qj3uZngw1rxzNUANBHybnKPibXhWB2h"
+    },
+    "RESPONSE": {
+        "error": 0
+    },
+    "TYPE": "restful"
+}
+[ RESULT   ]{
+    "Desc": "SUCCESS",
+    "Action": "getbalance",
+    "Error": 0,
+    "Version": "1.0.0",
+    "Result": {
+        "ong": "258128739462100",
+        "ont": "287614082"
+    }
+}
+[ OK       ] restful.62_get_balance (4 ms)
+[-------------------------------]
+
+[ OK       ] 

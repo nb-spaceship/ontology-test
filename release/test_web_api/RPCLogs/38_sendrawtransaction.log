@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.38_sendrawtransaction
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [
+            "00d1e24c235b00000000000000000000000000000000922fef396b3b3bb26600dc9caf27be5b16bc5e0f38046e616d65046e616d651400000000000000000000000000000000000000010068164f6e746f6c6f67792e4e61746976652e496e766f6b65000141400553e3ca2a9ffed00159ac2fb78a1877d9c2873028f9ba083d83c17ce9f7cf85c093642c7b8c25404d82dc09912c5e12530052571f13c3b4f31c7391d9f3e6aa232102f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287efac"
+        ],
+        "method": "sendrawtransaction",
+        "jsonrpc": "2.0",
+        "id": 1
+    },
+    "RESPONSE": {
+        "result": "e6129d9652c6b1a766cf0c85d67bc8b31d3ddd64626b1da80810929be4610f05",
+        "error": 0,
+        "id": 1
+    }
+}
+[ RESULT   ]{
+    "jsonpc": "2.0",
+    "error": 0,
+    "desc": "SUCCESS",
+    "id": 1,
+    "result": "e6129d9652c6b1a766cf0c85d67bc8b31d3ddd64626b1da80810929be4610f05"
+}
+[ OK       ] rpc.38_sendrawtransaction (9 ms)
+[-------------------------------]
+
+[ OK       ] 

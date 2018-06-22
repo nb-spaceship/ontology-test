@@ -1,0 +1,45 @@
+[-------------------------------]
+[ RUN      ] rpc.63_getcontractstate
+[ PARAMS   ]{
+    "REQUEST": {
+        "method": "getcontractstate",
+        "params": [
+            "4777731829ced4d4ed4478f44a55fbfce1be6f83",
+            1
+        ],
+        "id": 1,
+        "jsonrpc": "2.0"
+    },
+    "RESPONSE": {
+        "id": 1,
+        "error": 0,
+        "result": {
+            "Code": "54c56b6c766b00527ac46c766b51527ac4616c766b00c36c766b52527ac46c766b52c312746573745f6e656f5f706172616d5f696e74876306006218006c766b51c300c3616521006c766b53527ac4620e00006c766b53527ac46203006c766b53c3616c756652c56b6c766b00527ac461516c766b51527ac46203006c766b51c3616c7566",
+            "CodeVersion": "%!s(int=1)",
+            "NeedStorage": true,
+            "Name": "testContract",
+            "Email": "378986991@qq.com",
+            "Description": "this is my first test contract",
+            "Author": "yangjc"
+        }
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": {
+        "Code": "54c56b6c766b00527ac46c766b51527ac4616c766b00c36c766b52527ac46c766b52c312746573745f6e656f5f706172616d5f696e74876306006218006c766b51c300c3616521006c766b53527ac4620e00006c766b53527ac46203006c766b53c3616c756652c56b6c766b00527ac461516c766b51527ac46203006c766b51c3616c7566",
+        "CodeVersion": "%!s(int=1)",
+        "NeedStorage": true,
+        "Name": "testContract",
+        "Email": "378986991@qq.com",
+        "Description": "this is my first test contract",
+        "Author": "yangjc"
+    }
+}
+[ OK       ] rpc.63_getcontractstate (6 ms)
+[-------------------------------]
+
+[ OK       ] 

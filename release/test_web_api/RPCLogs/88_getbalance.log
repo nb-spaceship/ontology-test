@@ -1,0 +1,26 @@
+[-------------------------------]
+[ RUN      ] rpc.88_getbalance
+[ PARAMS   ]{
+    "REQUEST": {
+        "id": 1,
+        "method": "getbalance",
+        "jsonrpc": "2.0",
+        "params": []
+    },
+    "RESPONSE": {
+        "id": 1,
+        "error": 42002,
+        "result": ""
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "desc": "INVALID PARAMS",
+    "result": "",
+    "error": 42002,
+    "jsonpc": "2.0"
+}
+[ OK       ] rpc.88_getbalance (8 ms)
+[-------------------------------]
+
+[ OK       ] 
