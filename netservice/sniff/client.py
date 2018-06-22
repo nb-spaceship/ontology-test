@@ -63,18 +63,18 @@ class SniffClient:
             return []
 
     def grab_packet(self):
-		log("grab packet start:")
-        method = "grabpacket"
+        log("grab packet start:")
+       	method = "grabpacket"
         paras = {}
         result = self.sniff_api(method, paras)
-		log("grab packet end")
+        log("grab packet end")
         if result['status'] == "success":
             return result['result']
         else:
             return None
 
 if __name__ == "__main__":
-    target_ip = "10.0.0.32"
+    target_ip = "10.0.0.51"
     sc = SniffClient(target_ip, "10001")
     log("netcard info: ")
     log(sc.get_netcard_info())
