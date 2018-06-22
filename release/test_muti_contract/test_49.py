@@ -31,59 +31,30 @@ logger = LoggerInstance
 # test cases
 class TestMutiContract_49(ParametrizedTestCase):
     def test_main(self):
-        logger.open("TestMutiContract_41.log", "TestMutiContract_41")
+        logger.open("TestMutiContract_49.log", "TestMutiContract_49")
         result = False
         try:
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C,address_A,address_B,address_C) = set_premise_b("38_contract.neo")
+            contract_address = set_premise_b("tasks/38-43_48-59/A.neo")
 
 			# setp 1 用户A授权用户B拥有角色A的权限
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "10000", "1")
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "10000", "1")
             if not result:
-                raise("bind_user_role error")
+                raise("bind_user_role error")  
 
-			# ==================================================================
-            # time.sleep(5)
+            # 用户B调用智能合约A中的A方法,让用户A使用balanceof方法获取用户A的账户余额
+            (result, response) = invoke_function(contract_address, "balanceOf", Common.ontID_B, argvs = [ {
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_A]["address"]))
+																				}])
 
-            # 用户B调用智能合约A中的A方法
-            (result, response) = invoke_function_balanceOf(contract_address, "A",address_A)
-            if not result:
-                raise Error("invoke_function error")
+            result = (result and response["result"]["Result"] != "00")    
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
-    def invoke_function_balanceOf(self, contract_address, function_str,address_str):
-        request = {
-            "REQUEST": {
-                "Qid": "t",
-                "Method": "signeovminvoketx",
-                "Params": {
-                    "gas_price": 0,
-                    "gas_limit": 1000000000,
-                    "address": contract_address,
-                    "version": 1,
-                    "params": [
-                        {
-                            "type": "string",
-                            "value": function_str
-                        },
-                        {
-                            "type": "array",
-                            "value": [
-                                {
-                                    "type": "bytearray",
-                                    "value": address_str
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            "RESPONSE":{"error" : 0}
-        }
-        return call_contract(Task(name="invoke_function", ijson=request))
     
 ####################################################
 if __name__ == '__main__':
     unittest.main()
+

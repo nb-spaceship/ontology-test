@@ -21,25 +21,33 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 class Common:
     ontid_map = {}
 
-    node_Admin = 2
+    node_Admin = 0
     ontID_Admin = ByteToHex(bytes(Config.SERVICES[node_Admin]["ontid"], encoding = "utf8"))
     ontid_map[ontID_Admin] = node_Admin
 	
-    node_A = 3
+    node_A = 1
     ontID_A = ByteToHex(bytes(Config.SERVICES[node_A]["ontid"], encoding = "utf8"))
     ontid_map[ontID_A] = node_A
 	
-    node_B = 4
+    node_B = 2
     ontID_B = ByteToHex(bytes(Config.SERVICES[node_B]["ontid"], encoding = "utf8"))
     ontid_map[ontID_B] = node_B
 	
-    node_C = 5
+    node_C = 3
     ontID_C = ByteToHex(bytes(Config.SERVICES[node_C]["ontid"], encoding = "utf8"))
     ontid_map[ontID_C] = node_C
 	
-    node_D = 6
+    node_D = 4
     ontID_D = ByteToHex(bytes(Config.SERVICES[node_D]["ontid"], encoding = "utf8"))
     ontid_map[ontID_D] = node_D
+	
+    node_E = 5
+    ontID_E = ByteToHex(bytes(Config.SERVICES[node_E]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_E] = node_E
+	
+    node_F = 6
+    ontID_F = ByteToHex(bytes(Config.SERVICES[node_F]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_F] = node_F
 	
     roleA_hex = ByteToHex(b"roleA")
     roleB_hex = ByteToHex(b"roleB")

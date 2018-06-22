@@ -34,7 +34,7 @@ class TestMutiContract_39(ParametrizedTestCase):
         logger.open("TestMutiContract_39.log", "TestMutiContract_39")
         result = False
         try:
-            contract_address = set_premise_b("tasks/test_38.neo")
+            contract_address = set_premise_b("tasks/38-43_48-59/A.neo")
 
 			# setp 1 用户A授权用户B拥有角色A的权限
             (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "10000", "1")
@@ -56,6 +56,8 @@ class TestMutiContract_39(ParametrizedTestCase):
 																				}])
             if not result:
                 raise Error("invoke_function error")
+				
+            result = (response["result"]["Result"] != "00")        
         
         except Exception as e:
             print(e.msg)

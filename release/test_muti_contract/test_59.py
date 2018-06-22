@@ -31,66 +31,29 @@ logger = LoggerInstance
 # test cases
 class TestMutiContract_59(ParametrizedTestCase):
     def test_main(self):
-        logger.open("TestMutiContract_41.log", "TestMutiContract_41")
+        logger.open("TestMutiContract_59.log", "TestMutiContract_59")
         result = False
         try:
-            address_A = ByteToHex(b"TA7TSQ5aJcA8sU5MpqJNyTG1r13AQYLYpR")
-            address_B = ByteToHex(b"TA82XAPQXtVzncQMczcY9SVytjb2VuTQy4")
-            address_C = ByteToHex(b"TA6CtF4hZwqAmXdc6opa4B79fRS17YJjX5")
-            # (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C,address_A,address_B,address_C) = set_premise_b("38_contract.neo")
+            contract_address = deploy_contract("tasks/38-43_48-59/A2.neo")
 
-			# # setp 1 用户A授权用户B拥有角色A的权限
-            # (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "10000", "1")
-            # if not result:
-            #     raise("bind_user_role error")
+            # 用户B调用智能合约A中的A方法查询用户A给用户C的ont还有多少没有接收
+            (result, response) = invoke_function(contract_address, "allowance_ong", Common.ontID_B, argvs = [ {
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_A]["address"]))
+																				},
+																				{
+																					"type": "bytearray",
+																					"value": script_hash_bl_reserver(base58_to_address(Config.SERVICES[Common.node_C]["address"]))
+																				}])
+            result = (result and response["result"]["Result"] != "00")    
 
-			# ==================================================================
-            # time.sleep(5)
-
-            # 用户B调用智能合约A中的A方法
-            (result, response) = invoke_function_balanceOf(contract_address, "A",address_A,address_B)
-            if not result:
-                raise Error("invoke_function error")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
-    def invoke_function_balanceOf(self, contract_address, function_str,from_str,to_str):
-        request = {
-            "REQUEST": {
-                "Qid": "t",
-                "Method": "signeovminvoketx",
-                "Params": {
-                    "gas_price": 0,
-                    "gas_limit": 1000000000,
-                    "address": contract_address,
-                    "version": 1,
-                    "params": [
-                        {
-                            "type": "string",
-                            "value": function_str
-                        },
-                        {
-                            "type": "array",
-                            "value": [
-                                {
-                                    "type": "bytearray",
-                                    "value": from_str
-                                },
-                                {
-                                    "type": "bytearray",
-                                    "value": to_str
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            "RESPONSE":{"error" : 0}
-        }
-        return call_contract(Task(name="invoke_function", ijson=request))
     
 ####################################################
 if __name__ == '__main__':
     unittest.main()
+

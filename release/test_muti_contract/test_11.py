@@ -27,36 +27,37 @@ logger = LoggerInstance
 
 ####################################################
 # test cases
-
-
 class TestMutiContract_11(ParametrizedTestCase):
     def test_main(self):
         logger.open("TestMutiContract_11.log", "TestMutiContract_11")
         result = False
         try:
             
-            contract_address = set_premise("tasks/test_1.neo")
+            contract_address = set_premise("tasks/1-32/A.neo")
 
-            # setp 1 绑定roleA角色绑定到用户A,B
-            (result, response) = bind_user_role(contract_address,Common.ontID_Admin, Common.roleA_hex, [Common.ontID_A, Common.ontID_B])
+            # setp 1 绑定roleA角色绑定到用户A
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleA_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
 			
-			# setp 1 用户B授权用户A拥有角色A的权限
-            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleA_hex, "5", "1", node_index = Common.node_B)
+			# setp 1 用户A授权用户A拥有roleA的权限
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_A, Common.roleA_hex, "5", "1")
             if not result:
                 raise("bind_user_role error")
+			
+            print("wait 60s.....")
+            time.sleep(60)
 
-			time.sleep(10)
-
-            # setp 2 用户A访问B函数
-            (result, response) = invoke_function(contract_address, "B", Common.ontID_A, node_index = Common.node_A)
+            # setp 2 用户A访问C函数
+            (result, response) = invoke_function(contract_address, "B", Common.ontID_A)
             if not result:
                 raise Error("invoke_function error")
+				
+            result = (response["result"]["Result"] == "00")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

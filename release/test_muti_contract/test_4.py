@@ -34,25 +34,26 @@ class TestMutiContract_4(ParametrizedTestCase):
         logger.open("TestMutiContract_4.log", "TestMutiContract_4")
         result = False
         try:
-            
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_4.neo")
+            contract_address = set_premise("tasks/1-32/A.neo")
 
             # setp 1 绑定用户A拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleA_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
             # setp 2 绑定用户A拥有roleB角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleB_hex, [ontID_A])
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleB_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
             # setp 3 用户A访问A函数
-            (result, response) = invoke_function(contract_address, "B", ontID_A, node_index = 3)
+            (result, response) = invoke_function(contract_address, "B", Common.ontID_A)
             if not result:
                 raise Error("invoke_function error")
-        
+            
+            result = (response["result"]["Result"] != "00")
+			
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':
