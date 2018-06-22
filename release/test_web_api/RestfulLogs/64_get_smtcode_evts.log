@@ -1,0 +1,26 @@
+[-------------------------------]
+[ RUN      ] restful.64_get_smtcode_evts
+[ PARAMS   ]{
+    "TYPE": "restful",
+    "REQUEST": {
+        "api": "/api/v1/smartcode/event/txhash/123"
+    },
+    "RESPONSE": {
+        "Version": "1.0.0",
+        "Error": 42002,
+        "Action": "getsmartcodeeventbyhash",
+        "Desc": "INVALID PARAMS",
+        "Result": ""
+    }
+}
+[ RESULT   ]{
+    "Version": "1.0.0",
+    "Action": "getsmartcodeeventbyhash",
+    "Desc": "INVALID PARAMS",
+    "Error": 42002,
+    "Result": ""
+}
+[ OK       ] restful.64_get_smtcode_evts (5 ms)
+[-------------------------------]
+
+[ OK       ] 

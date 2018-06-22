@@ -1,0 +1,62 @@
+[-------------------------------]
+[ RUN      ] contract.2_neo
+[ SIGNED TX ] {
+    "REQUEST": {
+        "Params": {
+            "gas_price": 0,
+            "version": 0,
+            "params": [
+                {
+                    "type": "string",
+                    "value": "test_neo_param_int"
+                },
+                {
+                    "type": "array",
+                    "value": [
+                        {
+                            "type": "int",
+                            "value": "-1"
+                        }
+                    ]
+                }
+            ],
+            "gas_limit": 1000000000,
+            "address": "836fbee1fcfb554af47844edd4d4ce2918737747"
+        },
+        "Qid": "t",
+        "Method": "signeovminvoketx"
+    },
+    "RESPONSE": {
+        "method": "signeovminvoketx",
+        "result": {
+            "signed_tx": "00d15afe205b000000000000000000ca9a3b000000002aaa39310daba9a4cebd3a514c27d8a0b83479d52b4f51c112746573745f6e656f5f706172616d5f696e7467836fbee1fcfb554af47844edd4d4ce29187377470001424101bb04a0e6b21016693821ad1513b4ff5e9a34db0d1bd9b39583c8c8440a0c50e46b3a3baa67b6d220379732b6ee0ac9d62c0c3b4b91f075f47d5c816a9dbc791125231202026967e9c809d149f67c6142eb8d0e044029178a78fe9e8349663993f474e2fa30ac"
+        },
+        "error_code": 0,
+        "error_info": "",
+        "qid": "t"
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "method": "sendrawtransaction",
+        "id": 1,
+        "params": [
+            "00d15afe205b000000000000000000ca9a3b000000002aaa39310daba9a4cebd3a514c27d8a0b83479d52b4f51c112746573745f6e656f5f706172616d5f696e7467836fbee1fcfb554af47844edd4d4ce29187377470001424101bb04a0e6b21016693821ad1513b4ff5e9a34db0d1bd9b39583c8c8440a0c50e46b3a3baa67b6d220379732b6ee0ac9d62c0c3b4b91f075f47d5c816a9dbc791125231202026967e9c809d149f67c6142eb8d0e044029178a78fe9e8349663993f474e2fa30ac",
+            1
+        ]
+    },
+    "RESPONSE": {
+        "result": {
+            "State": 1,
+            "Gas": 30000,
+            "Result": "01",
+            "Result String": "\u0001"
+        },
+        "desc": "SUCCESS",
+        "id": 1,
+        "jsonpc": "2.0",
+        "error": 0
+    }
+}
+[ OK       ] 

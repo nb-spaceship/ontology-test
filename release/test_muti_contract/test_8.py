@@ -34,33 +34,34 @@ class TestMutiContract_8(ParametrizedTestCase):
         logger.open("TestMutiContract_8.log", "TestMutiContract_8")
         result = False
         try:
-            
-            contract_address = set_premise("tasks/test_1.neo")
+            contract_address = set_premise("tasks/1-32/A.neo")
 
             # setp 1 绑定用户A拥有roleA角色
-            (result, response) = bind_user_role(contract_address,Common.ontID_Admin, Common.roleA_hex, [Common.ontID_A])
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleA_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
 			
 			# setp 2 绑定用户B拥有roleB角色
-            (result, response) = bind_user_role(contract_address,Common.ontID_Admin, Common.roleB_hex, [Common.ontID_B])
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleB_hex, [Common.ontID_B])
             if not result:
                 raise("bind_user_role error")
 	
 			# setp 3 用户B授权用户A拥有角色B的权限
-            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex, "10000", "1", node_index = Common.node_B)
+            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex, "10000", "1")
             if not result:
                 raise("bind_user_role error")
 			
 			# setp 4 收回授权用户A拥有的roleB角色
-            (result, response) = withdraw_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex, node_index = Common.node_B)
+            (result, response) = withdraw_user_role(contract_address, Common.ontID_B, Common.ontID_A, Common.roleB_hex)
             if not result:
                 raise("bind_user_role error")
                         
             # setp 5 用户A访问B函数
-            (result, response) = invoke_function(contract_address, "B", Common.ontID_A, node_index = Common.node_A)
+            (result, response) = invoke_function(contract_address, "B", Common.ontID_A)
             if not result:
                 raise Error("invoke_function error")
+				
+            result = (response["result"]["Result"] == "00")
         
         except Exception as e:
             print(e.msg)

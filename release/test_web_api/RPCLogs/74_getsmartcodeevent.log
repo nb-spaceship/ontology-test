@@ -1,0 +1,51 @@
+[-------------------------------]
+[ RUN      ] rpc.74_getsmartcodeevent
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 0,
+        "id": 1,
+        "result": [
+            {
+                "GasConsumed": 0,
+                "State": 1,
+                "TxHash": "d13d2143ee1e8a99ab9c92d76b802725246b6eb9e93d4f8ce990f8da4b0ffadf"
+            }
+        ]
+    },
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "method": "getsmartcodeevent",
+        "id": 1,
+        "params": [
+            3
+        ]
+    }
+}
+[ RESULT   ]{
+    "error": 0,
+    "jsonpc": "2.0",
+    "id": 1,
+    "desc": "SUCCESS",
+    "result": [
+        {
+            "GasConsumed": 0,
+            "State": 1,
+            "TxHash": "d13d2143ee1e8a99ab9c92d76b802725246b6eb9e93d4f8ce990f8da4b0ffadf",
+            "Notify": [
+                {
+                    "States": [
+                        "transfer",
+                        "AFmseVrdL9f9oyCzZefL9tG6UbvhUMqNMV",
+                        "Ae4pKZ1siPgpLfB3WQ8jMQ8XbTTgS23dVP",
+                        145804999125170
+                    ],
+                    "ContractAddress": "0200000000000000000000000000000000000000"
+                }
+            ]
+        }
+    ]
+}
+[ OK       ] rpc.74_getsmartcodeevent (7 ms)
+[-------------------------------]
+
+[ OK       ] 

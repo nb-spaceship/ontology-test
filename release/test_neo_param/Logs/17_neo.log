@@ -1,0 +1,62 @@
+[-------------------------------]
+[ RUN      ] contract.17_neo
+[ SIGNED TX ] {
+    "RESPONSE": {
+        "result": {
+            "signed_tx": "00d1c9ce215b00000000000000000000000000000000922fef396b3b3bb26600dc9caf27be5b16bc5e0f380a71776572747975696f7051c115746573745f6e656f5f706172616d5f737472696e67676d1a6798c4b802fba278db3ea0dad578c691dba5000141409190ead58544a66522ba5167627ab63fcbc4ada40b8fbbbf69b0db0f3347e406d0981988ab1c06d0daf0e4e59710ec20abe6a3f4aa56206ab71c9ced7bb830d5232102f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287efac"
+        },
+        "method": "signeovminvoketx",
+        "error_code": 0,
+        "qid": "t",
+        "error_info": ""
+    },
+    "REQUEST": {
+        "Params": {
+            "version": 1,
+            "params": [
+                {
+                    "type": "string",
+                    "value": "test_neo_param_string"
+                },
+                {
+                    "type": "array",
+                    "value": [
+                        {
+                            "type": "string",
+                            "value": "qwertyuiop"
+                        }
+                    ]
+                }
+            ],
+            "gas_price": 0,
+            "gas_pimit": 0,
+            "address": "a5db91c678d5daa03edb78a2fb02b8c498671a6d"
+        },
+        "Qid": "t",
+        "Method": "signeovminvoketx"
+    }
+}
+[ CALL CONTRACT ] {
+    "RESPONSE": {
+        "result": {
+            "State": 1,
+            "Result String": "\u0001",
+            "Result": "01",
+            "Gas": 30000
+        },
+        "error": 0,
+        "id": 1,
+        "jsonpc": "2.0",
+        "desc": "SUCCESS"
+    },
+    "REQUEST": {
+        "method": "sendrawtransaction",
+        "params": [
+            "00d1c9ce215b00000000000000000000000000000000922fef396b3b3bb26600dc9caf27be5b16bc5e0f380a71776572747975696f7051c115746573745f6e656f5f706172616d5f737472696e67676d1a6798c4b802fba278db3ea0dad578c691dba5000141409190ead58544a66522ba5167627ab63fcbc4ada40b8fbbbf69b0db0f3347e406d0981988ab1c06d0daf0e4e59710ec20abe6a3f4aa56206ab71c9ced7bb830d5232102f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287efac",
+            1
+        ],
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ OK       ] 

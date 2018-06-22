@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] restful.41_post_raw_tx
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": {
+            "Version": "1.0.0",
+            "Data": "",
+            "Action": "sendrawtransaction"
+        },
+        "api": "/api/v1/transaction",
+        "command": "POST"
+    },
+    "TYPE": "restful",
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "Desc": "INVALID TRANSACTION",
+    "Error": 43001,
+    "Result": "",
+    "Action": "sendrawtransaction",
+    "Version": "1.0.0"
+}
+[ Failed   ] restful.41_post_raw_tx (5 ms)
+[-------------------------------]
+
+[ Failed   ] 

@@ -1,0 +1,21 @@
+[-------------------------------]
+[ RUN      ] restful.get_blk_by_height
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/block/details/height/abc"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "Action": "getblockbyheight",
+    "Result": "",
+    "Desc": "INVALID PARAMS",
+    "Error": 42002,
+    "Version": "1.0.0"
+}
+[ Failed   ] restful.get_blk_by_height (2 ms)
+[-------------------------------]
+
+[ Failed   ] 

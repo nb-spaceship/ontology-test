@@ -35,33 +35,35 @@ class TestMutiContract_23(ParametrizedTestCase):
         result = False
         try:
             
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_23.neo")
+            contract_address = set_premise("tasks/1-32/A.neo")
 
             # setp 1 绑定用户A拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleA_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
 						
-			# setp 1 用户A授权用户B拥有roleA角色
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "20", "1")
+			# setp 2 用户A授权用户B拥有roleA角色
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "20", "1")
             if not result:
                 raise("bind_user_role error")
             
-            # setp 1 用户A授权用户B拥有roleA角色
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "30", "1")
+            # setp 3 用户A授权用户B拥有roleA角色
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "30", "1")
             if not result:
                 raise("bind_user_role error")
 			
-            time.sleep(30)
+            time.sleep(60)
             
-            # setp 2 用户B不可以访问A函数
-            (result, response) = invoke_function(contract_address, "B", ontID_B)
+            # setp 4 用户B访问A函数
+            (result, response) = invoke_function(contract_address, "B", Common.ontID_B)
             if not result:
                 raise Error("invoke_function error")
+				
+            result = (response["result"]["Result"] == "00")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

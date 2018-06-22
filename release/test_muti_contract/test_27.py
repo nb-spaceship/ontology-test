@@ -35,33 +35,35 @@ class TestMutiContract_27(ParametrizedTestCase):
         result = False
         try:
             
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_27.neo")
+            contract_address = set_premise("tasks/1-32/A.neo")
 
             # setp 1 绑定用户A，用户B拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A, ontID_B])
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleA_hex, [Common.ontID_A, Common.ontID_B])
             if not result:
                 raise("bind_user_role error")
 						
 			# setp 1 用户A授权用户B拥有roleA角色
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_C, roleA_hex, "10", "1")
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_C, Common.roleA_hex, "10", "1")
             if not result:
                 raise("bind_user_role error")
             
             # setp 1 用户B授权用户B拥有roleA角色
-            (result, response) = delegate_user_role(contract_address, ontID_B, ontID_C, roleA_hex, "20", "1")
+            (result, response) = delegate_user_role(contract_address, Common.ontID_B, Common.ontID_C, Common.roleA_hex, "100", "1")
             if not result:
                 raise("bind_user_role error")
                         
-            time.sleep(10)
+            time.sleep(60)
 			
             # setp 2 用户C访问A函数
-            (result, response) = invoke_function(contract_address, "A", ontID_C)
+            (result, response) = invoke_function(contract_address, "A", Common.ontID_C)
             if not result:
                 raise Error("invoke_function error")
+				
+            result = (response["result"]["Result"] != "00")
         
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

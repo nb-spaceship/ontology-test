@@ -1,0 +1,21 @@
+[-------------------------------]
+[ RUN      ] restful.get_contract_state
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/contract/fff49c809d302a2956e9dc0012619a452d4b846c"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "Action": "getcontract",
+    "Result": "",
+    "Desc": "INTERNAL ERROR",
+    "Error": 45001,
+    "Version": "1.0.0"
+}
+[ Failed   ] restful.get_contract_state (2 ms)
+[-------------------------------]
+
+[ Failed   ] 

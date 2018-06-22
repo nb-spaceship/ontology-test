@@ -35,36 +35,38 @@ class TestMutiContract_24(ParametrizedTestCase):
         result = False
         try:
             
-            (contract_address, adminOntID, roleA_hex, roleB_hex, ontID_A, ontID_B, ontID_C) = set_premise("tasks/test_24.neo")
+            contract_address = set_premise("tasks/1-32/A.neo")
 
-            # setp 1 绑定用户A，用户B拥有roleA角色
-            (result, response) = bind_user_role(contract_address,adminOntID, roleA_hex, [ontID_A])
+            # setp 1 绑定用户A拥有roleA角色
+            (result, response) = bind_user_role(contract_address,Common.ontID_A, Common.roleA_hex, [Common.ontID_A])
             if not result:
                 raise("bind_user_role error")
 						
-			# setp 1 用户A授权用户B拥有roleA角色
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "10000", "1")
+			# setp 2 用户A授权用户B拥有roleA角色
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "10000", "1")
             if not result:
                 raise("bind_user_role error")
             
-            # setp 1 用户A授权用户B拥有roleA角色
-            (result, response) = delegate_user_role(contract_address, ontID_A, ontID_B, roleA_hex, "10000", "1")
+            # setp 3 用户A授权用户B拥有roleA角色
+            (result, response) = delegate_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex, "10000", "1")
             if not result:
                 raise("bind_user_role error")
             
-            # setp 1 用户A撤回用户B拥有的roleA角色
-            (result, response) = withdraw_user_role(contract_address, ontID_A, ontID_B, roleA_hex)
+            # setp 4 用户A撤回用户B拥有的roleA角色
+            (result, response) = withdraw_user_role(contract_address, Common.ontID_A, Common.ontID_B, Common.roleA_hex)
             if not result:
                 raise("bind_user_role error")
 			
-            # setp 2 用户B不可以访问A函数
-            (result, response) = invoke_function(contract_address, "A", ontID_B)
+            # setp 5 用户B不可以访问A函数
+            (result, response) = invoke_function(contract_address, "A", Common.ontID_B)
             if not result:
                 raise Error("invoke_function error")
-        
+				
+            result = (response["result"]["Result"] == "00")
+
         except Exception as e:
             print(e.msg)
-            logger.close(result)
+        logger.close(result)
     
 ####################################################
 if __name__ == '__main__':

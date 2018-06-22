@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.40_sendrawtransaction
+[ PARAMS   ]{
+    "REQUEST": {
+        "id": 1,
+        "method": "sendrawtransaction",
+        "params": [],
+        "jsonrpc": "2.0"
+    },
+    "RESPONSE": {
+        "result": null,
+        "error": 42002,
+        "desc": "INVALID PARAMS",
+        "jsonpc": "2.0",
+        "id": 1
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 42002,
+    "result": null,
+    "jsonpc": "2.0",
+    "desc": "INVALID PARAMS"
+}
+[ OK       ] rpc.40_sendrawtransaction (8 ms)
+[-------------------------------]
+
+[ OK       ] 

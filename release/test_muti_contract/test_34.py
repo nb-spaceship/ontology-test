@@ -32,13 +32,14 @@ class TestMutiContract_34(ParametrizedTestCase):
         logger.open("TestMutiContract_34.log", "TestMutiContract_34")
         result = False
         try:
-            (contract_address_A, contract_address_B) = set_premise_a("tasks/contractA.neo", "tasks/contractB.neo")
+            (contract_address_A, contract_address_B) = set_premise_a("tasks/33-37/A.neo", "tasks/33-37/B.neo")
 
             # B用户去调用A方法
             (result, response) = invoke_function(contract_address_A, "contractA_Func_A", Common.ontID_B)
             if not result:
                 raise Error("invoke_function error")
-        
+				
+            result = (response["result"]["Result"] == "00")        
         except Exception as e:
             print(e.msg)
         logger.close(result)

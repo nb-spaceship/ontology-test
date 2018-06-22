@@ -34,7 +34,7 @@ class TestMutiContract_38(ParametrizedTestCase):
         logger.open("TestMutiContract_38.log", "TestMutiContract_38")
         result = False
         try:
-            (contract_address) = set_premise_b("tasks/test_38.neo")
+            (contract_address) = set_premise_b("tasks/38-43_48-59/A.neo")
 
             # 用户A调用智能合约A中的A方法
             (result, response) = invoke_function(contract_address, "transfer", Common.ontID_A, argvs = [ {
@@ -51,6 +51,8 @@ class TestMutiContract_38(ParametrizedTestCase):
 																				}])
             if not result:
                 raise Error("invoke_function error")
+				
+            result = (response["result"]["Result"] != "00")        
         
         except Exception as e:
             print(e.msg)

@@ -1,0 +1,32 @@
+{
+    "REQUEST": {
+        "Qid": "t",
+        "Method": "signeovminvoketx",
+        "Params": {
+            "gas_price": 100,
+            "gas_limit": 1000000000,
+            "address": "f08a4c0897bde0de92607c7c4581ac6df103035b",
+            "version": 1,
+            "params": [
+                {
+                    "type": "string",
+                    "value": "Put"
+                },
+                {
+                    "type": "array",
+                    "value": [
+						{
+							"type": "bytearray",
+							"value": "74657374"
+						},
+						{
+							"type": "bytearray",
+							"value": "6b657974657374"
+						}
+                    ]
+                }
+            ]
+        }
+    },
+    "RESPONSE": {}
+}

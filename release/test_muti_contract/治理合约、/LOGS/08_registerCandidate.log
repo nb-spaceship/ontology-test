@@ -1,0 +1,34 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.bind_user_role
+[ SIGNED TX ] {
+    "REQUEST": {
+        "params": {
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "version": 0,
+                "gas_limit": 1000000000,
+                "params": [
+                    "02b59d88bc4b2f5814b691d32e736bcd7ad018794f041235092f6954e23198cbcf",
+                    "",
+                    "100",
+                    "6469643a6f6e743a4162657978714c706d33475a44564a645250363272614d66436d48787344664b444e",
+                    "1"
+                ],
+                "address": "0700000000000000000000000000000000000000",
+                "method": "registerCandidate"
+            },
+            "Qid": "t"
+        },
+        "id": 0,
+        "jsonrpc": "2.0",
+        "method": "siginvoketx"
+    },
+    "NODE_INDEX": 7,
+    "RESPONSE": {
+        "Error": "Connection Error",
+        "Desc": "Connection Error"
+    }
+}

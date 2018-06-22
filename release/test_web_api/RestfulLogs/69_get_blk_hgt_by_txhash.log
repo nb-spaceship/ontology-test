@@ -1,0 +1,26 @@
+[-------------------------------]
+[ RUN      ] restful.69_get_blk_hgt_by_txhash
+[ PARAMS   ]{
+    "RESPONSE": {
+        "Action": "getblockheightbytxhash",
+        "Desc": "INVALID PARAMS",
+        "Version": "1.0.0",
+        "Result": "",
+        "Error": 42002
+    },
+    "REQUEST": {
+        "api": "/api/v1/block/height/txhash/123"
+    },
+    "TYPE": "restful"
+}
+[ RESULT   ]{
+    "Error": 42002,
+    "Action": "getblockheightbytxhash",
+    "Result": "",
+    "Version": "1.0.0",
+    "Desc": "INVALID PARAMS"
+}
+[ OK       ] restful.69_get_blk_hgt_by_txhash (4 ms)
+[-------------------------------]
+
+[ OK       ] 

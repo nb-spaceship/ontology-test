@@ -1,0 +1,26 @@
+[-------------------------------]
+[ RUN      ] restful.71_get_merkle_proof
+[ PARAMS   ]{
+    "RESPONSE": {
+        "Version": "1.0.0",
+        "Error": 42002,
+        "Action": "getmerkleproof",
+        "Result": "",
+        "Desc": "INVALID PARAMS"
+    },
+    "REQUEST": {
+        "api": "/api/v1/merkleproof/3e23cf222a47739d4141255da617cd42925a12638ac19cadcc85501f907972c1"
+    },
+    "TYPE": "restful"
+}
+[ RESULT   ]{
+    "Desc": "INVALID PARAMS",
+    "Error": 42002,
+    "Action": "getmerkleproof",
+    "Result": "",
+    "Version": "1.0.0"
+}
+[ OK       ] restful.71_get_merkle_proof (6 ms)
+[-------------------------------]
+
+[ OK       ] 

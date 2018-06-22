@@ -29,13 +29,13 @@ def set_premise(neo_path):
     
     contract_address = deploy_contract(neo_path)
 
-    (result, response) = init_admin(contract_address, Common.ontID_Admin)
+    (result, response) = init_admin(contract_address, Common.ontID_A)
     if not result:
         raise(Error("init_admin error"))
-    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, Common.roleA_hex, ["A", "C"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_A, Common.roleA_hex, ["A", "C"])
     if not result:
         raise(Error("bind_role_function error [1]"))
-    (result, response) = bind_role_function(contract_address, Common.ontID_Admin, Common.roleB_hex , ["B", "C"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_A, Common.roleB_hex , ["B", "C"])
     if not result:
         raise(Error("bind_role_function error [2]"))
     if not result:
@@ -81,7 +81,7 @@ def set_premise_b(neo_path):
     if not result:
         raise(Error("init_admin error"))
 
-    (result, response) = bind_role_function(contract_address, Common.ontID_A, Common.roleA_hex, ["transfer", "approve", "transferFrom", "allowance"])
+    (result, response) = bind_role_function(contract_address, Common.ontID_A, Common.roleA_hex, ["transfer", "approve", "transferFrom", "allowance", "balanceOf"])
     if not result:
         raise(Error("bind_role_function error [1]"))
 
@@ -94,5 +94,49 @@ def set_premise_b(neo_path):
         return contract_address
     else:
         raise(Error("set_premise error"))
+		
+def set_premise_c(neo_path_a, neo_path_b):
+    result = False
+    contract_address = None
+
+    # 部署智能合约B,
+    contract_address_B = deploy_contract(neo_path_b)
+
+	# 部署智能合约A
+    contract_address_A = deploy_contract(neo_path_a)
+
+    (result, response) = init_admin(contract_address_A, Common.ontID_A)
+    if not result:
+        raise(Error("init_admin error"))
+
+    (result, response) = init_admin(contract_address_B, Common.ontID_B)
+    if not result:
+        raise(Error("init_admin error"))
+
+    # 用户A创建角色A
+    (result, response) = bind_role_function(contract_address_A, Common.ontID_A, Common.roleA_hex, ["A", "A2"])
+    if not result:
+        raise(Error("bind_role_function error [1]"))
+
+    # setp 1 用户A绑定角色A
+    (result, response) = bind_user_role(contract_address_A, Common.ontID_A, Common.roleA_hex, [Common.ontID_A])
+    if not result:
+        raise(Error("bind_user_role error"))
+	
+    # 用户B创建角色B
+    (result, response) = bind_role_function(contract_address_B, Common.ontID_B , Common.roleB_hex, ["B"])
+    if not result:
+        raise(Error("bind_role_function error [1]"))
+
+    # setp 1 用户B绑定角色A
+    (result, response) = bind_user_role(contract_address_B, Common.ontID_B, Common.roleB_hex, [Common.ontID_B])
+    if not result:
+        raise(Error("bind_user_role error"))
+		
+    if result:
+        return (contract_address_A, contract_address_B)
+    else:
+        raise(Error("set_premise error"))
+
 
             

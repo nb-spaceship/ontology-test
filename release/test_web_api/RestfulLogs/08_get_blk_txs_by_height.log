@@ -1,0 +1,26 @@
+[-------------------------------]
+[ RUN      ] restful.10_get_blk_txs_by_height
+[ PARAMS   ]{
+    "RESPONSE": {
+        "Result": "",
+        "Version": "1.0.0",
+        "Error": 42002,
+        "Action": "getblocktxsbyheight",
+        "Desc": "INVALID PARAMS"
+    },
+    "TYPE": "restful",
+    "REQUEST": {
+        "api": "/api/v1/block/transactions/height/9000"
+    }
+}
+[ RESULT   ]{
+    "Desc": "INVALID PARAMS",
+    "Result": "",
+    "Error": 42002,
+    "Action": "getblocktxsbyheight",
+    "Version": "1.0.0"
+}
+[ OK       ] restful.10_get_blk_txs_by_height (4 ms)
+[-------------------------------]
+
+[ OK       ] 

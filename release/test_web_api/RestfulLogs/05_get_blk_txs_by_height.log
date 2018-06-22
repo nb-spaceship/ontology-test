@@ -1,0 +1,25 @@
+[-------------------------------]
+[ RUN      ] restful.get_blk_txs_by_height
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/block/transactions/height/1"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "Action": "getblocktxsbyheight",
+    "Result": {
+        "Height": 1,
+        "Hash": "b487b402f7e075a6b8837041de231e07fde1ab93eb91b96759cca935e464ecb2",
+        "Transactions": []
+    },
+    "Desc": "SUCCESS",
+    "Error": 0,
+    "Version": "1.0.0"
+}
+[ OK       ] restful.get_blk_txs_by_height (2 ms)
+[-------------------------------]
+
+[ OK       ] 

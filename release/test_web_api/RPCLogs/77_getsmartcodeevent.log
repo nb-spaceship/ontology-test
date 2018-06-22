@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.77_getsmartcodeevent
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 42002,
+        "desc": "INVALID PARAMS",
+        "result": null,
+        "jsonpc": "2.0",
+        "id": 1
+    },
+    "REQUEST": {
+        "id": 1,
+        "params": [],
+        "method": "getsmartcodeevent",
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "desc": "INVALID PARAMS",
+    "error": 42002,
+    "result": null,
+    "jsonpc": "2.0",
+    "id": 1
+}
+[ OK       ] rpc.77_getsmartcodeevent (7 ms)
+[-------------------------------]
+
+[ OK       ] 

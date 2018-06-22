@@ -1,0 +1,24 @@
+[-------------------------------]
+[ RUN      ] rpc.getbestblockhash
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "method": "getbestblockhash",
+        "jsonrpc": "2.0",
+        "params": [],
+        "id": 1
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": "094cdc5ee4ddad9896516707e1f8226aaccb32f0cbb49b97fa8489b8e7b41fdf"
+}
+[ OK       ] rpc.getbestblockhash (3 ms)
+[-------------------------------]
+
+[ OK       ] 

@@ -1,0 +1,52 @@
+[-------------------------------]
+[ RUN      ] restful.get_blk_by_height
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/block/details/height/1"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "Action": "getblockbyheight",
+    "Result": {
+        "Transactions": [],
+        "Hash": "b2ec64e435a9cc5967b991eb93abe1fd071e23de417083b8a675e0f702b487b4",
+        "Header": {
+            "Height": 1,
+            "NextBookkeeper": "AFmseVrdL9f9oyCzZefL9tG6UbvhPbdYzM",
+            "Bookkeepers": [
+                "03e05d01e5df2c85e6a9a5526c70d080b6c7dce0fa7c66f8489c18b8569dc269dc",
+                "032e907d3b2bad8187c59bd7ca9d89b992a4d66ccd30229f9b78258a39cabc5cf4",
+                "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd",
+                "02f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287ef",
+                "02eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518",
+                "0354fe669e9df891698ef8c4cbc9e3fbfa503ee93e237e1b38d3e3e4c7869886ee"
+            ],
+            "Hash": "b2ec64e435a9cc5967b991eb93abe1fd071e23de417083b8a675e0f702b487b4",
+            "SigData": [
+                "10000494800278981bfaacef5ee1cb6767e2827e3e339f88e530a907d82d070da684457ae56e8306ae0b8c5b30d8efb76f5bd790cdc792417db03709c66fa2f6",
+                "ae3045b4f3f6291e7d2f66660854c5024b06309f0ea098fe9942cd3605a42ddc19d36648be84ac954f9453e6ac2cd4195adc909d22ac34e4dbcb6dd3574d9c2b",
+                "00a207f135481d940a02299048ceb15ed02f7ad4b138d2adef4c425875ca01b611b823532a6257d8713f56e43ca8d5a1428acdcfe3c14fe3a0ef3492c375b3cf",
+                "c35e9cce9c44539740e449c2243b1e458cabe2824fa08f284463f2e256f24620126b60200f7196f89953c74be49d87feb6d11ac41195b337d53f9240925d77ed",
+                "15d3a065a8a4385cc8c1fef1e68765985a8da831e654e8a5cfaedbce57fc5104cbfec1cbc63306f8e519503280d1735a5a22b5a431c51b24d8d80577c3963cb0",
+                "55ae1336dfea3b1fb227ca67aae52d5278a41e6fd27ab94de8d982be07b3bae36d9974b542c10db1c096f29e7be1229fb0f4aa010e850da506503999bc748f54"
+            ],
+            "Version": 0,
+            "TransactionsRoot": "0000000000000000000000000000000000000000000000000000000000000000",
+            "ConsensusData": 12258969221770119542,
+            "Timestamp": 1528965701,
+            "BlockRoot": "80ae67eb4edf81c2f549da910998b32293a3fd0270221753322b11aad0321cc6",
+            "ConsensusPayload": "7b226c6561646572223a342c227672665f76616c7565223a2242485459464a7a66644962704e35707a636c5755446e306c6463664d31794d674c69456b3544716b307943564b4c3343784547536f474e6830484b4968716f75526d4a35776355545564534452745a6f465a5656482b553d222c227672665f70726f6f66223a22507258682b706b4d6b6c617437624d50612f427853553157392b2b6b71447367576f426663524a526738534535437a6b2f42445a2f436c774e4d4b37634a442f744d614c5371586b474a6c4b69754e784d5558674a773d3d222c226c6173745f636f6e6669675f626c6f636b5f6e756d223a302c226e65775f636861696e5f636f6e666967223a6e756c6c7d",
+            "PrevBlockHash": "a83fcafa71a629e32093b4d637dbf567bd2030b2f2ab06d622a6fbb0364fdc3a"
+        }
+    },
+    "Desc": "SUCCESS",
+    "Error": 0,
+    "Version": "1.0.0"
+}
+[ OK       ] restful.get_blk_by_height (3 ms)
+[-------------------------------]
+
+[ OK       ] 

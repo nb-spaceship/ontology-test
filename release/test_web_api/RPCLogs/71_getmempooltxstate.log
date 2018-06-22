@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.71_getmempooltxstate
+[ PARAMS   ]{
+    "RESPONSE": {
+        "id": 1,
+        "error": 42002,
+        "result": ""
+    },
+    "REQUEST": {
+        "id": 1,
+        "params": [
+            "abc"
+        ],
+        "method": "getmempooltxstate",
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "error": 42002,
+    "desc": "INVALID PARAMS",
+    "id": 1,
+    "result": "",
+    "jsonpc": "2.0"
+}
+[ OK       ] rpc.71_getmempooltxstate (7 ms)
+[-------------------------------]
+
+[ OK       ] 
