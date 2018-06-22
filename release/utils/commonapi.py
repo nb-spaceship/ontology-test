@@ -243,7 +243,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 
 		if twice:
 			(result, response) = call_signed_contract(signed_tx, True, node_index)
-			(result, response) = call_signed_contract(signed_tx, False, node_index)
+			call_signed_contract(signed_tx, False, node_index)
 		else:
 			(result, response) = call_signed_contract(signed_tx, pre, node_index)
 	
