@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.59_getcontractstate
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [
+            "fff49c809d302a2956e9dc0012619a452d4b0000"
+        ],
+        "jsonrpc": "2.0",
+        "method": "getcontractstate",
+        "id": 1
+    },
+    "RESPONSE": {
+        "id": 1,
+        "error": 47001,
+        "result": ""
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 44004,
+    "result": "unknow contract",
+    "jsonpc": "2.0",
+    "desc": "UNKNOWN CONTRACT"
+}
+[ Failed   ] rpc.59_getcontractstate (8 ms)
+[-------------------------------]
+
+[ Failed   ] 

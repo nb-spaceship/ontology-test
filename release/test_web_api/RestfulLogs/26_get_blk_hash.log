@@ -1,0 +1,21 @@
+[-------------------------------]
+[ RUN      ] restful.get_blk_hash
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/block/hash/0"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "Action": "getblockhash",
+    "Result": "a83fcafa71a629e32093b4d637dbf567bd2030b2f2ab06d622a6fbb0364fdc3a",
+    "Desc": "SUCCESS",
+    "Error": 0,
+    "Version": "1.0.0"
+}
+[ OK       ] restful.get_blk_hash (2 ms)
+[-------------------------------]
+
+[ OK       ] 

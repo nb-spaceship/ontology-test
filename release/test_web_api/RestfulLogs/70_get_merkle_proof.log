@@ -1,0 +1,45 @@
+[-------------------------------]
+[ RUN      ] restful.70_get_merkle_proof
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/merkleproof/e6a297a1c0c54d41324814fe48038f224c4114939a4acf3ebe38094002c9767a"
+    },
+    "TYPE": "restful",
+    "RESPONSE": {
+        "Action": "getmerkleproof",
+        "Error": 0,
+        "Version": "1.0.0",
+        "Desc": "SUCCESS"
+    }
+}
+[ RESULT   ]{
+    "Result": {
+        "Type": "MerkleProof",
+        "CurBlockHeight": 3296,
+        "CurBlockRoot": "39973f48623811c7bc5062f5a5ddbf4381a44ca4fae025a18f75e17f0cc5587b",
+        "TransactionsRoot": "e6a297a1c0c54d41324814fe48038f224c4114939a4acf3ebe38094002c9767a",
+        "TargetHashes": [
+            "0000000000000000000000000000000000000000000000000000000000000000",
+            "f53f064b97d6f2b8b39c23ec7d0331a2b561a9f2f784eb7b2be5139f695af06c",
+            "e14172c8a6e193943465648e1c586a9186a3784ee7ee29db9edbf6afe04f5390",
+            "e3333e365ae3eb6958270f6ae800f5955ce2fa59467993acef406115a2deb919",
+            "3c48e3db3639a3fd7e689e02d31175c41558daa805b56ab99c026eaa2814be52",
+            "e73f190f124b3e4d78a92beff85e92106a50cf53c488beb8754817a422f84af4",
+            "9f31c714c30f7138364b87c2ca3ca9ec4b2b64aff6afc53e98dd266b5fd8b379",
+            "f7ee694db600b24f0405e4088c517558356560182f4d7a1546e32b502062df96",
+            "9e384d9f6cb39187fa94e247199c478197a9e313932bbb5f0f1a458fed90f8c2",
+            "57539a0c97b797ae7a1561cf68defd3dc1cf98320ab315574a0b9c6a66ae7f8a",
+            "a0ecd14b1c2e2c05c98e78074a6043a21f327c8dd169c02af62544926abdb6b1",
+            "619ec628b97a51f917ffa618a317511fb13dc2e6bcb5879ff8b06af294c6d271"
+        ],
+        "BlockHeight": 22
+    },
+    "Action": "getmerkleproof",
+    "Version": "1.0.0",
+    "Error": 0,
+    "Desc": "SUCCESS"
+}
+[ OK       ] restful.70_get_merkle_proof (9 ms)
+[-------------------------------]
+
+[ OK       ] 

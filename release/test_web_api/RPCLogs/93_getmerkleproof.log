@@ -1,0 +1,26 @@
+[-------------------------------]
+[ RUN      ] rpc.93_getmerkleproof
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 42002,
+        "id": 1,
+        "result": ""
+    },
+    "REQUEST": {
+        "params": [],
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getbalance"
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "jsonpc": "2.0",
+    "error": 42002,
+    "desc": "INVALID PARAMS",
+    "result": ""
+}
+[ OK       ] rpc.93_getmerkleproof (8 ms)
+[-------------------------------]
+
+[ OK       ] 

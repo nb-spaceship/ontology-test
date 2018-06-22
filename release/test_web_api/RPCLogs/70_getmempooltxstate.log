@@ -1,0 +1,30 @@
+[-------------------------------]
+[ RUN      ] rpc.70_getmempooltxstate
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [
+            "773dd2dae4a9c9275290f89b56e67d7363ea4826dfd4fc13cc01cf73a44b0d0e"
+        ],
+        "method": "getmempooltxstate",
+        "jsonrpc": "2.0",
+        "id": 1
+    },
+    "RESPONSE": {
+        "result": "unknown transaction",
+        "jsonpc": "2.0",
+        "id": 1,
+        "desc": "UNKNOWN TRANSACTION",
+        "error": 44001
+    }
+}
+[ RESULT   ]{
+    "result": "unknown transaction",
+    "jsonpc": "2.0",
+    "id": 1,
+    "desc": "UNKNOWN TRANSACTION",
+    "error": 44001
+}
+[ OK       ] rpc.70_getmempooltxstate (6 ms)
+[-------------------------------]
+
+[ OK       ] 

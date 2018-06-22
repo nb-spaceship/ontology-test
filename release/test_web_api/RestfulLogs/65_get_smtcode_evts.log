@@ -1,0 +1,20 @@
+[-------------------------------]
+[ RUN      ] restful.65_get_smtcode_evts
+[ PARAMS   ]{
+    "TYPE": "restful",
+    "REQUEST": {
+        "api": "/api/v1/smartcode/event/txhash/"
+    },
+    "RESPONSE": {
+        "Error": "Connection Error",
+        "Desc": "Connection Error"
+    }
+}
+[ RESULT   ]{
+    "Error": "Connection Error",
+    "Desc": "Connection Error"
+}
+[ OK       ] restful.65_get_smtcode_evts (4 ms)
+[-------------------------------]
+
+[ OK       ] 

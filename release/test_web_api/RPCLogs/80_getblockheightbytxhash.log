@@ -1,0 +1,30 @@
+[-------------------------------]
+[ RUN      ] rpc.80_getblockheightbytxhash
+[ PARAMS   ]{
+    "RESPONSE": {
+        "error": 0,
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "result": 2989,
+        "id": 1
+    },
+    "REQUEST": {
+        "params": [
+            "6b0c21cd7040af8689d3726b155919e1f0e1cbdd21d460d2c8d83407ca8cfeaf"
+        ],
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "getblockheightbytxhash"
+    }
+}
+[ RESULT   ]{
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": 2989,
+    "id": 1
+}
+[ OK       ] rpc.80_getblockheightbytxhash (9 ms)
+[-------------------------------]
+
+[ OK       ] 

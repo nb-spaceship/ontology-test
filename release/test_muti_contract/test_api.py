@@ -276,3 +276,197 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
         request["NODE_INDEX"] = node_index
 		
     return call_contract(Task(name="invoke_function", ijson=request), twice = True)
+
+	
+	
+def invoke_function_test(contract_address, function_str, argvs = [{"type": "string","value": ""}], node_index = None):
+    request = {
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signeovminvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": contract_address,
+                "version": 1,
+                "params": [
+                    {
+                        "type": "string",
+                        "value": function_str
+                    },
+                    {
+                        "type": "array",
+                        "value": argvs
+                    }
+                ]
+            }
+        },
+        "RESPONSE":{"error" : 0}
+    }
+        
+    return call_contract(Task(name="invoke_function_test", ijson=request), twice = True)
+
+def invoke_function_vote(func_,walletAddress,voteList,voteCount):
+    request = {
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+						    walletAddress,
+          	                [voteList],
+                            [voteCount]
+		                ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+        
+    return call_contract(Task(name="invoke_function_vote", ijson=request), twice = True)
+
+def invoke_function_update(func_,param0,param1,param2,param3,param4,param5,param6,param7):
+    request = {
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+                            param0,
+                            param1,
+                            param2,
+                            param3,
+                            param4,
+                            param5,
+                            param6,
+                            param7
+		                  ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+        
+    return call_contract(Task(name="invoke_function_update", ijson=request), twice = True)
+
+def invoke_function_register(func_,pubKey,walletAddress,ontCount,ontID,user):
+    request = {
+        "NODE_INDEX":7,
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+                            pubKey,
+                            walletAddress,
+                            ontCount,
+                            ontID,
+                            user
+		                  ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+        
+    return call_contract(Task(name="invoke_function_register", ijson=request), twice = True)
+
+def invoke_function_candidate(func_,pubKey):
+    request = {
+        "NODE_INDEX":7,
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+                            pubKey
+		                  ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+        
+    return call_contract(Task(name="invoke_function_candidate", ijson=request), twice = True)
+
+def invoke_function_node(func_,pubKey):
+    request = {
+        "NODE_INDEX":0,
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+                            [pubKey]
+                          ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+
+    return call_contract(Task(name="invoke_function_node", ijson=request), twice = True)
+
+def invoke_function_quitNode(func_,pubKey,walletAddress):
+    request = {
+        "NODE_INDEX":0,
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+                            pubKey,
+                            walletAddress
+                          ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+
+    return call_contract(Task(name="invoke_function_quitNode", ijson=request), twice = True)
+
+def invoke_function_SplitCurve(func_,array):
+    request = {
+        "NODE_INDEX":0,
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": "0700000000000000000000000000000000000000",
+                "method": func_,
+                "version": 0,
+                "params": [
+                            array
+                          ]
+                    }
+                },
+        "RESPONSE":{"error" : 0}
+    }
+    return call_contract(Task(name="invoke_function_SplitCurve", ijson=request), twice = True)

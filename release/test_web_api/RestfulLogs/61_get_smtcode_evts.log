@@ -1,0 +1,30 @@
+[-------------------------------]
+[ RUN      ] restful.61_get_smtcode_evts
+[ PARAMS   ]{
+    "REQUEST": {
+        "api": "/api/v1/smartcode/event/txhash/6b0c21cd7040af8689d3726b155919e1f0e1cbdd21d460d2c8d83407ca8cfeaf"
+    },
+    "TYPE": "restful",
+    "RESPONSE": {
+        "Version": "1.0.0",
+        "Error": 0,
+        "Desc": "SUCCESS",
+        "Action": "getsmartcodeeventbyhash"
+    }
+}
+[ RESULT   ]{
+    "Version": "1.0.0",
+    "Error": 0,
+    "Desc": "SUCCESS",
+    "Action": "getsmartcodeeventbyhash",
+    "Result": {
+        "Notify": [],
+        "TxHash": "6b0c21cd7040af8689d3726b155919e1f0e1cbdd21d460d2c8d83407ca8cfeaf",
+        "State": 1,
+        "GasConsumed": 0
+    }
+}
+[ OK       ] restful.61_get_smtcode_evts (4 ms)
+[-------------------------------]
+
+[ OK       ] 

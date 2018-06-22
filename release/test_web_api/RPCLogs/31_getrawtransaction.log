@@ -1,0 +1,28 @@
+[-------------------------------]
+[ RUN      ] rpc.31_getrawtransaction
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [],
+        "jsonrpc": "2.0",
+        "method": "getrawtransaction",
+        "id": 1
+    },
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "desc": "INVALID PARAMS",
+        "error": 42002,
+        "result": null,
+        "id": 1
+    }
+}
+[ RESULT   ]{
+    "jsonpc": "2.0",
+    "id": 1,
+    "error": 42002,
+    "result": null,
+    "desc": "INVALID PARAMS"
+}
+[ OK       ] rpc.31_getrawtransaction (6 ms)
+[-------------------------------]
+
+[ OK       ] 

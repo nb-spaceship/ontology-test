@@ -1,0 +1,29 @@
+[-------------------------------]
+[ RUN      ] rpc.36_getrawtransaction
+[ PARAMS   ]{
+    "REQUEST": {
+        "id": 1,
+        "method": "getrawtransaction",
+        "jsonrpc": "2.0",
+        "params": [
+            "a6f0c0fee8026576b7adce86d7555d68cd9f31c7a0d0e26b93c8e95d2f7956d2",
+            "abc"
+        ]
+    },
+    "RESPONSE": {
+        "error": 42002,
+        "id": 1,
+        "result": ""
+    }
+}
+[ RESULT   ]{
+    "error": 42002,
+    "jsonpc": "2.0",
+    "desc": "INVALID PARAMS",
+    "id": 1,
+    "result": ""
+}
+[ OK       ] rpc.36_getrawtransaction (6 ms)
+[-------------------------------]
+
+[ OK       ] 

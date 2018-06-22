@@ -1,0 +1,62 @@
+[-------------------------------]
+[ RUN      ] contract.27_neo
+[ SIGNED TX ] {
+    "REQUEST": {
+        "Method": "signeovminvoketx",
+        "Params": {
+            "version": 1,
+            "params": [
+                {
+                    "value": "test_neo_param_bool",
+                    "type": "string"
+                },
+                {
+                    "value": [
+                        {
+                            "value": "1",
+                            "type": "int"
+                        }
+                    ],
+                    "type": "array"
+                }
+            ],
+            "address": "6c2f618e5a791a0c2130ddf8d1a5d9efc0cba88a",
+            "gas_price": 0,
+            "gas_pimit": 0
+        },
+        "Qid": "t"
+    },
+    "RESPONSE": {
+        "error_info": "",
+        "qid": "t",
+        "error_code": 0,
+        "method": "signeovminvoketx",
+        "result": {
+            "signed_tx": "00d126d7215b00000000000000000000000000000000922fef396b3b3bb26600dc9caf27be5b16bc5e0f2c5151c113746573745f6e656f5f706172616d5f626f6f6c678aa8cbc0efd9a5d1f8dd30210c1a795a8e612f6c000141400cce7be931802c1337a7e0efb733fa1eede42c78c26f8247cf47ade2e49966fd1f6c255985dbb425ff5aa4bee5b714081b2bf44ca8cadfa689325ceea8cef207232102f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287efac"
+        }
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "params": [
+            "00d126d7215b00000000000000000000000000000000922fef396b3b3bb26600dc9caf27be5b16bc5e0f2c5151c113746573745f6e656f5f706172616d5f626f6f6c678aa8cbc0efd9a5d1f8dd30210c1a795a8e612f6c000141400cce7be931802c1337a7e0efb733fa1eede42c78c26f8247cf47ade2e49966fd1f6c255985dbb425ff5aa4bee5b714081b2bf44ca8cadfa689325ceea8cef207232102f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287efac",
+            1
+        ],
+        "id": 1,
+        "method": "sendrawtransaction"
+    },
+    "RESPONSE": {
+        "desc": "SUCCESS",
+        "jsonpc": "2.0",
+        "error": 0,
+        "id": 1,
+        "result": {
+            "State": 1,
+            "Result": "01",
+            "Gas": 30000,
+            "Result String": "\u0001"
+        }
+    }
+}
+[ OK       ] 

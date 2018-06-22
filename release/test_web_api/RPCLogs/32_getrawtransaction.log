@@ -1,0 +1,59 @@
+[-------------------------------]
+[ RUN      ] rpc.32_getrawtransaction
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [
+            "a6f0c0fee8026576b7adce86d7555d68cd9f31c7a0d0e26b93c8e95d2f7956d2",
+            1
+        ],
+        "id": 1,
+        "jsonrpc": "2.0",
+        "method": "getrawtransaction"
+    },
+    "RESPONSE": {
+        "error": 0,
+        "jsonpc": "2.0",
+        "id": 1,
+        "desc": "SUCCESS"
+    }
+}
+[ RESULT   ]{
+    "error": 0,
+    "jsonpc": "2.0",
+    "id": 1,
+    "desc": "SUCCESS",
+    "result": {
+        "Nonce": 1529049259,
+        "GasPrice": 0,
+        "Sigs": [
+            {
+                "PubKeys": [
+                    "02f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287ef"
+                ],
+                "SigData": [
+                    "93d90e61e766897c599b3697cecc114d37f1fdf859cb0087f0b280f003a50928667b6832a42e4e774b295523ee44e4b7ac6dd2db80ea720f310418f63abcb033"
+                ],
+                "M": 1
+            }
+        ],
+        "GasLimit": 1000000000,
+        "Hash": "a6f0c0fee8026576b7adce86d7555d68cd9f31c7a0d0e26b93c8e95d2f7956d2",
+        "Version": 0,
+        "TxType": 208,
+        "Payload": {
+            "NeedStorage": true,
+            "Email": "378986991@qq.com",
+            "Code": "54c56b6c766b00527ac46c766b51527ac4616c766b00c36c766b52527ac46c766b52c3134765745472616e73616374696f6e5f48617368876306006218006c766b51c300c3616521006c766b53527ac4620e00006c766b53527ac46203006c766b53c3616c756653c56b6c766b00527ac4616c766b00c361682053797374656d2e426c6f636b636861696e2e4765745472616e73616374696f6e6c766b51527ac46c766b51c361681a53797374656d2e5472616e73616374696f6e2e476574486173686c766b52527ac46203006c766b52c3616c7566",
+            "Author": "yangjc",
+            "Description": "this is my first test contract",
+            "CodeVersion": "%!s(int=1)",
+            "Name": "testContract"
+        },
+        "Payer": "0f5ebc165bbe27af9cdc0066b23b3b6b39ef2f92",
+        "Attributes": []
+    }
+}
+[ OK       ] rpc.32_getrawtransaction (7 ms)
+[-------------------------------]
+
+[ OK       ] 
