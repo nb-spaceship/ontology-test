@@ -74,7 +74,7 @@ class SniffClient:
             return None
 
 if __name__ == "__main__":
-    target_ip = "10.0.0.51"
+    target_ip = "127.0.0.1"
     sc = SniffClient(target_ip, "10001")
     log("netcard info: ")
     log(sc.get_netcard_info())
