@@ -105,7 +105,7 @@ def check_node_all(node_list):
 	return (check_node_state(node_list) and check_node_ledgerevent(node_list) and check_node_block(node_list))
 
 
-def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
+def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc", price = 0):
 	if not neo_code_path or neo_code_path == "":
 		return None
 
@@ -113,7 +113,7 @@ def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
 	deploy_contract_txhash = None
 	
 	logger.print("[ DEPLOY ] ")
-	cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" > tmp"
+	cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" \"" + str(price) +  "\" > tmp"
 	p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
 	print(cmd)
 	begintime = time.time()
@@ -147,7 +147,7 @@ def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc"):
 	return (deploy_contract_addr, deploy_contract_txhash)
 #部署合约
 #返回值： 部署的合约地址
-def deploy_contract(neo_code_path, name = "name", desc = "this is desc"):
+def deploy_contract(neo_code_path, name = "name", desc = "this is desc", price = 0):
 	(deploy_contract_addr, deploy_contract_txhash) = deploy_contract_full(neo_code_path, name, desc)
 	time.sleep(6)
 	return deploy_contract_addr
