@@ -1,0 +1,62 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.invoke_function_SplitCurve
+[ SIGNED TX ] {
+    "NODE_INDEX": 0,
+    "RESPONSE": {
+        "error_code": 0,
+        "qid": "t",
+        "method": "signativeinvoketx",
+        "result": {
+            "signed_tx": "00d14d442f5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b532838046e616d65046e616d651400000000000000000000000000000000000000010068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140905ccb7d28f1adc37ffd27276dbc0da2400a359b200b3e5256f3e144a858b25dee35210e96daf59d07f28ce603e94073c9d6e69660606fbe2b2debe215397a11232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac"
+        },
+        "error_info": ""
+    },
+    "REQUEST": {
+        "params": {
+            "Qid": "t",
+            "Params": {
+                "params": [
+                    "AcVb7HZB4nMDscQHXXoqKvnNFwrpL3V1u3",
+                    "AV6qj3uZngw1rxzNUANBHybnKPibXhWB2h",
+                    "10"
+                ],
+                "gas_limit": 1000000000,
+                "address": "0100000000000000000000000000000000000000",
+                "method": "name",
+                "version": 0,
+                "gas_price": 0
+            },
+            "Method": "signativeinvoketx"
+        },
+        "method": "siginvoketx",
+        "jsonrpc": "2.0",
+        "id": 0
+    }
+}
+[ CALL CONTRACT ] {
+    "NODE_INDEX": 0,
+    "RESPONSE": {
+        "id": 1,
+        "result": {
+            "Result": "4f4e5420546f6b656e",
+            "State": 1,
+            "Result String": "ONT Token",
+            "Gas": 30000
+        },
+        "error": 0,
+        "desc": "SUCCESS",
+        "jsonpc": "2.0"
+    },
+    "REQUEST": {
+        "params": [
+            "00d14d442f5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b532838046e616d65046e616d651400000000000000000000000000000000000000010068164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140905ccb7d28f1adc37ffd27276dbc0da2400a359b200b3e5256f3e144a858b25dee35210e96daf59d07f28ce603e94073c9d6e69660606fbe2b2debe215397a11232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac",
+            1
+        ],
+        "method": "sendrawtransaction",
+        "jsonrpc": "2.0",
+        "id": 1
+    }
+}
+[ OK       ] 

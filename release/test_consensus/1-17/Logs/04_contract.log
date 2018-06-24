@@ -1,0 +1,62 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.invoke_function_SplitCurve
+[ SIGNED TX ] {
+    "REQUEST": {
+        "params": {
+            "Qid": "t",
+            "Params": {
+                "params": [
+                    "AcVb7HZB4nMDscQHXXoqKvnNFwrpL3V1u3",
+                    "AV6qj3uZngw1rxzNUANBHybnKPibXhWB2h",
+                    "10"
+                ],
+                "version": 0,
+                "gas_price": 0,
+                "address": "0100000000000000000000000000000000000000",
+                "gas_limit": 1000000000,
+                "method": "name"
+            },
+            "Method": "signativeinvoketx"
+        },
+        "jsonrpc": "2.0",
+        "method": "siginvoketx",
+        "id": 0
+    },
+    "NODE_INDEX": 0,
+    "RESPONSE": {
+        "error_code": 0,
+        "method": "signativeinvoketx",
+        "result": {
+            "signed_tx": "00d1c9382f5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b532838046e616d65046e616d651400000000000000000000000000000000000000010068164f6e746f6c6f67792e4e61746976652e496e766f6b650001414035645d26b811bfa6540961cfffc32ebcbd107e1d8f7bd1f360e2d16fa9e0d500ad5612f15f1681deef54ee940855755bf494ce7003502b43d9be0a84e45381a3232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac"
+        },
+        "error_info": "",
+        "qid": "t"
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "params": [
+            "00d1c9382f5b000000000000000000ca9a3b00000000e3462e4422c6317a93604fef74255117ed2b532838046e616d65046e616d651400000000000000000000000000000000000000010068164f6e746f6c6f67792e4e61746976652e496e766f6b650001414035645d26b811bfa6540961cfffc32ebcbd107e1d8f7bd1f360e2d16fa9e0d500ad5612f15f1681deef54ee940855755bf494ce7003502b43d9be0a84e45381a3232102eb607c494cf1efa434c7e284c3fff8f382a0decfc8d6c1b02e2ea5b7e70cf518ac",
+            1
+        ],
+        "jsonrpc": "2.0",
+        "method": "sendrawtransaction",
+        "id": 1
+    },
+    "NODE_INDEX": 0,
+    "RESPONSE": {
+        "error": 0,
+        "result": {
+            "Result": "4f4e5420546f6b656e",
+            "Gas": 30000,
+            "Result String": "ONT Token",
+            "State": 1
+        },
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "id": 1
+    }
+}
+[ OK       ] 
