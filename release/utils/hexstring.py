@@ -101,19 +101,19 @@ def numSeq(m):
         test333=test333.zfill(2)
         test222=test222+test333
       return test222
-def reserveBytes(m):
+#def reserveBytes(m):
     """
 	reserveBytes
     """
-	a_bytes = bytes.fromhex(m)
-	lista=list(a_bytes)
-	lista.reverse()
-	for a in lista:
-		test333=hex(a)
-		test333=test333[2:]
-		test333=test333.zfill(2)
-		test222=test222+test333
-	return test222
+	#a_bytes = bytes.fromhex(m)
+	#lista=list(a_bytes)
+	#lista.reverse()
+	#for a in lista:
+	#	test333=hex(a)
+	#	test333=test333[2:]
+	#	test333=test333.zfill(2)
+	#	test222=test222+test333
+	#return test222
     # b = toHexString("./asset.wasm")
     # print (b)
 
