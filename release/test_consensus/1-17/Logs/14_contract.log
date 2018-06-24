@@ -1,0 +1,159 @@
+[-------------------------------]
+[ RUN      ] rpc.getblock
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [
+            1,
+            1
+        ],
+        "id": 1,
+        "method": "getblock",
+        "jsonrpc": "2.0"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "error": 0,
+    "result": {
+        "Header": {
+            "NextBookkeeper": "AFmseVrdL9f9oyCzZefL9tG6UbvhPbdYzM",
+            "SigData": [
+                "75a9db7813f1644912e3dbcd46a0562156fab0ad4d196c1fcc13a37ad324566831f7c5ecfd31f53bb92b49acbf295a2020cf16c8e5136a31bddb0fc1d1e6303e",
+                "b25d69045d2ae25c60a69ff2158ce5d9d449f6afe8edd61fe3d8c9f39f4cb8b5e5adbcddc6b4198b50df45ba74ed9d8285f54781965c5048ff6d74d7f529a99c",
+                "1944fd14d89d0875e7193590f4bd30158a9f1d28276bdc2722a8f3df7bb9aeffdf80eccc4b0ae3d0f94970bb6797c45824a6d2a70c6f849c010dcb122704482a",
+                "07e8b9b239f45f2208c6e804171526677763810662ab00613c09b31221b890ce78d8a50b5e4ab5e890f9c8f8601c2718919b80c1a4b1bf09fc274eff75303438"
+            ],
+            "ConsensusData": 12258969221770119542,
+            "TransactionsRoot": "8c067648eb3808e6e461d0d64e597fea0822381230d4b58fc6b3305836684702",
+            "BlockRoot": "6383b1e7f1965e03ba76cc88a5b0f52eeeaed48bf1fc498f47ca058890e61e4f",
+            "Hash": "ea3959a4b4d1d6d6f3ec8f9a2a1b80813ebe9cf3fb794c1db75b227319baa057",
+            "Height": 1,
+            "PrevBlockHash": "f09b7fb5ae5cabc9efb6bd6728144db330e79eb269cebb85a9a104d4465a92fe",
+            "Timestamp": 1529826009,
+            "Bookkeepers": [
+                "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd",
+                "023cc3f73a998666d7787c87e31a7990fc30a23f7317e146c8992d54e4c3edcf4c",
+                "02f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287ef",
+                "0354fe669e9df891698ef8c4cbc9e3fbfa503ee93e237e1b38d3e3e4c7869886ee"
+            ],
+            "ConsensusPayload": "7b226c6561646572223a362c227672665f76616c7565223a22424a56676a43416f596a3557374b433551696a644536734955534b59666170424154305231597935316731393359336b62527653454d4c355976343734446c6a384b5737416a65566b412b726668386e47446c4c4f6e6b3d222c227672665f70726f6f66223a224f51386a393651416c384e354e3162664d5a3967646b4c48486e3668527234356d5337685a636c733449644e59694471326e554631746e7a667542437453334269755568424a6657344d632b56713138614670444d773d3d222c226c6173745f636f6e6669675f626c6f636b5f6e756d223a302c226e65775f636861696e5f636f6e666967223a6e756c6c7d",
+            "Version": 0
+        },
+        "Hash": "ea3959a4b4d1d6d6f3ec8f9a2a1b80813ebe9cf3fb794c1db75b227319baa057",
+        "Transactions": [
+            {
+                "GasLimit": 1000000000,
+                "Sigs": [
+                    {
+                        "SigData": [
+                            "33f5a1df894d0229a13dfe0548c7008b249b256d4d70da115220c9c900a9bc978b30b156e1a012b8150b02092e69410917f4833cd56f0af0389711dc6217e99f"
+                        ],
+                        "PubKeys": [
+                            "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd"
+                        ],
+                        "M": 1
+                    }
+                ],
+                "Attributes": [],
+                "Payer": "30d7d5b2fdeb36c573f30468cee6a878443c93ad",
+                "Hash": "8c067648eb3808e6e461d0d64e597fea0822381230d4b58fc6b3305836684702",
+                "Payload": {
+                    "Code": "00c66b2a6469643a6f6e743a41586265766e475a4279705a72635177516664595a78586a357a63465474694d45416a7cc82102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd6a7cc86c127265674944576974685075626c69634b65791400000000000000000000000000000000000000035168164f6e746f6c6f67792e4e61746976652e496e766f6b65",
+                    "GasLimit": 0
+                },
+                "Nonce": 1529826008,
+                "GasPrice": 0,
+                "TxType": 209,
+                "Version": 0
+            }
+        ]
+    },
+    "id": 1,
+    "desc": "SUCCESS",
+    "jsonpc": "2.0"
+}
+[ OK       ] rpc.getblock (10 ms)
+[-------------------------------]
+
+[-------------------------------]
+[ RUN      ] rpc.getblock
+[ PARAMS   ]{
+    "REQUEST": {
+        "params": [
+            "ea3959a4b4d1d6d6f3ec8f9a2a1b80813ebe9cf3fb794c1db75b227319baa057",
+            1
+        ],
+        "id": 1,
+        "method": "getblock",
+        "jsonrpc": "2.0"
+    },
+    "RESPONSE": {
+        "error": 0
+    }
+}
+[ RESULT   ]{
+    "error": 0,
+    "result": {
+        "Header": {
+            "NextBookkeeper": "AFmseVrdL9f9oyCzZefL9tG6UbvhPbdYzM",
+            "SigData": [
+                "75a9db7813f1644912e3dbcd46a0562156fab0ad4d196c1fcc13a37ad324566831f7c5ecfd31f53bb92b49acbf295a2020cf16c8e5136a31bddb0fc1d1e6303e",
+                "b25d69045d2ae25c60a69ff2158ce5d9d449f6afe8edd61fe3d8c9f39f4cb8b5e5adbcddc6b4198b50df45ba74ed9d8285f54781965c5048ff6d74d7f529a99c",
+                "1944fd14d89d0875e7193590f4bd30158a9f1d28276bdc2722a8f3df7bb9aeffdf80eccc4b0ae3d0f94970bb6797c45824a6d2a70c6f849c010dcb122704482a",
+                "07e8b9b239f45f2208c6e804171526677763810662ab00613c09b31221b890ce78d8a50b5e4ab5e890f9c8f8601c2718919b80c1a4b1bf09fc274eff75303438"
+            ],
+            "ConsensusData": 12258969221770119542,
+            "TransactionsRoot": "8c067648eb3808e6e461d0d64e597fea0822381230d4b58fc6b3305836684702",
+            "BlockRoot": "6383b1e7f1965e03ba76cc88a5b0f52eeeaed48bf1fc498f47ca058890e61e4f",
+            "Hash": "ea3959a4b4d1d6d6f3ec8f9a2a1b80813ebe9cf3fb794c1db75b227319baa057",
+            "Height": 1,
+            "PrevBlockHash": "f09b7fb5ae5cabc9efb6bd6728144db330e79eb269cebb85a9a104d4465a92fe",
+            "Timestamp": 1529826009,
+            "Bookkeepers": [
+                "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd",
+                "023cc3f73a998666d7787c87e31a7990fc30a23f7317e146c8992d54e4c3edcf4c",
+                "02f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287ef",
+                "0354fe669e9df891698ef8c4cbc9e3fbfa503ee93e237e1b38d3e3e4c7869886ee"
+            ],
+            "ConsensusPayload": "7b226c6561646572223a362c227672665f76616c7565223a22424a56676a43416f596a3557374b433551696a644536734955534b59666170424154305231597935316731393359336b62527653454d4c355976343734446c6a384b5737416a65566b412b726668386e47446c4c4f6e6b3d222c227672665f70726f6f66223a224f51386a393651416c384e354e3162664d5a3967646b4c48486e3668527234356d5337685a636c733449644e59694471326e554631746e7a667542437453334269755568424a6657344d632b56713138614670444d773d3d222c226c6173745f636f6e6669675f626c6f636b5f6e756d223a302c226e65775f636861696e5f636f6e666967223a6e756c6c7d",
+            "Version": 0
+        },
+        "Hash": "ea3959a4b4d1d6d6f3ec8f9a2a1b80813ebe9cf3fb794c1db75b227319baa057",
+        "Transactions": [
+            {
+                "GasLimit": 1000000000,
+                "Sigs": [
+                    {
+                        "SigData": [
+                            "33f5a1df894d0229a13dfe0548c7008b249b256d4d70da115220c9c900a9bc978b30b156e1a012b8150b02092e69410917f4833cd56f0af0389711dc6217e99f"
+                        ],
+                        "PubKeys": [
+                            "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd"
+                        ],
+                        "M": 1
+                    }
+                ],
+                "Attributes": [],
+                "Payer": "30d7d5b2fdeb36c573f30468cee6a878443c93ad",
+                "Hash": "8c067648eb3808e6e461d0d64e597fea0822381230d4b58fc6b3305836684702",
+                "Payload": {
+                    "Code": "00c66b2a6469643a6f6e743a41586265766e475a4279705a72635177516664595a78586a357a63465474694d45416a7cc82102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd6a7cc86c127265674944576974685075626c69634b65791400000000000000000000000000000000000000035168164f6e746f6c6f67792e4e61746976652e496e766f6b65",
+                    "GasLimit": 0
+                },
+                "Nonce": 1529826008,
+                "GasPrice": 0,
+                "TxType": 209,
+                "Version": 0
+            }
+        ]
+    },
+    "id": 1,
+    "desc": "SUCCESS",
+    "jsonpc": "2.0"
+}
+[ OK       ] rpc.getblock (7 ms)
+[-------------------------------]
+
+[ OK       ] 
