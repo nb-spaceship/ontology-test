@@ -247,7 +247,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		else:
 			(result, response) = call_signed_contract(signed_tx, pre, node_index)
 	
-		if response is None or "error" not in response or str(response["error"]) != '0':
+		if response is None or "error" not in response:# or str(response["error"]) != '0':
 			raise Error("call contract error")
 
 		if judge and expect_response:
