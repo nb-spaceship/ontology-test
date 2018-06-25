@@ -363,6 +363,10 @@ def pause(msg):
 	return command
 
 #
+def start_nodes(indexs, start_params, clear_chain = False, clear_log = False):
+	for index in indexs:
+		start_node(index, start_params, clear_chain, clear_log)
+
 def start_node(index, start_params, clear_chain = False, clear_log = False):
 	request = {
 		"method": "start_node",
@@ -380,7 +384,10 @@ def start_node(index, start_params, clear_chain = False, clear_log = False):
 
 	return response
 
-#
+def stop_nodes(indexs):
+	for index in indexs:
+		stop_node(index)
+
 def stop_node(index):
 	request = {
 		"method": "stop_node",
@@ -394,6 +401,10 @@ def stop_node(index):
 	return response
 
 #
+def replace_configs(indexs, config = None):
+	for index in indexs:
+		replace_config(index, config)
+		
 def replace_config(index, config = None):
 	if not config:
 		config = {
@@ -508,7 +519,6 @@ def script_hash_bl_reserver(input):
 		output = output + rstrs[i + 1]
 		output = output + rstrs[i]
 	return output
-
 
 def base58_to_address(input):
 	address = None
