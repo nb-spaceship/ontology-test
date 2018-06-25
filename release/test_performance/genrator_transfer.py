@@ -26,6 +26,7 @@ from utils.commonapi import *
 
 
 sign_transction_transfer = {
+    "NODE_INDEX" : 1,
     "REQUEST": {
         "Qid": "t",
         "Method": "signeovminvoketx",
@@ -67,17 +68,20 @@ def genrator_transfer_sintx():
 
     sign_transction_transfer["REQUEST"]["Params"]["address"] = contrastaddress
 
-    index = 0
-    for node in Config.SERVICES:
-        sign_transction_transfertmp = copy.copy(sign_transction_transfer)
-        nodeaddress = node["address"]
-        sign_transction_transfertmp["NODE_INDEX"] = index
-        sign_transction_transfertmp["REQUEST"]["Params"]["params"][1]["value"][0]["value"] = script_hash_bl_reserver(base58_to_address(nodeaddress))
-        sign_transction_transfertmp["REQUEST"]["Params"]["params"][1]["value"][1]["value"] = script_hash_bl_reserver(base58_to_address(nodeaddress))
-        sign_transction_transfertmp["REQUEST"]["Params"]["params"][1]["value"][2]["value"] = "1000"  
-        (result, response) = sign_transction(Task(ijson = sign_transction_transfertmp), False, False)
-        print(json.dumps(response))
-        index = index + 1
+    index = 1
+    sign_transction_transfertmp = copy.copy(sign_transction_transfer)
+    nodeaddress = Config.SERVICES[index]["address"]
+    sign_transction_transfertmp["NODE_INDEX"] = index
+    sign_transction_transfertmp["REQUEST"]["Params"]["params"][1]["value"][0]["value"] = script_hash_bl_reserver(base58_to_address(nodeaddress))
+    sign_transction_transfertmp["REQUEST"]["Params"]["params"][1]["value"][1]["value"] = script_hash_bl_reserver(base58_to_address(nodeaddress))
+    sign_transction_transfertmp["REQUEST"]["Params"]["params"][1]["value"][2]["value"] = "1000"  
+    (result, response) = sign_transction(Task(ijson = sign_transction_transfertmp), False, False)
+    print(json.dumps(response))
+	
+    call_signed_contract(response["result"]["signed_tx"], pre=True)
+    call_signed_contract(response["result"]["signed_tx"], pre=False)
+	
+	
 
 ####################################################
 if __name__ == '__main__':

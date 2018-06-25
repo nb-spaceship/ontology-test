@@ -45,10 +45,10 @@ class RPCApi:
 		task.set_request(taskrequest)
 		return run_single_task(task)
 
-	def getblockcount(self, node = None):
+	def getblockcount(self, node_index = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblockcount.json")
-		if node != None:
-			task.request["NODE_INDEX"] = node
+		if node_index != None:
+			task.data()["NODE_INDEX"] = node_index
 		return run_single_task(task)
 
 	def getblockhash(self, height):
