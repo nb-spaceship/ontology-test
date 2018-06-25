@@ -163,9 +163,11 @@ class RPCApi:
 
 	def getbalance(self, address):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getbalance.json")
+		taskrequest = task.request()
 		params = []
 		if address != None:
 			params.append(address)
+		taskrequest["params"] = params
 		return run_single_task(task)
 
 	def getmerkleproof(self, tx_hash):
