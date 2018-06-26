@@ -1,0 +1,33 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.changeRecovery
+[ SIGNED TX ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "params": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_limit": 1000000000,
+                "version": 1,
+                "params": [
+                    "did:ont:AXbevnGZBypZrcQwQfdYZxXj5zcFTtiMEA",
+                    "9283310eddce5f9c98b4e7ce517990160c405762",
+                    ""
+                ],
+                "address": "0300000000000000000000000000000000000000",
+                "gas_price": 0,
+                "method": "changeRecovery"
+            }
+        },
+        "id": 0,
+        "method": "siginvoketx"
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "Error": "Connection Error",
+        "Desc": "Connection Error"
+    }
+}
+[ Failed   ] 

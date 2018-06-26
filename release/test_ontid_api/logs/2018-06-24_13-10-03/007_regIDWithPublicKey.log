@@ -1,0 +1,35 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.regIDWithPublicKey
+[ SIGNED TX ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "params": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_limit": 1000000000,
+                "version": 1,
+                "params": [
+                    "did:ont:AQx2TtVmDbpzfkzmJ3AHnAUT5jRgUpEm9s",
+                    "abcdefghijklmn123542465456747"
+                ],
+                "address": "0300000000000000000000000000000000000000",
+                "gas_price": 0,
+                "method": "regIDWithPublicKey"
+            }
+        },
+        "id": 0,
+        "method": "siginvoketx"
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "result": null,
+        "qid": "t",
+        "error_info": "param:root parse:[did:ont:AQx2TtVmDbpzfkzmJ3AHnAUT5jRgUpEm9s abcdefghijklmn123542465456747] error:params struct:root item:publicKey error:param:publicKey parse:abcdefghijklmn123542465456747 error:hex decode string error:encoding/hex: odd length hex string",
+        "error_code": 900,
+        "method": "signativeinvoketx"
+    }
+}
+[ Failed   ] 

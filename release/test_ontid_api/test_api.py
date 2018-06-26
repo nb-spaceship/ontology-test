@@ -45,7 +45,51 @@ class Common:
     roleB_hex = ByteToHex(b"roleB")
     
 
-def regIDWithPublicKey(ontId, public_key, node_index = None,errorcode=47001):
+def multi_contract(task,m,pubkeyArray):
+    (result, response) = sign_transction(task)#Task(name="multi", ijson=request))
+    signed_tx = response["result"]["signed_tx"]
+    request1 = {
+        "REQUEST": {
+            "qid":"1",
+            "method":"sigmutilrawtx",
+            "params":{
+                "raw_tx":signed_tx,
+                "m":m,
+                "pub_keys":pubkeyArray
+            }
+        },
+        "RESPONSE": {}
+    }
+    print(request1)
+    request1["NODE_INDEX"]=task.node_index()
+    (result, response) = sign_multi_transction(Task(name="multi", ijson=request1))
+    print(response)
+    signed_tx = response["result"]["signed_tx"]
+    print(signed_tx)
+    call_signed_contract(signed_tx, True)
+    return call_signed_contract(signed_tx, False)
+    
+def sign_multi_transction(task, judge = True, process_log = True):
+    if task.node_index() != None:
+        print("sign transction with other node: " + str(task.node_index()))
+        task.set_type("st")
+        request = task.request()
+        task.set_request({
+          "method": "siginvoketx",
+          "jsonrpc": "2.0",
+          "id": 0,
+        })
+        task.request()["params"] = request
+        (result, response) = run_single_task(task, False, process_log)
+        if result:
+            response = response["result"]
+            return (result, response)
+        else:
+            task.set_type("cli")
+            (result, response) = run_single_task(task, judge, process_log)
+            return (result, response)
+        
+def regIDWithPublicKey(ontId, public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -54,7 +98,7 @@ def regIDWithPublicKey(ontId, public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "regIDWithPublicKey",
+                "method": "regIDWithPublicKey",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
@@ -63,7 +107,7 @@ def regIDWithPublicKey(ontId, public_key, node_index = None,errorcode=47001):
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -74,7 +118,7 @@ def regIDWithPublicKey(ontId, public_key, node_index = None,errorcode=47001):
     
     return call_contract(Task(name="regIDWithPublicKey", ijson=request), twice = True)
 
-def addKey(ontId, new_public_key,public_key, node_index = None,errorcode=47001):
+def addKey(ontId, new_public_key,public_key, node_index = None,errorcode=47001,public_key_Array=[], errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -83,17 +127,17 @@ def addKey(ontId, new_public_key,public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "addKey",
+                "method": "addKey",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					new_public_key,
+                    new_public_key,
                     public_key
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -101,10 +145,12 @@ def addKey(ontId, new_public_key,public_key, node_index = None,errorcode=47001):
     else:
         node_index = Common.ontid_map[public_key]
         request["NODE_INDEX"] = node_index      
-    
-    return call_contract(Task(name="addKey", ijson=request), twice = True)
-	
-def removeKey(ontId, remove_public_Key,public_key, node_index = None,errorcode=47001):
+    if len(public_key_Array)==0 or len(public_key_Array)>2:
+        return call_contract(Task(name="addKey", ijson=request), twice = True)
+    else:
+        return multi_contract(Task(name="addKey", ijson=request),public_key_Array[0],public_key_Array[1])    
+
+def removeKey(ontId, remove_public_Key,public_key, node_index = None,errorcode=47001,public_key_Array=[], errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -113,17 +159,17 @@ def removeKey(ontId, remove_public_Key,public_key, node_index = None,errorcode=4
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "removeKey",
+                "method": "removeKey",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					remove_public_Key,
+                    remove_public_Key,
                     public_key
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -131,9 +177,12 @@ def removeKey(ontId, remove_public_Key,public_key, node_index = None,errorcode=4
     else:
         node_index = Common.ontid_map[public_key]
         request["NODE_INDEX"] = node_index      
+    if len(public_key_Array)==0 or len(public_key_Array)>2:
+        return call_contract(Task(name="removeKey", ijson=request), twice = True)
+    else:
+        return multi_contract(Task(name="removeKey", ijson=request),public_key_Array[0],public_key_Array[1])
     
-    return call_contract(Task(name="removeKey", ijson=request), twice = True)
-def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=47001):
+def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -142,17 +191,17 @@ def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "addRecovery",
+                "method": "addRecovery",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					recovery_address,
+                    recovery_address,
                     public_key
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -162,8 +211,8 @@ def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="addRecovery", ijson=request), twice = True)
-	
-def changeRecovery(ontId, new_recovery_address,old_recovery_address,public_key, node_index = None,errorcode=47001):
+    
+def changeRecovery(ontId, new_recovery_address,old_recovery_address,public_key, node_index = None,errorcode=47001,old_recovery_address_Array=[], errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -172,28 +221,30 @@ def changeRecovery(ontId, new_recovery_address,old_recovery_address,public_key, 
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "changeRecovery",
+                "method": "changeRecovery",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					new_recovery_address,
+                    new_recovery_address,
                     old_recovery_address
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
         node_index = Common.ontid_map[public_key]
-        request["NODE_INDEX"] = node_index      
-    
-    return call_contract(Task(name="changeRecovery", ijson=request), twice = True)
+        request["NODE_INDEX"] = node_index
+    if len(old_recovery_address_Array)==0 or len(old_recovery_address_Array)>2:
+        return call_contract(Task(name="changeRecovery", ijson=request), twice = True)
+    else:
+        return multi_contract(Task(name="changeRecovery", ijson=request),old_recovery_address_Array[0],old_recovery_address_Array[1])
 
-def regIDWithAttributes(ontId, attributes_array,public_key, node_index = None,errorcode=47001):
+def regIDWithAttributes(ontId, attributes_array,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -202,18 +253,18 @@ def regIDWithAttributes(ontId, attributes_array,public_key, node_index = None,er
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "regIDWithAttributes",
+                "method": "regIDWithAttributes",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					public_key,
-					attributes_array
+                    public_key,
+                    attributes_array
                     
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -223,8 +274,8 @@ def regIDWithAttributes(ontId, attributes_array,public_key, node_index = None,er
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="regIDWithAttributes", ijson=request), twice = True)
-	
-def addAttributes(ontId, attributes_array,public_key, node_index = None,errorcode=47001):
+    
+def addAttributes(ontId, attributes_array,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -233,17 +284,17 @@ def addAttributes(ontId, attributes_array,public_key, node_index = None,errorcod
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "addAttributes",
+                "method": "addAttributes",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					attributes_array,
+                    attributes_array,
                     public_key
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -253,7 +304,7 @@ def addAttributes(ontId, attributes_array,public_key, node_index = None,errorcod
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="addAttributes", ijson=request), twice = True)
-def removeAttribute(ontId, attributePath,public_key, node_index = None,errorcode=47001):
+def removeAttribute(ontId, attributePath,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -262,17 +313,17 @@ def removeAttribute(ontId, attributePath,public_key, node_index = None,errorcode
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "removeAttribute",
+                "method": "removeAttribute",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					attributePath,
+                    attributePath,
                     public_key
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -282,8 +333,8 @@ def removeAttribute(ontId, attributePath,public_key, node_index = None,errorcode
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="removeAttribute", ijson=request), twice = True)
-	
-def getPublicKeys(ontId,public_key, node_index = None,errorcode=47001):
+    
+def getPublicKeys(ontId,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -292,7 +343,7 @@ def getPublicKeys(ontId,public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "getPublicKeys",
+                "method": "getPublicKeys",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
@@ -300,7 +351,7 @@ def getPublicKeys(ontId,public_key, node_index = None,errorcode=47001):
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -310,7 +361,7 @@ def getPublicKeys(ontId,public_key, node_index = None,errorcode=47001):
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="getPublicKeys", ijson=request), twice = True)
-def getKeyState(ontId,keyNum,public_key, node_index = None,errorcode=47001):
+def getKeyState(ontId,keyNum,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -319,16 +370,16 @@ def getKeyState(ontId,keyNum,public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "getKeyState",
+                "method": "getKeyState",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					keyNum
+                    keyNum
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -338,8 +389,8 @@ def getKeyState(ontId,keyNum,public_key, node_index = None,errorcode=47001):
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="getKeyState", ijson=request), twice = True)
-		
-def getAttributes(ontId,public_key, node_index = None,errorcode=47001):
+        
+def getAttributes(ontId,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -348,7 +399,7 @@ def getAttributes(ontId,public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "getAttributes",
+                "method": "getAttributes",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
@@ -356,7 +407,7 @@ def getAttributes(ontId,public_key, node_index = None,errorcode=47001):
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -366,8 +417,8 @@ def getAttributes(ontId,public_key, node_index = None,errorcode=47001):
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="getAttributes", ijson=request), twice = True)
-		
-def getDDO(ontId,public_key, node_index = None,errorcode=47001):
+        
+def getDDO(ontId,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -376,7 +427,7 @@ def getDDO(ontId,public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "getDDO",
+                "method": "getDDO",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
@@ -384,7 +435,7 @@ def getDDO(ontId,public_key, node_index = None,errorcode=47001):
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -394,8 +445,8 @@ def getDDO(ontId,public_key, node_index = None,errorcode=47001):
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="getDDO", ijson=request), twice = True)
-	
-def verifySignature(ontId,keyNum,public_key, node_index = None,errorcode=47001):
+    
+def verifySignature(ontId,keyNum,public_key, node_index = None,errorcode=47001, errorkey = "error"):
     request = {
 
         "REQUEST": {
@@ -404,16 +455,16 @@ def verifySignature(ontId,keyNum,public_key, node_index = None,errorcode=47001):
             "Params": {
                 "gas_price": 0,
                 "gas_limit": 1000000000,
-				"method": "verifySignature",
+                "method": "verifySignature",
                 "address": "0300000000000000000000000000000000000000",
                 "version": 1,
                 "params": [
                     ontId,
-					keyNum
+                    keyNum
                 ]
             }
         },
-        "RESPONSE":{"error" : errorcode}
+        "RESPONSE":{errorkey : errorcode}
     }
 
     if node_index != None:
@@ -423,3 +474,34 @@ def verifySignature(ontId,keyNum,public_key, node_index = None,errorcode=47001):
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="verifySignature", ijson=request), twice = True)
+def forNeo(contract_address,functionName,params,public_key, node_index = None):
+    request = {
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signeovminvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": contract_address,
+                "version": 1,
+                "params": [
+                    {
+                        "type": "string",
+                        "value": functionName
+                    },
+                    
+                    {
+                        "type": "array",
+                        "value": params
+                    }
+                ]
+            }
+        },
+        "RESPONSE":{"error" : 0}
+    }
+    if node_index != None:
+        request["NODE_INDEX"] = node_index
+    else:
+        node_index = Common.ontid_map[public_key]
+        request["NODE_INDEX"] = node_index
+    return call_contract(Task(name="forNeo", ijson=request), twice = True)
