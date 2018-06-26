@@ -35,6 +35,9 @@ priceTest = 100000
 maxblockchange = 5
 
 class TestBenefit(ParametrizedTestCase):
+	def setUpClass(self):
+		pass
+
 	def cost_ong(self, amount):
 		address = Config.SERVICES[0]["address"]
 		address1 = Config.SERVICES[1]["address"]
