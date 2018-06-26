@@ -18,16 +18,9 @@ from utils.commonapi import *
 from utils.restfulapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --clirpc --networkid=299"
-
 ####################################################
 #test cases
 class Test(ParametrizedTestCase):
-    def clear_nodes(self):
-        stop_nodes([0, 1, 2, 3, 4, 5, 6])
-        start_nodes([0, 1, 2, 3, 4, 5, 6], DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
     def test_01_get_gen_blk_time(self):
         logger.open("01_get_gen_blk_time.log", "01_get_gen_blk_time")
         (result, response) = RestfulApi().getgenerateblocktime()
@@ -82,7 +75,6 @@ class Test(ParametrizedTestCase):
         
     # 无区块
     def test_09_get_blk_txs_by_height(self,height=0):
-        self.clear_nodes()
         logger.open("09_get_blk_txs_by_height.log", "09_get_blk_txs_by_height")
         (result, response) = RestfulApi().getblocktxsbyheight(height)
     
@@ -123,7 +115,6 @@ class Test(ParametrizedTestCase):
         
     # 无区块
     def test_17_get_blk_by_height(self,height=0):
-        self.clear_nodes()
         logger.open("17_get_blk_by_height.log", "17_get_blk_by_height")
         (result, response) = RestfulApi().getblockbyheight(height)
         logger.close(result)
@@ -169,8 +160,7 @@ class Test(ParametrizedTestCase):
         logger.close(result)
 
     # 无区块
-    def test_26_get_blk_height(self):
-        self.clear_nodes()  
+    def test_26_get_blk_height(self):    
         logger.open("26_get_blk_height.log", "26_get_blk_height")
         (result, response) = RestfulApi().getblockheight()    
         logger.close(result)
@@ -207,7 +197,6 @@ class Test(ParametrizedTestCase):
 
     # 无区块
     def test_31_get_blk_hash(self,height=0):
-        self.clear_nodes()  
         logger.open("31_get_blk_hash.log", "31_get_blk_hash")
         (result, response) = RestfulApi().getblockhashbyheight(height)    
         logger.close(result)
@@ -391,10 +380,8 @@ class Test(ParametrizedTestCase):
         logger.open("67_get_balance.log", "67_get_balance")
         (result, response) = RestfulApi().getbalance(attr)
         logger.close(result)
-        
-    # 无区块
+
     def test_68_get_contract_state(self,script_hash="fff49c809d302a2956e9dc0012619a452d4b846c"):
-        self.clear_nodes()
         logger.open("68_get_contract_state.log", "68_get_contract_state")
         (result, response) = RestfulApi().getcontract(script_hash) 
         logger.close(result)
@@ -425,7 +412,7 @@ class Test(ParametrizedTestCase):
         (result, response) = RestfulApi().getsmartcodeeventbyheight(height) 
         logger.close(result)
 
-    def test_74_get_smtcode_evt_txs(self,height=999):
+    def test_74_get_smtcode_evt_txs(self,height=9999):
         logger.open("74_get_smtcode_evt_txs.log", "74_get_smtcode_evt_txs")
         (result, response) = RestfulApi().getsmartcodeeventbyheight(height) 
         logger.close(result)
@@ -502,4 +489,4 @@ class Test(ParametrizedTestCase):
         
 ####################################################
 if __name__ == '__main__':
-    unittest.main()  
+	unittest.main()	 

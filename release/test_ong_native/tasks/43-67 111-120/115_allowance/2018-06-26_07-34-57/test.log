@@ -1,0 +1,63 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.test
+[ SIGNED TX ] {
+    "RESPONSE": {
+        "result": {
+            "signed_tx": "00d1a2ec315b0000000000000000000000000000000024b453d1388732a9d78228b572e05f7a082b90a9672254413832584150515874567a6e63514d637a635939535679746a62325675545179342254413754535135614a6341387355354d70714a4e795447317231334151594c59705252c109616c6c6f77616e6365672a2d96e6a3a54ceea5d07c493c1f18c5d9c0cb8c00014140af00770fb3ac345fdd6918c6785bdf77a93af8fbb135af97809bd02a0edb582c6126168521322ed7345e89716dc70830509f25378c4ed61b8d1aeab3f55b93fa232103e05d01e5df2c85e6a9a5526c70d080b6c7dce0fa7c66f8489c18b8569dc269dcac"
+        },
+        "error_info": "",
+        "error_code": 0,
+        "qid": "t",
+        "method": "signeovminvoketx"
+    },
+    "REQUEST": {
+        "Params": {
+            "gas_price": 0,
+            "address": "8ccbc0d9c5181f3c497cd0a5ee4ca5a3e6962d2a",
+            "gas_pimit": 0,
+            "params": [
+                {
+                    "value": "allowance",
+                    "type": "string"
+                },
+                {
+                    "value": [
+                        {
+                            "value": "54413754535135614a6341387355354d70714a4e795447317231334151594c597052",
+                            "type": "bytearray"
+                        },
+                        {
+                            "value": "54413832584150515874567a6e63514d637a635939535679746a6232567554517934",
+                            "type": "bytearray"
+                        }
+                    ],
+                    "type": "array"
+                }
+            ],
+            "version": 1
+        },
+        "Method": "signeovminvoketx",
+        "Qid": "t"
+    }
+}
+[ CALL CONTRACT ] {
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "id": 1,
+        "result": "",
+        "desc": "SMARTCODE EXEC ERROR",
+        "error": 47001
+    },
+    "REQUEST": {
+        "params": [
+            "00d1a2ec315b0000000000000000000000000000000024b453d1388732a9d78228b572e05f7a082b90a9672254413832584150515874567a6e63514d637a635939535679746a62325675545179342254413754535135614a6341387355354d70714a4e795447317231334151594c59705252c109616c6c6f77616e6365672a2d96e6a3a54ceea5d07c493c1f18c5d9c0cb8c00014140af00770fb3ac345fdd6918c6785bdf77a93af8fbb135af97809bd02a0edb582c6126168521322ed7345e89716dc70830509f25378c4ed61b8d1aeab3f55b93fa232103e05d01e5df2c85e6a9a5526c70d080b6c7dce0fa7c66f8489c18b8569dc269dcac",
+            1
+        ],
+        "method": "sendrawtransaction",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ Failed   ] call contract error
