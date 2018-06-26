@@ -1,0 +1,69 @@
+[-------------------------------]
+[ RUN      ] rpc.getbalance
+[ PARAMS   ]{
+    "info": "get balance of base58 account address",
+    "RESPONSE": {
+        "error": 0
+    },
+    "type": "rpc",
+    "REQUEST": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "params": [
+            "AXbevnGZBypZrcQwQfdYZxXj5zcFTtiMEA"
+        ],
+        "method": "getbalance"
+    }
+}
+[ RESULT   ]{
+    "result": {
+        "ont": "142857142",
+        "ong": "836306122820030"
+    },
+    "desc": "SUCCESS",
+    "jsonpc": "2.0",
+    "id": 1,
+    "error": 0
+}
+[ OK       ] rpc.getbalance (8 ms)
+[-------------------------------]
+
+[ DEPLOY ] 
+Password:Using default account:
+Deploy contract:
+  Contract Address:eacc247ee977c89259120db9a159a1e6918dd89d
+  TxHash:32cdc31463bdc44fe5d59ea22527d8386ed6d12d4391a9bb247241f69569de39
+
+Tip:
+  Using './ontology info status 32cdc31463bdc44fe5d59ea22527d8386ed6d12d4391a9bb247241f69569de39' to query transaction status
+[-------------------------------]
+[ RUN      ] rpc.getbalance
+[ PARAMS   ]{
+    "info": "get balance of base58 account address",
+    "RESPONSE": {
+        "error": 0
+    },
+    "type": "rpc",
+    "REQUEST": {
+        "id": 1,
+        "jsonrpc": "2.0",
+        "params": [
+            "AXbevnGZBypZrcQwQfdYZxXj5zcFTtiMEA"
+        ],
+        "method": "getbalance"
+    }
+}
+[ RESULT   ]{
+    "result": {
+        "ont": "142857142",
+        "ong": "816306122820030"
+    },
+    "desc": "SUCCESS",
+    "jsonpc": "2.0",
+    "id": 1,
+    "error": 0
+}
+[ OK       ] rpc.getbalance (5 ms)
+[-------------------------------]
+
+[ OK       ] 

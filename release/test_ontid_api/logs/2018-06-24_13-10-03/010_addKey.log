@@ -1,0 +1,75 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.addKey
+[ SIGNED TX ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "params": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_limit": 1000000000,
+                "version": 1,
+                "params": [
+                    "did:ont:AM8A3i3S1Tdmcx8iSH9dY9PptYy8Y2psgb",
+                    "025e2166e920de74fdf66da721d8c5b818a3c68296b95e636d5ba946a9fd37057c",
+                    "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd"
+                ],
+                "address": "0300000000000000000000000000000000000000",
+                "gas_price": 0,
+                "method": "addKey"
+            }
+        },
+        "id": 0,
+        "method": "siginvoketx"
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "result": {
+            "signed_tx": "00d153982f5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d730b100c66b2a6469643a6f6e743a414d3841336933533154646d637838695348396459395070745979385932707367626a7cc821025e2166e920de74fdf66da721d8c5b818a3c68296b95e636d5ba946a9fd37057c6a7cc82102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd6a7cc86c066164644b65791400000000000000000000000000000000000000035168164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140ddcd78c13abf5285d11d4be9ac7579c8575400cc28eee6504c119bdb1303cf26f38cbd98611db5e143ab89a82cd9e03922905719363098cf6268254531a44e58232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        },
+        "qid": "t",
+        "error_info": "",
+        "error_code": 0,
+        "method": "signativeinvoketx"
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "params": [
+            "00d153982f5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d730b100c66b2a6469643a6f6e743a414d3841336933533154646d637838695348396459395070745979385932707367626a7cc821025e2166e920de74fdf66da721d8c5b818a3c68296b95e636d5ba946a9fd37057c6a7cc82102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd6a7cc86c066164644b65791400000000000000000000000000000000000000035168164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140ddcd78c13abf5285d11d4be9ac7579c8575400cc28eee6504c119bdb1303cf26f38cbd98611db5e143ab89a82cd9e03922905719363098cf6268254531a44e58232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac",
+            1
+        ],
+        "method": "sendrawtransaction"
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "result": "",
+        "id": 1,
+        "error": 47001,
+        "desc": "SMARTCODE EXEC ERROR"
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "params": [
+            "00d153982f5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d730b100c66b2a6469643a6f6e743a414d3841336933533154646d637838695348396459395070745979385932707367626a7cc821025e2166e920de74fdf66da721d8c5b818a3c68296b95e636d5ba946a9fd37057c6a7cc82102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd6a7cc86c066164644b65791400000000000000000000000000000000000000035168164f6e746f6c6f67792e4e61746976652e496e766f6b6500014140ddcd78c13abf5285d11d4be9ac7579c8575400cc28eee6504c119bdb1303cf26f38cbd98611db5e143ab89a82cd9e03922905719363098cf6268254531a44e58232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        ],
+        "method": "sendrawtransaction"
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "result": "60742f108cecac902f3943c70baf8a0d484e2139ade3a21bbe98e73011a3eb33",
+        "id": 1,
+        "error": 0,
+        "desc": "SUCCESS"
+    }
+}
+[ OK       ] 

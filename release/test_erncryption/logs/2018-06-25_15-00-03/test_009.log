@@ -1,0 +1,219 @@
+[-------------------------------]
+[ RUN      ] rpc.getbalance
+[ PARAMS   ]{
+    "type": "rpc",
+    "info": "get balance of base58 account address",
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "params": [
+            "AR7jzsPWSqJTM7hf41jDbTVUgpurVGBvfk"
+        ],
+        "method": "getbalance",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": {
+        "ont": "0",
+        "ong": "0"
+    }
+}
+[ OK       ] rpc.getbalance (3 ms)
+[-------------------------------]
+
+base58: AXbevnGZBypZrcQwQfdYZxXj5zcFTtiMEA -> address: 30d7d5b2fdeb36c573f30468cee6a878443c93ad
+base58: AR7jzsPWSqJTM7hf41jDbTVUgpurVGBvfk -> address: de458bb9b624430b383855c8738c47b100117b66
+
+
+[-------------------------------]
+[ RUN      ] contract.forNeo
+[ SIGNED TX ] {
+    "RESPONSE": {
+        "method": "signeovminvoketx",
+        "error_info": "",
+        "qid": "t",
+        "error_code": 0,
+        "result": {
+            "signed_tx": "00d1d103315b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7304b5a14667b1100b1478c73c85538380b4324b6b98b45de14ad933c4478a8e6ce6804f373c536ebfdb2d5d73053c1087472616e73666572679783798a9416457dc1a04176c10b5153ef651250000141407f0c4429684451d4cc2848ab328b9347342c57a66e64360b671dbedc35641b35d11d9a3b60a83a3f76ae8c6362b5f4dfeeb89a8a4e50edfa9fefd33cc0965b3b232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        }
+    },
+    "NODE_INDEX": 5,
+    "REQUEST": {
+        "params": {
+            "Params": {
+                "params": [
+                    {
+                        "type": "string",
+                        "value": "transfer"
+                    },
+                    {
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "bytearray",
+                                "value": "ad933c4478a8e6ce6804f373c536ebfdb2d5d730"
+                            },
+                            {
+                                "type": "bytearray",
+                                "value": "667b1100b1478c73c85538380b4324b6b98b45de"
+                            },
+                            {
+                                "type": "int",
+                                "value": "10"
+                            }
+                        ]
+                    }
+                ],
+                "version": 1,
+                "address": "501265ef53510bc17641a0c17d4516948a798397",
+                "gas_price": 0,
+                "gas_limit": 1000000000
+            },
+            "Qid": "t",
+            "Method": "signeovminvoketx"
+        },
+        "method": "siginvoketx",
+        "id": 0,
+        "jsonrpc": "2.0"
+    }
+}
+[ CALL CONTRACT ] {
+    "RESPONSE": {
+        "id": 1,
+        "error": 0,
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "result": {
+            "Gas": 30000,
+            "Result": "00",
+            "Result String": "\u0000",
+            "State": 1
+        }
+    },
+    "NODE_INDEX": 5,
+    "REQUEST": {
+        "params": [
+            "00d1d103315b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7304b5a14667b1100b1478c73c85538380b4324b6b98b45de14ad933c4478a8e6ce6804f373c536ebfdb2d5d73053c1087472616e73666572679783798a9416457dc1a04176c10b5153ef651250000141407f0c4429684451d4cc2848ab328b9347342c57a66e64360b671dbedc35641b35d11d9a3b60a83a3f76ae8c6362b5f4dfeeb89a8a4e50edfa9fefd33cc0965b3b232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac",
+            1
+        ],
+        "method": "sendrawtransaction",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ CALL CONTRACT ] {
+    "RESPONSE": {
+        "id": 1,
+        "error": 0,
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "result": "100ae81f87f88693685cef51556a76cda22d6dccf3ab14c3188d5b43cacda4e9"
+    },
+    "NODE_INDEX": 5,
+    "REQUEST": {
+        "params": [
+            "00d1d103315b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7304b5a14667b1100b1478c73c85538380b4324b6b98b45de14ad933c4478a8e6ce6804f373c536ebfdb2d5d73053c1087472616e73666572679783798a9416457dc1a04176c10b5153ef651250000141407f0c4429684451d4cc2848ab328b9347342c57a66e64360b671dbedc35641b35d11d9a3b60a83a3f76ae8c6362b5f4dfeeb89a8a4e50edfa9fefd33cc0965b3b232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        ],
+        "method": "sendrawtransaction",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[-------------------------------]
+[ RUN      ] rpc.getbalance
+[ PARAMS   ]{
+    "type": "rpc",
+    "info": "get balance of base58 account address",
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "params": [
+            "AR7jzsPWSqJTM7hf41jDbTVUgpurVGBvfk"
+        ],
+        "method": "getbalance",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": {
+        "ont": "10",
+        "ong": "10"
+    }
+}
+[ OK       ] rpc.getbalance (4 ms)
+[-------------------------------]
+
+[-------------------------------]
+[ RUN      ] rpc.getbalance
+[ PARAMS   ]{
+    "type": "rpc",
+    "info": "get balance of base58 account address",
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "params": [
+            "AXbevnGZBypZrcQwQfdYZxXj5zcFTtiMEA"
+        ],
+        "method": "getbalance",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": {
+        "ont": "142857082",
+        "ong": "839559280676769"
+    }
+}
+[ OK       ] rpc.getbalance (3 ms)
+[-------------------------------]
+
+[-------------------------------]
+[ RUN      ] rpc.getbalance
+[ PARAMS   ]{
+    "type": "rpc",
+    "info": "get balance of base58 account address",
+    "RESPONSE": {
+        "error": 0
+    },
+    "REQUEST": {
+        "params": [
+            "AXbevnGZBypZrcQwQfdYZxXj5zcFTtiMEA"
+        ],
+        "method": "getbalance",
+        "id": 1,
+        "jsonrpc": "2.0"
+    }
+}
+[ RESULT   ]{
+    "id": 1,
+    "error": 0,
+    "jsonpc": "2.0",
+    "desc": "SUCCESS",
+    "result": {
+        "ont": "142857092",
+        "ong": "839559280676779"
+    }
+}
+[ OK       ] rpc.getbalance (4 ms)
+[-------------------------------]
+
+[ OK       ] 

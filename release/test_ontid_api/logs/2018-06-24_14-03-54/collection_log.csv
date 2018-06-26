@@ -1,0 +1,14 @@
+NAME,STATUS,LOG PATH
+128_regIDWithPublicKey.log,fail,128_regIDWithPublicKey.log
+129_addKey.log,pass,129_addKey.log
+130_removeKey.log,pass,130_removeKey.log
+131_addRecovery.log,pass,131_addRecovery.log
+132_changeRecovery.log,fail,132_changeRecovery.log
+133_regIDWithAttributes.log,pass,133_regIDWithAttributes.log
+134_addAttributes.log,fail,134_addAttributes.log
+135_removeAttribute.log,pass,135_removeAttribute.log
+136_getPublicKeys.log,pass,136_getPublicKeys.log
+137_getKeyState.log,pass,137_getKeyState.log
+138_getAttributes.log,pass,138_getAttributes.log
+139_getDDO.log,pass,139_getDDO.log
+140_verifySignature.log,pass,140_verifySignature.log

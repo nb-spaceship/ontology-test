@@ -1,0 +1,97 @@
+
+
+[-------------------------------]
+[ RUN      ] contract.forNeo
+[ SIGNED TX ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "method": "siginvoketx",
+        "params": {
+            "Params": {
+                "gas_price": 0,
+                "version": 1,
+                "params": [
+                    {
+                        "value": "addKey",
+                        "type": "string"
+                    },
+                    {
+                        "value": [
+                            {
+                                "value": "did:ont:ARHXjNFvSp8EJHnE25hWpCBuzvVSZwGnps",
+                                "type": "string"
+                            },
+                            {
+                                "value": "0200a7eaadc780320547566c6d9e671638f8fba3a9d929422b245ff432eef9a8f2",
+                                "type": "bytearray"
+                            },
+                            {
+                                "value": "02006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd",
+                                "type": "bytearray"
+                            }
+                        ],
+                        "type": "array"
+                    }
+                ],
+                "address": "98179cfad7bb384c4d47fae1fd4ce9552ff5e87f",
+                "gas_limit": 1000000000
+            },
+            "Method": "signeovminvoketx",
+            "Qid": "t"
+        },
+        "id": 0
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "method": "signeovminvoketx",
+        "qid": "t",
+        "error_code": 0,
+        "error_info": "",
+        "result": {
+            "signed_tx": "00d1d1a42f5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7308d2102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd210200a7eaadc780320547566c6d9e671638f8fba3a9d929422b245ff432eef9a8f22a6469643a6f6e743a415248586a4e4676537038454a486e4532356857704342757a7656535a77476e707353c1066164644b6579677fe8f52f55e94cfde1fa474d4c38bbd7fa9c17980001414020893e05b3da642d5f4f939c54b2a45f362a72fdec408f60ae0e29c3077b589303232b27119e7585666fa933f136853e025b0de96417dbbe0ddf7dae482c314e232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        }
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "method": "sendrawtransaction",
+        "params": [
+            "00d1d1a42f5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7308d2102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd210200a7eaadc780320547566c6d9e671638f8fba3a9d929422b245ff432eef9a8f22a6469643a6f6e743a415248586a4e4676537038454a486e4532356857704342757a7656535a77476e707353c1066164644b6579677fe8f52f55e94cfde1fa474d4c38bbd7fa9c17980001414020893e05b3da642d5f4f939c54b2a45f362a72fdec408f60ae0e29c3077b589303232b27119e7585666fa933f136853e025b0de96417dbbe0ddf7dae482c314e232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac",
+            1
+        ],
+        "id": 1
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "id": 1,
+        "result": {
+            "Result String": "\u0001",
+            "Result": "01",
+            "State": 1,
+            "Gas": 30000
+        },
+        "error": 0
+    }
+}
+[ CALL CONTRACT ] {
+    "REQUEST": {
+        "jsonrpc": "2.0",
+        "method": "sendrawtransaction",
+        "params": [
+            "00d1d1a42f5b000000000000000000ca9a3b00000000ad933c4478a8e6ce6804f373c536ebfdb2d5d7308d2102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cd210200a7eaadc780320547566c6d9e671638f8fba3a9d929422b245ff432eef9a8f22a6469643a6f6e743a415248586a4e4676537038454a486e4532356857704342757a7656535a77476e707353c1066164644b6579677fe8f52f55e94cfde1fa474d4c38bbd7fa9c17980001414020893e05b3da642d5f4f939c54b2a45f362a72fdec408f60ae0e29c3077b589303232b27119e7585666fa933f136853e025b0de96417dbbe0ddf7dae482c314e232102006a6490f7055a694e9dab01e57a1400c106a2d9e93bf8d50bb70af1d5b9a3cdac"
+        ],
+        "id": 1
+    },
+    "NODE_INDEX": 5,
+    "RESPONSE": {
+        "jsonpc": "2.0",
+        "desc": "SUCCESS",
+        "id": 1,
+        "result": "6169c678f36728e57c87698c88f0ec9280304507204e48268f8e628da9e0be63",
+        "error": 0
+    }
+}
+[ OK       ] 
