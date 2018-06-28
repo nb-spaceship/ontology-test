@@ -88,7 +88,7 @@ def init_admin(contract_address, admin_address, node_index = None):
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[admin_address]
+        node_index = Config.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index      
     
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
@@ -120,7 +120,7 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[admin_address]
+        node_index = Config.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index
         
     return call_contract(Task(name="bind_role_function", ijson=request), twice = True)
@@ -152,7 +152,7 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[admin_address]
+        node_index = Config.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index
         
     return call_contract(Task(name="bind_user_role", ijson=request), twice = True)
@@ -186,7 +186,7 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[owner_user]
+        node_index = Config.ontid_map[owner_user]
         request["NODE_INDEX"] = node_index
 
     return call_contract(Task(name="delegate_user_role", ijson=request), twice = True)
@@ -218,7 +218,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[call_user]
+        node_index = Config.ontid_map[call_user]
         request["NODE_INDEX"] = node_index
         
     return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
@@ -265,7 +265,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[callerOntID]
+        node_index = Config.ontid_map[callerOntID]
         request["NODE_INDEX"] = node_index
         
     return call_contract(Task(name="invoke_function", ijson=request), twice = True)
