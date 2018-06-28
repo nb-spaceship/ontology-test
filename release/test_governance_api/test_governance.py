@@ -21,7 +21,7 @@ from test_api import *
 from utils.commonapi import call_contract
 
 logger = LoggerInstance
-NODES = Config.SERVICES
+NODES = Config.NODES
 ####################################################
 #test cases
 #regIDWithPublicKey(0)

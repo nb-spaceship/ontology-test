@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
 
+import utils.base
+from utils.config import Config
+from utils.taskdata import TaskData, Task
+from utils.logger import LoggerInstance
+from utils.hexstring import *
+from utils.error import Error
+from utils.parametrizedtestcase import ParametrizedTestCase
+
 class Config():
 	cfg_file = open("../config.json", "rb")
 	cfg_json = json.loads(cfg_file.read().decode("utf-8"))
@@ -28,7 +36,7 @@ class Config():
 	THREAD = 1
 
 	TEST_SERVICE_PORT = 23635
-	SERVICES = cfg_json["NODES"]
+	NODES = cfg_json["NODES"]
 
 	RPC_HEADERS = {'content-type': 'application/json'}
 	#RPC CONFIG
@@ -51,4 +59,40 @@ class Config():
 
 	BASEAPI_PATH = UTILS_PATH + "/baseapi"
 
-	DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --clirpc --networkid=299"
+	DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --networkid=299"
+
+
+#####################################################################################
+    ontid_map = {}
+
+    node_Admin = 0
+    ontID_Admin = ByteToHex(bytes(NODES[node_Admin]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_Admin] = node_Admin
+	
+    node_A = 1
+    ontID_A = ByteToHex(bytes(NODES[node_A]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_A] = node_A
+	
+    node_B = 2
+    ontID_B = ByteToHex(bytes(NODES[node_B]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_B] = node_B
+	
+    node_C = 3
+    ontID_C = ByteToHex(bytes(NODES[node_C]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_C] = node_C
+	
+    node_D = 4
+    ontID_D = ByteToHex(bytes(NODES[node_D]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_D] = node_D
+	
+    node_E = 5
+    ontID_E = ByteToHex(bytes(NODES[node_E]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_E] = node_E
+	
+    node_F = 6
+    ontID_F = ByteToHex(bytes(NODES[node_F]["ontid"], encoding = "utf8"))
+    ontid_map[ontID_F] = node_F
+	
+    roleA_hex = ByteToHex(b"roleA")
+    roleB_hex = ByteToHex(b"roleB")    
+    roleC_hex = ByteToHex(b"roleC")

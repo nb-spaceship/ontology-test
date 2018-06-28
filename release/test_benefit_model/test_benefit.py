@@ -39,8 +39,8 @@ class TestBenefit(ParametrizedTestCase):
 		pass
 
 	def cost_ong(self, amount):
-		address = Config.SERVICES[0]["address"]
-		address1 = Config.SERVICES[1]["address"]
+		address = Config.NODES[0]["address"]
+		address1 = Config.NODES[1]["address"]
 		#消耗ong之前的状态
 		(result, response) = rpcapi.getblockcount()
 		if not result:
@@ -110,7 +110,7 @@ class TestBenefit(ParametrizedTestCase):
 		logger.close(result)
 		
 	def test_3(self):
-		address = Config.SERVICES[0]["address"]
+		address = Config.NODES[0]["address"]
 		logger.open("TestBenefit3.log", "TestBenefit3")
 		result = False
 		try:
@@ -172,7 +172,7 @@ class TestBenefit(ParametrizedTestCase):
 		logger.close(result)
 
 	def test_7(self):
-		address = Config.SERVICES[2]["address"]
+		address = Config.NODES[2]["address"]
 		result = False
 		logger.open("TestBenefit7.log", "TestBenefit7")
 		try:

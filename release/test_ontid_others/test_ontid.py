@@ -27,15 +27,15 @@ logger = LoggerInstance
 #node info
 #ontid_map=[]
 node_self = 5
-ontID_self_pubKey = Config.SERVICES[node_self]["pubkey"]
+ontID_self_pubKey = Config.NODES[node_self]["pubkey"]
 #ontid_map[node_self] = ontID_self_pubKey
 
 node_A = 1
-ontID_A_pubkey = Config.SERVICES[node_A]["pubkey"]
+ontID_A_pubkey = Config.NODES[node_A]["pubkey"]
 #ontid_map[ontID_A] = ontID_A_pubkey
 
 node_B = 6
-ontID_B_pubkey = Config.SERVICES[node_B]["pubkey"]
+ontID_B_pubkey = Config.NODES[node_B]["pubkey"]
 #ontid_map[ontID_B] = ontID_B_pubkey
 ####################################################
 #config

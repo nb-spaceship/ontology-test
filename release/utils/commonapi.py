@@ -59,7 +59,7 @@ def _check_md5(node_list, request):
 	isSame = True
 	if node_list:
 		for index in node_list:
-			ip = Config.SERVICES[int(index)]["ip"]
+			ip = Config.NODES[int(index)]["ip"]
 			response = utils.base.con_test_service(ip, request)
 			if not response or "result" not in response:
 				print("no md5: "+ ip)
@@ -237,8 +237,11 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		logger.print("[ SIGNED TX ] " + json.dumps(taskdata, indent = 4))
 
 		#step 2: call contract
-		if expect_signresponse != None:
+		if expect_signresponse != None:				
 			result = cmp(expect_signresponse, response)
+			if result and "error_code" in response and int(response["error_code"]) != 0:
+				return (result, response) 
+
 			if not result:
 				raise Error("not except sign result")
 
@@ -297,7 +300,7 @@ def run_single_task(task, judge = True, process_log = True):
 	node_ip = None
 	print(node_index)
 	if node_index != None:
-		node_ip = Config.SERVICES[int(node_index)]["ip"]
+		node_ip = Config.NODES[int(node_index)]["ip"]
 		print("run on other service: " + str(node_index) + "  " + node_ip)
 		
 	response = utils.base.con(connecttype, node_ip, cfg_request)
@@ -387,7 +390,7 @@ def start_node(index, start_params, clear_chain = False, clear_log = False):
 		}
 	}
 
-	ip = Config.SERVICES[index]["ip"]
+	ip = Config.NODES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
@@ -403,7 +406,7 @@ def stop_node(index):
 		"id": 0
 	}
 
-	ip = Config.SERVICES[index]["ip"]
+	ip = Config.NODES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
@@ -486,7 +489,7 @@ def replace_config(index, config = None):
 		"params" : config
 	}
 
-	ip = Config.SERVICES[index]["ip"]
+	ip = Config.NODES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
@@ -497,13 +500,13 @@ def transfer_ont(from_index, to_index, amount):
 		"jsonrpc": "2.0",
 		"id": 0,
 		"params" : {
-			"from" : Config.SERVICES[from_index]["address"],
-			"to" : Config.SERVICES[to_index]["address"],
+			"from" : Config.NODES[from_index]["address"],
+			"to" : Config.NODES[to_index]["address"],
 			"amount" : amount
 		}
 	}
 
-	ip = Config.SERVICES[from_index]["ip"]
+	ip = Config.NODES[from_index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
@@ -515,7 +518,7 @@ def withdrawong(index):
 		"id": 0
 	}
 
-	ip = Config.SERVICES[index]["ip"]
+	ip = Config.NODES[index]["ip"]
 	response = utils.base.con_test_service(ip, request)
 
 	return response
