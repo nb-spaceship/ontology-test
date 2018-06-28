@@ -70,15 +70,22 @@ def transferTest(assetStr,put_address, get_address,amount, node_index = None,err
 	request["NODE_INDEX"] = node_index	  
 	return multi_contract(Task(name="transferTest", ijson=request),public_key_Array[0],public_key_Array[1])
 
+################
+	#restart_givemoney
+#################
+
 def init_ont_ong():
-	for i=0 in 7:
+	for i in range(7):
 		(result, response)=transferTest("ont",Config.MULTI_SIGNED_ADDRESS,Config.SERVICES[i]["address"],100000000,public_key_Array=[5,[Config.SERVICES[0]["pubkey"],Config.SERVICES[1]["pubkey"],Config.SERVICES[2]["pubkey"],Config.SERVICES[3]["pubkey"],Config.SERVICES[4]["pubkey"],Config.SERVICES[5]["pubkey"],Config.SERVICES[6]["pubkey"]]])
 		if not result:
 			return (result, response)
+	time.sleep(5)
 	(result, response) = transferFromTest(Config.MULTI_SIGNED_ADDRESS,Config.INIT_AMOUNT_ONG,5,public_key_Array=[5,[Config.SERVICES[0]["pubkey"],Config.SERVICES[1]["pubkey"],Config.SERVICES[2]["pubkey"],Config.SERVICES[3]["pubkey"],Config.SERVICES[4]["pubkey"],Config.SERVICES[5]["pubkey"],Config.SERVICES[6]["pubkey"]]])		
 	if not result:
 		return (result, response)
-	for i=0 in 7:
+	time.sleep(5)
+	for i in range(7):
 		(result, response)=transferTest("ong",Config.MULTI_SIGNED_ADDRESS,Config.SERVICES[i]["address"],1000000000000000,public_key_Array=[5,[Config.SERVICES[0]["pubkey"],Config.SERVICES[1]["pubkey"],Config.SERVICES[2]["pubkey"],Config.SERVICES[3]["pubkey"],Config.SERVICES[4]["pubkey"],Config.SERVICES[5]["pubkey"],Config.SERVICES[6]["pubkey"]]])
 		if not result:
 			return (result, response)
+#init_ont_ong()
