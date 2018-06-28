@@ -222,6 +222,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 			deploy_contract_addr = deploy_contract(deploy_code_path)
 		#step 1: signed tx
 		expect_response = None
+		expect_signresponse = None
 		if "RESPONSE" in taskdata:
 			expect_response = taskdata["RESPONSE"]
 
