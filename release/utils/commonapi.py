@@ -225,6 +225,9 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		if "RESPONSE" in taskdata:
 			expect_response = taskdata["RESPONSE"]
 
+		if "SIGN_RESPONSE" in taskdata:
+			expect_signresponse = taskdata["SIGN_RESPONSE"]
+
 		if deploy_contract_addr:
 			taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
 
@@ -234,12 +237,17 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		logger.print("[ SIGNED TX ] " + json.dumps(taskdata, indent = 4))
 
 		#step 2: call contract
+		if expect_signresponse != None:
+			result = cmp(expect_signresponse, response)
+			if not result:
+				raise Error("not except sign result")
+
 		signed_tx = None
 		if not response is None and "result" in response and not response["result"] is None and "signed_tx" in response["result"]:
 			signed_tx = response["result"]["signed_tx"]
 
 		if signed_tx == None or signed_tx == '':
-			return (False, response)
+			raise Error("no signed tx")
 
 		if twice:
 			(result, response) = call_signed_contract(signed_tx, True, node_index)
