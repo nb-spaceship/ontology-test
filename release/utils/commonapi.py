@@ -239,7 +239,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 			signed_tx = response["result"]["signed_tx"]
 
 		if signed_tx == None or signed_tx == '':
-			raise Error("no signed tx")
+			return (False, response)
 
 		if twice:
 			(result, response) = call_signed_contract(signed_tx, True, node_index)
