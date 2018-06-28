@@ -40,7 +40,7 @@ namespace Example
             
             if (operation == "contractB_Func_A")
             {
-                if (!VerifyToken(operation, token)) return "Verify contractB's FuncA FAILED";
+                if (!VerifyToken(operation, token)) return false;
 
                 return contractB_Func_A(args);
             }

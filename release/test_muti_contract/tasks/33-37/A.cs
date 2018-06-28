@@ -25,7 +25,7 @@ namespace Example
         {
             object ret = ContractB("contractB_Func_A", token, null);
 			if ((bool)ret == false) {
-				return "Invoke contractB's FuncA FAILED.";
+				return false;
 			}
             return ret;
         }
