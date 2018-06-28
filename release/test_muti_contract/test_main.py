@@ -23,6 +23,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.contractapi import *
 from utils.commonapi import *
+from utils.init_ong_ont import *
 from test_api import *
 from test_common import *
 logger = LoggerInstance
@@ -44,33 +45,7 @@ class TestMutiContract(ParametrizedTestCase):
         regIDWithPublicKey(4)
         regIDWithPublicKey(5)
         regIDWithPublicKey(6)
-        print(json.dumps(transfer_ont(0, 0, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(0)))
-        time.sleep(1)
-        print(json.dumps(transfer_ont(1, 1, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(1)))
-        time.sleep(1)
-        print(json.dumps(transfer_ont(2, 2, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(2)))
-        time.sleep(1)
-        print(json.dumps(transfer_ont(3, 3, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(3)))
-        time.sleep(1)
-        print(json.dumps(transfer_ont(4, 4, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(4)))
-        time.sleep(1)
-        print(json.dumps(transfer_ont(5, 5, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(5)))
-        time.sleep(1)
-        print(json.dumps(transfer_ont(6, 6, 100000)))
-        time.sleep(3)
-        print(json.dumps(withdrawong(6)))
+        init_ont_ong()
 
     def test_01(self):
         logger.open("TestMutiContract_1.log", "TestMutiContract_1")
@@ -1371,7 +1346,7 @@ class TestMutiContract(ParametrizedTestCase):
             if not result:
                 raise Error("invoke_function error")
 
-            result = (response["result"]["Result"] != "00")          
+            result = (response["result"]["Result"] != "00" and response["result"]["Result"] != "")          
         
         except Exception as e:
             print(e.msg)
@@ -1417,7 +1392,7 @@ class TestMutiContract(ParametrizedTestCase):
             if not result:
                 raise Error("invoke_function error")
 
-            result = (response["result"]["Result"] != "00")        
+            result = (response["result"]["Result"] != "00" and response["result"]["Result"] != "")        
                 
         except Exception as e:
             print(e.msg)
@@ -1496,7 +1471,7 @@ class TestMutiContract(ParametrizedTestCase):
             # 用户B调用智能合约A中的A方法
             (result, response) = invoke_function(contract_addressA, "A2", Config.ontID_B)
 
-            result = (not result or response["result"]["Result"] == "00")        
+            result = (response["result"]["Result"] != "00")        
         
         except Exception as e:
             print(e.msg)
