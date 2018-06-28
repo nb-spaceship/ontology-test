@@ -35,8 +35,6 @@ address_false = "4df8a82026db08aebaf3d989cf8b2515873f8019"
 txhash_true = "a4b67b932d06d0999b588088faafdd9f129ebf01b316b38a9177b3714779ff57"
 txhash_false = "a4b67b932d06d0999b588088faafdd9f129ebf01b316b38a9177b3714779ff57"
 height_true = 5
-value_99999 = 99999
-value_overflow = 99999999
 
 hex_true =""
 hex_false = ""
@@ -59,21 +57,54 @@ getbalance_address_false= ""
 ######################################################
 # test cases
 
-class TestRpc(ParametrizedTestCase):
 
+
+class TestRpc(ParametrizedTestCase):
+	@classmethod
+	def setUpClass(cls):
+		(cls.m_contractaddr_right, cls.m_txhash_right) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
+		cls.m_txhash_wrong = "is a wrong tx hash"
+		
+		(result, reponse) = rpcApi.getblockhash(height = 1)
+		cls.m_block_hash_right = reponse["result"]
+		
+		cls.m_block_hash_error = "this is a wrong block hash"
+		
+		cls.m_block_height_right = 1
+		
+		cls.m_block_height_wrong = 9999
+		
+		cls.m_block_height_overflow = 99999999
+		
+		(result, reponse) = sign_transction(Task("tasks/cli/siginvoketx.json"), False)
+		cls.m_signed_txhash_right = reponse["result"]["signed_tx"]
+		cls.m_signed_txhash_wrong = cls.m_signed_txhash_right + "000000"
+		
+		cls.m_getstorage_contract_addr = "03febccf81ac85e3d795bc5cbd4e84e907812aa3"
+		cls.m_getstorage_contract_addr_wrong = "03febccf81ac85e3d795ccccbd4e84e907812aa4"
+		cls.m_getstorage_contract_key = "5065746572"
+
+	def setUp(self):
+		time.sleep(1)
+
+	def clear_nodes(self):
+		stop_nodes([0, 1, 2, 3, 4, 5, 6])
+		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(10)
+			
 	def test_01_getblock(self):
 		logger.open("01_getblock.log", "01_getblock")
-		(result, response) = rpcApi.getblock(height = None, blockhash = txhash_true, verbose = None)
+		(result, response) = rpcApi.getblock(height = None, blockhash = self.m_block_hash_right, verbose = None)
 		logger.close(result)
 
 	def test_02_getblock(self):
 		logger.open("02_getblock.log", "02_getblock")
-		(result, response) = rpcApi.getblock(height = None, blockhash = txhash_false, verbose = None)
+		(result, response) = rpcApi.getblock(height = None, blockhash = self.m_block_hash_error, verbose = None)
 		logger.close(not result)
 	
 	def test_03_getblock(self):
 		logger.open("03_getblock.log", "03_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = None)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = None)
 		logger.close(result)
 	
 	def test_04_getblock(self):
@@ -83,47 +114,47 @@ class TestRpc(ParametrizedTestCase):
 		
 	def test_05_getblock(self):
 		logger.open("05_getblock.log", "05_getblock")
-		(result, response) = rpcApi.getblock(height = value_99999, blockhash = None, verbose = None)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_wrong, blockhash = None, verbose = None)
 		logger.close(not result)
 
 	def test_06_getblock(self):
 		logger.open("06_getblock.log", "06_getblock")
-		(result, response) = rpcApi.getblock(height = value_overflow, blockhash = None, verbose = None)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_overflow, blockhash = None, verbose = None)
 		logger.close(not result)
 
 	def test_07_getblock(self):
 		logger.open("07_getblock.log", "07_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = 0)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = 0)
 		logger.close(result)
 
 	def test_08_getblock(self):
 		logger.open("08_getblock.log", "08_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = 1)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = 1)
 		logger.close(result)
 
 	def test_09_getblock(self):
 		logger.open("09_getblock.log", "09_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = -1)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = -1)
 		logger.close(not result)
 	
 	def test_10_getblock(self):
 		logger.open("10_getblock.log", "10_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = 2)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = 2)
 		logger.close(not result)
 	
 	def test_11_getblock(self):
 		logger.open("11_getblock.log", "11_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = "abc")
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = "abc")
 		logger.close(not result)
 	
 	def test_12_getblock(self):
 		logger.open("12_getblock.log", "12_getblock")
-		(result, response) = rpcApi.getblock(height = height_true, blockhash = None, verbose = None)
+		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = None)
 		logger.close(result)
 
 	def test_13_getblockhash(self):
 		logger.open("13_getblockhash.log", "13_getblockhash")
-		(result, response) = rpcApi.getblockhash(height = height_true)
+		(result, response) = rpcApi.getblockhash(height = self.m_block_height_right)
 		logger.close(result)
 	
 	def test_14_getblockhash(self):
@@ -133,12 +164,12 @@ class TestRpc(ParametrizedTestCase):
 	
 	def test_15_getblockhash(self):
 		logger.open("15_getblockhash.log", "15_getblockhash")
-		(result, response) = rpcApi.getblockhash(height = value_99999)
+		(result, response) = rpcApi.getblockhash(height = self.m_block_height_wrong)
 		logger.close(not result)
 
 	def test_16_getblockhash(self):
 		logger.open("16_getblockhash.log", "16_getblockhash")
-		(result, response) = rpcApi.getblockhash(height = value_overflow)
+		(result, response) = rpcApi.getblockhash(height = self.m_block_height_overflow)
 		logger.close(not result)
 
 	def test_17_getblockhash(self):
@@ -163,9 +194,10 @@ class TestRpc(ParametrizedTestCase):
 
 	# can not test
 	def test_21_getbestblockhash(self):
+		self.clear_nodes()
 		logger.open("21_getbestblockhash.log", "21_getbestblockhash")
-		(result, response) = rpcApi.getblockhash()
-		logger.close(not result)
+		(result, response) = rpcApi.getbestblockhash()
+		logger.close(result)
 	
 	def test_22_getblockcount(self):
 		logger.open("22_getblockcount.log", "22_getblockcount")
@@ -174,20 +206,26 @@ class TestRpc(ParametrizedTestCase):
 
 	# can not test
 	def test_23_getblockcount(self):
+		self.clear_nodes()
 		logger.open("23_getblockcount.log", "23_getblockcount")
 		(result, response) = rpcApi.getblockcount()
-		logger.close(not result)
+		logger.close(result and (int(response["result"]) == 1))
 
 	def test_24_getconnectioncount(self):
 		logger.open("24_getconnectioncount.log", "24_getconnectioncount")
 		(result, response) = rpcApi.getconnectioncount()
-		logger.close(not result)
+		logger.close(result and int(response["result"]) == 6)
 
 	# can not test
 	def test_25_getconnectioncount(self):
+		stop_nodes([1, 2, 3, 4, 5, 6])
+		
 		logger.open("25_getconnectioncount.log", "25_getconnectioncount")
 		(result, response) = rpcApi.getconnectioncount()
-		logger.close(not result)
+		logger.close(result and int(response["result"]) == 0)
+		
+		start_nodes([1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, False, False)
+		time.sleep(10)
 	
 	def test_26_getgenerateblocktime(self):
 		logger.open("26_getgenerateblocktime.log", "26_getgenerateblocktime")
@@ -197,17 +235,17 @@ class TestRpc(ParametrizedTestCase):
 	# can not test
 	def test_26_getconnectioncount_1(self):
 		logger.open("27_getconnectioncount.log", "27_getconnectioncount")
-		(result, response) = rpcApi.getconnectioncount()
+		(result, response) = rpcApi.getgenerateblocktime()
 		logger.close(not result)
 
 	def test_27_getrawtransaction(self):
 		logger.open("27_getrawtransaction.log", "27_getrawtransaction")
-		(result, response) = rpcApi.getrawtransaction(txhash_true)
+		(result, response) = rpcApi.getrawtransaction(self.m_txhash_right)
 		logger.close(result)
 	
 	def test_28_getrawtransaction(self):
 		logger.open("28_getrawtransaction.log", "28_getrawtransaction")
-		(result, response) = rpcApi.getrawtransaction(txhash_false)
+		(result, response) = rpcApi.getrawtransaction(self.m_txhash_wrong)
 		logger.close(not result)
 
 	def test_29_getrawtransaction(self):
@@ -257,12 +295,12 @@ class TestRpc(ParametrizedTestCase):
 	
 	def test_38_sendrawtransaction(self):
 		logger.open("38_sendrawtransaction.log", "38_sendrawtransaction")
-		(result, response) = rpcApi.sendrawtransaction(hex_true)
+		(result, response) = rpcApi.sendrawtransaction(self.m_signed_txhash_right)
 		logger.close(result)
 	
 	def test_39_sendrawtransaction(self):
 		logger.open("39_sendrawtransaction.log", "39_sendrawtransaction")
-		(result, response) = rpcApi.sendrawtransaction(hex_false)
+		(result, response) = rpcApi.sendrawtransaction(self.m_signed_txhash_wrong)
 		logger.close(not result)
 	
 	def test_40_sendrawtransaction(self):
@@ -272,12 +310,12 @@ class TestRpc(ParametrizedTestCase):
 	
 	def test_41_getstorage(self):
 		logger.open("41_getstorage.log", "41_getstorage")
-		(result, response) = rpcApi.getstorage(getstorage_hash_true, getstorage_key)
+		(result, response) = rpcApi.getstorage(self.m_getstorage_contract_addr, self.m_getstorage_contract_key)
 		logger.close(result)
 
 	def test_42_getstorage(self):
 		logger.open("42_getstorage.log", "42_getstorage")
-		(result, response) = rpcApi.getstorage(getstorage_hash_false, getstorage_key)
+		(result, response) = rpcApi.getstorage(self.m_getstorage_contract_addr_wrong, self.m_getstorage_contract_key)
 		logger.close(not result)
 
 	def test_43_getstorage(self):
@@ -327,11 +365,13 @@ class TestRpc(ParametrizedTestCase):
 		logger.close(result)
 
 	# can not test
+	'''
 	def test_52_getversion(self):
+		self.clear_nodes();
 		logger.open("52_getversion.log", "52_getversion")
 		(result, response) = rpcApi.getversion()
 		logger.close(not result)
-
+	'''
 	def test_53_getblocksysfee(self):
 		logger.open("52_getversion.log", "52_getversion")
 		(result, response) = rpcApi.getblocksysfee(getblocksysfee_index_true)

@@ -33,29 +33,10 @@ class TestMutiContract(ParametrizedTestCase):
     def setUp(self):
         time.sleep(2)
         print("stop all")
-        stop_node(0)
-        stop_node(1)
-        stop_node(2)
-        stop_node(3)
-        stop_node(4) 
-        stop_node(5)
-        stop_node(6)
-        time.sleep(1)
+        stop_nodes([0,1,2,3,4,5,6])
         print("start all")
-        start_node(0, Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(1)
-        start_node(1, Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(1)
-        start_node(2, Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(1)
-        start_node(3, Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(1)
-        start_node(4, Config.DEFAULT_NODE_ARGS, True, True) 
-        time.sleep(1)
-        start_node(5, Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(1)
-        start_node(6, Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(1)
+        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+        time.sleep(10)
         regIDWithPublicKey(0)
         regIDWithPublicKey(1)
         regIDWithPublicKey(2)
@@ -357,7 +338,7 @@ class TestMutiContract(ParametrizedTestCase):
         except Exception as e:
             print(e.msg)
         logger.close(result)
-
+    '''
     def test_10(self):
         logger.open("TestMutiContract_10.log", "TestMutiContract_10")
         result = False
@@ -1032,7 +1013,7 @@ class TestMutiContract(ParametrizedTestCase):
         except Exception as e:
             print(e.msg)
         logger.close(result)
-
+    '''
     def test_30(self):
         logger.open("TestMutiContract_30.log", "TestMutiContract_30")
         result = False
@@ -1117,7 +1098,7 @@ class TestMutiContract(ParametrizedTestCase):
         except Exception as e:
             print(e.msg)
         logger.close(result)
-
+    '''
     def test_32(self):
         logger.open("TestMutiContract_32.log", "TestMutiContract_32")
         result = False
@@ -1155,7 +1136,7 @@ class TestMutiContract(ParametrizedTestCase):
         except Exception as e:
             print(e.msg)
         logger.close(result)
-
+    '''
     def test_33(self):
         logger.open("TestMutiContract_33.log", "TestMutiContract_33")
         result = False

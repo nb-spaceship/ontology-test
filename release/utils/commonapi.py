@@ -375,11 +375,12 @@ def pause(msg):
 	return command
 
 #
-def start_nodes(indexs, start_params, clear_chain = False, clear_log = False, init_ont = True):
+def start_nodes(indexs, start_params, clear_chain = False, clear_log = False):
 	for index in indexs:
-		start_node(index, start_params, clear_chain, clear_log, init_ont)
+		start_node(index, start_params, clear_chain, clear_log)
 
-def start_node(index, start_params, clear_chain = False, clear_log = False, init_ont = True):
+def start_node(index, start_params, clear_chain = False, clear_log = False):
+	print("start node: " + str(index) + " start_params:" + start_params + " clear_chain:" + str(clear_chain) + " clear_log:" + str(clear_log))
 	request = {
 		"method": "start_node",
 		"jsonrpc": "2.0",
@@ -401,6 +402,7 @@ def stop_nodes(indexs):
 		stop_node(index)
 
 def stop_node(index):
+	print("stop node: " + str(index))
 	request = {
 		"method": "stop_node",
 		"jsonrpc": "2.0",

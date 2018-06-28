@@ -9,7 +9,7 @@ namespace Example
 {
     public class AppContract : SmartContract
     {
-        [Appcall("7779864dd2a9a9d0e04c897656a009f6b0d1bae9")] //智能合约B的地址
+        [Appcall("35f43195be1d5e602fc5ad5d202ef2e2607ea23f")] //智能合约B的地址
         public static extern object ContractB(string op, object[] token, object[] args);
 
         public static object Main(string operation, object[] token)
