@@ -17,6 +17,20 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
+def findSystemNode():
+
+	PubKeyList=[]
+	PubKeyDict={}
+	for i in range(len(Config.NODES)):
+		
+		ontid = Config.NODES[i]["ontid"]
+		pubkey = Config.NODES[i]["pubkey"]
+		PubKeyList.append(pubkey)
+		PubKeyDict[pubkey]=i
+	test=max(PubKeyList)
+	print test
+	print PubKeyDict[test]
+    return PubKeyDict[test]
 
 def regIDWithPublicKey(node_index):
     ontid = Config.NODES[int(node_index)]["ontid"]
