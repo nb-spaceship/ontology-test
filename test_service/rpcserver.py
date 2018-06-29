@@ -86,6 +86,9 @@ def siginvoketx(**kwargs):
 @dispatcher.add_method
 def stop_node(**kwargs):
   os.popen("killall -9 ontology")
+  os.popen("killall -9 ontology-bft_1")
+  os.popen("killall -9 ontology-bft_2")
+  os.popen("killall -9 ontology-bft_3")
   return True
 
 @dispatcher.add_method
