@@ -76,16 +76,16 @@ def transferTest(assetStr,put_address, get_address,amount, node_index = None,err
 
 def init_ont_ong():
 	for i in range(7):
-		(result, response)=transferTest("ont",Config.MULTI_SIGNED_ADDRESS,Config.SERVICES[i]["address"],100000000,public_key_Array=[5,[Config.SERVICES[0]["pubkey"],Config.SERVICES[1]["pubkey"],Config.SERVICES[2]["pubkey"],Config.SERVICES[3]["pubkey"],Config.SERVICES[4]["pubkey"],Config.SERVICES[5]["pubkey"],Config.SERVICES[6]["pubkey"]]])
+		(result, response)=transferTest("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],100000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
 		if not result:
 			return (result, response)
 	time.sleep(5)
-	(result, response) = transferFromTest(Config.MULTI_SIGNED_ADDRESS,Config.INIT_AMOUNT_ONG,5,public_key_Array=[5,[Config.SERVICES[0]["pubkey"],Config.SERVICES[1]["pubkey"],Config.SERVICES[2]["pubkey"],Config.SERVICES[3]["pubkey"],Config.SERVICES[4]["pubkey"],Config.SERVICES[5]["pubkey"],Config.SERVICES[6]["pubkey"]]])		
+	(result, response) = transferFromTest(Config.MULTI_SIGNED_ADDRESS,Config.INIT_AMOUNT_ONG,5,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])		
 	if not result:
 		return (result, response)
 	time.sleep(5)
 	for i in range(7):
-		(result, response)=transferTest("ong",Config.MULTI_SIGNED_ADDRESS,Config.SERVICES[i]["address"],1000000000000000,public_key_Array=[5,[Config.SERVICES[0]["pubkey"],Config.SERVICES[1]["pubkey"],Config.SERVICES[2]["pubkey"],Config.SERVICES[3]["pubkey"],Config.SERVICES[4]["pubkey"],Config.SERVICES[5]["pubkey"],Config.SERVICES[6]["pubkey"]]])
+		(result, response)=transferTest("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],1000000000000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
 		if not result:
 			return (result, response)
 #init_ont_ong()
