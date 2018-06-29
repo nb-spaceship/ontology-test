@@ -22,6 +22,8 @@ class Conf():
     block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
     block_hash = rpcApi.getblockhash(block_height - 1)[1]["result"]
 
+    PUBLICKEY =Config.Nodes[0]["pubkey"]
+
     BLOCK_HEIGHT_WITH_TX = rpcApi.getblockheightbytxhash(contract_tx_hash)[1]["result"]
     BLOCK_HEIGHT_WITHOUT_TX = rpcApi.getblockheightbytxhash(contract_tx_hash)[1]["result"]+1
 
@@ -48,6 +50,52 @@ class Conf():
     SCRIPT_HASH_CORRECT = ByteToHex(contract_tx_hash, encoding = "utf8")
     SCRIPT_HASH_INCORRECT_1 = "31313131"
     SCRIPT_HASH_INCORRECT_2 = ByteToHex(contract_tx_hash_1, encoding = "utf8")
+    SCRIPT_HASH_INCORRECT_3 = ""
+
+    KEY_CORRECT = "123"
+    KEY_CORRECT_1 = "test"
+    KEY_INCORRECT_1 = ""
+    KEY_CORRECT_2 = "65536"
+    KEY_CORRECT_3 = "2140232524265e2a28295f202b217e60"
+
+    VALUE_CORRECT = "123"
+    VALUE_CORRECT_1 = "test"
+    VALUE_INCORRECT_1 = ""
+    VALUE_CORRECT_2 = "65536"
+    VALUE_CORRECT_3 = "2140232524265e2a28295f202b217e60"
+
+    NAME_1 = "test"
+    NAME_2 = "123"
+    NAME_3 = "!@#%$&^*()_ +!~`"
+    NAME_4 = "65536"
+    NAME_5 = ""
+
+    VERSION_1 = "test"
+    VERSION_2 = "123"
+    VERSION_3 = "65536"
+    VERSION_4 = "!@#%$&^*()_ +!~`"
+    VERSION_5 = ""
+
+    AUTHOR_1 = "test"
+    AUTHOR_2 = "123"
+    AUTHOR_3 = "65536"
+    AUTHOR_4 = "!@#%$&^*()_ +!~`"
+    AUTHOR_5 = ""
+
+    EMAIL_1 = "test"
+    EMAIL_2 = "123"
+    EMAIL_3 = "65536"
+    EMAIL_4 = "!@#%$&^*()_ +!~`"
+    EMAIL_5 = ""
+
+    DESC_1 = "test"
+    DESC_2 = "123"
+    DESC_3 = "65536"
+    DESC_4 = "!@#%$&^*()_ +!~`"
+    DESC_5 = ""
+
+
+    DESC_1 = "test"
  
     GET_HEADER_FUNC_NAME = "GetHeader"
     GET_HEIGHT_FUNC_NAME = "GetHeight"
@@ -72,6 +120,7 @@ class Conf():
     GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME = "GetTransactionAttribute_Data"
     GET_CONTRACT_SCRIPT_FUNC_TIME = "GetContract_Script"
     GET_CONTRACT_CREATE_FUNC_TIME = "GetContract_Create"
+    GET_CONTRACT_DESTROY_FUNC_NAME = "GetContract_Destroy"
 
     PARAM_TYPE_INT = "int"
     PARAM_TYPE_BYTEARRAY = "bytearray"

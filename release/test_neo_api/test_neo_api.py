@@ -323,23 +323,773 @@ class TestNeoAPI(ParametrizedTestCase):
 		log_path = "58_getcontract_create.log"
 		task_name = "58_getcontract_create"
 		self.start(log_path)
-		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
 		self.normal_finish(task_name, log_path, result, "")
 
 	def test_59_getcontract_create(self):
 		log_path = "59_getcontract_create.log"
 		task_name = "59_getcontract_create"
 		self.start(log_path)
-		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_INCORRECT_1)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_INCORRECT_1, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
 		self.normal_finish(task_name, log_path, result, "")
 
 	def test_60_getcontract_create(self):
 		log_path = "60_getcontract_create.log"
 		task_name = "60_getcontract_create"
 		self.start(log_path)
-		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_INCORRECT_1)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_INCORRECT_3, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_61_getcontract_create(self):
+		log_path = "61_getcontract_create.log"
+		task_name = "61_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_62_getcontract_create(self):
+		log_path = "62_getcontract_create.log"
+		task_name = "62_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_2, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_63_getcontract_create(self):
+		log_path = "63_getcontract_create.log"
+		task_name = "63_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_3, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_64_getcontract_create(self):
+		log_path = "64_getcontract_create.log"
+		task_name = "64_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_4, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_65_getcontract_create(self):
+		log_path = "65_getcontract_create.log"
+		task_name = "65_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_5, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_66_getcontract_create(self):
+		log_path = "66_getcontract_create.log"
+		task_name = "66_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_67_getcontract_create(self):
+		log_path = "67_getcontract_create.log"
+		task_name = "67_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_2, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_68_getcontract_create(self):
+		log_path = "68_getcontract_create.log"
+		task_name = "68_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_3, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_69_getcontract_create(self):
+		log_path = "69_getcontract_create.log"
+		task_name = "69_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_4, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_70_getcontract_create(self):
+		log_path = "70_getcontract_create.log"
+		task_name = "70_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_5, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_71_getcontract_create(self):
+		log_path = "71_getcontract_create.log"
+		task_name = "71_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_72_getcontract_create(self):
+		log_path = "72_getcontract_create.log"
+		task_name = "72_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_2, Conf.EMAIL_1, Conf.DESC_1)
 		self.normal_finish(task_name, log_path, result, "")
 	
+	def test_73_getcontract_create(self):
+		log_path = "73_getcontract_create.log"
+		task_name = "73_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_3, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_74_getcontract_create(self):
+		log_path = "74_getcontract_create.log"
+		task_name = "74_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_4, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_75_getcontract_create(self):
+		log_path = "75_getcontract_create.log"
+		task_name = "75_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_5, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_76_getcontract_create(self):
+		log_path = "76_getcontract_create.log"
+		task_name = "76_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_77_getcontract_create(self):
+		log_path = "77_getcontract_create.log"
+		task_name = "77_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_2, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_78_getcontract_create(self):
+		log_path = "78_getcontract_create.log"
+		task_name = "78_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_3, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_79_getcontract_create(self):
+		log_path = "79_getcontract_create.log"
+		task_name = "79_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_4, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_80_getcontract_create(self):
+		log_path = "80_getcontract_create.log"
+		task_name = "80_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_5, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+
+	def test_81_getcontract_create(self):
+		log_path = "81_getcontract_create.log"
+		task_name = "81_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_82_getcontract_create(self):
+		log_path = "82_getcontract_create.log"
+		task_name = "82_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_2)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_83_getcontract_create(self):
+		log_path = "83_getcontract_create.log"
+		task_name = "83_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_3)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_84_getcontract_create(self):
+		log_path = "84_getcontract_create.log"
+		task_name = "84_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_4)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_85_getcontract_create(self):
+		log_path = "85_getcontract_create.log"
+		task_name = "85_getcontract_create"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_5)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_86_getcontract_destroy(self):
+		log_path = "86_getcontract_destroy.log"
+		task_name = "86_getcontract_destroy"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, Conf.GET_CONTRACT_DESTROY_FUNC_NAME)
+		self.normal_finish(task_name, log_path, result, "")
+	
+	def test_88_storage_context(self):
+		log_path = "88_storage_context.log"
+		task_name = "88_storage_context"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "GetStorageContext", Conf.PARAM_TYPE_BYTEARRAY, Conf.SCRIPT_HASH_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_90_current_context(self):
+		log_path = "90_current_context.log"
+		task_name = "90_current_context"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "GetCurrentContext")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_92_storage_get(self):
+		log_path = "92_storage_get.log"
+		task_name = "92_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Get_92", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_93_storage_get(self):
+		log_path = "93_storage_get.log"
+		task_name = "93_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_storage_get(Conf.CONTRACT_ADDRESS)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_94_storage_get(self):
+		log_path = "94_storage_get.log"
+		task_name = "94_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Get_94", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_95_storage_get(self):
+		log_path = "95_storage_get.log"
+		task_name = "95_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Get_92", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_96_storage_get(self):
+		log_path = "96_storage_get.log"
+		task_name = "96_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_storage_get(Conf.CONTRACT_ADDRESS)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_97_storage_get(self):
+		log_path = "97_storage_get.log"
+		task_name = "97_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Get_92", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_INCORRECT_1, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_98_storage_get(self):
+		log_path = "98_storage_get.log"
+		task_name = "98_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Get_98", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_INCORRECT_1, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_99_storage_put(self):
+		log_path = "99_storage_put.log"
+		task_name = "99_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_100_storage_put(self):
+		log_path = "100_storage_put.log"
+		task_name = "100_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_100", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_101_storage_put(self):
+		log_path = "101_storage_put.log"
+		task_name = "101_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_101", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_102_storage_put(self):
+		log_path = "102_storage_put.log"
+		task_name = "102_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_103_storage_put(self):
+		log_path = "103_storage_put.log"
+		task_name = "103_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT_1, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_104_storage_put(self):
+		log_path = "104_storage_put.log"
+		task_name = "104_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT_2, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_105_storage_put(self):
+		log_path = "105_storage_put.log"
+		task_name = "105_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT_3, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_106_storage_put(self):
+		log_path = "106_storage_put.log"
+		task_name = "106_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_INCORRECT_1, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_107_storage_put(self):
+		log_path = "107_storage_put.log"
+		task_name = "107_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_storage_put(Conf.CONTRACT_ADDRESS)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_108_storage_put(self):
+		log_path = "108_storage_put.log"
+		task_name = "108_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_100", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_INCORRECT_1, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_109_storage_put(self):
+		log_path = "109_storage_put.log"
+		task_name = "109_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_110_storage_put(self):
+		log_path = "110_storage_put.log"
+		task_name = "110_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_111_storage_put(self):
+		log_path = "111_storage_put.log"
+		task_name = "111_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT_2)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_112_storage_put(self):
+		log_path = "112_storage_put.log"
+		task_name = "112_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT_3)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_113_storage_put(self):
+		log_path = "113_storage_put.log"
+		task_name = "113_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Put_99", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_INCORRECT_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_114_storage_delete(self):
+		log_path = "114_storage_delete.log"
+		task_name = "114_storage_delete"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Delete_114", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_115_storage_delete(self):
+		log_path = "115_storage_delete.log"
+		task_name = "115_storage_delete"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Delete_115", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_116_storage_delete(self):
+		log_path = "116_storage_delete.log"
+		task_name = "116_storage_delete"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Delete_116", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_117_storage_delete(self):
+		log_path = "117_storage_delete.log"
+		task_name = "117_storage_delete"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Delete_114", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_118_storage_delete(self):
+		log_path = "118_storage_delete.log"
+		task_name = "118_storage_delete"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Delete_114", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT_3)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_119_storage_delete(self):
+		log_path = "119_storage_delete.log"
+		task_name = "119_storage_delete"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(Conf.CONTRACT_ADDRESS, "Delete_114", Conf.PARAM_TYPE_BYTEARRAY, Conf.KEY_CORRECT, Conf.PARAM_TYPE_BYTEARRAY, Conf.VALUE_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_121_get_time(self):
+		log_path = "121_get_time.log"
+		task_name = "121_get_time"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "GetTime")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_123_check_witness(self):
+		log_path = "123_check_witness.log"
+		task_name = "123_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, Conf.SCRIPT_HASH_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_124_check_witness(self):
+		log_path = "124_check_witness.log"
+		task_name = "124_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, Conf.SCRIPT_HASH_INCORRECT_2)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_125_check_witness(self):
+		log_path = "125_check_witness.log"
+		task_name = "125_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, Conf.SCRIPT_HASH_INCORRECT_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_126_check_witness(self):
+		log_path = "126_check_witness.log"
+		task_name = "126_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, "")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_127_check_witness(self):
+		log_path = "127_check_witness.log"
+		task_name = "127_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, Conf.PUBLICKEY)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_128_check_witness(self):
+		log_path = "128_check_witness.log"
+		task_name = "128_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, Conf.PUBLICKEY)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_129_check_witness(self):
+		log_path = "129_check_witness.log"
+		task_name = "129_check_witness"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "CheckWitness", Conf.PARAM_TYPE_BYTEARRAY, Conf.PUBLICKEY+"11")
+		self.normal_finish(task_name, log_path, result, "")
+	
+	def test_130_notify(self):
+		log_path = "130_notify.log"
+		task_name = "130_notify"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Notify_130")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_131_notify(self):
+		log_path = "131_notify.log"
+		task_name = "131_notify"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Notify_131")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_132_notify(self):
+		log_path = "132_notify.log"
+		task_name = "132_notify"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Notify_132")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_133_notify(self):
+		log_path = "133_notify.log"
+		task_name = "133_notify"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Notify_133")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_134_log(self):
+		log_path = "134_log.log"
+		task_name = "134_log"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Log_134")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_135_log(self):
+		log_path = "135_log.log"
+		task_name = "135_log"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Log_135")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_136_log(self):
+		log_path = "136_log.log"
+		task_name = "136_log"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "Log_136", "string", Conf.VALUE_CORRECT_2)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_137_log(self):
+		log_path = "137_log.log"
+		task_name = "137_log"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Log_137")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_138_log(self):
+		log_path = "138_log.log"
+		task_name = "138_log"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "Log_138")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_153_script_container(self):
+		log_path = "153_script_container.log"
+		task_name = "153_script_container"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "GetScriptContainer")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_155_script_container(self):
+		log_path = "155_excuting_script.log"
+		task_name = "155_excuting_script"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "GetExecutingScriptHash")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_157_calling_script(self):
+		log_path = "157_calling_script.log"
+		task_name = "157_calling_script"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "GetCallingScriptHash")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_159_entry_script_hash(self):
+		log_path = "159_entry_script_hash.log"
+		task_name = "159_entry_script_hash"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(Conf.CONTRACT_ADDRESS, "GetEntryScriptHash")
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_163_tx_type(self):
+		log_path = "163_tx_type.log"
+		task_name = "163_tx_type"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(Conf.CONTRACT_ADDRESS, "GetTransaction_Type", Conf.PARAM_TYPE_BYTEARRAY, Conf.SCRIPT_HASH_CORRECT)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_166_getcontract_migrate(self):
+		log_path = "166_getcontract_migrate.log"
+		task_name = "166_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_167_getcontract_migrate(self):
+		log_path = "167_getcontract_migrate.log"
+		task_name = "167_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_2, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_168_getcontract_migrate(self):
+		log_path = "168_getcontract_migrate.log"
+		task_name = "168_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_INCORRECT_2, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_169_getcontract_migrate(self):
+		log_path = "169_getcontract_migrate.log"
+		task_name = "169_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, "", Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_170_getcontract_migrate(self):
+		log_path = "170_getcontract_migrate.log"
+		task_name = "170_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_171_getcontract_migrate(self):
+		log_path = "171_getcontract_migrate.log"
+		task_name = "171_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_2, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_172_getcontract_migrate(self):
+		log_path = "172_getcontract_migrate.log"
+		task_name = "172_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_3, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_173_getcontract_migrate(self):
+		log_path = "173_getcontract_migrate.log"
+		task_name = "173_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_4, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_174_getcontract_migrate(self):
+		log_path = "174_getcontract_migrate.log"
+		task_name = "174_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_5, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_175_getcontract_migrate(self):
+		log_path = "175_getcontract_migrate.log"
+		task_name = "175_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_176_getcontract_migrate(self):
+		log_path = "176_getcontract_migrate.log"
+		task_name = "176_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_2, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_177_getcontract_migrate(self):
+		log_path = "177_getcontract_migrate.log"
+		task_name = "177_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_3, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_178_getcontract_migrate(self):
+		log_path = "178_getcontract_migrate.log"
+		task_name = "178_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_4, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_179_getcontract_migrate(self):
+		log_path = "179_getcontract_migrate.log"
+		task_name = "179_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_5, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_180_getcontract_migrate(self):
+		log_path = "180_getcontract_migrate.log"
+		task_name = "180_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_181_getcontract_migrate(self):
+		log_path = "181_getcontract_migrate.log"
+		task_name = "181_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_2, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_182_getcontract_migrate(self):
+		log_path = "182_getcontract_migrate.log"
+		task_name = "182_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_3, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_183_getcontract_migrate(self):
+		log_path = "183_getcontract_migrate.log"
+		task_name = "183_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_4, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_184_getcontract_migrate(self):
+		log_path = "184_getcontract_migrate.log"
+		task_name = "184_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_5, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_185_getcontract_migrate(self):
+		log_path = "185_getcontract_migrate.log"
+		task_name = "185_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_186_getcontract_migrate(self):
+		log_path = "186_getcontract_migrate.log"
+		task_name = "186_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_2, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+	
+	def test_187_getcontract_migrate(self):
+		log_path = "187_getcontract_migrate.log"
+		task_name = "187_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_3, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_188_getcontract_migrate(self):
+		log_path = "188_getcontract_migrate.log"
+		task_name = "188_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_4, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_189_getcontract_migrate(self):
+		log_path = "189_getcontract_migrate.log"
+		task_name = "189_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_5, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_190_getcontract_migrate(self):
+		log_path = "190_getcontract_migrate.log"
+		task_name = "190_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_1)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_191_getcontract_migrate(self):
+		log_path = "191_getcontract_migrate.log"
+		task_name = "191_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_2)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_192_getcontract_migrate(self):
+		log_path = "192_getcontract_migrate.log"
+		task_name = "192_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_3)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_193_getcontract_migrate(self):
+		log_path = "193_getcontract_migrate.log"
+		task_name = "193_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_4)
+		self.normal_finish(task_name, log_path, result, "")
+
+	def test_194_getcontract_migrate(self):
+		log_path = "194_getcontract_migrate.log"
+		task_name = "194_getcontract_migrate"
+		self.start(log_path)
+		(result, response) = invoke_contract_create(Conf.CONTRACT_ADDRESS, Conf.SCRIPT_HASH_CORRECT, Conf.NAME_1, Conf.VERSION_1, Conf.AUTHOR_1, Conf.EMAIL_1, Conf.DESC_5)
+		self.normal_finish(task_name, log_path, result, "")
+
 ####################################################
 if __name__ == '__main__':
 	suite = unittest.main()

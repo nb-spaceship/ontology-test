@@ -213,60 +213,117 @@ def get_hash(contract_address, script_hash, node_index = None):
     
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
-def invoke_contract_create(contract_address, script_hash, node_index = None):
+def invoke_contract_create(contract_address, script_hash, name, version, author, email, desc, node_index = None):
     request = {
-	"REQUEST": {
-		"Qid": "t",
-		"Method": "signeovminvoketx",
-		"Params": {
-			"gas_price": 0,
-			"gas_limit": 1000000000,
-			"address": contract_address,
-			"version": 1,
-			"params": [
-				{
-					"type": "string",
-					"value": "GetContract_Create"
-				},
-				{
-					"type": "array",
-					"value": [
-						{
-							"type": "bytearray",
-							"value": script_hash
-						},
-						{
-							"type": "bool",
-							"value": "true"
-						},
-						{
-							"type": "string",
-							"value": "testContract"
-						},
-						{
-							"type": "string",
-							"value": "1"
-						},
-						{
-							"type": "string",
-							"value": "yangjc"
-						},
-						{
-							"type": "string",
-							"value": "378986991@qq.com"
-						},
-						{
-							"type": "string",
-							"value": "this is my first test contract"
-						}
-					]
-				}
-			]
-		}
-	},
-	"RESPONSE": {}
-}
-    
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signeovminvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": contract_address,
+                "version": 1,
+                "params": [
+                    {
+                        "type": "string",
+                        "value": "GetContract_Create"
+                    },
+                    {
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "bytearray",
+                                "value": script_hash
+                            },
+                            {
+                                "type": "bool",
+                                "value": "true"
+                            },
+                            {
+                                "type": "string",
+                                "value": name
+                            },
+                            {
+                                "type": "string",
+                                "value": version
+                            },
+                            {
+                                "type": "string",
+                                "value": author
+                            },
+                            {
+                                "type": "string",
+                                "value": email
+                            },
+                            {
+                                "type": "string",
+                                "value": desc
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "RESPONSE": {}
+    }
+        
+    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+
+
+def invoke_contract_migrate(contract_address, script_hash, name, version, author, email, desc, node_index = None):
+    request = {
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signeovminvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": contract_address,
+                "version": 1,
+                "params": [
+                    {
+                        "type": "string",
+                        "value": "GetContract_Migrate"
+                    },
+                    {
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "bytearray",
+                                "value": script_hash
+                            },
+                            {
+                                "type": "bool",
+                                "value": "true"
+                            },
+                            {
+                                "type": "string",
+                                "value": name
+                            },
+                            {
+                                "type": "string",
+                                "value": version
+                            },
+                            {
+                                "type": "string",
+                                "value": author
+                            },
+                            {
+                                "type": "string",
+                                "value": email
+                            },
+                            {
+                                "type": "string",
+                                "value": desc
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "RESPONSE": {}
+    }
+        
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
 
@@ -368,6 +425,88 @@ def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_va
                 ]
             }
         },
+        "RESPONSE": {}
+    }
+    
+    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+
+
+def invoke_storage_get(contract_address, node_index = None):
+    request = {
+        "DEPLOY" : true,
+        "CODE_PATH" : "tasks/neo.neo",
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signeovminvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": contract_address,
+                "version": 0,
+                "params": [
+                    {
+                        "type": "string",
+                        "value": "Get_93"
+                    },
+                    {
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "bytearray",
+                                "value": "313131"
+                            },
+                            {
+                                "type": "bytearray",
+                                "value": "313131"
+                            },
+                            {
+                                "type": "bytearray",
+                                "value": "3838383838"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "RESPONSE": {}
+    }
+    
+    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+
+def invoke_storage_put(contract_address, node_index = None):
+    request = {
+		"Qid": "t",
+		"Method": "siginvoketx",
+		"Params": {
+			"gas_price": 0,
+			"gas_pimit": 0,
+			"address": contract_address,
+			"version": 1,
+			"params": [
+				{
+					"type": "string",
+					"value": "Put_107"
+				},
+				{
+					"type": "array",
+					"value": [
+						{
+							"type": "bytearray",
+							"value": "74657374"
+						},
+						{
+							"type": "bytearray",
+							"value": "31"
+						},
+						{
+							"type": "bytearray",
+							"value": "313231"
+						}
+					]
+				}
+			]
+		}
+	},
         "RESPONSE": {}
     }
     

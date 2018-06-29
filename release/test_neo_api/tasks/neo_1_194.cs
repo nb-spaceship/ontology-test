@@ -99,6 +99,10 @@ namespace Neo.SmartContract
             {
                 return GetContract_Script((byte[])args[0]);
             }
+            else if(operation == "GetStorageContext")
+            {
+                return GetStorageContext((byte[])args[0]);
+            }
             else if(operation == "GetContract_StorageContext")
             {
                 return GetContract_StorageContext((byte[])args[0]);
