@@ -255,7 +255,8 @@ def call_contract(task, judge = True, pre = True, twice = False):
 
 		if twice:
 			(result, response) = call_signed_contract(signed_tx, True, node_index)
-			call_signed_contract(signed_tx, False, node_index)
+			(result1, response2) = call_signed_contract(signed_tx, False, node_index)
+			response["txhash"] = response2["result"]
 		else:
 			(result, response) = call_signed_contract(signed_tx, pre, node_index)
 	
@@ -375,11 +376,11 @@ def pause(msg):
 	return command
 
 #
-def start_nodes(indexs, start_params, clear_chain = False, clear_log = False):
+def start_nodes(indexs, start_params = Config.DEFAULT_NODE_ARGS, clear_chain = False, clear_log = False, program = "ontology", config = "config.json"):
 	for index in indexs:
-		start_node(index, start_params, clear_chain, clear_log)
+		start_node(index, start_params, clear_chain, clear_log, program, config)
 
-def start_node(index, start_params, clear_chain = False, clear_log = False):
+def start_node(index, start_params = Config.DEFAULT_NODE_ARGS, clear_chain = False, clear_log = False, program = "ontology", config = "config.json"):
 	print("start node: " + str(index) + " start_params:" + start_params + " clear_chain:" + str(clear_chain) + " clear_log:" + str(clear_log))
 	request = {
 		"method": "start_node",
@@ -388,7 +389,9 @@ def start_node(index, start_params, clear_chain = False, clear_log = False):
 		"params" : {
 			"clear_chain" : clear_chain,
 			"clear_log" : clear_log,
-			"node_args" : start_params
+			"name" : program,
+			"node_args" : start_params,
+			"config" : config
 		}
 	}
 
@@ -527,6 +530,8 @@ def withdrawong(index):
 	return response
 
 def script_hash_bl_reserver(input):
+	if input == None:
+		return ""
 	rstrs = input[::-1]
 	output = ""
 	for i in range(0, len(input), 2):
@@ -535,7 +540,9 @@ def script_hash_bl_reserver(input):
 	return output
 
 def base58_to_address(input):
-	address = None
+	if input == None:
+		return ""
+	address = ""
 	cmd = Config.TOOLS_PATH + "/base58ToAddress -base58 \"" + input + "\" > address.tmp"
 	os.system(cmd)
 	print(cmd)
