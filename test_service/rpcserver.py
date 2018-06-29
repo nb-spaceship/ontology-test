@@ -117,6 +117,24 @@ def transfer_ont(**kwargs):
   return contents
 
 @dispatcher.add_method
+def transfer_ong(**kwargs):
+  if os.path.exists(".tmp"):
+    os.remove(".tmp")
+
+  _from = kwargs["from"]
+  to = kwargs["to"]
+  amount = kwargs["amount"]
+
+  cmd = "cd " + config.NODE_PATH + "\n";
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset=ong transfer --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\" > .tmp"
+  print(cmd)
+  os.system(cmd)
+
+  tmpfile = open(config.NODE_PATH + "/.tmp", "r+")  # 打开文件
+  contents = tmpfile.readlines()
+  return contents
+
+@dispatcher.add_method
 def withdrawong(**kwargs):
   if os.path.exists(".tmp"):
     os.remove(".tmp")
@@ -183,6 +201,7 @@ def application(request):
     dispatcher["stop_node"] = stop_node
     dispatcher["replace_node_config"] = replace_node_config
     dispatcher["transfer"] = transfer_ont
+    dispatcher["transfer_ong"] = transfer_ong
     dispatcher["withdrawong"] = withdrawong
 
     response = JSONRPCResponseManager.handle(
