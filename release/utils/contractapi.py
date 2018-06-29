@@ -41,7 +41,7 @@ def regIDWithPublicKey(node_index):
         "error":0
         }
     }
-    
+	
     request["NODE_INDEX"] = node_index
     return call_contract(Task(name ="regIDWithPublicKey", ijson=request), twice = True)
 
@@ -64,19 +64,19 @@ def init_admin(contract_address, admin_address, node_index = None):
                     {
                         "type": "array",
                         "value": [
-                            {
-                                "type" : "string",
-                                "value" : ""
-                            }
+							{
+								"type" : "string",
+								"value" : ""
+							}
                         ]
                     },
-                    {
+					{
                         "type": "array",
                         "value": [
-                            {
-                                "type" : "string",
-                                "value" : ""
-                            }
+							{
+								"type" : "string",
+								"value" : ""
+							}
                         ]
                     }
                 ]
@@ -88,9 +88,9 @@ def init_admin(contract_address, admin_address, node_index = None):
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[admin_address]
-        request["NODE_INDEX"] = node_index      
-    
+        node_index = Config.ontid_map[admin_address]
+        request["NODE_INDEX"] = node_index		
+	
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
 
 
@@ -120,9 +120,9 @@ def bind_role_function(contract_address, admin_address, role_str, functions, pub
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[admin_address]
+        node_index = Config.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="bind_role_function", ijson=request), twice = True)
 
 
@@ -152,9 +152,9 @@ def bind_user_role(contract_address, admin_address, role_str, ontIDs, public_key
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[admin_address]
+        node_index = Config.ontid_map[admin_address]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="bind_user_role", ijson=request), twice = True)
 
 
@@ -186,7 +186,7 @@ def delegate_user_role(contract_address, owner_user, delegate_user, delegate_rol
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[owner_user]
+        node_index = Config.ontid_map[owner_user]
         request["NODE_INDEX"] = node_index
 
     return call_contract(Task(name="delegate_user_role", ijson=request), twice = True)
@@ -218,9 +218,9 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[call_user]
+        node_index = Config.ontid_map[call_user]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
 
 
@@ -252,7 +252,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
                             }
                         ]
                     },
-                    {
+					{
                         "type": "array",
                         "value": argvs
                     }
@@ -265,13 +265,13 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
     if node_index != None:
         request["NODE_INDEX"] = node_index
     else:
-        node_index = Common.ontid_map[callerOntID]
+        node_index = Config.ontid_map[callerOntID]
         request["NODE_INDEX"] = node_index
-        
+		
     return call_contract(Task(name="invoke_function", ijson=request), twice = True)
 
-    
-    
+	
+	
 def invoke_function_test(contract_address, function_str, argvs = [{"type": "string","value": ""}], node_index = None):
     request = {
         "REQUEST": {
@@ -311,10 +311,10 @@ def invoke_function_vote(func_,walletAddress,voteList,voteCount):
                 "method": func_,
                 "version": 0,
                 "params": [
-                            walletAddress,
-                            [voteList],
+						    walletAddress,
+          	                [voteList],
                             [voteCount]
-                        ]
+		                ]
                     }
                 },
         "RESPONSE":{"error" : 0}
@@ -342,7 +342,7 @@ def invoke_function_update(func_,param0,param1,param2,param3,param4,param5,param
                             param5,
                             param6,
                             param7
-                          ]
+		                  ]
                     }
                 },
         "RESPONSE":{"error" : 0}
@@ -368,7 +368,7 @@ def invoke_function_register(func_,pubKey,walletAddress,ontCount,ontID,user):
                             ontCount,
                             ontID,
                             user
-                          ]
+		                  ]
                     }
                 },
         "RESPONSE":{"error" : 0}
@@ -390,7 +390,7 @@ def invoke_function_candidate(func_,pubKey):
                 "version": 0,
                 "params": [
                             pubKey
-                          ]
+		                  ]
                     }
                 },
         "RESPONSE":{"error" : 0}

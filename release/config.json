@@ -45,6 +45,7 @@
 		"address": "ASzgi4r7P4knfZTQfknPPDgi5xxsdGRS34",
 		"pubkey": "0258580af43c65b8df96d5ea89382345b3c107f72b7b2c643fc06b7ff9239f7517"
 	}],
-	"ROOT_PATH": "/home/ubuntu/ontology/test"
-	
+	"ROOT_PATH": "/home/ubuntu/ontology/test",
+	"MULTI_SIGNED_ADDRESS" : "AJroHBLRsfPTPQocSKjpADp4AKybg8GZuz",
+	"INIT_AMOUNT_ONG" : "7000000000000000"
 }

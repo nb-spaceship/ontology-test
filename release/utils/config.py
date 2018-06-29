@@ -55,6 +55,9 @@ class Config():
 
 	DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --networkid=299"
 
+	MULTI_SIGNED_ADDRESS = cfg_json["MULTI_SIGNED_ADDRESS"]
+	
+	INIT_AMOUNT_ONG = cfg_json["INIT_AMOUNT_ONG"]
 
 #####################################################################################
 	ontid_map = {}

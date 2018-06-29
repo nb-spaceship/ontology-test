@@ -39,8 +39,8 @@ def multi_contract(task,m,pubkeyArray):
 			},
 			"RESPONSE": {}
 		}
-		for node_index in range(len(Config.SERVICES)):
-			if Config.SERVICES[node_index]["pubkey"] == pubkey:
+		for node_index in range(len(Config.NODES)):
+			if Config.NODES[node_index]["pubkey"] == pubkey:
 				request1["NODE_INDEX"] = node_index	
 				(result, response) = sign_multi_transction(Task(name="multi", ijson=request1))
 				signed_raw = response["result"]["signed_tx"]

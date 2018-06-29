@@ -141,7 +141,7 @@ class RPCApi:
 
 		return run_single_task(task)
 
-	def getsmartcodeevent(self, height, tx_hash):
+	def getsmartcodeevent(self, height = None, tx_hash = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getsmartcodeevent.json")
 		taskrequest = task.request()
 		params = []
