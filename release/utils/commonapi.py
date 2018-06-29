@@ -517,6 +517,24 @@ def transfer_ont(from_index, to_index, amount):
 
 	return response
 
+def transfer_ong(from_index, to_index, amount):
+	request = {
+		"method": "transfer_ong",
+		"jsonrpc": "2.0",
+		"id": 0,
+		"params" : {
+			"from" : Config.NODES[from_index]["address"],
+			"to" : Config.NODES[to_index]["address"],
+			"amount" : amount
+		}
+	}
+
+	ip = Config.NODES[from_index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+
 def withdrawong(index):
 	request = {
 		"method": "withdrawong",

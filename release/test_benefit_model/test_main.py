@@ -24,7 +24,8 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 from utils.commonapi import *
 from utils.rpcapi import RPCApi
-
+from utils.init_ong_ont import *
+from utils.contractapi import *
 logger = LoggerInstance
 
 ####################################################
@@ -35,13 +36,27 @@ priceTest = 100000
 maxblockchange = 5
 
 class TestBenefit(ParametrizedTestCase):
-	def setUpClass(self):
-		pass
+	@classmethod
+	def setUpClass(cls):
+		stop_nodes([0,1,2,3,4,5,6,7])
+		start_nodes([0,1,2,3,4,5,6,7], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(8)
+		init_ont_ong()
+		regIDWithPublicKey(0)
+		regIDWithPublicKey(1)
+		regIDWithPublicKey(2)
+		regIDWithPublicKey(3)
+		regIDWithPublicKey(4)
+		regIDWithPublicKey(5)
+		regIDWithPublicKey(6)
+				
+		cls.m_current_node = 0
+		cls.m_stop_2_nodes = [5,6]
 
 	def cost_ong(self, amount):
 		address = Config.NODES[0]["address"]
 		address1 = Config.NODES[1]["address"]
-		#ÏûºÄongÖ®Ç°µÄ×´Ì¬
+		#æ¶ˆè€—ongä¹‹å‰çš„çŠ¶æ€
 		(result, response) = rpcapi.getblockcount()
 		if not result:
 			raise Error("get blockcount error")
@@ -56,7 +71,7 @@ class TestBenefit(ParametrizedTestCase):
 			raise Error("get balance error")
 		ong1_address1=int(response["result"]["ong"])
 	
-		#ÏûºÄong
+		#æ¶ˆè€—ong
 		contract_address = deploy_contract("contract.neo", price=amount)
 		(result, response) = rpcapi.getbalance(address)
 		if not result:
@@ -64,7 +79,7 @@ class TestBenefit(ParametrizedTestCase):
 			
 		ong2 = int(response["result"]["ong"])
 		
-		#ÅĞ¶ÏÏûºÄongÊÇ·ñÕıÈ·
+		#åˆ¤æ–­æ¶ˆè€—ongæ˜¯å¦æ­£ç¡®
 		print(ong1-ong2==(amount*1000000000))
 		print(amount*1000000000)
 		print(ong1-ong2)
@@ -75,9 +90,9 @@ class TestBenefit(ParametrizedTestCase):
 		if not result:
 			raise Error("cost ong error")
 		
-		#ÅĞ¶ÏÊÇ·ñ·ÖÈó£¬ÖÁÉÙĞèÒªµÈ´ı1¸ö¹²Ê¶Ê±¼ä
-		print("µÈ´ı300Ãë¡£¡£¡£")
-		time.sleep(300)
+		#åˆ¤æ–­æ˜¯å¦åˆ†æ¶¦ï¼Œè‡³å°‘éœ€è¦ç­‰å¾…1ä¸ªå…±è¯†æ—¶é—´
+		print("ç­‰å¾…300ç§’ã€‚ã€‚ã€‚")
+		#time.sleep(300)
 		(result, response) = rpcapi.getblockcount()
 		if not result:
 			raise Error("get blockcount error")
@@ -98,7 +113,9 @@ class TestBenefit(ParametrizedTestCase):
 			print(e.msg)
 			result = False
 		logger.close(result)
-
+		
+	#blocked
+	'''
 	def test_2(self):
 		logger.open("TestBenefit2.log", "TestBenefit2")
 		result = False
@@ -108,6 +125,7 @@ class TestBenefit(ParametrizedTestCase):
 			print(e.msg)
 			result = False
 		logger.close(result)
+	'''
 		
 	def test_3(self):
 		address = Config.NODES[0]["address"]
@@ -133,14 +151,16 @@ class TestBenefit(ParametrizedTestCase):
 			print(ong1-ong2)
 		
 			if(ong1-ong2==(priceTest*1000000000)):
-				result=True
-			else:
 				result=False
+			else:
+				result=True
 
 		except Exception as e:
 			print(e.msg)
 		logger.close(result)
 	
+	#blocked
+	'''
 	def test_4(self):
 		logger.open("TestBenefit4.log", "TestBenefit4")
 		result = False
@@ -170,7 +190,8 @@ class TestBenefit(ParametrizedTestCase):
 			print(e.msg)
 			result = False
 		logger.close(result)
-
+	'''
+	
 	def test_7(self):
 		address = Config.NODES[2]["address"]
 		result = False
