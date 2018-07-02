@@ -18,6 +18,51 @@ from utils.error import Error
 from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
+def transfer(contract_address,from_address,to_address,amount, node_index = None):
+	request = {
+		"REQUEST": {
+			"Qid": "t",
+			"Method": "signeovminvoketx",
+			"Params": {
+				"gas_price": 0,
+				"gas_limit": 1000000000,
+				"address": contract_address,
+				"version": 1,
+				"params": [
+					{
+						"type": "string",
+						"value": "transfer"
+					},
+					{	
+						"type" : "string",
+						"value" : ""
+					},
+					{
+						"type": "array",
+						"value":  [
+							{
+								"type": "bytearray",
+								
+								"value": script_hash_bl_reserver(base58_to_address(from_address))
+							},
+							{
+								"type": "bytearray",
+								"value": script_hash_bl_reserver(base58_to_address(to_address))
+							},
+							{
+								"type": "int",
+								"value": amount
+							}
+						]
+					}
+				]
+			}
+		},
+		"RESPONSE":{"error" : 0},
+		"NODE_INDEX":node_index
+	}
+	return call_contract(Task(name="transfer", ijson=request), twice = True)
+
 
 def sign_multi_transction(task, judge = True, process_log = True):
 	if task.node_index() != None:
