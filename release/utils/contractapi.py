@@ -477,3 +477,24 @@ def invoke_function_SplitCurve(func_,array):
 		"RESPONSE":{"error" : 0}
 	}
 	return call_contract(Task(name="invoke_function_SplitCurve", ijson=request), twice = True)
+
+def invoke_function_commitDpos(nodeIndex=0):
+	request = {
+		"NODE_INDEX":nodeIndex,
+		"REQUEST": {
+			"Qid": "t",
+			"Method": "signativeinvoketx",
+			"Params": {
+				"gas_price": 0,
+				"gas_limit": 1000000000,
+				"address": "0700000000000000000000000000000000000000",
+				"method": "commitDpos",
+				"version": 0,
+				"params": [
+						  ]
+					}
+				},
+		"RESPONSE":{"error" : 0}
+	}
+
+	return multi_contract(Task(name="invoke_function_commitDpos", ijson=request),Common.AdminNum,Common.AdminPublicKeyList)

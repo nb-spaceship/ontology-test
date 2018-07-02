@@ -10,7 +10,7 @@ import sys, getopt
 
 sys.path.append('..')
 
-from utils.Config import Config
+from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
 from utils.parametrizedtestcase import ParametrizedTestCase
@@ -18,7 +18,6 @@ from utils.websocketapi import WebSocketApi
 from utils.commonapi import *
 from utils.base import WebSocket
 from test_api import *
-from neo_api_self import self
 from utils.commonapi import call_contract
 
 from utils.rpcapi import RPCApi
@@ -36,18 +35,22 @@ class TestNeoAPI(ParametrizedTestCase):
 		stop_nodes([0,1,2,3,4,5,6,7])
 		print("start all")
 		start_nodes([0,1,2,3,4,5,6,7], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
+		time.sleep(5)
 
 		(self.contract_addr, self.contract_tx_hash) = deploy_contract_full(Config.UTILS_PATH + "/test.neo")
 		(self.contract_addr_1, self.contract_tx_hash_1) = deploy_contract_full(Config.UTILS_PATH + "/test.neo", price=1000000000)
+		
+		time.sleep(10)
 		self.block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
 		self.block_hash = rpcApi.getblockhash(self.block_height - 1)[1]["result"]
 		self.CONTRACT_ADDRESS = self.contract_addr
 
-		self.PUBLICKEY =Config.Nodes[0]["pubkey"]
+		self.PUBLICKEY =Config.NODES[0]["pubkey"]
 
-		self.BLOCK_HEIGHT_WITH_TX = rpcApi.getblockheightbytxhash(self.contract_tx_hash)[1]["result"]
-		self.BLOCK_HEIGHT_WITHOUT_TX = rpcApi.getblockheightbytxhash(self.contract_tx_hash)[1]["result"]+1
+		time.sleep(10)
+
+		self.BLOCK_HEIGHT_WITH_TX = rpcApi.getblockheightbytxhash(tx_hash=self.contract_tx_hash)[1]["result"]
+		self.BLOCK_HEIGHT_WITHOUT_TX = rpcApi.getblockheightbytxhash(tx_hash=self.contract_tx_hash)[1]["result"]+1
 
 		self.HEIGHT_CORRECT = str(self.block_height - 1)
 		self.HEIGHT_BORDER_BOTTON = "0"

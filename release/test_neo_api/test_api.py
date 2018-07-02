@@ -505,8 +505,7 @@ def invoke_storage_put(contract_address, node_index = None):
 					]
 				}
 			]
-		}
-	},
+		},
         "RESPONSE": {}
     }
     
