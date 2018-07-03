@@ -23,7 +23,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 def get_height(contract_address, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neoぴ.neo",
         "REQUEST": {
             "Qid": "t",
@@ -55,7 +55,7 @@ def get_height(contract_address, node_index = None):
 
 def get_header(contract_address, height, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -87,7 +87,7 @@ def get_header(contract_address, height, node_index = None):
 
 def get_block(contract_address, block_hash, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -119,7 +119,7 @@ def get_block(contract_address, block_hash, node_index = None):
 
 def get_transaction(contract_address, tx_hash, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -151,7 +151,7 @@ def get_transaction(contract_address, tx_hash, node_index = None):
 
 def get_contract(contract_address, script_hash, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -183,7 +183,7 @@ def get_contract(contract_address, script_hash, node_index = None):
 
 def get_hash(contract_address, script_hash, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -330,7 +330,7 @@ def invoke_contract_migrate(contract_address, script_hash, name, version, author
 
 def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -362,7 +362,7 @@ def invoke_func_with_1_param(contract_address, func_name, param_type, param_valu
 
 def invoke_func_with_0_param(contract_address, func_name, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -394,7 +394,7 @@ def invoke_func_with_0_param(contract_address, func_name, node_index = None):
 
 def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_value_1, param_type_2, param_value_2, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -433,7 +433,7 @@ def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_va
 
 def invoke_storage_get(contract_address, node_index = None):
     request = {
-        "DEPLOY" : true,
+        "DEPLOY" : True,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -510,3 +510,5 @@ def invoke_storage_put(contract_address, node_index = None):
     }
     
     return call_contract(Task(name="init_admin", ijson=request), twice = True)
+
+
