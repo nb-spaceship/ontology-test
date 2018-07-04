@@ -91,7 +91,7 @@ class TestBenefit(ParametrizedTestCase):
 			raise Error("cost ong error")
 		
 		#判断是否分润，至少需要等待1个共识时间
-		print("等待300秒。。。")
+		invoke_function_commitDpos()
 		#time.sleep(300)
 		(result, response) = rpcapi.getblockcount()
 		if not result:
