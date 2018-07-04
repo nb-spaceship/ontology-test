@@ -500,7 +500,7 @@ def replace_config(index, config = None):
 
 	return response
 
-def transfer_ont(from_index, to_index, amount):
+def transfer_ont(from_index, to_index, amount, price = 0):
 	request = {
 		"method": "transfer",
 		"jsonrpc": "2.0",
@@ -508,16 +508,17 @@ def transfer_ont(from_index, to_index, amount):
 		"params" : {
 			"from" : Config.NODES[from_index]["address"],
 			"to" : Config.NODES[to_index]["address"],
-			"amount" : amount
+			"amount" : amount,
+			"price" : price
 		}
 	}
 
 	ip = Config.NODES[from_index]["ip"]
 	response = utils.base.con_test_service(ip, request)
-
+	time.sleep(5)
 	return response
 
-def transfer_ong(from_index, to_index, amount):
+def transfer_ong(from_index, to_index, amount, price = 0):
 	request = {
 		"method": "transfer_ong",
 		"jsonrpc": "2.0",
@@ -525,15 +526,15 @@ def transfer_ong(from_index, to_index, amount):
 		"params" : {
 			"from" : Config.NODES[from_index]["address"],
 			"to" : Config.NODES[to_index]["address"],
-			"amount" : amount
+			"amount" : amount,
+			"price" : price
 		}
 	}
 
 	ip = Config.NODES[from_index]["ip"]
 	response = utils.base.con_test_service(ip, request)
-
+	time.sleep(5)
 	return response
-
 
 def withdrawong(index):
 	request = {
