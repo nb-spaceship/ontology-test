@@ -106,9 +106,13 @@ def transfer_ont(**kwargs):
   _from = kwargs["from"]
   to = kwargs["to"]
   amount = kwargs["amount"]
+  price = kwargs["price"]
 
   cmd = "cd " + config.NODE_PATH + "\n";
-  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\" > .tmp"
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --asset=ont --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\""
+  if price > 0:
+    cmd = cmd + " --gasprice=" + str(price)
+  cmd = cmd + " > .tmp"
   print(cmd)
   os.system(cmd)
 
@@ -124,9 +128,13 @@ def transfer_ong(**kwargs):
   _from = kwargs["from"]
   to = kwargs["to"]
   amount = kwargs["amount"]
+  price = kwargs["price"]
 
   cmd = "cd " + config.NODE_PATH + "\n";
-  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset=ong transfer --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\" > .tmp"
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --asset=ong  --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\""
+  if price > 0:
+    cmd = cmd + " --gasprice=" + str(price)
+  cmd = cmd + " > .tmp"
   print(cmd)
   os.system(cmd)
 
