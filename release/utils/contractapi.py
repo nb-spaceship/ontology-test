@@ -243,7 +243,7 @@ def withdraw_user_role(contract_address, call_user, delegate_user, delegate_role
     return call_contract(Task(name="withdraw_user_role", ijson=request), twice = True)
 
 
-def invoke_function(contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None):
+def invoke_function(contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None, sleep = 5):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -287,7 +287,7 @@ def invoke_function(contract_address, function_str, callerOntID, public_key="1",
         node_index = Config.ontid_map[callerOntID]
         request["NODE_INDEX"] = node_index
 		
-    return call_contract(Task(name="invoke_function", ijson=request), twice = True)
+    return call_contract(Task(name="invoke_function", ijson=request), twice = True, sleep = sleep)
 
 	
 	
@@ -318,29 +318,36 @@ def invoke_function_test(contract_address, function_str, argvs = [{"type": "stri
         
     return call_contract(Task(name="invoke_function_test", ijson=request), twice = True)
 
-def invoke_function_vote(func_,walletAddress,voteList,voteCount):
-    request = {
-        "REQUEST": {
-            "Qid": "t",
-            "Method": "signativeinvoketx",
-            "Params": {
-                "gas_price": 0,
-                "gas_limit": 1000000000,
-                "address": "0700000000000000000000000000000000000000",
-                "method": func_,
-                "version": 0,
-                "params": [
-						    walletAddress,
-          	                [voteList],
-                            [voteCount]
-		                ]
-                    }
-                },
-        "RESPONSE":{"error" : 0}
-    }
-        
-    return call_contract(Task(name="invoke_function_vote", ijson=request), twice = True)
-
+def invoke_function_vote(walletAddress,voteList,voteCount,errorcode=0,node_index=None):
+	request = {
+		"REQUEST": {
+			"Qid": "t",
+			"Method": "signativeinvoketx",
+			"Params": {
+				"gas_price": 0,
+				"gas_limit": 1000000000,
+				"address": "0700000000000000000000000000000000000000",
+				"method": "voteForPeer",
+				"version": 0,
+				"params": [
+							walletAddress,
+		  					voteList,
+							voteCount
+						]
+					}
+				},
+		"RESPONSE":{"error" : errorcode}
+	}
+	if node_index != None:
+		request["NODE_INDEX"] = node_index
+	else:
+		for node in Config.NODES:
+			if node["address"] == walletAddress:
+				request["NODE_INDEX"] = Config.NODES.index(node)
+				break
+		
+	return call_contract(Task(name="invoke_function_vote", ijson=request), twice = True)
+	
 def invoke_function_update(func_,param0,param1,param2,param3,param4,param5,param6,param7, sig_num = ADMIN_NUM, sig_publist = ADMIN_PUBLIST):
     request = { 
         "REQUEST": {

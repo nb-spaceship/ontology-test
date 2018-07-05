@@ -200,7 +200,7 @@ def call_signed_contract(signed_tx, pre = True, node_index = None):
 #judge: 是否需要比较结果
 #pre: 是否需要预执行
 # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
-def call_contract(task, judge = True, pre = True, twice = False):
+def call_contract(task, judge = True, pre = True, twice = False, sleep = 5):
 	try:
 		logger.print("\n\n[-------------------------------]")
 		logger.print("[ RUN      ] "+ "contract" + "." + task.name())
@@ -272,7 +272,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		if deploy_contract_addr:
 			response["address"] = taskdata["REQUEST"]["Params"]["address"]
 		
-		time.sleep(5)
+		time.sleep(sleep)
 		return (result, response)
 
 	except Error as err:
@@ -577,3 +577,4 @@ def base58_to_address(input):
 			address = regroup.group(1)
 	tmpfile.close()
 	return address
+#check_node_state([0,1,2,3,4,5,6])

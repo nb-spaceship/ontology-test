@@ -22,32 +22,16 @@ from test_api import *
 from utils.rpcapi import *
 from utils.init_ong_ont import *
 
-
-##19-32 start
-CONTRACT_ADDRESS = "92ed1b65d9549ce4a083af0dc83862fcba03d5c3"
-ADDRESS_A = "da14e05b077d6147e487a4774455a57873fd07d0"  #"AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN"
-ADDRESS_B = "24b453d1388732a9d78228b572e05f7a082b90a9" #"AK7wzmkdgjKxbXAJBiaW91YhUokTu9pa5X"
-ADDRESS_C = "e3462e4422c6317a93604fef74255117ed2b5328"
-AMOUNT = "1000"
-PUBLIC_KEY = "02b59d88bc4b2f5814b691d32e736bcd7ad018794f041235092f6954e23198cbcf"
-PUBLIC_KEY_2 = "03e05d01e5df2c85e6a9a5526c70d080b6c7dce0fa7c66f8489c18b8569dc269dc"
-PUBLIC_KEY_3 = "02f59dbaf056dedfbdc2fedd2cf700a585df1acdd777561d65ba484b5f519287ef"
-PUBLIC_KEY_4 = "0354fe669e9df891698ef8c4cbc9e3fbfa503ee93e237e1b38d3e3e4c7869886ee"
-
-#test cases
-
-
-		
 ############################################################
 ############################################################
-#’˝≥£Ω⁄µ„∫Õvbftπ≤ ∂
+#Ê≠£Â∏∏ËäÇÁÇπÂíåvbftÂÖ±ËØÜ
 class TestConsensus_1_9__19_32(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
-		stop_nodes([0,1,2,3,4,5,6])
+		for i in range(len(Config.NODES)):
+			stop_nodes([i])
 		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(8)
-		init_ont_ong()
 		regIDWithPublicKey(0)
 		regIDWithPublicKey(1)
 		regIDWithPublicKey(2)
@@ -55,10 +39,14 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 		regIDWithPublicKey(4)
 		regIDWithPublicKey(5)
 		regIDWithPublicKey(6)
+		
+		init_ont_ong()
+		time.sleep(10)
+		
 		(cls.m_contract_addr, cls.m_contract_txhash) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
 		(cls.m_contract_addr2, cls.m_contract_txhash2) = deploy_contract_full("tasks/B.neo", "nameB", "descB", 0)
 		
-		#AΩ⁄µ„ «AdminΩ⁄µ„
+		#AËäÇÁÇπÊòØAdminËäÇÁÇπ
 		(result, response) = init_admin(cls.m_contract_addr, Config.ontID_A)
 		(result, response) = bind_role_function(cls.m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
 		
@@ -67,11 +55,24 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 		cls.m_storage_value = ByteToHex(b'Test Value')
 		cls.m_stop_2_nodes = [5,6]
 	
+	def setUp(self):
+		(contract_addr, contract_tx_hash) = deploy_contract_full("./tasks/neo.neo")
+		self.CONTRACT_ADDRESS = contract_addr
+		self.ADDRESS_A = script_hash_bl_reserver(base58_to_address(Config.NODES[0]["address"]))
+		self.ADDRESS_B = script_hash_bl_reserver(base58_to_address(Config.NODES[1]["address"]))
+		self.ADDRESS_C = script_hash_bl_reserver(base58_to_address(Config.NODES[2]["address"]))
+		self.AMOUNT = "1001"
+		self.PUBLIC_KEY = Config.NODES[0]["pubkey"]
+		self.PUBLIC_KEY_2 = Config.NODES[1]["pubkey"]
+		self.PUBLIC_KEY_3 = Config.NODES[2]["pubkey"]
+		self.PUBLIC_KEY_4 = Config.NODES[3]["pubkey"]
+		self.PUBLIC_KEY_5 = Config.NODES[4]["pubkey"]
+	
 	def test_01_consensus(self):
 		result = False
 		logger.open("01_consensus.log", "01_consensus")
 		try:
-			(result, response) = transfer(self.m_contract_addr, Config.NODES[0]["address"], Config.NODES[1]["address"], AMOUNT, self.m_current_node)
+			(result, response) = transfer(self.m_contract_addr, Config.NODES[self.m_current_node]["address"], Config.NODES[1]["address"], self.AMOUNT, self.m_current_node)
 			if not result:
 				raise Error("transfer error...")
 			
@@ -81,6 +82,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 	
 	#contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None
@@ -100,6 +102,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 
 	def test_03_consensus(self):
@@ -113,12 +116,13 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 				raise Error("invoke_function put error...")
 			
 			(result, response) = invoke_function(self.m_contract_addr, "get", Config.ontID_B, "1", argvs = [{"type": "bytearray","value": storage_key}])
-			if response["result"] != '':
+			if response["result"]["Result"] != '':
 				result = False
 				raise Error("invoke_function get error...")
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 	def test_04_consensus(self):
@@ -134,6 +138,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			result = check_node_state([0,1,2,3,4,5,6])
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 	
 	def test_05_consensus(self):
@@ -151,6 +156,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 				raise Error("invoke_function get error...")
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 	
 	def test_06_consensus(self):
@@ -172,6 +178,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 		time.sleep(3)
@@ -190,12 +197,13 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 				raise Error("invoke_function put error...")
 			
 			(result, response) = invoke_function(self.m_contract_addr, "get", Config.ontID_B, "1", argvs = [{"type": "bytearray","value": storage_key}])
-			if response["result"] != '':
+			if response["result"]["Result"] != '':
 				result = False
 				raise Error("invoke_function get error...")
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 		start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
@@ -207,7 +215,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 		result = False
 		logger.open("08_consensus.log", "08_consensus")
 		try:
-			(result, response) = transfer(self.m_contract_addr, Config.NODES[0]["address"], Config.NODES[1]["address"], AMOUNT, self.m_current_node)
+			(result, response) = transfer(self.m_contract_addr, Config.NODES[self.m_current_node]["address"], Config.NODES[1]["address"], self.AMOUNT, self.m_current_node)
 			if not result:
 				raise Error("transfer error...")
 			
@@ -217,6 +225,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 		start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
@@ -239,6 +248,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 				if not result:
 					raise Error("invoke_function put error...")
 				
+				time.sleep(30)
 				(result, response) = RPCApi().getblockheightbytxhash(response["txhash"])
 				if not result:
 					raise Error("not a valid block...in " + str(i) + " times")
@@ -246,6 +256,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 		start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
@@ -254,109 +265,108 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 	def test_19_consensus(self):
 		log_path = "19_consensus.log"
 		task_name = "19_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_19(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT)
-		logger.close(result)
-
+		self.start(log_path)
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, self.AMOUNT)
+		self.finish(task_name, log_path, result,  "")
+		
 	def test_20_consensus(self):
 		log_path = "20_consensus.log"
 		task_name = "20_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_20(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT, PUBLIC_KEY)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_20(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, self.AMOUNT, self.PUBLIC_KEY)
+		self.finish(task_name, log_path, result,  "")
 
 	def test_21_consensus(self):
 		log_path = "21_consensus.log"
 		task_name = "21_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_21(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT, PUBLIC_KEY)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_21(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, self.AMOUNT, self.PUBLIC_KEY)
+		self.finish(task_name, log_path, result,  "")
 
 	def test_22_consensus(self):
 		log_path = "22_consensus.log"
 		task_name = "22_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_22(CONTRACT_ADDRESS, ADDRESS_C, ADDRESS_B, AMOUNT, PUBLIC_KEY)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_22(self.CONTRACT_ADDRESS, self.ADDRESS_C, self.ADDRESS_B, self.AMOUNT, self.PUBLIC_KEY)
+		self.finish(task_name, log_path, result,  "")
 
 	def test_23_consensus(self):
 		log_path = "23_consensus.log"
 		task_name = "23_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_23(CONTRACT_ADDRESS, ADDRESS_C, ADDRESS_B, AMOUNT, PUBLIC_KEY)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_23(self.CONTRACT_ADDRESS, self.ADDRESS_C, self.ADDRESS_B, self.AMOUNT, self.PUBLIC_KEY)
+		self.finish(task_name, log_path, result,  "")
 
 	def test_24_consensus(self):
 		log_path = "24_consensus.log"
 		task_name = "24_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_24(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT, PUBLIC_KEY, PUBLIC_KEY_2, PUBLIC_KEY_3, PUBLIC_KEY_4)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_24(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, self.AMOUNT, self.PUBLIC_KEY, self.PUBLIC_KEY_2, self.PUBLIC_KEY_3, self.PUBLIC_KEY_4)
+		self.finish(task_name, log_path, result,  "")
 
 	def test_25_consensus(self):
 		log_path = "25_consensus.log"
 		task_name = "25_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_25(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT, PUBLIC_KEY, PUBLIC_KEY_2, PUBLIC_KEY_3, PUBLIC_KEY_4)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_25(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, self.AMOUNT, self.PUBLIC_KEY_5, self.PUBLIC_KEY_2, self.PUBLIC_KEY_3, self.PUBLIC_KEY_4)
+		self.finish(task_name, log_path, result,  "")
 
 	def test_30_consensus(self):
 		log_path = "30_consensus.log"
 		task_name = "30_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = transfer_19(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT)
-		(result, response) = transfer_19(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_C, AMOUNT)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_C, "100000000")
+		self.finish(task_name, log_path, result,  "")
 
 	def test_31_consensus(self):
 		log_path = "31_consensus.log"
 		task_name = "31_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = approve_31(CONTRACT_ADDRESS, "AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN", "AK7wzmkdgjKxbXAJBiaW91YhUokTu9pa5X", AMOUNT)
-		(result, response) = approve_31(CONTRACT_ADDRESS, "AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN", "AcVb7HZB4nMDscQHXXoqKvnNFwrpL3V1u3", AMOUNT)
-		(result, response) = allowance(CONTRACT_ADDRESS, "AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN", "AK7wzmkdgjKxbXAJBiaW91YhUokTu9pa5X", AMOUNT)
-		(result, response) = allowance(CONTRACT_ADDRESS, "AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN", "AcVb7HZB4nMDscQHXXoqKvnNFwrpL3V1u3", AMOUNT)
-		logger.close(result)
+		self.start(log_path)
+		(result, response) = approve_31(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		(result, response) = approve_31(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		(result, response) = allowance(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		(result, response) = allowance(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		self.finish(task_name, log_path, result,  "")
 
 	def test_32_consensus(self):
 		log_path = "32_consensus.log"
 		task_name = "32_consensus"
-		logger.open(log_path, task_name)
-		(result, response) = approve_32(CONTRACT_ADDRESS, "AK7wzmkdgjKxbXAJBiaW91YhUokTu9pa5X", "AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN", AMOUNT)
-		(result, response) = transfer_19(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_B, AMOUNT)
-		(result, response) = transfer_19(CONTRACT_ADDRESS, ADDRESS_A, ADDRESS_C, AMOUNT)
-		(result, response) = allowance_32("AK7wzmkdgjKxbXAJBiaW91YhUokTu9pa5X", "AbeyxqLpm3GZDVJdRP62raMfCmHxsDfKDN")
-		logger.close(result)
-
+		self.start(log_path)
+		(result, response) = approve_32(self.CONTRACT_ADDRESS, self.ADDRESS_C, self.ADDRESS_B, "100000000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_C, "100000000")
+		(result, response) = allowance_32(self.ADDRESS_A, self.ADDRESS_A)
+		self.finish(task_name, log_path, result,  "")
 		
 ############################################################
 ############################################################
-#∞›’ºÕ•Ω⁄µ„, 5, 6Ω⁄µ„ «∞›’ºÕ•Ω⁄µ„
+#ÊãúÂç†Â∫≠ËäÇÁÇπ, 5, 6ËäÇÁÇπÊòØÊãúÂç†Â∫≠ËäÇÁÇπ
 class TestConsensus_10_13(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
 		pass
 		
 	def init_bft_node(self, bft_index):
-		stop_nodes([0,1,2,3,4,5,6])
+		for i in range(0, 14):
+			stop_nodes([i])
 		start_nodes([0,1,2,3,4], Config.DEFAULT_NODE_ARGS, True, True, program = "ontology")
+		print("start bft node: " + "ontology-bft_" + str(bft_index))
 		start_nodes([5,6], Config.DEFAULT_NODE_ARGS, True, True, program = "ontology-bft_" + str(bft_index))
 		time.sleep(8)
-		init_ont_ong()
+		
 		regIDWithPublicKey(0)
 		regIDWithPublicKey(1)
 		regIDWithPublicKey(2)
 		regIDWithPublicKey(3)
 		regIDWithPublicKey(4)
-		#regIDWithPublicKey(5)
-		#regIDWithPublicKey(6)
+		regIDWithPublicKey(5)
+		regIDWithPublicKey(6)
+		init_ont_ong()
+		time.sleep(15)
 		
 		(self.m_contract_addr, self.m_contract_txhash) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
 		(self.m_contract_addr2, self.m_contract_txhash2) = deploy_contract_full("tasks/B.neo", "name", "desc", 0)
-		
-		#AΩ⁄µ„ «AdminΩ⁄µ„
-		(result, response) = init_admin(self.m_contract_addr, Config.ontID_A)
-		(result, response) = bind_role_function(self.m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
 		
 		self.m_current_node = 0
 		self.m_storage_key = ByteToHex(b'Test Key')
@@ -365,13 +375,16 @@ class TestConsensus_10_13(ParametrizedTestCase):
 		
 	def test_10_consensus(self):
 		result = False
+		storage_key = ByteToHex(b'Test Key 10')
+		storage_value = ByteToHex(b'Test Value 10')
 		logger.open("10_consensus.log", "10_consensus")
 		try:
-			for i in range(3):
+			for i in range(1, 4):
 				self.init_bft_node(i)
-				(result, response) = transfer(self.m_contract_addr, Config.NODES[0]["address"], Config.NODES[1]["address"], AMOUNT, self.m_current_node)
+				time.sleep(30)
+				(result, response) = invoke_function(self.m_contract_addr, "put", "", "1", argvs = [{"type": "bytearray","value": storage_key},{"type": "bytearray","value": storage_value}], node_index = self.m_current_node)
 				if not result:
-					raise Error("transfer error...")
+					raise Error("invoke_function error...")
 				
 				(result, response) = RPCApi().getblockheightbytxhash(response["txhash"])
 				if not result:
@@ -379,6 +392,7 @@ class TestConsensus_10_13(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 	
 	#contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None
@@ -388,18 +402,20 @@ class TestConsensus_10_13(ParametrizedTestCase):
 		storage_key = ByteToHex(b'Test Key 11')
 		storage_value = ByteToHex(b'Test Value 11')
 		try:
-			for i in range(3):
+			for i in range(1, 4):
 				self.init_bft_node(i)
+				time.sleep(30)
 				(result, response) = invoke_function(self.m_contract_addr, "put", "", "1", argvs = [{"type": "bytearray","value": storage_key},{"type": "bytearray","value": storage_value}], node_index = self.m_current_node)
 				if not result:
 					raise Error("invoke_function put error...")
 				
 				(result, response) = invoke_function(self.m_contract_addr, "get", "", "1", argvs = [{"type": "bytearray","value": storage_key}], node_index = self.m_current_node)
-				if not result or response["result"]["Result"] == storage_value:
+				if not result or response["result"]["Result"] != storage_value:
 					raise Error("invoke_function get error...")
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 
 	def test_12_consensus(self):
@@ -408,19 +424,31 @@ class TestConsensus_10_13(ParametrizedTestCase):
 		storage_key = ByteToHex(b'Test Key 12')
 		storage_value = ByteToHex(b'Test Value 12')
 		try:
-			for i in range(3):
+			for i in range(1, 4):
 				self.init_bft_node(i)
+				time.sleep(30)
+				
+				#AËäÇÁÇπÊòØAdminËäÇÁÇπ
+				(result, response) = init_admin(self.m_contract_addr, Config.ontID_A)
+				if not result:
+					raise Error("init_admin error...")
+					
+				(result, response) = bind_role_function(self.m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
+				if not result:
+					raise Error("bind_role_function error...")
+				
 				(result, response) = invoke_function(self.m_contract_addr, "auth_put", Config.ontID_B, "1", argvs = [{"type": "bytearray","value": storage_key},{"type": "bytearray","value": storage_value}])
 				if not result:
 					raise Error("invoke_function put error...")
 				
 				(result, response) = invoke_function(self.m_contract_addr, "get", Config.ontID_B, "1", argvs = [{"type": "bytearray","value": storage_key}])
-				if response["result"] != '':
+				if response["result"]["Result"] != '':
 					result = False
 					raise Error("invoke_function get error...")
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 	def test_13_consensus(self):
@@ -429,28 +457,32 @@ class TestConsensus_10_13(ParametrizedTestCase):
 		storage_key = ByteToHex(b'Test Key 13')
 		storage_value = ByteToHex(b'Test Value 13')
 		try:
-			for i in range(3):
+			for i in range(1, 4):
 				self.init_bft_node(i)
-				(result, response) = invoke_function(self.m_contract_addr, "put", "", "1", argvs = [{"type": "bytearray","value": storage_key},{"type": "bytearray","value": storage_value}], node_index = self.m_current_node)
-				if not result:
-					raise Error("invoke_function put error...")
-			
-			result = check_node_state([0,1,2,3,4,5,6])
+				time.sleep(30)
+				for j in range(10):
+					(result, response) = invoke_function(self.m_contract_addr, "put", "", "1", argvs = [{"type": "bytearray","value": storage_key},{"type": "bytearray","value": storage_value}], node_index = self.m_current_node)
+					if not result:
+						raise Error("invoke_function put error...")
+					time.sleep(10)
+					
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 		
 ############################################################
 ############################################################
-#dbftπ≤ ∂
+#dbftÂÖ±ËØÜ
 class TestConsensus_14_18(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
-		stop_nodes([0,1,2,3,4,5,6])
-		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft.json")
+		for node_index in range(len(Config.NODES)):
+			stop_nodes([node_index])
+		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
+		#start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(8)
-		init_ont_ong()
 		regIDWithPublicKey(0)
 		regIDWithPublicKey(1)
 		regIDWithPublicKey(2)
@@ -459,23 +491,30 @@ class TestConsensus_14_18(ParametrizedTestCase):
 		regIDWithPublicKey(5)
 		regIDWithPublicKey(6)
 		
+		init_ont_ong()
+		time.sleep(15)
+		
 		(cls.m_contract_addr, cls.m_contract_txhash) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
 		(cls.m_contract_addr2, cls.m_contract_txhash2) = deploy_contract_full("tasks/B.neo", "name", "desc", 0)
 		
-		#AΩ⁄µ„ «AdminΩ⁄µ„
+		#AËäÇÁÇπÊòØAdminËäÇÁÇπ
 		(result, response) = init_admin(cls.m_contract_addr, Config.ontID_A)
+		time.sleep(6)
 		(result, response) = bind_role_function(cls.m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
 		
 		cls.m_current_node = 0
 		cls.m_storage_key = ByteToHex(b'Test Key')
 		cls.m_storage_value = ByteToHex(b'Test Value')
 		cls.m_stop_2_nodes = [5,6]
-		
+	
+	def setUp(self):
+		self.AMOUNT = "1001"
+	
 	def test_14_consensus(self):
 		result = False
 		logger.open("14_consensus.log", "14_consensus")
 		try:
-			(result, response) = transfer(self.m_contract_addr, Config.NODES[0]["address"], Config.NODES[1]["address"], AMOUNT, self.m_current_node)
+			(result, response) = transfer(self.m_contract_addr, Config.NODES[self.m_current_node]["address"], Config.NODES[1]["address"], self.AMOUNT, self.m_current_node)
 			if not result:
 				raise Error("transfer error...")
 			
@@ -485,6 +524,7 @@ class TestConsensus_14_18(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 	
 	def test_15_consensus(self):
@@ -498,11 +538,12 @@ class TestConsensus_14_18(ParametrizedTestCase):
 				raise Error("invoke_function put error...")
 			
 			(result, response) = invoke_function(self.m_contract_addr, "get", "", "1", argvs = [{"type": "bytearray","value": storage_key}], node_index = self.m_current_node)
-			if not result or response["result"]["Result"] == storage_value:
+			if not result or response["result"]["Result"] != storage_value:
 				raise Error("invoke_function get error...")
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 	def test_16_consensus(self):
@@ -516,12 +557,13 @@ class TestConsensus_14_18(ParametrizedTestCase):
 				raise Error("invoke_function put error...")
 			
 			(result, response) = invoke_function(self.m_contract_addr, "get", Config.ontID_B, "1", argvs = [{"type": "bytearray","value": storage_key}])
-			if response["result"] != '':
+			if response["result"]["Result"] != '':
 				result = False
 				raise Error("invoke_function get error...")
 			
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 	def test_17_consensus(self):
@@ -537,6 +579,7 @@ class TestConsensus_14_18(ParametrizedTestCase):
 			result = check_node_state([0,1,2,3,4,5,6])
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)
 		
 	def test_18_consensus(self):
@@ -552,8 +595,10 @@ class TestConsensus_14_18(ParametrizedTestCase):
 			(result, response) = invoke_function(self.m_contract_addr2, "get", "", "1", argvs = [{"type": "bytearray","value": storage_key}], node_index = self.m_current_node)
 			if not result or response["result"]["Result"] == storage_value:
 				raise Error("invoke_function get error...")
+				
 		except Exception as e:
 			print(e.msg)
+			result = False
 		logger.close(result)  
 
 

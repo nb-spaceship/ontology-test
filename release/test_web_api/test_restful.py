@@ -18,12 +18,69 @@ from utils.commonapi import *
 from utils.restfulapi import *
 from utils.rpcapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-	
+from utils.contractapi import invoke_function
+
 ####################################################
 #test cases
+class Test_01(ParametrizedTestCase):
+	def test_01_get_gen_blk_time(self):
+		for node_index in range(len(Config.NODES)):
+			stop_nodes([node_index])
+		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
+		time.sleep(10)
+		
+		logger.open("restful/01_get_gen_blk_time.log", "01_get_gen_blk_time")
+		(result, response) = RestfulApi().getgenerateblocktime()
+		logger.close(result)
+
+		
+class Test_no_block(ParametrizedTestCase):
+	def setUp(self):
+		for node_index in range(len(Config.NODES)):
+			stop_nodes([node_index])
+		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(5)
+
+	def test_06_get_blk_txs_by_height(self,height=0):
+		logger.open("restful/06_get_blk_txs_by_height.log", "06_get_blk_txs_by_height")
+		(result, response) = RestfulApi().getblocktxsbyheight(height)
+		logger.close(result)
+		
+	# 无区块
+	def test_14_get_blk_by_height(self,height=0):
+		logger.open("restful/14_get_blk_by_height.log", "14_get_blk_by_height")
+		(result, response) = RestfulApi().getblockbyheight(height)
+		logger.close(result)
+
+	# 无区块
+	def test_23_get_blk_height(self):
+		logger.open("restful/23_get_blk_height.log", "23_get_blk_height")
+		(result, response) = RestfulApi().getblockheight()	
+		logger.close(result)
+
+	# 无区块
+	def test_25_get_blk_hash(self,height=0):
+		logger.open("restful/25_get_blk_hash.log", "25_get_blk_hash")
+		(result, response) = RestfulApi().getblockhashbyheight(height)	
+		logger.close(result)
+		
+	# 无区块
+	def test_53_get_contract_state(self):
+		(contractaddr_right, txhash_right) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
+
+		script_hash=contractaddr_right
+		logger.open("restful/53_get_contract_state.log", "53_get_contract_state")
+		(result, response) = RestfulApi().getcontract(script_hash) 
+		logger.close(not result)
+		
 class Test(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
+		#for node_index in range(len(Config.NODES)):
+		#	stop_nodes([node_index])
+		#start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		#time.sleep(60)
+
 		(cls.m_contractaddr_right, cls.m_txhash_right) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
 		cls.m_txhash_wrong = "this is a wrong tx hash"
 		cls.m_contractaddr_wrong = "this is a wrong address"
@@ -40,11 +97,13 @@ class Test(ParametrizedTestCase):
 		
 		(result, reponse) = sign_transction(Task("tasks/cli/siginvoketx.json"), False)
 		cls.m_signed_txhash_right = reponse["result"]["signed_tx"]
-		cls.m_signed_txhash_wrong = cls.m_signed_txhash_right + "000000"
+		cls.m_signed_txhash_wrong = "0f0f0f0f" + cls.m_signed_txhash_right 
 		
 		cls.m_getstorage_contract_addr = "03febccf81ac85e3d795bc5cbd4e84e907812aa3"
-		cls.m_getstorage_contract_addr_wrong = "03febccf81ac85e3d795ccccbd4e84e907812aa4"
-		cls.m_getstorage_contract_key = "5065746572"
+		cls.m_getstorage_contract_addr_wrong = "5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c"
+		cls.m_getstorage_contract_key = ByteToHex(b'key1')
+		cls.m_getstorage_contract_value = ByteToHex(b'value1')
+		invoke_function(cls.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": cls.m_getstorage_contract_key},{"type": "bytearray","value": cls.m_getstorage_contract_value}], node_index = 0)
 		
 		cls.getsmartcodeevent_height = 5
 
@@ -55,21 +114,11 @@ class Test(ParametrizedTestCase):
 	def setUp(self):
 		time.sleep(1)
 		pass
-	
-	def clear_nodes(self):
-		stop_nodes([0, 1, 2, 3, 4, 5, 6])
-		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
-
-	def test_01_get_gen_blk_time(self):
-		logger.open("restful/01_get_gen_blk_time.log", "01_get_gen_blk_time")
-		(result, response) = RestfulApi().getgenerateblocktime()
-		logger.close(result)
-	
+		
 	def test_02_get_gen_blk_time(self):
 		logger.open("restful/02_get_gen_blk_time.log", "02_get_gen_blk_time")
 		(result, response) = RestfulApi().getgenerateblocktime()
-		logger.close(not result)
+		logger.close(result)
 		
 	def test_03_get_conn_count(self):
 		logger.open("restful/03_get_conn_count.log", "03_get_conn_count")
@@ -87,12 +136,6 @@ class Test(ParametrizedTestCase):
 		
 	def test_05_get_blk_txs_by_height(self,height=1):
 		logger.open("restful/05_get_blk_txs_by_height.log", "05_get_blk_txs_by_height")
-		(result, response) = RestfulApi().getblocktxsbyheight(height)
-		logger.close(result)
-		
-	def test_06_get_blk_txs_by_height(self,height=0):
-		self.clear_nodes()
-		logger.open("restful/06_get_blk_txs_by_height.log", "06_get_blk_txs_by_height")
 		(result, response) = RestfulApi().getblocktxsbyheight(height)
 		logger.close(result)
 	
@@ -130,15 +173,7 @@ class Test(ParametrizedTestCase):
 		logger.open("restful/13_get_blk_by_height.log", "13_get_blk_by_height")
 		(result, response) = RestfulApi().getblockbyheight(height)
 		logger.close(result)
-		
-	# 无区块
-	def test_14_get_blk_by_height(self,height=0):
-		self.clear_nodes()
-		logger.open("restful/14_get_blk_by_height.log", "14_get_blk_by_height")
-		(result, response) = RestfulApi().getblockbyheight(height)
-		logger.close(not result)
-
-		
+	
 	def test_15_get_blk_by_height(self,height=6000):
 		logger.open("restful/15_get_blk_by_height.log", "15_get_blk_by_height")
 		(result, response) = RestfulApi().getblockbyheight(height)
@@ -155,7 +190,7 @@ class Test(ParametrizedTestCase):
 		logger.close(not result)
 
 	def test_18_get_blk_by_height(self,height=-1):
-		logger.open("restful/21_get_blk_by_height.log", "18_get_blk_by_height")
+		logger.open("restful/18_get_blk_by_height.log", "18_get_blk_by_height")
 		(result, response) = RestfulApi().getblockbyheight(height)
 		logger.close(not result)
 
@@ -179,34 +214,20 @@ class Test(ParametrizedTestCase):
 		(result, response) = RestfulApi().getblockheight()	
 		logger.close(result)
 
-	# 无区块
-	def test_23_get_blk_height(self):
-		self.clear_nodes()  
-		logger.open("restful/23_get_blk_height.log", "23_get_blk_height")
-		(result, response) = RestfulApi().getblockheight()	
-		logger.close(result)
-
 	def test_24_get_blk_hash(self,height=1):
 		logger.open("restful/24_get_blk_hash.log", "24_get_blk_hash")
-		(result, response) = RestfulApi().getblockhashbyheight(height)	
-		logger.close(result)
-
-	# 无区块
-	def test_25_get_blk_hash(self,height=0):
-		self.clear_nodes()  
-		logger.open("restful/25_get_blk_hash.log", "25_get_blk_hash")
 		(result, response) = RestfulApi().getblockhashbyheight(height)	
 		logger.close(result)
 
 	def test_26_get_blk_hash(self,height=6000):
 		logger.open("restful/26_get_blk_hash.log", "26_get_blk_hash")
 		(result, response) = RestfulApi().getblockhashbyheight(height)	
-		logger.close(not result)
+		logger.close(result and (response["Result"] == "" or response["Result"] == None))
 
 	def test_27_get_blk_hash(self,height=65536):
 		logger.open("restful/27_get_blk_hash.log", "27_get_blk_hash")
 		(result, response) = RestfulApi().getblockhashbyheight(height)	
-		logger.close(not result)
+		logger.close(result and (response["Result"] == "" or response["Result"] == None))
 
 	def test_28_get_blk_hash(self,height="abc"):
 		logger.open("restful/28_get_blk_hash.log", "28_get_blk_hash")
@@ -249,7 +270,7 @@ class Test(ParametrizedTestCase):
 		
 		logger.open("restful/34_post_raw_tx.log", "34_post_raw_tx")
 		(result, response) = RestfulApi().postrawtx(rawtxdata,action,version) 
-		logger.close(not result)
+		logger.close(result)
 
 	def test_35_post_raw_tx(self):
 		rawtxdata=self.m_signed_txhash_right
@@ -258,7 +279,7 @@ class Test(ParametrizedTestCase):
 		
 		logger.open("restful/35_post_raw_tx.log", "35_post_raw_tx")
 		(result, response) = RestfulApi().postrawtx(rawtxdata,action,version) 
-		logger.close(not result)
+		logger.close(result)
 
 	def test_36_post_raw_tx(self):
 		rawtxdata=self.m_signed_txhash_right
@@ -276,16 +297,16 @@ class Test(ParametrizedTestCase):
 		
 		logger.open("restful/37_post_raw_tx.log", "37_post_raw_tx")
 		(result, response) = RestfulApi().postrawtx(rawtxdata,action,version) 
-		logger.close(not result)   
+		logger.close(result)   
 
 	def test_38_post_raw_tx(self):
 		rawtxdata=self.m_signed_txhash_right
 		action = "sendrawtransaction"
 		version = ""
 		
-		logger.open("restful/44_post_raw_tx.log", "44_post_raw_tx")
+		logger.open("restful/38_post_raw_tx.log", "38_post_raw_tx")
 		(result, response) = RestfulApi().postrawtx(rawtxdata,action,version) 
-		logger.close(not result)
+		logger.close(result)
 
 	def test_39_post_raw_tx(self):
 		rawtxdata=self.m_signed_txhash_right
@@ -328,7 +349,7 @@ class Test(ParametrizedTestCase):
 		
 		logger.open("restful/43_get_storage.log", "43_get_storage")
 		(result, response) = RestfulApi().getstorage(script_hash, key) 
-		logger.close(not result)
+		logger.close(result)
 
 	def test_44_get_storage(self):
 		script_hash=""
@@ -352,7 +373,7 @@ class Test(ParametrizedTestCase):
 	
 		logger.open("restful/46_get_storage.log", "46_get_storage")
 		(result, response) = RestfulApi().getstorage(script_hash, key) 
-		logger.close(not result)
+		logger.close(result)
 
 	def test_47_get_storage(self):
 		script_hash=self.m_getstorage_contract_addr
@@ -360,7 +381,7 @@ class Test(ParametrizedTestCase):
 	
 		logger.open("restful/47_get_storage.log", "47_get_storage")
 		(result, response) = RestfulApi().getstorage(script_hash, key) 
-		logger.close(not result)
+		logger.close( result)
 		
 	def test_48_get_storage(self):
 		script_hash=self.m_getstorage_contract_addr
@@ -368,7 +389,7 @@ class Test(ParametrizedTestCase):
 	
 		logger.open("restful/48_get_storage.log", "48_get_storage")
 		(result, response) = RestfulApi().getstorage(script_hash, key) 
-		logger.close(not result)
+		logger.close(result)
 		
 	def test_49_get_balance(self):
 		attr=self.getbalance_address_true
@@ -396,15 +417,6 @@ class Test(ParametrizedTestCase):
 		(result, response) = RestfulApi().getcontract(script_hash) 
 		logger.close(result)
 		
-	# 无区块
-	def test_53_get_contract_state(self):
-		script_hash=self.m_contractaddr_right
-	
-		self.clear_nodes()
-		logger.open("restful/53_get_contract_state.log", "53_get_contract_state")
-		(result, response) = RestfulApi().getcontract(script_hash) 
-		logger.close(not result)
-
 	def test_54_get_contract_state(self):
 		script_hash=self.m_contractaddr_wrong
 	
@@ -420,7 +432,7 @@ class Test(ParametrizedTestCase):
 	def test_56_get_smtcode_evt_txs(self,height=999):
 		logger.open("restful/56_get_smtcode_evt_txs.log", "56_get_smtcode_evt_txs")
 		(result, response) = RestfulApi().getsmartcodeeventbyheight(height) 
-		logger.close(not result)
+		logger.close(result)
 
 	def test_57_get_smtcode_evt_txs(self,height="abc"):
 		logger.open("restful/57_get_smtcode_evt_txs.log", "57_get_smtcode_evt_txs")
