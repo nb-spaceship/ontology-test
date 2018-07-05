@@ -330,7 +330,7 @@ def invoke_contract_migrate(contract_address, script_hash, name, version, author
 
 def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None):
     request = {
-        "DEPLOY" : True,
+        "DEPLOY" : False,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -362,7 +362,7 @@ def invoke_func_with_1_param(contract_address, func_name, param_type, param_valu
 
 def invoke_func_with_0_param(contract_address, func_name, node_index = None):
     request = {
-        "DEPLOY" : True,
+        "DEPLOY" : False,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -394,7 +394,7 @@ def invoke_func_with_0_param(contract_address, func_name, node_index = None):
 
 def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_value_1, param_type_2, param_value_2, node_index = None):
     request = {
-        "DEPLOY" : True,
+        "DEPLOY" : False,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -433,7 +433,7 @@ def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_va
 
 def invoke_storage_get(contract_address, node_index = None):
     request = {
-        "DEPLOY" : True,
+        "DEPLOY" : False,
         "CODE_PATH" : "tasks/neo.neo",
         "REQUEST": {
             "Qid": "t",
@@ -475,37 +475,41 @@ def invoke_storage_get(contract_address, node_index = None):
 
 def invoke_storage_put(contract_address, node_index = None):
     request = {
-		"Qid": "t",
-		"Method": "siginvoketx",
-		"Params": {
-			"gas_price": 0,
-			"gas_pimit": 0,
-			"address": contract_address,
-			"version": 1,
-			"params": [
-				{
-					"type": "string",
-					"value": "Put_107"
-				},
-				{
-					"type": "array",
-					"value": [
-						{
-							"type": "bytearray",
-							"value": "74657374"
-						},
-						{
-							"type": "bytearray",
-							"value": "31"
-						},
-						{
-							"type": "bytearray",
-							"value": "313231"
-						}
-					]
-				}
-			]
-		},
+        "DEPLOY" : False,
+        "CODE_PATH" : "tasks/neo.neo",
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signeovminvoketx",
+            "Params": {
+                "gas_price": 0,
+                "gas_limit": 1000000000,
+                "address": contract_address,
+                "version": 0,
+                "params": [
+                    {
+                        "type": "string",
+                        "value": "Put_107"
+                    },
+                    {
+                        "type": "array",
+                        "value": [
+                            {
+                                "type": "bytearray",
+                                "value": "313131"
+                            },
+                            {
+                                "type": "bytearray",
+                                "value": "313131"
+                            },
+                            {
+                                "type": "bytearray",
+                                "value": "3838383838"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
         "RESPONSE": {}
     }
     

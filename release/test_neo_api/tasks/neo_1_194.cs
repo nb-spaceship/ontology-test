@@ -101,7 +101,7 @@ namespace Neo.SmartContract
             }
             else if(operation == "GetStorageContext")
             {
-                return GetStorageContext((byte[])args[0]);
+                return GetStorageContext(args);
             }
             else if(operation == "GetContract_StorageContext")
             {
@@ -129,7 +129,7 @@ namespace Neo.SmartContract
             }
             else if(operation == "GetTransaction_Attributes")
             {
-                return GetTransaction_Attributes((byte[])args[0],(int)args[1]);
+                return GetTransaction_Attributes((byte[])args[0]);
             }
             else if(operation == "GetCallingScriptHash")
             {
@@ -217,6 +217,14 @@ namespace Neo.SmartContract
                 DeleteStorge(Storage.CurrentContext, key);
                 return GetStorge(Storage.CurrentContext, key);
             }
+            else if(operation == "Delete_120")
+            {
+                byte[] key = (byte[]) args[0];
+                byte[] value = (byte[]) args[1];
+                // PutStorge(Storage.CurrentContext, key, value);
+                DeleteStorge(Storage.CurrentContext, key);
+                return GetStorge(Storage.CurrentContext, key);
+            }
             else if(operation == "Delete_115")
             {
                 byte[] key = (byte[]) args[0];
@@ -246,7 +254,7 @@ namespace Neo.SmartContract
                 byte[] key_1 = (byte[]) args[0];
                 byte[] value = (byte[]) args[1];
                 byte[] key_2 = (byte[]) args[2];
-                PutStorge(Storage.CurrentContext, key_1, value);
+                // PutStorge(Storage.CurrentContext, key_1, value);
                 return GetStorge(Storage.CurrentContext, key_2);
             }
             else if(operation == "Get_94")
@@ -254,7 +262,7 @@ namespace Neo.SmartContract
                 byte[] key = (byte[]) args[0];
                 byte[] value = (byte[]) args[1];
                 PutStorge(Storage.CurrentContext, key, value);
-                return GetStorge(Storage.CurrentContext, key);
+                return GetStorge(null, key);
             }
             else if(operation == "Get_98")
             {
@@ -275,14 +283,15 @@ namespace Neo.SmartContract
             {
                 byte[] key = (byte[]) args[0];
                 byte[] value = (byte[]) args[1];
-                PutStorge(Storage.CurrentContext, key, value);
-                return GetStorge(Storage.CurrentContext, key);
+                StorageContext _c = (StorageContext) args[1];
+                PutStorge(_c, key, value);
+                return GetStorge(_c, key);
             }
             else if(operation == "Put_101")
             {
                 byte[] key = (byte[]) args[0];
                 byte[] value = (byte[]) args[1];
-                PutStorge(Storage.CurrentContext, key, value);
+                PutStorge(null, key, value);
                 return GetStorge(Storage.CurrentContext, key);
             }
             else if(operation == "Put_107")
@@ -426,11 +435,12 @@ namespace Neo.SmartContract
             return con.StorageContext;
         }
 
-        public static byte GetTransactionAttribute_Usage(byte[] txid,int index)
+        public static TransactionAttribute[] GetTransactionAttribute_Usage(byte[] txid,int index)
         {
-            Transaction tran = Blockchain.GetTransaction(txid);
+            Block block = GetBlockByHeight(1);
+            Transaction tran = block.GetTransactions()[0];
             TransactionAttribute[] attr = tran.GetAttributes(); 
-            return attr[index].Usage;
+            return attr;
         }
 
         public static TransactionAttribute[] GetTransaction_Attributes(byte[] txid)
@@ -592,7 +602,7 @@ namespace Neo.SmartContract
 
         public static Transaction GetBlockTransaction_40(object height, object index)
         {
-            Block block = GetBlockByHeight(height);
+            Block block = GetBlockByHeight((int)height);
             int _index = (int)index;
             return block.GetTransaction(_index);
         }
