@@ -49,8 +49,9 @@ def multi_contract(task,m,pubkeyArray):
 				break
 				
 		if execNum>=m:
-			call_signed_contract(signed_raw, True)
-			return call_signed_contract(signed_raw, False)
+			(result,response)=call_signed_contract(signed_raw, True)
+			call_signed_contract(signed_raw, False)
+			return (result,response)
 			
 	return (False,{"error_info":"multi times lesss than except!only "+str(execNum)})
 	

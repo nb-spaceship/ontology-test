@@ -24,6 +24,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.rpcapi import RPCApi
 from utils.commonapi import *
+from utils.contractapi import invoke_function
 
 ####################################################
 logger = LoggerInstance
@@ -34,9 +35,35 @@ rpcApi = RPCApi()
 
 ######################################################
 # test cases
+class Test_no_block(ParametrizedTestCase):
+	def setUp(self):
+		for node_index in range(len(Config.NODES)):
+			stop_nodes([node_index])
+		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(5)
+		
+	# can not test
+	def test_21_getbestblockhash(self):
+		self.clear_nodes()
+		logger.open("rpc/21_getbestblockhash.log", "21_getbestblockhash")
+		(result, response) = rpcApi.getbestblockhash()
+		logger.close(result)
+		
+	# can not test
+	def test_23_getblockcount(self):
+		self.clear_nodes()
+		logger.open("rpc/23_getblockcount.log", "23_getblockcount")
+		(result, response) = rpcApi.getblockcount()
+		logger.close(result and int(response["result"]) == 1)
+	
 class TestRpc(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
+		for node_index in range(len(Config.NODES)):
+			stop_nodes([node_index])
+		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(60)
+		
 		(cls.m_contractaddr_right, cls.m_txhash_right) = deploy_contract_full("tasks/A.neo", "name", "desc", 0)
 		cls.m_txhash_wrong = "is a wrong tx hash"
 		
@@ -53,11 +80,14 @@ class TestRpc(ParametrizedTestCase):
 		
 		(result, reponse) = sign_transction(Task("tasks/cli/siginvoketx.json"), False)
 		cls.m_signed_txhash_right = reponse["result"]["signed_tx"]
-		cls.m_signed_txhash_wrong = cls.m_signed_txhash_right + "000000"
+		cls.m_signed_txhash_wrong = cls.m_signed_txhash_right + "0f0f0f0f"
 		
-		cls.m_getstorage_contract_addr = "03febccf81ac85e3d795bc5cbd4e84e907812aa3"
-		cls.m_getstorage_contract_addr_wrong = "03febccf81ac85e3d795ccccbd4e84e907812aa4"
-		cls.m_getstorage_contract_key = "5065746572"
+		
+		cls.m_getstorage_contract_addr = cls.m_contractaddr_right
+		cls.m_getstorage_contract_addr_wrong = cls.m_contractaddr_right + "0f0f0f0f"
+		cls.m_getstorage_contract_key = ByteToHex(b'key1')
+		cls.m_getstorage_contract_value = ByteToHex(b'value1')
+		invoke_function(cls.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": cls.m_getstorage_contract_key},{"type": "bytearray","value": cls.m_getstorage_contract_value}], node_index = 0)
 		
 		cls.getsmartcodeevent_height = 5
 
@@ -66,11 +96,6 @@ class TestRpc(ParametrizedTestCase):
 		
 	def setUp(self):
 		time.sleep(1)
-
-	def clear_nodes(self):
-		stop_nodes([0, 1, 2, 3, 4, 5, 6])
-		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
 			
 	def test_01_getblock(self):
 		logger.open("rpc/01_getblock.log", "01_getblock")
@@ -115,12 +140,12 @@ class TestRpc(ParametrizedTestCase):
 	def test_09_getblock(self):
 		logger.open("rpc/09_getblock.log", "09_getblock")
 		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = -1)
-		logger.close(not result)
+		logger.close(result)
 	
 	def test_10_getblock(self):
 		logger.open("rpc/10_getblock.log", "10_getblock")
 		(result, response) = rpcApi.getblock(height = self.m_block_height_right, blockhash = None, verbose = 2)
-		logger.close(not result)
+		logger.close(result)
 	
 	def test_11_getblock(self):
 		logger.open("rpc/11_getblock.log", "11_getblock")
@@ -171,25 +196,11 @@ class TestRpc(ParametrizedTestCase):
 		logger.open("rpc/20_getbestblockhash.log", "20_getbestblockhash")
 		(result, response) = rpcApi.getbestblockhash()
 		logger.close(result)
-
-	# can not test
-	def test_21_getbestblockhash(self):
-		self.clear_nodes()
-		logger.open("rpc/21_getbestblockhash.log", "21_getbestblockhash")
-		(result, response) = rpcApi.getbestblockhash()
-		logger.close(result)
 	
 	def test_22_getblockcount(self):
 		logger.open("rpc/22_getblockcount.log", "22_getblockcount")
 		(result, response) = rpcApi.getblockcount()
-		logger.close(not result)
-
-	# can not test
-	def test_23_getblockcount(self):
-		self.clear_nodes()
-		logger.open("rpc/23_getblockcount.log", "23_getblockcount")
-		(result, response) = rpcApi.getblockcount()
-		logger.close(result and (int(response["result"]) == 1))
+		logger.close(result)
 
 	def test_24_getconnectioncount(self):
 		logger.open("rpc/24_getconnectioncount.log", "24_getconnectioncount")
@@ -211,13 +222,14 @@ class TestRpc(ParametrizedTestCase):
 		logger.open("rpc/26_getgenerateblocktime.log", "26_getgenerateblocktime")
 		(result, response) = rpcApi.getgenerateblocktime()
 		logger.close(result)
-	
+	'''
 	# can not test
 	def test_26_getconnectioncount_1(self):
 		logger.open("rpc/27_getconnectioncount.log", "27_getconnectioncount")
 		(result, response) = rpcApi.getgenerateblocktime()
 		logger.close(not result)
-
+	'''
+	
 	def test_27_getrawtransaction(self):
 		logger.open("rpc/27_getrawtransaction.log", "27_getrawtransaction")
 		(result, response) = rpcApi.getrawtransaction(self.m_txhash_right)
@@ -256,12 +268,12 @@ class TestRpc(ParametrizedTestCase):
 	def test_34_getrawtransaction(self):
 		logger.open("rpc/34_getrawtransaction.log", "34_getrawtransaction")
 		(result, response) = rpcApi.getrawtransaction(self.m_txhash_right, -1)
-		logger.close(not result)
+		logger.close(result)
 
 	def test_35_getrawtransaction(self):
 		logger.open("rpc/35_getrawtransaction.log", "35_getrawtransaction")
 		(result, response) = rpcApi.getrawtransaction(self.m_txhash_right, 2)
-		logger.close(not result)
+		logger.close(result)
 
 	def test_36_getrawtransaction(self):
 		logger.open("rpc/36_getrawtransaction.log", "36_getrawtransaction")
@@ -270,7 +282,7 @@ class TestRpc(ParametrizedTestCase):
 
 	def test_37_getrawtransaction(self):
 		logger.open("rpc/37_getrawtransaction.log", "37_getrawtransaction")
-		(result, response) = rpcApi.getrawtransaction(None)
+		(result, response) = rpcApi.getrawtransaction(self.m_txhash_right, None)
 		logger.close(result)
 	
 	def test_38_sendrawtransaction(self):
@@ -280,7 +292,7 @@ class TestRpc(ParametrizedTestCase):
 	
 	def test_39_sendrawtransaction(self):
 		logger.open("rpc/39_sendrawtransaction.log", "39_sendrawtransaction")
-		(result, response) = rpcApi.sendrawtransaction(self.m_signed_txhash_wrong)
+		(result, response) = rpcApi.sendrawtransaction("")
 		logger.close(not result)
 	
 	def test_40_sendrawtransaction(self):
@@ -291,7 +303,7 @@ class TestRpc(ParametrizedTestCase):
 	def test_41_getstorage(self):
 		logger.open("rpc/41_getstorage.log", "41_getstorage")
 		(result, response) = rpcApi.getstorage(self.m_getstorage_contract_addr, self.m_getstorage_contract_key)
-		logger.close(result)
+		logger.close(result and response["result"] == self.m_getstorage_contract_value)
 
 	def test_42_getstorage(self):
 		logger.open("rpc/42_getstorage.log", "42_getstorage")
@@ -380,7 +392,7 @@ class TestRpc(ParametrizedTestCase):
 	'''
 	def test_58_getcontractstate(self):
 		logger.open("rpc/58_getcontractstate.log", "58_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right)
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right)
 		logger.close(result)
 
 	def test_59_getcontractstate(self):
@@ -405,37 +417,39 @@ class TestRpc(ParametrizedTestCase):
 
 	def test_63_getcontractstate(self):
 		logger.open("rpc/63_getcontractstate.log", "63_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right, 1)
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right, 1)
 		logger.close(result)
 
 	def test_64_getcontractstate(self):
 		logger.open("rpc/64_getcontractstate.log", "64_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right, -1)
-		logger.close(not result)
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right, -1)
+		logger.close(result)
 
 	def test_65_getcontractstate(self):
 		logger.open("rpc/65_getcontractstate.log", "65_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right, 2)
-		logger.close(not result)
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right, 2)
+		logger.close(result)
 
 	def test_66_getcontractstate(self):
 		logger.open("rpc/66_getcontractstate.log", "66_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right, "abc")
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right, "abc")
 		logger.close(not result)
 
 	def test_67_getcontractstate(self):
 		logger.open("rpc/67_getcontractstate.log", "67_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right, 0)
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right, 0)
 		logger.close(result)
 
 	def test_68_getcontractstate(self):
 		logger.open("rpc/68_getcontractstate.log", "68_getcontractstate")
-		(result, response) = rpcApi.getcontractstate(self.m_txhash_right, None)
+		(result, response) = rpcApi.getcontractstate(self.m_contractaddr_right, None)
 		logger.close(result)
 
 	def test_69_getmempooltxstate(self):
 		logger.open("rpc/69_getmempooltxstate.log", "69_getmempooltxstate")
-		(result, response) = rpcApi.getmempooltxstate(self.m_txhash_right)
+		(result, response) = invoke_function(self.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": self.m_getstorage_contract_key},{"type": "bytearray","value": self.m_getstorage_contract_value}], node_index = 0, sleep = 0)
+
+		(result, response) = rpcApi.getmempooltxstate(response["txhash"])
 		logger.close(result)
 
 	def test_70_getmempooltxstate(self):
@@ -490,27 +504,27 @@ class TestRpc(ParametrizedTestCase):
 	
 	def test_80_getblockheightbytxhash(self):
 		logger.open("rpc/80_getblockheightbytxhash.log", "80_getblockheightbytxhash")
-		(result, response) = rpcApi.getsmartcodeevent(tx_hash = self.m_txhash_right)
+		(result, response) = rpcApi.getblockheightbytxhash(tx_hash = self.m_txhash_right)
 		logger.close(result)
 
 	def test_81_getblockheightbytxhash(self):
 		logger.open("rpc/81_getblockheightbytxhash.log", "81_getblockheightbytxhash")
-		(result, response) = rpcApi.getsmartcodeevent(tx_hash = self.m_txhash_wrong)
+		(result, response) = rpcApi.getblockheightbytxhash(tx_hash = self.m_txhash_wrong)
 		logger.close(not result)
 
 	def test_82_getblockheightbytxhash(self):
 		logger.open("rpc/82_getblockheightbytxhash.log", "82_getblockheightbytxhash")
-		(result, response) = rpcApi.getsmartcodeevent(tx_hash = "abc")
+		(result, response) = rpcApi.getblockheightbytxhash(tx_hash = "abc")
 		logger.close(not result)
 
 	def test_83_getblockheightbytxhash(self):
 		logger.open("rpc/83_getblockheightbytxhash.log", "83_getblockheightbytxhash")
-		(result, response) = rpcApi.getsmartcodeevent(tx_hash = 123)
+		(result, response) = rpcApi.getblockheightbytxhash(tx_hash = 123)
 		logger.close(not result)
 	
 	def test_84_getblockheightbytxhash(self):
 		logger.open("rpc/84_getblockheightbytxhash.log", "84_getblockheightbytxhash")
-		(result, response) = rpcApi.getsmartcodeevent(tx_hash = None)
+		(result, response) = rpcApi.getblockheightbytxhash(tx_hash = None)
 		logger.close(not result)
 
 	def test_85_getbalance(self):
@@ -519,7 +533,7 @@ class TestRpc(ParametrizedTestCase):
 		logger.close(result)
 	
 	def test_86_getbalance(self):
-		logger.open("rpc/85_getbalance.log", "85_getbalance")
+		logger.open("rpc/86_getbalance.log", "86_getbalance")
 		(result, response) = rpcApi.getbalance(self.getbalance_address_false)
 		logger.close(not result)
 	
@@ -546,7 +560,7 @@ class TestRpc(ParametrizedTestCase):
 	def test_91_getmerkleproof(self):
 		logger.open("rpc/91_getmerkleproof.log", "91_getmerkleproof")
 		(result, response) = rpcApi.getmerkleproof("abc")
-		logger.close(result)
+		logger.close(not result)
 
 	def test_92_getmerkleproof(self):
 		logger.open("rpc/92_getmerkleproof.log", "92_getmerkleproof")
@@ -561,14 +575,16 @@ class TestRpc(ParametrizedTestCase):
 	def test_94_getmerkleproof(self):
 		logger.open("rpc/94_getmerkleproof.log", "94_getmerkleproof")
 		task = Task("tasks/rpc/94_getmerkleproof.json")
+		task.request()["params"] = [self.m_txhash_right]
 		(result, response) =  run_single_task(task)
-		logger.close(not result)
+		logger.close(result)
 
 	def test_95_getmerkleproof(self):
 		logger.open("rpc/95_getmerkleproof.log", "95_getmerkleproof")
 		task = Task("tasks/rpc/95_getmerkleproof.json")
+		task.request()["params"] = [self.m_txhash_right]
 		(result, response) =  run_single_task(task)
-		logger.close(not result)
+		logger.close(result)
 
 	# can not test
 	def test_96_getmerkleproof(self):

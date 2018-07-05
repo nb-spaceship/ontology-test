@@ -200,7 +200,7 @@ def call_signed_contract(signed_tx, pre = True, node_index = None):
 #judge: 是否需要比较结果
 #pre: 是否需要预执行
 # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
-def call_contract(task, judge = True, pre = True, twice = False):
+def call_contract(task, judge = True, pre = True, twice = False, sleep = 5):
 	try:
 		logger.print("\n\n[-------------------------------]")
 		logger.print("[ RUN      ] "+ "contract" + "." + task.name())
@@ -272,7 +272,7 @@ def call_contract(task, judge = True, pre = True, twice = False):
 		if deploy_contract_addr:
 			response["address"] = taskdata["REQUEST"]["Params"]["address"]
 		
-		time.sleep(5)
+		time.sleep(sleep)
 		return (result, response)
 
 	except Error as err:
@@ -500,7 +500,7 @@ def replace_config(index, config = None):
 
 	return response
 
-def transfer_ont(from_index, to_index, amount):
+def transfer_ont(from_index, to_index, amount, price = 0):
 	request = {
 		"method": "transfer",
 		"jsonrpc": "2.0",
@@ -508,16 +508,17 @@ def transfer_ont(from_index, to_index, amount):
 		"params" : {
 			"from" : Config.NODES[from_index]["address"],
 			"to" : Config.NODES[to_index]["address"],
-			"amount" : amount
+			"amount" : amount,
+			"price" : price
 		}
 	}
 
 	ip = Config.NODES[from_index]["ip"]
 	response = utils.base.con_test_service(ip, request)
-
+	time.sleep(5)
 	return response
 
-def transfer_ong(from_index, to_index, amount):
+def transfer_ong(from_index, to_index, amount, price = 0):
 	request = {
 		"method": "transfer_ong",
 		"jsonrpc": "2.0",
@@ -525,15 +526,15 @@ def transfer_ong(from_index, to_index, amount):
 		"params" : {
 			"from" : Config.NODES[from_index]["address"],
 			"to" : Config.NODES[to_index]["address"],
-			"amount" : amount
+			"amount" : amount,
+			"price" : price
 		}
 	}
 
 	ip = Config.NODES[from_index]["ip"]
 	response = utils.base.con_test_service(ip, request)
-
+	time.sleep(5)
 	return response
-
 
 def withdrawong(index):
 	request = {
@@ -576,3 +577,4 @@ def base58_to_address(input):
 			address = regroup.group(1)
 	tmpfile.close()
 	return address
+#check_node_state([0,1,2,3,4,5,6])
