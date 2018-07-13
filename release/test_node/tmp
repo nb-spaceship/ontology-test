@@ -1,7 +1,0 @@
-Password:Using default account:
-Deploy contract:
-  Contract Address:6408c4cc6c55700e96c38db184f3c1de8a260b02
-  TxHash:0a24b97b832423a504c05d7cd2768262262b42d56717b0152becdfd4dee8cb82
-
-Tip:
-  Using './ontology info status 0a24b97b832423a504c05d7cd2768262262b42d56717b0152becdfd4dee8cb82' to query transaction status

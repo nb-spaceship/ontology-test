@@ -5,47 +5,90 @@
 	"WS_URL": "ws://127.0.0.1:20335",
 	"NODES": [{
 		"ip": "139.219.128.177",
-		"ontid": "did:ont:ATTTLQ6ddseLNwGzEMDX1np1z92XKX31W9",
-		"address": "ATTTLQ6ddseLNwGzEMDX1np1z92XKX31W9",
-		"pubkey": "02ee5372e053542c1545bbc11855058326dedcb1387d364a9aa89f2708fd2f5109"
+		"ontid": "did:ont:AG4pZwKa9cr8ca7PED7FqzUfcwnrQ2N26w",
+		"address": "AG4pZwKa9cr8ca7PED7FqzUfcwnrQ2N26w",
+		"pubkey": "02e3ff56206295e71295aeaf47b7f3681f93fb98b692a66b103feb7b756667c74d"
 	},
 	{
 		"ip": "139.219.141.110",
-		"ontid": "did:ont:AXmKgHgU6dwsHNEdWRezR8Xj2R1KckDdWv",
-		"address": "AXmKgHgU6dwsHNEdWRezR8Xj2R1KckDdWv",
-		"pubkey": "0378d27033f2d0a21e79a0bd583f236b6130b293337fdea8a2b7412c5399a787cd"
+		"ontid": "did:ont:AUSyZx1BoQbTy3avMKygvJrkw8mRbzt6Aa",
+		"address": "AUSyZx1BoQbTy3avMKygvJrkw8mRbzt6Aa",
+		"pubkey": "02ca35fd7f3d78f01a423e17a85fe122715c2bcece7c5c8c851adcb265eb59486c"
 	},
 	{
 		"ip": "139.219.141.33",
-		"ontid": "did:ont:ALp2zvAqN2pS8QejQtSDxw5aBQGHGaSKd4",
-		"address": "ALp2zvAqN2pS8QejQtSDxw5aBQGHGaSKd4",
-		"pubkey": "039babf73c96a13e8e623534cc7693aeb8b4cd6f8e285fdbbe6c4164b069de6649"
+		"ontid": "did:ont:AM12FAbshNvugLaHG4KzAfHGvUG1t5SpAv",
+		"address": "AM12FAbshNvugLaHG4KzAfHGvUG1t5SpAv",
+		"pubkey": "0231a74176e87fb7bc8953d04f982f6e1c48a1659ff3e460e4be4894f22fcc7ea0"
 	},
 	{
 		"ip": "139.219.136.233",
-		"ontid": "did:ont:AepFgMk9A4m3kTJYs9fhqMMQrKfL9VR7nx",
-		"address": "AepFgMk9A4m3kTJYs9fhqMMQrKfL9VR7nx",
-		"pubkey": "034d0fc1d966d16b67da61d0cbbd9804775ccc1efc15b9968ed9b825356ab47dc0"
+		"ontid": "did:ont:AW7xyBsZD4Hzx8e1PY8iLCXuMFc6Wfm9BJ",
+		"address": "AW7xyBsZD4Hzx8e1PY8iLCXuMFc6Wfm9BJ",
+		"pubkey": "03ddf2c26298f07d3546582dbb0b3f33f9a679485d358f2efeb3ce7d5e9593ccf7"
 	},
 	{
 		"ip": "139.219.129.234",
-		"ontid": "did:ont:AdeuhtfxxdFrYKbCRHRC3PBYfLvgS432hm",
-		"address": "AdeuhtfxxdFrYKbCRHRC3PBYfLvgS432hm",
-		"pubkey": "0213aa21f8263f24748390dd11ebc4ea9f12a5bbe562339055b6fcc2ef882dfc0d"
+		"ontid": "did:ont:Acy5NwtDhKH3qdkMJ8fL4PNCqotCvkDpPQ",
+		"address": "Acy5NwtDhKH3qdkMJ8fL4PNCqotCvkDpPQ",
+		"pubkey": "03a02bec6c8d99facfdeb5e11f53a22d30228e88381fcbf1ae8bcdf80f49599abe"
 	},
 	{
 		"ip": "139.219.129.166",
-		"ontid": "did:ont:ATePFRSdXX8hNS75rjJAQQgVtsxLF1pvd2",
-		"address": "ATePFRSdXX8hNS75rjJAQQgVtsxLF1pvd2",
-		"pubkey": "021328ecb8fb1b5c050486149443721388cb9d24e1f19c9ac760e62f6797eddcf3"
+		"ontid": "did:ont:AdYYmEJmLtyzrBVeBxDkSXsfQLupRH8GtJ",
+		"address": "AdYYmEJmLtyzrBVeBxDkSXsfQLupRH8GtJ",
+		"pubkey": "0295415b752ca38bef5048a026bcebf97c7d4104aa285bcafb18eb95dd9076a05a"
 	},
 	{
 		"ip": "139.219.137.201",
-		"ontid": "did:ont:ASzgi4r7P4knfZTQfknPPDgi5xxsdGRS34",
-		"address": "ASzgi4r7P4knfZTQfknPPDgi5xxsdGRS34",
-		"pubkey": "0258580af43c65b8df96d5ea89382345b3c107f72b7b2c643fc06b7ff9239f7517"
+		"ontid": "did:ont:ATrzgmtkGhp8b7i8w2gM5o38p6bpX8vWG7",
+		"address": "ATrzgmtkGhp8b7i8w2gM5o38p6bpX8vWG7",
+		"pubkey": "0257024d773e4c0487efc217fe47caea5d902488b6dc2ae57a719c44e5642bcde4"
+	},
+	{
+		"ip" : "139.219.136.33",
+		"ontid": "did:ont:AWoQ8oFXXz9EwGBTP2mncqe5ngr1VnKagZ",
+		"address": "AWoQ8oFXXz9EwGBTP2mncqe5ngr1VnKagZ",
+		"pubkey": "0270e533740e9db0eb5204a01a16121b0d5750326f7da1ebd83b6f1e835689b216"
+	},
+	{
+		"ip" : "139.219.134.70",
+		"ontid": "did:ont:AMenxEPoVJKTRcuEzbf9YSi55hmC7j4hqP",
+		"address": "AMenxEPoVJKTRcuEzbf9YSi55hmC7j4hqP",
+		"pubkey": "0233cb06b41ed1ee232fef8178fa519ad8714d50cef7e5e7b52fe519e698605b8a"
+	},
+	{
+		"ip" : "139.219.129.124",
+		"ontid": "did:ont:AFwKyiRzN2KDLXTHwvW5Pkud1muQSqXa4V",
+		"address": "AFwKyiRzN2KDLXTHwvW5Pkud1muQSqXa4V",
+		"pubkey": "0212bc152bec0387c1814e80a24d47361aa906b6053ce268cd9722379d679d5141"
+	},
+	{
+		"ip" : "139.219.131.138",
+		"ontid": "did:ont:AMNMTt8akMnzWGFAMex6yze1hwg7vxPRgz",
+		"address": "AMNMTt8akMnzWGFAMex6yze1hwg7vxPRgz",
+		"pubkey": "03dcc9d034c16157a0aca5085c4618154c9eac91b16d0476963177881b3d8669c6"
+	},
+	{
+		"ip" : "139.219.142.130",
+		"ontid": "did:ont:ANUmnxGDYzQp4Mx2ZVNXq62gyJnvb1sDjd",
+		"address": "ANUmnxGDYzQp4Mx2ZVNXq62gyJnvb1sDjd",
+		"pubkey": "03fcca5b902b5fc033e4a09b26304b09b1c89e7a5f63946b92b11859d99248c13e"
+	},
+	{
+		"ip" : "139.219.129.127",
+		"ontid": "did:ont:AaGKEKX51Dz3biB8UjaWyiATtsio9cNp7u",
+		"address": "AaGKEKX51Dz3biB8UjaWyiATtsio9cNp7u",
+		"pubkey": "0391e42a75c7d1e37b88c9ae495ea85867c4505cd5371555f9f6b59b7db2fc5693"
+	},
+	{
+		"ip" : "139.219.141.196",
+		"ontid": "did:ont:AcDDvYTkCahZMrfcu2cSBsMAs8G7Wq7T2a",
+		"address": "AcDDvYTkCahZMrfcu2cSBsMAs8G7Wq7T2a",
+		"pubkey": "0229a8d473f091e7bb0fe309f88810c52b699dc6e4636b3b882643f199434aff89"
 	}],
 	"ROOT_PATH": "/home/ubuntu/ontology/test",
 	"MULTI_SIGNED_ADDRESS" : "AJroHBLRsfPTPQocSKjpADp4AKybg8GZuz",
-	"INIT_AMOUNT_ONG" : "7000000000000000"
+	"INIT_AMOUNT_ONG" : "1000000000000000"
+	
 }
