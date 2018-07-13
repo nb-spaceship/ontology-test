@@ -1,6 +1,0 @@
-Password:Deploy contract:
-  Contract Address:24a51878de7fa5b5b553eec0c2ef5caf7e27586e
-  TxHash:14696de2b5fd5410b05b88e7a78fa9d6ce5b5ea65d5b9d09bce2c64e2a5a42cb
-
-Tip:
-  Using './ontology info status 14696de2b5fd5410b05b88e7a78fa9d6ce5b5ea65d5b9d09bce2c64e2a5a42cb' to query transaction status

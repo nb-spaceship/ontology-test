@@ -1,4 +1,4 @@
-using Neo.SmartContract.Framework;
+ using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
 using Neo.SmartContract.Framework.Services.System;
 using System;
@@ -50,11 +50,11 @@ namespace Example
             }
             if(operation == "balanceOf")
             {
-                return TransferFromInvoke(args);
+                return balanceInvoke(args);
             }
-            if(operation == "allowence")
+            if(operation == "allowance")
             {
-                return TransferFromInvoke(args);
+                return allowanceInvoke(args);
             }
             if (operation == "name")
             {
@@ -95,8 +95,7 @@ namespace Example
             byte[] to = (byte[])args[1];
             UInt64 amount = (UInt64)args[2];
             
-            object[] param = new object[1];
-            param[0] = new State { From = from, To = to, Amount = amount };
+            State param = new State { From = from, To = to, Amount = amount };
             
             return Native.Invoke(0, address, "approve", param);
         }
@@ -109,8 +108,7 @@ namespace Example
             byte[] to = (byte[])args[2];
             UInt64 amount = (UInt64)args[3];
             
-            object[] param = new object[1];
-            param[0] = new StateSend { Send = send, From = from, To = to, Amount = amount };
+            StateSend param = new StateSend { Send = send, From = from, To = to, Amount = amount };
             
             return Native.Invoke(0, address, "transferFrom", param);
         }
@@ -148,7 +146,7 @@ namespace Example
             byte[] ret = Native.Invoke(0, address, "balanceOf", param);
             return ret;
         }
-        public static Object allowance(object[] args)
+        public static byte[] allowanceInvoke(object[] args)
         {
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };          
 			byte[] from = (byte[])args[0];

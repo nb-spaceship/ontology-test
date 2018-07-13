@@ -18,7 +18,7 @@ from utils.error import Error
 from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-def transfer(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001):
+def transfer(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -58,8 +58,10 @@ def transfer(contract_address,pay_address,get_address,amount, node_index = None,
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="transfer", ijson=request), twice = True)
-def approve(contract_address,pay_address,get_address, amount,node_index = None,errorcode=47001):
+def approve(contract_address,pay_address,get_address, amount,node_index = None,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -99,10 +101,15 @@ def approve(contract_address,pay_address,get_address, amount,node_index = None,e
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="approve", ijson=request), twice = True)
-def transferFrom(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001):
+def transferFrom(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001,errorkey="error"):
 	if not senderType:
 		sender=script_hash_bl_reserver(base58_to_address(sender))
+		getaddress=sender
+	else:
+		getaddress=script_hash_bl_reserver(base58_to_address(get_address))
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -133,7 +140,7 @@ def transferFrom(contract_address,sender,pay_address,get_address, amount,node_in
 							},
 							{
 								"type": "bytearray",
-								"value": script_hash_bl_reserver(base58_to_address(get_address))
+								"value": getaddress
 							},
 							{
 								"type": "int",
@@ -147,6 +154,8 @@ def transferFrom(contract_address,sender,pay_address,get_address, amount,node_in
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="transferFrom", ijson=request), twice = True)
 def name(contract_address,node_index = None,errorcode=47001):
 	request = {
@@ -236,7 +245,7 @@ def totalSupply(contract_address,node_index = None,errorcode=47001):
 		"NODE_INDEX":node_index
 	}
 	return call_contract(Task(name="totalSupply", ijson=request), twice = True)
-def balanceOf(contract_address,address,node_index = None,senderType=False,errorcode=47001):
+def balanceOf(contract_address,address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -269,7 +278,7 @@ def balanceOf(contract_address,address,node_index = None,senderType=False,errorc
 		"NODE_INDEX":node_index
 	}
 	return call_contract(Task(name="balanceOf", ijson=request), twice = True)
-def allowance(contract_address,pay_address,get_address,node_index = None,errorcode=47001):
+def allowance(contract_address,pay_address,get_address,node_index = None,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -302,12 +311,15 @@ def allowance(contract_address,pay_address,get_address,node_index = None,errorco
 				]
 			}
 		},
+
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="allowance", ijson=request), twice = True)
 
-def transfer1(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001):
+def transfer1(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -318,18 +330,20 @@ def transfer1(contract_address,pay_address,get_address,amount, node_index = None
 				"address": "0100000000000000000000000000000000000000",
 				"method": "transfer",
 				"version": 1,
-				"params": [[
+				"params": [[[
 					pay_address,
 					get_address,
 					amount
-				]]
+				]]]
 			}
 		},
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="transfer", ijson=request), twice = True)
-def approve1(contract_address,pay_address,get_address, amount,node_index = None,errorcode=47001):
+def approve1(contract_address,pay_address,get_address, amount,node_index = None,errorcode=47001,errorkey="error"):
 	request =  {
 		"REQUEST": {
 			"Qid": "t",
@@ -350,8 +364,10 @@ def approve1(contract_address,pay_address,get_address, amount,node_index = None,
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="approve", ijson=request), twice = True)
-def transferFrom1(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001):
+def transferFrom1(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -373,6 +389,8 @@ def transferFrom1(contract_address,sender,pay_address,get_address, amount,node_i
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
 	return call_contract(Task(name="transferFrom", ijson=request), twice = True)
 def name1(contract_address,node_index = None,errorcode=47001):
 	request = {
@@ -450,7 +468,7 @@ def totalSupply1(contract_address,node_index = None,errorcode=47001):
 		"NODE_INDEX":node_index
 	}
 	return call_contract(Task(name="totalSupply", ijson=request), twice = True)
-def balanceOf1(contract_address,address,node_index = None,senderType=False,errorcode=47001):
+def balanceOf1(contract_address,address,node_index = None,errorcode=47001,errorkey="error"):
 	request ={
 		"REQUEST": {
 			"Qid": "t",
@@ -469,8 +487,11 @@ def balanceOf1(contract_address,address,node_index = None,senderType=False,error
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
+
 	return call_contract(Task(name="balanceOf", ijson=request), twice = True)
-def allowance1(contract_address,pay_address,get_address,node_index = None,errorcode=47001):
+def allowance1(contract_address,pay_address,get_address,node_index = None,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -490,4 +511,7 @@ def allowance1(contract_address,pay_address,get_address,node_index = None,errorc
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
+	if (errorkey =="error_code"):
+		request["SIGN_RESPONSE"]={errorkey : errorcode}
+
 	return call_contract(Task(name="allowance", ijson=request), twice = True)
