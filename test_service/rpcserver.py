@@ -198,6 +198,14 @@ def start_node(**kwargs):
 
   return True
 
+@dispatcher.add_method
+def exec_cmd(**kwargs):
+  cmd = ""
+  if "cmd" in kwargs:
+    cmd = kwargs["cmd"]
+  os.system(cmd)
+  return True
+
 @Request.application
 def application(request):
     # Dispatcher is dictionary {<method_name>: callable}
@@ -214,8 +222,17 @@ def application(request):
 
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
-    return Response(response.json, mimetype='application/json')
-
+    print(request)
+    responseobj =json.loads(response.json)
+    if "error" not in responseobj:
+        responseobj["error"] = 0
+    else:
+        if "message" in responseobj["error"]:
+          responseobj["desc"] = responseobj["error"]["message"]
+        if "code" in responseobj["error"]:
+          responseobj["error"] = responseobj["error"]["code"]
+    print(json.dumps(responseobj))
+    return Response(json.dumps(responseobj), mimetype='application/json')
 
 if __name__ == '__main__':
     run_simple(get_host_ip(), config.PORT, application)
