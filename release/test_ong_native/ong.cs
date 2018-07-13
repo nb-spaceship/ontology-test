@@ -1,4 +1,4 @@
-using Neo.SmartContract.Framework;
+ using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
 using Neo.SmartContract.Framework.Services.System;
 using System;
@@ -50,11 +50,11 @@ namespace Example
             }
             if(operation == "balanceOf")
             {
-                return TransferFromInvoke(args);
+                return balanceInvoke(args);
             }
-            if(operation == "allowence")
+            if(operation == "allowance")
             {
-                return TransferFromInvoke(args);
+                return allowanceInvoke(args);
             }
             if (operation == "name")
             {
@@ -77,8 +77,8 @@ namespace Example
 
         public static object TransferInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] from = (byte[])args[0];
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };            
+			byte[] from = (byte[])args[0];
             byte[] to = (byte[])args[1];
             UInt64 amount = (UInt64)args[2];
             
@@ -90,68 +90,66 @@ namespace Example
 
         public static object ApproveInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] from = (byte[])args[0];
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };           
+			byte[] from = (byte[])args[0];
             byte[] to = (byte[])args[1];
             UInt64 amount = (UInt64)args[2];
             
-            object[] param = new object[1];
-            param[0] = new State { From = from, To = to, Amount = amount };
+            State param = new State { From = from, To = to, Amount = amount };
             
             return Native.Invoke(0, address, "approve", param);
         }
 
         public static object TransferFromInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] send = (byte[])args[0];
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };           
+			byte[] send = (byte[])args[0];
             byte[] from = (byte[])args[1];
             byte[] to = (byte[])args[2];
             UInt64 amount = (UInt64)args[3];
             
-            object[] param = new object[1];
-            param[0] = new StateSend { Send = send, From = from, To = to, Amount = amount };
+            StateSend param = new StateSend { Send = send, From = from, To = to, Amount = amount };
             
             return Native.Invoke(0, address, "transferFrom", param);
         }
          public static byte[] nameInvoke()
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] ret = Native.Invoke(0, address, "name", null);
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };           
+			byte[] ret = Native.Invoke(0, address, "name", null);
             return ret;
         }
         public static byte[] symbolInvoke()
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] ret = Native.Invoke(0, address, "symbol", null);
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };          
+			byte[] ret = Native.Invoke(0, address, "symbol", null);
             return ret;
         }
         public static byte[] decimalsInvoke()
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] ret = Native.Invoke(0, address, "decimals", null);
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };          
+			byte[] ret = Native.Invoke(0, address, "decimals", null);
             return ret;
         }
          public static byte[] totalSupplyInvoke()
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] ret = Native.Invoke(0, address, "totalSupply", null);
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };           
+			byte[] ret = Native.Invoke(0, address, "totalSupply", null);
             return ret;
         }
         public static byte[] balanceInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] add = (byte[])args[0];
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };           
+			byte[] add = (byte[])args[0];
             
             BalanceOfParam param = new BalanceOfParam {Address = add};
             
             byte[] ret = Native.Invoke(0, address, "balanceOf", param);
             return ret;
         }
-        public static Object allowance(object[] args)
+        public static byte[] allowanceInvoke(object[] args)
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
-            byte[] from = (byte[])args[0];
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };          
+			byte[] from = (byte[])args[0];
             byte[] to = (byte[])args[1];
 
             AllowenceParam param_1 = new AllowenceParam { From =  from, To = to };
