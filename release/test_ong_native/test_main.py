@@ -91,7 +91,7 @@ address4= from1  #address_正确的address值_异常
 class TestContract(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(self):
-		stop_nodes(range(0, 7))
+		stop_all_nodes()
 		start_nodes(range(0, 7), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
 		time.sleep(10)
 		init_ont_ong()

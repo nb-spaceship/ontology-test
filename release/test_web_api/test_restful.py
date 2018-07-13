@@ -24,8 +24,7 @@ from utils.contractapi import invoke_function
 #test cases
 class Test_01(ParametrizedTestCase):
 	def test_01_get_gen_blk_time(self):
-		for node_index in range(len(Config.NODES)):
-			stop_nodes([node_index])
+		stop_all_nodes()
 		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
 		time.sleep(10)
 		
@@ -36,8 +35,7 @@ class Test_01(ParametrizedTestCase):
 		
 class Test_no_block(ParametrizedTestCase):
 	def setUp(self):
-		for node_index in range(len(Config.NODES)):
-			stop_nodes([node_index])
+		stop_all_nodes()
 		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(5)
 
@@ -127,11 +125,11 @@ class Test(ParametrizedTestCase):
 
 	# 无节点
 	def test_04_get_conn_count(self):
-		stop_nodes([0, 1, 2, 3, 4, 5, 6])
+		stop_nodes([1, 2, 3, 4, 5, 6])
 		logger.open("restful/04_get_conn_count.log", "04_get_conn_count")
 		(result, response) = RestfulApi().getconnectioncount()
-		logger.close(not result)
-		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		logger.close(result and int(response["result"]) == 0)
+		start_nodes([1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
 		
 	def test_05_get_blk_txs_by_height(self,height=1):

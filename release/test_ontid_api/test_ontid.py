@@ -28,7 +28,7 @@ logger = LoggerInstance
 class TestContract(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
-		stop_nodes(range(0, 8))
+		stop_all_nodes()
 		start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
 		time.sleep(10)
 		init_ont_ong()

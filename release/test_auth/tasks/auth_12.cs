@@ -14,17 +14,17 @@ namespace Example
             public byte[] AdminOntID;
         }
         
-        struct verifyTokenParam
+        struct VerifyTokenParam
         {
             public byte[] ContractAddr;
             public byte[] Caller;
-            public byte[] Fn;
+            public string Fn;
             public int KeyNo;
         }
 
         struct assignFuncsToRoleParam
         {
-            public byte[] ContractAddr;
+            public string ContractAddr;
             public byte[] AdminOntID;
             public byte[] Role;
             public object[] Funcs;
@@ -66,29 +66,20 @@ namespace Example
             public byte[] Role;
             public int KeyNo;
         }
-
-        //did:ont:
-		public static readonly byte[] mAdminOntID_1 = { 
-                0x64, 0x69, 0x64, 0x3a, 0x6f, 0x6e, 0x74, 0x3a,
-				0x41, 0x53, 0x38, 0x37, 0x65, 0x6b, 0x58, 0x64, 
-                0x63, 0x77, 0x74, 0x7a, 0x59, 0x4d, 0x34, 0x36, 
-                0x33, 0x4a, 0x6f, 0x79, 0x6a, 0x4a, 0x67, 0x71, 
-                0x36, 0x71, 0x51, 0x6a, 0x53, 0x6b, 0x45, 0x54, 
-                0x52, 0x70};
         
-        public static readonly byte[] mAdminOntID_2 = { 
-                0x64, 0x69, 0x64, 0x3a, 0x6f, 0x6e, 0x74, 0x3a,
-				0x41, 0x58, 0x7a, 0x4e, 0x4a, 0x7a, 0x42, 0x32, 
-                0x32, 0x39, 0x78, 0x51, 0x45, 0x7a, 0x74, 0x52, 
-                0x53, 0x51, 0x63, 0x73, 0x38, 0x58, 0x70, 0x77, 
-                0x74, 0x34, 0x76, 0x62, 0x4b, 0x73, 0x53, 0x76, 
-                0x4b, 0x31};
+        public struct functions
+        {
+            public string Functions;
+        }
+        
 
-        public static object Main(string operation, object[] token, params object[] args)
+
+
+        public static object Main(string operation, object[] token, object[] args)
         {
             if (operation == "initContractAdmin")
             {
-                return InitContractAdmin(args);
+                return InitContractAdmin();
             }
 
             if (operation == "A")
@@ -114,8 +105,13 @@ namespace Example
 
                 return InvokeTransfer(args);   
             }
+
+            if (operation == "assignFuncsToRole")
+            {
+                return InvokeAssignFuncsToRole(args);   
+            }
     
-            return "111";
+            return "222";
         }
 
         public static object A()
@@ -142,21 +138,25 @@ namespace Example
             return Native.Invoke(0, address, "transfer", param);
         }
 
-        public static byte[] InvokeAssignFuncsToRole(object[] args)
+        public static object InvokeAssignFuncsToRole(object[] args)
         {
    
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
-            byte[] contractAddr = (byte[])args[1];
-            byte[] adminOntID = (byte[])args[2];
-
+            
+            string contractAddr = (string)args[0];
+            
+            byte[] adminOntID = (byte[])args[1];
+            
+            byte[] role = (byte[])args[2];
+            
             object[] funcs = new object[1];
-            funcs = (object[])args[3];
-
+            funcs[0] = new functions{Functions = (string)args[3]};
+            
             int keyNo = (int)args[4];
             
             object[] param = new object[1];
-            param[0] = new assignFuncsToRoleParam { ContractAddr = contractAddr, AdminOntID = adminOntID, Funcs = funcs, KeyNo = keyNo};
-
+            param[0] = new assignFuncsToRoleParam { ContractAddr = contractAddr, AdminOntID = adminOntID, Role = role, Funcs = funcs, KeyNo = keyNo};
+            
             return Native.Invoke(0, address, "assignFuncsToRole", param);
         }
 
@@ -169,7 +169,7 @@ namespace Example
 
             object[] persons = new object[1];
             persons = (object[])args[3];
-
+            
             int keyNo = (int)args[4];
             
             object[] param = new object[1];
@@ -214,33 +214,35 @@ namespace Example
             return Native.Invoke(0, address, "withdraw", param);
         }
 
-        
-        public static object InitContractAdmin(object[] args)
+                //did:ont:
+		public static readonly byte[] mAdminOntID = { 
+                0x64, 0x69, 0x64, 0x3a, 0x6f, 0x6e, 0x74, 0x3a,
+				0x41, 0x53, 0x38, 0x37, 0x65, 0x6b, 0x58, 0x64, 
+                0x63, 0x77, 0x74, 0x7a, 0x59, 0x4d, 0x34, 0x36, 
+                0x33, 0x4a, 0x6f, 0x79, 0x6a, 0x4a, 0x67, 0x71, 
+                0x36, 0x71, 0x51, 0x6a, 0x53, 0x6b, 0x45, 0x54, 
+                0x52, 0x70};
+        public static object InitContractAdmin()
         {
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
-            object[] param_1 = new object[1];
-            param_1[0] = new initContractAdminParam { AdminOntID = mAdminOntID_1 };
-
-            object[] param_2 = new object[1];
-            param_2[0] = new initContractAdminParam { AdminOntID = mAdminOntID_2 };
-            
-            Native.Invoke(0, address, "initContractAdmin", param_1);
-            return Native.Invoke(0, address, "initContractAdmin", param_2);
+            initContractAdminParam param = new initContractAdminParam { AdminOntID = mAdminOntID };
+            byte[] ret = Native.Invoke(0, address, "initContractAdmin", param);
+            return ret[0] == 1;
         }
 
         public static bool VerifyToken(string operation, object[] token)
         {
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6 };
             
-            byte[] contractAddr = ExecutionEngine.ExecutingScriptHash;
-            byte[] caller = (byte[])token[0];
-            byte[] fn = operation.AsByteArray();
-            int keyNo = (int)token[1];
-            
-            object[] param = new object[1];
-            param[0] = new verifyTokenParam { ContractAddr = contractAddr, Caller = caller, Fn = fn, KeyNo = keyNo };
-            byte[] res = Native.Invoke(0, address, "verifyToken", param);
-            return true;
+            VerifyTokenParam param = new VerifyTokenParam{}; 
+            byte[] con_add = {};
+            param.ContractAddr = con_add;
+            param.Fn = operation;
+            param.Caller = (byte[])token[0];
+            param.KeyNo = (int)token[1];
+
+            byte[] ret = Native.Invoke(0, address, "verifyToken", param);
+            return ret[0] == 1;
         }
 
     }

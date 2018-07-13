@@ -66,7 +66,7 @@ def init(node_index=7, candidate=False, register_ontid=False, restart=False, pub
 	
 	# restart all nodes
 	if restart:
-		stop_nodes(range(0, 8))
+		stop_all_nodes()
 		start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
 		
 		time.sleep(10)

@@ -400,6 +400,10 @@ def start_node(index, start_params = Config.DEFAULT_NODE_ARGS, clear_chain = Fal
 
 	return response
 
+def stop_all_nodes():
+	for node_index in range(len(Config.NODES)):
+		stop_nodes([node_index])
+
 def stop_nodes(indexs):
 	for index in indexs:
 		stop_node(index)

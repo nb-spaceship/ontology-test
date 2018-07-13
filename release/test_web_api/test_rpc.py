@@ -37,8 +37,7 @@ rpcApi = RPCApi()
 # test cases
 class Test_no_block(ParametrizedTestCase):
 	def setUp(self):
-		for node_index in range(len(Config.NODES)):
-			stop_nodes([node_index])
+		stop_all_nodes()
 		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(5)
 		
@@ -59,8 +58,7 @@ class Test_no_block(ParametrizedTestCase):
 class TestRpc(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(cls):
-		for node_index in range(len(Config.NODES)):
-			stop_nodes([node_index])
+		stop_all_nodes()
 		start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(60)
 		

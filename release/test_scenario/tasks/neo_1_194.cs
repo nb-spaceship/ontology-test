@@ -5,18 +5,18 @@ using System;
 using System.ComponentModel;
 using System.Numerics;
 
-namespace Example
+namespace Neo.SmartContract
 {
-    public class SecondContract : SmartContract
+    public class BlockchainTest : Framework.SmartContract
     {
-        
         public static object Main(string operation, object[] args)
         {
-           if (operation == "gas_price_20000")
-           {
-              return true;
-           }
-           return false;
+            if(operation == "Add")
+            {
+                return (int)args[0] + (int)args[1];
+            }
+
+            return 1;
         }
     }
 }
