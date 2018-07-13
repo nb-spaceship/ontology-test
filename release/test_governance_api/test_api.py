@@ -86,7 +86,7 @@ def init(node_index=7, candidate=False, register_ontid=False, restart=False, pub
 		(result, response) = bind_user_role("0700000000000000000000000000000000000000",ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),[ByteToHex(bytes(Config.NODES[node_index]["ontid"], encoding = "utf8"))],node_index=0)
 		time.sleep(5)
 		transferTest("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[node_index]["address"],10000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
-		transferTest("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[node_index]["address"],10000000000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
+		transferTest("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[node_index]["address"],1000000000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
 		time.sleep(15)
 
 def init_admin(contract_address, admin_address, node_index = None):
@@ -492,7 +492,7 @@ def invoke_function_commitDpos(nodeIndex=0):
 
 	return multi_contract(Task(name="invoke_function_commitDpos", ijson=request),Common.AdminNum,Common.AdminPublicKeyList)
 
-def invoke_function_quitNode(func_,pubKey,walletAddress,errorcode=47001):
+def invoke_function_quitNode(func_,pubKey,walletAddress,node_index=None,errorcode=47001):
 	request = {
 		"NODE_INDEX":0,
 		"REQUEST": {

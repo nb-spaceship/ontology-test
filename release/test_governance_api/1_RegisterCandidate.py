@@ -25,10 +25,11 @@ from utils.init_ong_ont import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
 from test_common import *
+from utils.rpcapi import *
 #from test_conf import Conf
 #from utils.contractapi import *
 logger = LoggerInstance
-
+rpcapiTest=RPCApi()
 ##########################################################
 # params
 nodeNow=5
@@ -69,7 +70,9 @@ class TestContract(ParametrizedTestCase):
 	def test_01_registerCandidate(self):
 		logger.open("01_registerCandidate.log", "01_registerCandidate")
 		#time.sleep(10)
-		(result, response) = invoke_function_register("registerCandidate",pubKey_1,walletAddress_1,ontCount_1,ontID_1,user_1,0)
+		(result, response) = invoke_function_register("registerCandidate",pubKey_1,walletAddress_1,ontCount_1,ontID_1,user_1,errorcode=0)\
+		time.sleep(5)
+		(result, response) =rpcapiTest.getbalance(address)
 		logger.close(result)
 
 	def test_02_registerCandidate(self):
