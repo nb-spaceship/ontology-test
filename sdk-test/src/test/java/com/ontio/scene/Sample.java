@@ -461,5 +461,135 @@ public class Sample {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testSample3() throws Exception {
+		OntTest.logger().description("非法交易-重复交易[1]");
+
+		String privatekey1 = "02bdbb76d134c06cb0af54ac39789b7f826bf6b8ebfd27b7ff58a48dacabbaf00e";
+		String privatekey2 = "03f46fbc68f533e2d6c8eca9c7275e7623b114700263b12db195d2f9986f1abbd1";
+		String ADDR1_SALT = "AVbeRAqPJqAKAJZN89la6w==";
+		String ADDR2_SALT = "NwFRFcVcWBN2B8yNRngo0Q==";
+		String address1 = "AS9S7j6VWUgg3sX89pok6KHeYU9DenKwbS";
+		String address2 = "AMjExWrNSNyPjEct7ryp2LPSz5WbGpaYtG";
+		String PWD = "123456";
+		
+		OntSdk ontSdk = OntTest.sdk();
+		Account acc1 = ontSdk.getWalletMgr().getAccount(address1, PWD, Base64.getDecoder().decode(ADDR1_SALT));
+		Account acc2 = ontSdk.getWalletMgr().getAccount(address2, PWD, Base64.getDecoder().decode(ADDR2_SALT));
+		System.out.println("acct1:" + acc1.getAddressU160().toBase58());
+		System.out.println("acct2:" + acc2.getAddressU160().toBase58());
+	
+		Transaction tx = ontSdk.nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), acc2.getAddressU160().toBase58(), 2, acc1.getAddressU160().toBase58(), 20000, 0);
+		
+		int nonce = tx.nonce;
+		System.out.println(tx.nonce);
+		ontSdk.addSign(tx,acc1);
+		ontSdk.addSign(tx,acc1);
+		System.out.println(tx.nonce);
+
+		Object obj = ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+		
+		Transaction tx1 = ontSdk.nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), acc2.getAddressU160().toBase58(), 3, acc1.getAddressU160().toBase58(), 20000, 0);
+		
+		tx1.sigs=tx.sigs;
+		tx1.payer=tx.payer;
+
+		System.out.println("nonce1:");
+		System.out.println(tx1.nonce);
+		tx1.nonce = 1531458249;
+		System.out.println("nonce2:");
+		System.out.println(tx1.nonce);
+		
+		ontSdk.addSign(tx1,acc2);
+		ontSdk.addSign(tx1,acc1);
+
+		Object obj1 = ontSdk.getConnect().sendRawTransaction(tx1.toHexString());
+	}
+	
+	@Test
+	public void testSample4() throws Exception {
+		OntTest.logger().description("非法交易-重复交易[2]");
+
+		String privatekey1 = "02bdbb76d134c06cb0af54ac39789b7f826bf6b8ebfd27b7ff58a48dacabbaf00e";
+		String privatekey2 = "03f46fbc68f533e2d6c8eca9c7275e7623b114700263b12db195d2f9986f1abbd1";
+		String ADDR1_SALT = "AVbeRAqPJqAKAJZN89la6w==";
+		String ADDR2_SALT = "NwFRFcVcWBN2B8yNRngo0Q==";
+		String address1 = "AS9S7j6VWUgg3sX89pok6KHeYU9DenKwbS";
+		String address2 = "AMjExWrNSNyPjEct7ryp2LPSz5WbGpaYtG";
+		String PWD = "123456";
+		
+		OntSdk ontSdk = OntTest.sdk();
+
+		Account acc1 = ontSdk.getWalletMgr().getAccount(address1,PWD,Base64.getDecoder().decode(ADDR1_SALT));
+		Account acc2 = ontSdk.getWalletMgr().getAccount(address2,PWD,Base64.getDecoder().decode(ADDR2_SALT));
+
+		System.out.println("acct1:" + acc1.getAddressU160().toBase58());
+		System.out.println("acct2:" + acc2.getAddressU160().toBase58());
+		
+		Transaction tx = ontSdk.nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), acc2.getAddressU160().toBase58(), 2, acc1.getAddressU160().toBase58(), 20000, 0);
+		
+		int nonce = tx.nonce;
+		System.out.println(tx.nonce);
+		ontSdk.addSign(tx,acc1);
+		ontSdk.addSign(tx,acc1);
+		System.out.println(tx.nonce);
+
+		Object obj = ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+		
+		Transaction tx1 = ontSdk.nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), acc2.getAddressU160().toBase58(), 3, acc1.getAddressU160().toBase58(), 20000, 0);
+		
+		tx1.sigs=tx.sigs;
+		tx1.payer=tx.payer;
+		
+		ontSdk.addSign(tx1,acc2);
+		ontSdk.addSign(tx1,acc1);
+
+		Object obj1 = ontSdk.getConnect().sendRawTransaction(tx1.toHexString());
+	}
+	
+	@Test
+	public void testSample5() throws Exception {
+		OntTest.logger().description("非法交易-双花交易");
+
+		String privatekey1 = "02bdbb76d134c06cb0af54ac39789b7f826bf6b8ebfd27b7ff58a48dacabbaf00e";
+		String privatekey2 = "03f46fbc68f533e2d6c8eca9c7275e7623b114700263b12db195d2f9986f1abbd1";
+		String ADDR1_SALT = "AVbeRAqPJqAKAJZN89la6w==";
+		String ADDR2_SALT = "NwFRFcVcWBN2B8yNRngo0Q==";
+		String address1 = "AS9S7j6VWUgg3sX89pok6KHeYU9DenKwbS";
+		String address2 = "AMjExWrNSNyPjEct7ryp2LPSz5WbGpaYtG";
+		String PWD = "123456";
+		
+		OntSdk ontSdk = OntTest.sdk();
+
+		Account acc1 = ontSdk.getWalletMgr().getAccount(address1,PWD,Base64.getDecoder().decode(ADDR1_SALT));
+		Account acc2 = ontSdk.getWalletMgr().getAccount(address2,PWD,Base64.getDecoder().decode(ADDR2_SALT));
+
+		System.out.println("acct1:" + acc1.getAddressU160().toBase58());
+		System.out.println("acct2:" + acc2.getAddressU160().toBase58());
+
+		Transaction tx = ontSdk.nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), acc2.getAddressU160().toBase58(), 2, acc1.getAddressU160().toBase58(), 20000, 0);
+		
+		int nonce = tx.nonce;
+		System.out.println(tx.nonce);
+		ontSdk.addSign(tx,acc1);
+		ontSdk.addSign(tx,acc1);
+		System.out.println(tx.nonce);
+
+		Object obj = ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+		
+		Transaction tx1 = ontSdk.nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), acc2.getAddressU160().toBase58(), 3, acc1.getAddressU160().toBase58(), 20000, 0);
+		
+		System.out.println("nonce1:");
+		System.out.println(tx1.nonce);
+		tx1.nonce = nonce + 1;
+		System.out.println("nonce2:");
+		System.out.println(tx1.nonce);
+		
+		ontSdk.addSign(tx1,acc2);
+		ontSdk.addSign(tx1,acc1);
+		
+		Object obj1 = ontSdk.getConnect().sendRawTransaction(tx1.toHexString());
+	}
 }
      
