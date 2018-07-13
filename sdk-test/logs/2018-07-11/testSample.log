@@ -1,0 +1,1 @@
+[DESCRIPTION]  合约开发-CLI 部署及调用[   ERROR   ]  com.github.ontio.network.exception.RpcException: {"Desc":"connect error:http://127.0.0.1:20336/jsonrpcresponse is null. maybe is connect error","Error":58403}[ Failed  ]  java.lang.AssertionError

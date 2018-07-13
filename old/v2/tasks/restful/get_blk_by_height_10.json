@@ -1,9 +1,0 @@
-{
-	"REQUEST": {
-	  "api": "/api/v1/block/details/height/65537"
-	},
-	"RESPONSE": {
-      "error":44003,
-      "Result": ""
-	}
-}

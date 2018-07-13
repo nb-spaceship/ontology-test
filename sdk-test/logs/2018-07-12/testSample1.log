@@ -1,0 +1,1 @@
+[DESCRIPTION]  合约开发-CLI 部署及调用[  Step  ]-1  开启一个同步节点[  Step  ]-2  在中间开始继续同步区块，并同步到最新区块[  Step  ]-3  开启节点REST服务[  Step  ]-4  开启 --testmode[  Step  ]-5  部署合约。。。[  ERROR  ]  deployContract: java.lang.NullPointerException[  Step  ]-6  调用合约方法。。。[  ERROR  ]  java.lang.NullPointerException[ Failed  ]  java.lang.AssertionError
