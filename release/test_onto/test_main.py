@@ -15,11 +15,11 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.contractapi import *
+from utils.api.commonapi import *
+from utils.api.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
-from utils.init_ong_ont import *
+from utils.api.init_ong_ont import *
 
 ####################################################
 #test cases

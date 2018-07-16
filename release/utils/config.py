@@ -51,7 +51,7 @@ class Config():
 
 	UTILS_PATH = ROOT_PATH + "/" + "utils"
 
-	BASEAPI_PATH = UTILS_PATH + "/baseapi"
+	BASEAPI_PATH = UTILS_PATH + "/api/requests"
 
 	DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --enableconsensus --networkid=299"
 

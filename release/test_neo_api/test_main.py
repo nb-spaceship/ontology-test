@@ -14,14 +14,14 @@ from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.websocketapi import WebSocketApi
-from utils.commonapi import *
+from utils.api.websocketapi import WebSocketApi
+from utils.api.commonapi import *
 from utils.base import WebSocket
 from test_api import *
 from test_conf import *
-from utils.commonapi import call_contract
+from utils.api.commonapi import call_contract
 
-from utils.rpcapi import RPCApi
+from utils.api.rpcapi import RPCApi
 
 rpcApi = RPCApi()
 
@@ -35,7 +35,7 @@ class TestNeoAPI(ParametrizedTestCase):
 		
 		time.sleep(2)
 		print("stop all")
-		stop_nodes([0,1,2,3,4,5,6])
+		stop_all_nodes()
 		print("start all")
 		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(20)

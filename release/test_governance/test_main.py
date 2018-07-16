@@ -15,11 +15,11 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.contractapi import *
+from utils.api.commonapi import *
+from utils.api.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
-from utils.init_ong_ont import *
+from utils.api.init_ong_ont import *
 
 ####################################################
 #test cases
@@ -29,7 +29,7 @@ class TestConsensus_1_4(ParametrizedTestCase):
         
         time.sleep(2)
         print("stop all")
-        stop_nodes([0,1,2,3,4,5,6,7,8])
+        stop_all_nodes()
         print("start all")
         start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
         time.sleep(10)
@@ -317,7 +317,7 @@ class TestConsensus_5_14(ParametrizedTestCase):
     def setUp(self):
         time.sleep(2)
         print("stop all")
-        stop_nodes([0,1,2,3,4,5,6,7,8])
+        stop_all_nodes()
         print("start all")
         start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
         time.sleep(10)

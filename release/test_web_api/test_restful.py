@@ -14,11 +14,11 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.restfulapi import *
-from utils.rpcapi import *
+from utils.api.commonapi import *
+from utils.api.restfulapi import *
+from utils.api.rpcapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.contractapi import invoke_function
+from utils.api.contractapi import invoke_function
 
 ####################################################
 #test cases

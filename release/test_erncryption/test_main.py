@@ -15,10 +15,10 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
-from utils.rpcapi import RPCApi
+from utils.api.rpcapi import RPCApi
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-from utils.commonapi import *
+from utils.api.commonapi import *
 
 from test_api import *
 rpcapiTest=RPCApi()

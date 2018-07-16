@@ -15,7 +15,7 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
 def transfer(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001,errorkey="error"):

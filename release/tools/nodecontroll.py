@@ -8,7 +8,7 @@ from utils.taskdata import TaskData, Task
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.commonapi import *
+from utils.api.commonapi import *
 
 #init doc
 __doc__ = "[1] -h --help\n[2] -a --action\n[3] -n --node\n[4] -v --value\n[5] -v1 --value1\n[6] -v2 --value2"

@@ -17,8 +17,8 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.contractapi import *
+from utils.api.commonapi import *
+from utils.api.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
 def get_height(contract_address, node_index = None):

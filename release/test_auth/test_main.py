@@ -15,15 +15,15 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.contractapi import *
+from utils.api.contractapi import *
 from test_api import *
-from utils.rpcapi import *
-from utils.init_ong_ont import *
+from utils.api.rpcapi import *
+from utils.api.init_ong_ont import *
 from utils.config import Config
 
-from utils.commonapi import call_contract
+from utils.api.commonapi import call_contract
 
 logger = LoggerInstance
 
@@ -34,7 +34,7 @@ class TestContract(ParametrizedTestCase):
 	def setUp(self):
 		time.sleep(2)
 		print("stop all")
-		stop_nodes([0,1,2,3,4,5,6,7,8])
+		stop_all_nodes()
 		print("start all")
 		start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)

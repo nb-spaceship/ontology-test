@@ -15,9 +15,9 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.multi_sig import *
+from utils.api.multi_sig import *
 
 
 def transferFromTest(put_address, amount, node_index = None,errorcode=0,public_key_Array=[], errorkey = "error"):
