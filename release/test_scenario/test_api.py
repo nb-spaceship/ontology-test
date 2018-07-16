@@ -31,26 +31,106 @@ NODE_PATH = "/home/ubuntu/ontology/node"
 TO_ADDRESS = Config.NODES[0]["address"]
 CONTRACT_ADDRESS = "./neo_1_194.cs"
 
+AVM_FILE_PATH = Config.ROOT_PATH + "/test_m/tmp.avm"
+get_avm(CONTRACT_ADDRESS).strip("b'")
 
 rpcapi = RPCApi()
 
 logger = LoggerInstance
 
-def get_avm(contract_path, type = "CSharp"):
+def set_gasprice_B(gasprice_B, node_counts=0):
+    cmd = Config.ROOT_PATH + "/test_m/main setglobalparam --globalgasprice " + \
+        str(gasprice_B) + " --ip " + Config.NODES[0]["ip"] + " --txgasprice 10000"
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 40
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+    time.sleep(15)
+
+    return
+
+def restart_all_nodes(args=Config.DEFAULT_NODE_ARGS, nodes=[0,1,2,3,4,5,6,7,8], gasprice=[0 for i in range(9)]):
+    time.sleep(2)
+    print("stop all")
+    stop_nodes(list(range(9)))
+    print("start all")
+    start_nodes(nodes, Config.DEFAULT_NODE_ARGS, True, True)
+    time.sleep(10)
+
+    init_ont_ong()
+    time.sleep(5)
+
+    print("stop all")
+    stop_nodes(nodes)
+
+    for node_index in nodes:
+        print("start node : ", str(node_index))
+        start_node(node_index, args+" --gasprice " + str(gasprice[node_index]))
+
+    time.sleep(10)
+
+def new_wallet(alg="default"):
+    cmd = "cd ~/ontology/node\n"
+    if alg == "default":
+        cmd += Config.NODE_ADDRESS + ' account add -d > ' + \
+            Config.ROOT_PATH + '/test_m/tmp'
+    else:
+        cmd += Config.NODE_ADDRESS + ' account add > ' + \
+            Config.ROOT_PATH + '/test_m/tmp'
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT,
+                         stdin=subprocess.PIPE, shell=True)
+    if alg != "default":
+        p.stdin.write(b'2\n' if alg == "SM2" else b'3\n')
+        p.stdin.flush()
+        time.sleep(3)
+
+    p.stdin.write(b'123456\n')
+    p.stdin.flush()
+    time.sleep(3)
+    p.stdin.write(b'123456\n')
+    p.stdin.flush()
+    time.sleep(3)
+    p.stdin.close()
+    p.terminate()
+    return
+
+
+def get_avm(contract_path, type="CSharp"):
     URL = "http://139.219.97.24:8080/api/v1.0/compile"
     with open(contract_path, "r") as f:
-            code = f.read()
+        code = f.read()
     try:
-        data = {"code":code, "type":type}
+        data = {"code": code, "type": type}
         r = requests.post(URL, data=json.dumps(data))
     except:
         raise Error("Unable to load " + URL)
 
     response_json = r.json()
     if response_json["errcode"] == 0 and response_json["avm"]:
-        return response_json["avm"]
+        avm = response_json["avm"]
+        
     else:
-        return None
+        raise Error("Unable to get avm.")
+
+    logger.print(avm)
+
+    # write avm in file
+    with open(AVM_FILE_PATH, "w") as f:
+        f.write(avm)
+        f.flush()
+    time.sleep(1)
+    
+    return 
+
 
 def transfer_neo(contract_address, pay_address, get_address, amount, node_index=0):
     request = {
@@ -145,6 +225,7 @@ def my_multi_contract(task, m, pubkeyArray, all_wallet_address):
 def get_balance_ont(address):
     (result, response) = rpcapi.getbalance(address)
     return int(response["result"]["ont"])
+
 
 def get_balance_ong(address):
     (result, response) = rpcapi.getbalance(address)
@@ -311,6 +392,742 @@ def multi_sig_transfer(pay_address, get_address, amount, node_index, sig_times, 
     }
 
     return my_multi_contract(Task(name="transfer", ijson=request), sig_times, MultiSigAddress, all_wallet_address)
+
+def search_txhash_in_contents(contents):
+    for line in contents:
+        regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
+        if regroup:
+            tx_hash = regroup.group(1)
+
+    if not tx_hash:
+        raise Error("tx_hash not found")
+    logger.print("\ntxhash:"+tx_hash)
+    return tx_hash
+
+def test_01_():
+    node_index = 0
+    tx_hash = None
+
+    try:
+        contract_address = deploy_contract(AVM_FILE_PATH)
+
+        logger.print("transfering ont...")
+        transfer_ont(node_index, node_index, 100)
+        logger.print("withdrawing ong...")
+        withdrawong(node_index)
+
+        get_balance_ont(Config.NODES[node_index]["address"])
+
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
+            contract_address + \
+            " --params string:Add,[int:1,int:1] > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        result = True if state == 1 else False
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_02_():
+    node_index = 0
+    tx_hash = None
+
+    try:
+        # restart node
+        stop_node(node_index)
+        start_node(node_index)
+        time.sleep(300) # waiting for sync
+
+        gas_price1 = get_balance_ong(Config.NODES[node_index]["address"])
+        logger.print(str(gas_price1))
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
+            contract_address + \
+            " --params string:Add,[int:1,int:1] -p> " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        for line in contents:
+            regroup = re.search(r'Return:(([0-9]|[a-z]|[A-Z])*)', line)
+            if regroup:
+                return_value = regroup.group(1)
+
+        if not return_value:
+            raise Error("return_value not found")
+        logger.print("\nreturn:"+return_value)
+
+        # invoke
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 1 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if state == 1:
+            result = True
+        else:
+            raise Error("tx state is not 1")
+
+        gas_price2 = get_balance_ong(Config.NODES[node_index]["address"])
+        logger.print(str(gas_price2))
+
+        logger.print("gas price:"+str(gas_price1 - gas_price2))
+
+        if gas_price1 - gas_price2 < 20000:
+            raise Error("gas price is not 20000")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+def test_18_():
+    try:
+        (result, response) = native_transfer_ont(
+            Config.NODES[0]["address"], Config.NODES[1]["address"], "10", 0)
+        rpcapi.getsmartcodeevent(response["txhash"])
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+def test_20_():
+    result = True
+    try:
+        cmd = "cd ~/ontology/node\n"
+        cmd += 'echo "123456" |' + Config.NODE_ADDRESS + \
+            ' account list > ' + Config.ROOT_PATH + '/test_m/tmp'
+        exec_cmd(cmd)
+
+        for i in range(0, 10):
+            new_wallet()
+
+        cmd = "cd ~/ontology/node\n"
+        cmd += 'echo "123456" |' + Config.NODE_ADDRESS + \
+            ' account list > ' + Config.ROOT_PATH + '/test_m/tmp'
+        exec_cmd(cmd)
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+def test_21_():
+    try:
+        block_count1 = rpcapi.getblockcount()[1]["result"]
+        logger.print("block count1 "+str(block_count1))
+        for i in range(1, 1000):
+            native_transfer_ont(
+                Config.NODES[0]["address"], Config.NODES[2]["address"], "1", 0, int(i/10))
+            block_count2 = rpcapi.getblockcount()[1]["result"]
+            rpcapi.getblock(block_count2-1, None)
+        time.sleep(2)
+        block_count2 = rpcapi.getblockcount()[1]["result"]
+        logger.print("block count2 "+str(block_count2))
+
+        rpcapi.getblock(block_count2-1, None)
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return True
+
+def test_23_():
+    result = False
+    tx_hash = None
+    try:
+        restart_all_nodes()
+
+        init_ont_ong()
+        time.sleep(5)
+
+        time.sleep(2)
+        print("stop all")
+        stop_nodes([0, 1, 2, 3, 4, 5, 6, 7, 8])
+        print("start all")
+        start_nodes([0, 1, 2, 3, 4, 5, 6, 7, 8],
+                    Config.DEFAULT_NODE_ARGS+" --gasprice 1000")
+        time.sleep(10)
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=1000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
+            contract_address + \
+            " --params string:Add,[int:1,int:1] > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if not state:
+            result = True
+        else:
+            raise Error("invoke contract error")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+def test_24_():
+    result = False
+    tx_hash = None
+    try:
+        restart_all_nodes(nodes=list(range(7)), gasprice=[(i+1)*100 for i in range(7)])
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=1000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 301 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if not state:
+            result = True
+        else:
+            raise Error("invoke contract error")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+def test_25_():
+    result = False
+    tx_hash = None
+    try:
+        restart_all_nodes(nodes=list(range(7)), gasprice=[(i+1)*100 for i in range(7)])
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=1000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 501 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if state == 1:
+            result = True
+        else:
+            raise Error("tx state is not 1")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_26_():
+    result = False
+    tx_hash = None
+    try:
+
+        restart_all_nodes(nodes=list(range(7)), gasprice=[(i+1)*100 for i in range(7)])
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=1000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 800 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if state == 1:
+            result = True
+        else:
+            raise Error("tx state is not 1")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_27_():
+    result = False
+    tx_hash = None
+    try:
+        restart_all_nodes(nodes=list(range(7)), gasprice=[1000 for i in range(7)])
+
+        set_gasprice_B(800)
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=2000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 1001 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if state == 1:
+            result = True
+        else:
+            raise Error("tx state is not 1")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_28_():
+    result = False
+    tx_hash = None
+    try:
+        restart_all_nodes(nodes=list(range(7)), gasprice=[1000 for i in range(7)])
+
+        set_gasprice_B(800)
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=2000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 801 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if not state:
+            result = True
+        else:
+            raise Error("tx state exists")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_29_():
+    result = False
+    tx_hash = None
+    try:
+        restart_all_nodes(nodes=list(range(7)), gasprice=[600 for i in range(7)])
+
+        set_gasprice_B(800)
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=2000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 801 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if state == 1:
+            result = True
+        else:
+            raise Error("tx state is not 1")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_30_():
+    result = False
+    tx_hash = None
+    try:
+
+        time.sleep(2)
+        print("stop all")
+        stop_nodes([0, 1, 2, 3, 4, 5, 6])
+        print("start all")
+        start_nodes([0, 1, 2, 3, 4, 5, 6],
+                    Config.DEFAULT_NODE_ARGS, True, True)
+        time.sleep(10)
+
+        init_ont_ong()
+        time.sleep(5)
+
+        time.sleep(2)
+        print("stop all")
+        stop_nodes([0, 1, 2, 3, 4, 5, 6])
+        print("start all")
+        start_nodes([0, 1, 2, 3, 4, 5, 6],
+                    Config.DEFAULT_NODE_ARGS+" --gasprice 600")
+        time.sleep(10)
+
+        set_gasprice_B(800)
+
+        # deploy
+        contract_address = deploy_contract(AVM_FILE_PATH, price=1000)
+
+        # invoke -p
+        cmd = "cd ~/ontology/node\n"
+        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
+            " --params string:Add,[int:1,int:1] --gasprice 700 > " + \
+            Config.ROOT_PATH + "/test_m/tmp"
+        contents = exec_cmd(cmd)
+
+        tx_hash = search_txhash_in_contents(contents)
+
+        state = get_tx_state(tx_hash)
+
+        if not state:
+            result = True
+        else:
+            raise Error("tx state exists")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+
+
+
+def shell_get_balance(index):
+    cmd = "cd ~/ontology/node\n"
+    cmd += Config.NODE_ADDRESS + " asset balance " + \
+        str(index) + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+    with open("tmp", "r+") as tmpfile:  # 打开文件
+        contents = tmpfile.readlines()
+
+    for line in contents:
+        # for log
+        logger.print(line.strip('\n'))
+
+    for line in contents:
+        regroup = re.search(r'ONT:(([0-9])*)', line)
+        if regroup:
+            balance = regroup.group(1)
+
+    return int(balance)
+
+
+def shell_transfer(_from, _to, _amount, _gas_price=0):
+    cmd = "cd ~/ontology/node\n"
+    cmd += "echo 123456 | " + Config.NODE_ADDRESS + " asset transfer --from " + str(_from) + " --to " + str(
+        _to) + " --amount " + str(_amount) + " --gasprice " + str(_gas_price) + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+    with open("tmp", "r+") as tmpfile:  # 打开文件
+        contents = tmpfile.readlines()
+
+    return contents
+
+
+def change_alg(alg):
+    cmd = "cd ~/ontology/node\n"
+    cmd += "echo 123456 | " + Config.NODE_ADDRESS + \
+        " account set --signature-scheme " + alg + " 1 "
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+
+
+
+
+def test_31_():
+    result = True
+
+    try:
+        '''
+        new_wallet()
+
+        stop_node(node_index)
+        start_node(node_index, " --testmode --rest --localrpc --gasprice 0 --gaslimit 0 ", True, True)
+
+        new_wallet()
+        shell_get_balance(1)
+        shell_get_balance(2)
+
+        for alg in ["SHA256withECDSA", "SHA224withECDSA", "SHA384withECDSA", "SHA512withECDSA", "SHA3-224withECDSA", "SHA3-256withECDSA", "SHA3-384withECDSA", "SHA3-512withECDSA", "RIPEMD160withECDSA"]:
+            print("changing... to alg ", alg)
+            time.sleep(2)
+            change_alg(alg)
+
+            balance1 = shell_get_balance(1)
+            shell_transfer(1, 2, 1)
+            time.sleep(8)
+            balance2 = shell_get_balance(1)
+
+            if balance1 - balance2 != 1:
+                raise Error("alg " + alg + " transfer failed")
+        '''
+        new_wallet(alg="SM2")
+        new_wallet(alg="Ed25519")
+
+        # A -> C
+        balance1 = shell_get_balance(1)
+        shell_transfer(1, 3, 1)
+        time.sleep(8)
+        balance2 = shell_get_balance(1)
+
+        if balance1 - balance2 != 1:
+            raise Error("A transfer to C failed")
+
+        # C -> D
+        balance1 = shell_get_balance(3)
+        shell_transfer(3, 4, 1)
+        time.sleep(8)
+        balance2 = shell_get_balance(3)
+
+        if balance1 - balance2 != 1:
+            raise Error("C transfer to D failed")
+
+        # D -> C
+        balance1 = shell_get_balance(4)
+        shell_transfer(4, 3, 1)
+        time.sleep(8)
+        balance2 = shell_get_balance(4)
+
+        if balance1 - balance2 != 1:
+            raise Error("D transfer to C failed")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_32_():
+    result = True
+
+    try:
+        cmd = "cd ~/ontology/node\n"
+        cmd += Config.NODE_ADDRESS + " account import --source " + \
+            Config.ROOT_PATH + '/test_m/ontWallet.keystore'
+        contents = exec_cmd(cmd)
+        for line in contents:
+            if "successfully" in line:
+                result = True
+                break
+            else:
+                raise Error("import from ontWallet.keystore failed")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_33_():
+    result = True
+
+    try:
+        cmd = "cd ~/ontology/node\n"
+        cmd += Config.NODE_ADDRESS + " account import --source " + \
+            Config.ROOT_PATH + '/test_m/ontWallet_1.keystore'
+        contents = exec_cmd(cmd)
+        for line in contents:
+            if "successfully" in line:
+                raise Error("import from ontWallet.keystore_1 failed")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def test_34_():
+    result = True
+
+    try:
+        cmd = "cd ~/ontology/node\n"
+        cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
+            '/test_m/ontWallet_2.keystore ' + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+        contents = exec_cmd(cmd)
+        for line in contents:
+            if "successfully" in line:
+                raise Error("import from ontWallet.keystore_1 failed")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
+
+
+def get_wallet(wallet_address):
+    with open(wallet_address, "rb") as wallet_file:
+        wallet_json = json.loads(wallet_file.read().decode("utf-8"))
+
+    return wallet_json
+
+
+def import_from_wif_key(passwd=b"123456\n", _exist=False):
+    cmd = "cd ~/ontology/node\n"
+    cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
+        '/test_m/WIF-key.txt -wif'  # + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT,
+                         stdin=subprocess.PIPE, shell=True)
+    p.stdin.write(passwd)
+    p.stdin.flush()
+    time.sleep(3)
+    if _exist:
+        p.stdin.close()
+        p.terminate()
+        return
+    p.stdin.write(passwd)
+    p.stdin.flush()
+    time.sleep(3)
+    p.stdin.close()
+    p.terminate()
+    return
+
+
+def test_35_():
+    result = True
+    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
+    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
+    address = "AFr9bdZxAZwuy1VGZUeE9rmXBUEykdskyk"
+
+    try:
+        if os.path.exists(wallet_address1):
+            # back up pre-wallet
+            shutil.move(wallet_address1, wallet_address2)
+
+        #
+        import_from_wif_key()
+        if not os.path.exists(wallet_address1):
+            raise Error("wallet file not exists")
+
+        wallet_json = get_wallet(wallet_address1)
+        if wallet_json["accounts"][0]["address"] != address:
+            raise Error("wallet address 0 is not correct")
+
+        #
+        import_from_wif_key()
+        wallet_json = get_wallet(wallet_address1)
+        if wallet_json["accounts"][1]["address"] != address:
+            raise Error("wallet address 1 is not correct")
+
+        #
+        import_from_wif_key(passwd=b"654321\n")
+        wallet_json = get_wallet(wallet_address1)
+        if wallet_json["accounts"][2]["address"] != address:
+            raise Error("wallet address 1 is not correct")
+
+        #
+        print("removing wallet...")
+        os.remove(wallet_address1)
+        import_from_wif_key()
+        if not os.path.exists(wallet_address1):
+            raise Error("wallet file not exists")
+
+        #
+        print("removing wallet...")
+        os.remove(wallet_address1)
+        import_from_wif_key(_exist=True)
+        if os.path.exists(wallet_address1):
+            raise Error("wallet file exists")
+
+        # move back
+        shutil.move(wallet_address2, wallet_address1)
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
 
 
 def test_41_():
@@ -574,18 +1391,19 @@ def test_37_(node_index):
 
     return (result, response)
 
-def native_transfer_ont(pay_address,get_address,amount, node_index = None,errorcode=0, gas_price=0):
-	request = {
-		"REQUEST": {
-			"Qid": "t",
-			"Method": "signativeinvoketx",
-			"Params": {
-				"gas_price": 0,
-				"gas_limit": 1000000000,
-				"address": "0100000000000000000000000000000000000000",
-				"method": "transfer",
-				"version": 1,
-				"params": [
+
+def native_transfer_ont(pay_address, get_address, amount, node_index=0, errorcode=0, gas_price=0):
+    request = {
+        "REQUEST": {
+            "Qid": "t",
+            "Method": "signativeinvoketx",
+            "Params": {
+                "gas_price": gas_price,
+                "gas_limit": 1000000000,
+                "address": "0100000000000000000000000000000000000000",
+                "method": "transfer",
+                "version": 1,
+                "params": [
                     [
                         [
                             pay_address,
@@ -593,22 +1411,25 @@ def native_transfer_ont(pay_address,get_address,amount, node_index = None,errorc
                             amount
                         ]
                     ]
-				]
-			}
-		},
-		"RESPONSE":{"error" : errorcode},
-		"NODE_INDEX":node_index
-	}
-	return call_contract(Task(name="transfer", ijson=request), twice = True)
+                ]
+            }
+        },
+        "RESPONSE": {"error": errorcode},
+        "NODE_INDEX": node_index
+    }
+    return call_contract(Task(name="transfer", ijson=request), twice=True)
+
 
 def test_40_():
     try:
-        (result, response) = native_transfer_ont(Config.NODES[0]["address"], Config.NODES[1]["address"], "1000", 0)
+        (result, response) = native_transfer_ont(
+            Config.NODES[0]["address"], Config.NODES[1]["address"], "1000", 0)
     except Exception as e:
         logger.print(e.msg)
         result = False
 
     return (result, response)
+
 
 def test_44_():
     try:
@@ -625,15 +1446,8 @@ def test_44_():
 
     return (result, None)
 
-def test_18_():
-    try:
-        (result, response) = native_transfer_ont(Config.NODES[0]["address"], Config.NODES[1]["address"], "10", 0)
-        rpcapi.getsmartcodeevent(response["txhash"])
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
 
-    return (result, None)
+
 
 
 def test_45_():
@@ -659,6 +1473,7 @@ def test_45_():
         result = False
 
     return (result, None)
+
 
 def test_46_():
     try:
@@ -686,6 +1501,7 @@ def test_46_():
 
     return (result, None)
 
+
 def test_47_():
     try:
         block_count1 = rpcapi.getblockcount()
@@ -700,6 +1516,7 @@ def test_47_():
         result = False
 
     return (result, None)
+
 
 def test_48_():
     try:
@@ -725,6 +1542,7 @@ def test_48_():
 
     return (result, None)
 
+
 def test_49_():
     wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
     wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
@@ -746,28 +1564,18 @@ def test_49_():
         time.sleep(5)
 
         balance1 = get_balance_ont(Config.NODES[0]["address"])
-        contents = shell_transfer(wallet_json["accounts"][0]["address"], Config.NODES[1]["address"], "10")
+        contents = shell_transfer(
+            wallet_json["accounts"][0]["address"], Config.NODES[1]["address"], "10")
         balance2 = get_balance_ont(Config.NODES[0]["address"])
 
         if balance1 != balance2:
             raise Error("balance is not right")
 
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
+        tx_hash = search_txhash_in_contents(contents)
 
-        time.sleep(6)
         state = get_tx_state(tx_hash)
 
-        if state == 0:
-            result = True
-        else:
-            result = False
+        result = True if state == 0 else False
 
         # move back
         shutil.move(wallet_address2, wallet_address1)
@@ -778,12 +1586,13 @@ def test_49_():
 
     return (result, None)
 
+
 def test_50_():
     wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
     wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     try:
-        
+
         if os.path.exists(wallet_address1):
             # back up pre-wallet
             shutil.move(wallet_address1, wallet_address2)
@@ -799,32 +1608,22 @@ def test_50_():
         time.sleep(5)
 
         balance1 = get_balance_ont(Config.NODES[0]["address"])
-        contents = shell_transfer(wallet_json["accounts"][0]["address"], Config.NODES[1]["address"], "0", 1)
+        contents = shell_transfer(
+            wallet_json["accounts"][0]["address"], Config.NODES[1]["address"], "0", 1)
         balance2 = get_balance_ont(Config.NODES[0]["address"])
 
         if balance1 != balance2:
             raise Error("balance is not right")
 
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
+        tx_hash = search_txhash_in_contents(contents)
 
-        time.sleep(6)
         state = get_tx_state(tx_hash)
 
-        if state == 0:
-            result = True
-        else:
-            result = False
+        result = True if state == 0 else False
 
         # move back
         shutil.move(wallet_address2, wallet_address1)
-        
+
     except Exception as e:
         logger.print(e.msg)
         result = False
@@ -839,7 +1638,7 @@ def test_51_():
     amount1 = 10000
     amount2 = 100000
     try:
-        
+
         if os.path.exists(wallet_address1):
             # back up pre-wallet
             shutil.move(wallet_address1, wallet_address2)
@@ -850,7 +1649,8 @@ def test_51_():
         wallet_json = get_wallet(wallet_address1)
 
         balance1 = get_balance_ont(Config.NODES[0]["address"])
-        native_transfer_ont(Config.NODES[0]["address"], wallet_json["accounts"][0]["address"], str(amount1), 0)
+        native_transfer_ont(
+            Config.NODES[0]["address"], wallet_json["accounts"][0]["address"], str(amount1), 0)
         time.sleep(6)
         balance2 = get_balance_ont(Config.NODES[0]["address"])
         if balance1 - balance2 != amount1:
@@ -862,37 +1662,28 @@ def test_51_():
         time.sleep(5)
 
         balance1 = get_balance_ont(Config.NODES[0]["address"])
-        contents = shell_transfer(wallet_json["accounts"][0]["address"], Config.NODES[0]["address"], str(amount2))
+        contents = shell_transfer(
+            wallet_json["accounts"][0]["address"], Config.NODES[0]["address"], str(amount2))
         balance2 = get_balance_ont(Config.NODES[0]["address"])
 
         if balance1 != balance2:
             raise Error("balance is not right")
 
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
+        tx_hash = search_txhash_in_contents(contents)
 
-        time.sleep(10)
         state = get_tx_state(tx_hash)
 
-        if state == 0:
-            result = True
-        else:
-            result = False
+        result = True if state == 0 else False
 
         # move back
         shutil.move(wallet_address2, wallet_address1)
-        
+
     except Exception as e:
         logger.print(e.msg)
         result = False
 
     return (result, None)
+
 
 def test_52_():
     wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
@@ -902,7 +1693,7 @@ def test_52_():
     amount2 = 10
     result = True
     try:
-        
+
         if os.path.exists(wallet_address1):
             # back up pre-wallet
             shutil.move(wallet_address1, wallet_address2)
@@ -913,7 +1704,8 @@ def test_52_():
         wallet_json = get_wallet(wallet_address1)
 
         balance1 = get_balance_ont(wallet_json["accounts"][0]["address"])
-        native_transfer_ont(Config.NODES[0]["address"], wallet_json["accounts"][0]["address"], str(amount1), 0)
+        native_transfer_ont(
+            Config.NODES[0]["address"], wallet_json["accounts"][0]["address"], str(amount1), 0)
         time.sleep(10)
         balance2 = get_balance_ont(wallet_json["accounts"][0]["address"])
         if balance2 - balance1 != amount1:
@@ -925,7 +1717,8 @@ def test_52_():
         time.sleep(5)
 
         balance1 = get_balance_ont(wallet_json["accounts"][0]["address"])
-        contents = shell_transfer(wallet_json["accounts"][0]["address"], Config.NODES[0]["address"], str(amount2), 1)
+        contents = shell_transfer(
+            wallet_json["accounts"][0]["address"], Config.NODES[0]["address"], str(amount2), 1)
         time.sleep(10)
         balance2 = get_balance_ont(wallet_json["accounts"][0]["address"])
 
@@ -934,12 +1727,13 @@ def test_52_():
 
         # move back
         shutil.move(wallet_address2, wallet_address1)
-        
+
     except Exception as e:
         logger.print(e.msg)
         result = False
 
     return (result, None)
+
 
 def test_53_():
     wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
@@ -949,7 +1743,7 @@ def test_53_():
     amount2 = 10
     result = True
     try:
-        
+
         if os.path.exists(wallet_address1):
             # back up pre-wallet
             shutil.move(wallet_address1, wallet_address2)
@@ -960,7 +1754,8 @@ def test_53_():
         wallet_json = get_wallet(wallet_address1)
 
         balance1 = get_balance_ont(wallet_json["accounts"][0]["address"])
-        native_transfer_ont(Config.NODES[0]["address"], wallet_json["accounts"][0]["address"], str(amount1), 0)
+        native_transfer_ont(
+            Config.NODES[0]["address"], wallet_json["accounts"][0]["address"], str(amount1), 0)
         time.sleep(15)
         balance2 = get_balance_ont(wallet_json["accounts"][0]["address"])
         if balance2 - balance1 != amount1:
@@ -972,7 +1767,8 @@ def test_53_():
         time.sleep(5)
 
         balance1 = get_balance_ont(wallet_json["accounts"][0]["address"])
-        contents = shell_transfer(wallet_json["accounts"][0]["address"], Config.NODES[0]["address"], str(amount2))
+        contents = shell_transfer(
+            wallet_json["accounts"][0]["address"], Config.NODES[0]["address"], str(amount2))
         time.sleep(15)
         balance2 = get_balance_ont(wallet_json["accounts"][0]["address"])
 
@@ -981,12 +1777,13 @@ def test_53_():
 
         # move back
         shutil.move(wallet_address2, wallet_address1)
-        
+
     except Exception as e:
         logger.print(e.msg)
         result = False
 
     return (result, None)
+
 
 def test_54_():
     wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
@@ -995,7 +1792,7 @@ def test_54_():
     amount1 = 10000
     result = True
     try:
-        
+
         if os.path.exists(wallet_address1):
             # back up pre-wallet
             shutil.move(wallet_address1, wallet_address2)
@@ -1010,73 +1807,24 @@ def test_54_():
         start_node(node_index)
         time.sleep(5)
 
-        contents = shell_transfer(Config.NODES[1]["address"], Config.NODES[0]["address"], str(amount1))
+        contents = shell_transfer(
+            Config.NODES[1]["address"], Config.NODES[0]["address"], str(amount1))
 
         # move back
         shutil.move(wallet_address2, wallet_address1)
-        
+
     except Exception as e:
         logger.print(e.msg)
         result = False
 
     return (result, None)
 
-def native_transfer_ont_gasprice(pay_address, get_address, amount, node_index=0, gas_price=1):
-    request = {
-        "REQUEST": {
-            "Qid": "t",
-            "Method": "signativeinvoketx",
-            "Params": {
-                "gas_price": gas_price,
-                "gas_limit": 1000000000,
-                "address": "0100000000000000000000000000000000000000",
-                "method": "transfer",
-                "version": 1,
-                "params": [
-                    [
-                        [
-                            pay_address,
-                            get_address,
-                            amount
-                        ]
-                    ]
-                ]
-            }
-        },
-        "RESPONSE": {"error": 0},
-        "NODE_INDEX": node_index
-    }
-    return call_contract(Task(name="transfer", ijson=request), twice=True)
-
-
-
-
-def test_21_():
-    try:
-        block_count1 = rpcapi.getblockcount()[1]["result"]
-        logger.print("block count1 "+str(block_count1))
-        for i in range(1, 1000):
-            native_transfer_ont_gasprice(
-                Config.NODES[0]["address"], Config.NODES[2]["address"], "1", 0, int(i/10))
-            block_count2 = rpcapi.getblockcount()[1]["result"]
-            rpcapi.getblock(block_count2-1, None)
-        time.sleep(2)
-        block_count2 = rpcapi.getblockcount()[1]["result"]
-        logger.print("block count2 "+str(block_count2))
-
-        rpcapi.getblock(block_count2-1, None)
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return True
-
 
 def test_55_():
     amount = "1"
     try:
         balance1 = get_balance_ont(Config.NODES[1]["address"])
-        (result, response) = native_transfer_ont_gasprice(
+        (result, response) = native_transfer_ont(
             Config.NODES[1]["address"], Config.NODES[2]["address"], amount, 1, 10)
         time.sleep(5)
 
@@ -1093,14 +1841,16 @@ def test_55_():
 
     return (result, response)
 
+
 def test_56_():
     result = True
     amount = 1
-    try:    
-    
+    try:
+
         balance1 = get_balance_ont(Config.NODES[0]["address"])
         for i in range(10):
-            native_transfer_ont_gasprice(Config.NODES[0]["address"], Config.NODES[1]["address"], str(amount), 0, gas_price=1000)
+            native_transfer_ont(
+                Config.NODES[0]["address"], Config.NODES[1]["address"], str(amount), 0, gas_price=1000)
         time.sleep(15)
         balance2 = get_balance_ont(Config.NODES[0]["address"])
 
@@ -1118,9 +1868,9 @@ def test_60_():
     amount = "297690825"
     try:
         balance1 = get_balance_ont(Config.NODES[0]["address"])
-        (result, response) = native_transfer_ont_gasprice(
+        (result, response) = native_transfer_ont(
             Config.NODES[0]["address"], Config.NODES[2]["address"], amount, 0, 10)
-        (result, response) = native_transfer_ont_gasprice(
+        (result, response) = native_transfer_ont(
             Config.NODES[0]["address"], Config.NODES[2]["address"], amount, 0, 100)
         time.sleep(5)
 
@@ -1137,7 +1887,8 @@ def test_60_():
 
     return (result, response)
 
-def invoke_function_add(contract_address, node_index = None):
+
+def invoke_function_add(contract_address, node_index=None):
     request = {
         "REQUEST": {
             "Qid": "t",
@@ -1160,8 +1911,8 @@ def invoke_function_add(contract_address, node_index = None):
                                 "value": "1"
                             },
                             {
-                                "type":"int",
-                                "value":"1"
+                                "type": "int",
+                                "value": "1"
                             }
                         ]
                     }
@@ -1170,32 +1921,36 @@ def invoke_function_add(contract_address, node_index = None):
         },
         "RESPONSE": {}
     }
-    
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+
+    return call_contract(Task(name="init_admin", ijson=request), twice=True)
+
 
 def get_tx_state(tx_hash):
-    cmd = Config.NODE_ADDRESS + " info status " + tx_hash + " > "+ Config.ROOT_PATH + "/test_m/tmp"
+    print("waiting for block generating......")
+    time.sleep(10)
+    cmd = Config.NODE_ADDRESS + " info status " + \
+        tx_hash + " > " + Config.ROOT_PATH + "/test_m/tmp"
     p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
     print(cmd)
     state = None
     begintime = time.time()
     secondpass = 0
     timeout = 2
-    
+
     while p.poll() is None:
         secondpass = time.time() - begintime
         if secondpass > timeout:
             p.terminate()
             print("Error: execute " + cmd + " time out!")
         time.sleep(0.1)
-    
-    with open("tmp", "r+") as tmpfile:# 打开文件
+
+    with open("tmp", "r+") as tmpfile:  # 打开文件
         contents = tmpfile.readlines()
 
     for line in contents:
-        #for log
+        # for log
         logger.print(line.strip('\n'))
-    
+
     for line in contents:
         regroup = re.search(r'"State": (([0-9])*)', line)
         if regroup:
@@ -1219,1012 +1974,11 @@ def exec_cmd(cmd, show_output=True):
         time.sleep(0.1)
 
     if show_output:
-        with open("tmp", "r+") as tmpfile:# 打开文件
+        with open("tmp", "r+") as tmpfile:  # 打开文件
             contents = tmpfile.readlines()
 
         for line in contents:
-            #for log
+            # for log
             logger.print(line.strip('\n'))
     return contents
 
-def test_01_():
-    node_index = 0
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-
-    try:
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path)
-
-        logger.print("transfering ont...")
-        transfer_ont(node_index, node_index, 100)
-        logger.print("withdrawing ong...")
-        withdrawong(node_index)
-
-        get_balance_ont(Config.NODES[node_index]["address"])
-
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-        
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(2)
-        state = get_tx_state(tx_hash)
-
-        if state == 1:
-            result = True
-        else:
-            result = False
-
-        # (result, response) = invoke_function_add(contract_address)
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_02_():
-    node_index = 0
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-
-    try:
-        # start node
-        '''
-        stop_node(node_index)
-        start_node(node_index)
-        time.sleep(300) # waiting for sync
-        '''
-
-        gas_price1 = get_balance_ong(Config.NODES[node_index]["address"])
-        logger.print (str(gas_price1))
-
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] -p> " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-        
-        for line in contents:
-            regroup = re.search(r'Return:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                return_value = regroup.group(1)
-  
-        if not return_value:
-            raise Error("return_value not found")
-        logger.print("\nreturn:"+return_value)
-
-    
-        # invoke
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 1 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(2)
-        state = get_tx_state(tx_hash)
-
-        if state == 1:
-            result = True
-        else:
-            raise Error("tx state is not 1")
-        
-        gas_price2 = get_balance_ong(Config.NODES[node_index]["address"])
-        logger.print (str(gas_price2))
-
-        logger.print ("gas price:"+str(gas_price1 - gas_price2))
-
-        if gas_price1 - gas_price2 < 20000:
-            raise Error("gas price is not 20000")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_20_():
-    result = True
-    try:
-        cmd = "cd ~/ontology/node\n"
-        cmd += 'echo "123456" |' + Config.NODE_ADDRESS + ' account list > ' + Config.ROOT_PATH + '/test_m/tmp'
-        exec_cmd(cmd)
-
-        for i in range(0, 10):
-            cmd = "cd ~/ontology/node\n"
-            cmd += Config.NODE_ADDRESS + ' account add -d > ' + Config.ROOT_PATH + '/test_m/tmp'
-            # exec_cmd(cmd)#, show_output=False)
-            print(cmd)
-            p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, shell=True)
-            p.stdin.write(b'123456\n')
-            time.sleep(1)
-            p.stdin.write(b'123456\n')  
-
-            begintime = time.time()
-            secondpass = 0
-            timeout = 2
-            while p.poll() is None:
-                secondpass = time.time() - begintime
-                if secondpass > timeout:
-                    p.terminate()
-                    print("Error: execute " + cmd + " time out!")
-                time.sleep(0.1)
-
-            with open("tmp", "r+") as tmpfile:# 打开文件
-                contents = tmpfile.readlines()
-
-            for line in contents:
-                #for log
-                logger.print(line.strip('\n'))
-
-        cmd = "cd ~/ontology/node\n"
-        cmd += 'echo "123456" |' + Config.NODE_ADDRESS + ' account list > ' + Config.ROOT_PATH + '/test_m/tmp'
-        exec_cmd(cmd)
-
-        
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_23_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6,7,8])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6,7,8])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS+" --gasprice 1000")
-        time.sleep(10)
-        
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=1000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(2)
-        state = get_tx_state(tx_hash)
-
-        if not state:
-            result = True
-        else:
-            raise Error("invoke contract error")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_24_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        '''
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-        for i in range(0, 7):
-            time.sleep(2)
-            print("stop node : ", str(i))
-            stop_node(i)
-            print("start node : ", str(i))
-            start_node(i, Config.DEFAULT_NODE_ARGS+" --gasprice " + str((i+1) * 100))
-        
-        time.sleep(2)
-        '''
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=1000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 301 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(2)
-        state = get_tx_state(tx_hash)
-
-        if not state:
-            result = True
-        else:
-            raise Error("invoke contract error")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_25_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        '''
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-        for i in range(0, 7):
-            time.sleep(2)
-            print("stop node : ", str(i))
-            stop_node(i)
-            print("start node : ", str(i))
-            start_node(i, Config.DEFAULT_NODE_ARGS+" --gasprice " + str((i+1) * 100))
-        
-        time.sleep(2)
-        '''
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=1000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 501 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(5)
-        state = get_tx_state(tx_hash)
-
-        if state == 1:
-            result = True
-        else:
-            raise Error("tx state is not 1")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_26_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-        for i in range(0, 7):
-            time.sleep(2)
-            print("stop node : ", str(i))
-            stop_node(i)
-            print("start node : ", str(i))
-            start_node(i, Config.DEFAULT_NODE_ARGS+" --gasprice " + str((i+1) * 100))
-        
-        time.sleep(2)
-        
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=1000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 800 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(5)
-        state = get_tx_state(tx_hash)
-
-        if state == 1:
-            result = True
-        else:
-            raise Error("tx state is not 1")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def set_gasprice_B(gasprice_B, node_counts = 0):
-    cmd = Config.ROOT_PATH + "/test_m/main setglobalparam --globalgasprice " + str(gasprice_B) + " --ip " + Config.NODES[0]["ip"]
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 40
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-    time.sleep(15)
-
-    return 
-
-def test_27_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        '''
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS+" --gasprice 1000")
-        time.sleep(10)
-        '''
-        set_gasprice_B(800)
-        
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=2000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 1001 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(5)
-        state = get_tx_state(tx_hash)
-
-        if state == 1:
-            result = True
-        else:
-            raise Error("tx state is not 1")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_28_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        '''
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS+" --gasprice 1000")
-        time.sleep(10)
-        '''
-        set_gasprice_B(800)
-        
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=2000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 801 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(10)
-        state = get_tx_state(tx_hash)
-
-        if not state:
-            result = True
-        else:
-            raise Error("tx state exists")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_29_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS+" --gasprice 600")
-        time.sleep(10)
-
-        set_gasprice_B(800)
-        
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=2000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 801 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(5)
-        state = get_tx_state(tx_hash)
-
-        if state == 1:
-            result = True
-        else:
-            raise Error("tx state is not 1")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_30_():
-    result = False
-    avm_file_path = Config.ROOT_PATH + "/test_m/tmp.avm"
-    tx_hash = None
-    try:
-        
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-        
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0,1,2,3,4,5,6])
-        print("start all")
-        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS+" --gasprice 600")
-        time.sleep(10)
-        
-        set_gasprice_B(800)
-        
-        # deploy 
-        avm = get_avm(CONTRACT_ADDRESS).strip("b'")
-        logger.print(avm)
-
-        with open(avm_file_path, "w") as f:
-            f.write(avm)
-            f.flush()
-        time.sleep(2)
-
-        contract_address = deploy_contract(avm_file_path, price=1000)
-
-        # invoke -p
-        cmd = "cd ~/ontology/node\n"
-        cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address "+ contract_address + " --params string:Add,[int:1,int:1] --gasprice 700 > " + Config.ROOT_PATH + "/test_m/tmp"
-        contents = exec_cmd(cmd)
-
-        for line in contents:
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                tx_hash = regroup.group(1)
-  
-        if not tx_hash:
-            raise Error("tx_hash not found")
-        logger.print("\ntxhash:"+tx_hash)
-
-        time.sleep(5)
-        state = get_tx_state(tx_hash)
-
-        if not state:
-            result = True
-        else:
-            raise Error("tx state exists")
-
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def new_wallet():
-    cmd = "cd ~/ontology/node\n"
-    cmd += Config.NODE_ADDRESS + ' account add -d > ' + Config.ROOT_PATH + '/test_m/tmp'
-    # exec_cmd(cmd)#, show_output=False)
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, shell=True)
-    p.stdin.write(b'123456\n')
-    time.sleep(1)
-    p.stdin.write(b'123456\n') 
-    p.stdin.close()
-    time.sleep(1) 
-    p.terminate()
-    return 
-
-def shell_get_balance(index):
-    cmd = "cd ~/ontology/node\n"
-    cmd += Config.NODE_ADDRESS + " asset balance " + str(index) + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-    with open("tmp", "r+") as tmpfile:# 打开文件
-        contents = tmpfile.readlines()
-
-    for line in contents:
-        #for log
-        logger.print(line.strip('\n'))
-
-    for line in contents:
-        regroup = re.search(r'ONT:(([0-9])*)', line)
-        if regroup:
-            balance = regroup.group(1)
-
-    return int(balance)
-
-def shell_transfer(_from, _to, _amount, _gas_price=0):
-    cmd = "cd ~/ontology/node\n"
-    cmd += "echo 123456 | " + Config.NODE_ADDRESS + " asset transfer --from " + str(_from) + " --to " + str(_to) + " --amount " + str(_amount) + " --gasprice " + str(_gas_price) + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-    with open("tmp", "r+") as tmpfile:# 打开文件
-        contents = tmpfile.readlines()
-
-    return contents
-
-def change_alg(alg):
-    cmd = "cd ~/ontology/node\n"
-    cmd += "echo 123456 | " + Config.NODE_ADDRESS + " account set --signature-scheme " + alg + " 1 "
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-def new_wallet_a(alg):
-    cmd = "cd ~/ontology/node\n"
-    cmd += Config.NODE_ADDRESS + ' account add '
-    # exec_cmd(cmd)#, show_output=False)
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, shell=True)
-    p.stdin.write(b'2\n' if alg == 2 else b'3\n')
-    p.stdin.flush()
-    time.sleep(3)
-    p.stdin.write(b'123456\n')
-    p.stdin.flush()
-    time.sleep(3)
-    p.stdin.write(b'123456\n')
-    p.stdin.flush()
-    time.sleep(3) 
-    p.stdin.close()
-    p.terminate()
-    return 
-
-
-def test_31_():
-    result = True
-
-    try:
-        '''
-        new_wallet()
-
-        stop_node(node_index)
-        start_node(node_index, " --testmode --rest --localrpc --gasprice 0 --gaslimit 0 ", True, True)
-        
-        new_wallet()
-        shell_get_balance(1)
-        shell_get_balance(2)
-
-        for alg in ["SHA256withECDSA", "SHA224withECDSA", "SHA384withECDSA", "SHA512withECDSA", "SHA3-224withECDSA", "SHA3-256withECDSA", "SHA3-384withECDSA", "SHA3-512withECDSA", "RIPEMD160withECDSA"]:
-            print("changing... to alg ", alg)
-            time.sleep(2)
-            change_alg(alg)
-
-            balance1 = shell_get_balance(1)
-            shell_transfer(1, 2, 1)
-            time.sleep(8)
-            balance2 = shell_get_balance(1)
-            
-            if balance1 - balance2 != 1:
-                raise Error("alg " + alg + " transfer failed")
-        '''
-        new_wallet_a(2)
-        new_wallet_a(3)
-        
-        # A -> C
-        balance1 = shell_get_balance(1)
-        shell_transfer(1, 3, 1)
-        time.sleep(8)
-        balance2 = shell_get_balance(1)
-        
-        if balance1 - balance2 != 1:
-            raise Error("A transfer to C failed")
-
-        # C -> D
-        balance1 = shell_get_balance(3)
-        shell_transfer(3, 4, 1)
-        time.sleep(8)
-        balance2 = shell_get_balance(3)
-        
-        if balance1 - balance2 != 1:
-            raise Error("C transfer to D failed")
-
-        # D -> C
-        balance1 = shell_get_balance(4)
-        shell_transfer(4, 3, 1)
-        time.sleep(8)
-        balance2 = shell_get_balance(4)
-        
-        if balance1 - balance2 != 1:
-            raise Error("D transfer to C failed")
-
-        
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_32_():
-    result = True
-
-    try:    
-        cmd = "cd ~/ontology/node\n"
-        cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + '/test_m/ontWallet.keystore'
-        contents = exec_cmd(cmd)
-        for line in contents:
-            if "successfully" in line:
-                result = True
-                break
-            else:
-                raise Error("import from ontWallet.keystore failed")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_33_():
-    result = True
-
-    try:    
-        cmd = "cd ~/ontology/node\n"
-        cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + '/test_m/ontWallet_1.keystore'
-        contents = exec_cmd(cmd)
-        for line in contents:
-            if "successfully" in line:
-                raise Error("import from ontWallet.keystore_1 failed")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def test_34_():
-    result = True
-
-    try:    
-        cmd = "cd ~/ontology/node\n"
-        cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + '/test_m/ontWallet_2.keystore ' + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-        contents = exec_cmd(cmd)
-        for line in contents:
-            if "successfully" in line:
-                raise Error("import from ontWallet.keystore_1 failed")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
-
-def get_wallet(wallet_address):
-    with open(wallet_address, "rb") as wallet_file:
-	    wallet_json = json.loads(wallet_file.read().decode("utf-8"))
-
-    return wallet_json
-
-def import_from_wif_key(passwd=b"123456\n", _exist=False):
-    cmd = "cd ~/ontology/node\n"
-    cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + '/test_m/WIF-key.txt -wif'# + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, shell=True)
-    p.stdin.write(passwd)
-    p.stdin.flush()
-    time.sleep(3)
-    if _exist:
-        p.stdin.close()
-        p.terminate()
-        return 
-    p.stdin.write(passwd)
-    p.stdin.flush()
-    time.sleep(3) 
-    p.stdin.close()
-    p.terminate()
-    return 
-
-def test_35_():
-    result = True
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
-    address = "AFr9bdZxAZwuy1VGZUeE9rmXBUEykdskyk"
-
-    try:    
-        if os.path.exists(wallet_address1):
-            # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
-
-        #
-        import_from_wif_key()
-        if not os.path.exists(wallet_address1):
-            raise Error("wallet file not exists")
-
-        
-        wallet_json = get_wallet(wallet_address1)
-        if wallet_json["accounts"][0]["address"] != address:
-            raise Error("wallet address 0 is not correct")
-        
-        #
-        import_from_wif_key()
-        wallet_json = get_wallet(wallet_address1)
-        if wallet_json["accounts"][1]["address"] != address:
-            raise Error("wallet address 1 is not correct")
-        
-        #
-        import_from_wif_key(passwd = b"654321\n")
-        wallet_json = get_wallet(wallet_address1)
-        if wallet_json["accounts"][2]["address"] != address:
-            raise Error("wallet address 1 is not correct")
-        
-        #
-        print("removing wallet...")
-        os.remove(wallet_address1)
-        import_from_wif_key()
-        if not os.path.exists(wallet_address1):
-            raise Error("wallet file not exists")
-        
-        #
-        print("removing wallet...")
-        os.remove(wallet_address1)
-        import_from_wif_key(_exist = True)
-        if os.path.exists(wallet_address1):
-            raise Error("wallet file exists")
-        
-        # move back
-        shutil.move(wallet_address2, wallet_address1)
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, None)
