@@ -15,15 +15,15 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.contractapi import *
+from utils.api.contractapi import *
 from test_api import *
-from utils.rpcapi import *
-from utils.init_ong_ont import *
+from utils.api.rpcapi import *
+from utils.api.init_ong_ont import *
 from utils.config import Config
 
-from utils.commonapi import call_contract
+from utils.api.commonapi import call_contract
 
 logger = LoggerInstance
 

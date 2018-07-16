@@ -9,17 +9,17 @@ import sys
 import getopt
 
 sys.path.append('..')
-from utils.init_ong_ont import *
+from utils.api.init_ong_ont import *
 from utils.config import *
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.contractapi import *
+from utils.api.commonapi import *
+from utils.api.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.multi_sig import *
-from utils.rpcapi import *
+from utils.api.multi_sig import *
+from utils.api.rpcapi import *
 class Common:
 	AdminNum=5
 	AdminPublicKeyList=[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]

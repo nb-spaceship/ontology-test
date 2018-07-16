@@ -8,8 +8,8 @@ from utils.taskdata import TaskData, Task
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.commonapi import *
-from utils.contractapi import *
+from utils.api.commonapi import *
+from utils.api.contractapi import *
 from utils.logger import LoggerInstance
 import base58
 

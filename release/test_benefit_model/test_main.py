@@ -22,10 +22,10 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-from utils.commonapi import *
-from utils.rpcapi import RPCApi
-from utils.init_ong_ont import *
-from utils.contractapi import *
+from utils.api.commonapi import *
+from utils.api.rpcapi import RPCApi
+from utils.api.init_ong_ont import *
+from utils.api.contractapi import *
 from test_governance_api.test_api import nodeCountCheck
 logger = LoggerInstance
 

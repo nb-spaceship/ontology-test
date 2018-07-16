@@ -14,7 +14,7 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 
 ####################################################
@@ -32,7 +32,7 @@ class Test(ParametrizedTestCase):
 			
 				#step 2 确认区块生成并包含该交易
 				txHash = response["result"]["Hash"]
-				task2 = Task("../utils/baseapi/rpc/getblock.json")
+				task2 = Task("../utils/api/requests/rpc/getblock.json")
 				task2.data()["REQUEST"]["params"][0] = txHash
 				(result, response) = run_single_task(task2)
 				if not result:

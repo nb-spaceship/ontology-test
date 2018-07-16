@@ -22,7 +22,7 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_api import *
-from utils.contractapi import *
+from utils.api.contractapi import *
 
 def set_premise(neo_path):
     result = False

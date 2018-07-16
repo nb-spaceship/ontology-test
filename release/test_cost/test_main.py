@@ -16,9 +16,9 @@ from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.contractapi import *
-from utils.rpcapi import RPCApi
-from utils.commonapi import call_contract
+from utils.api.contractapi import *
+from utils.api.rpcapi import RPCApi
+from utils.api.commonapi import call_contract
 
 logger = LoggerInstance
 rpcapiTest=RPCApi()

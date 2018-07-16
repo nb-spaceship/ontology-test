@@ -15,10 +15,10 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_conf import testConfig
-from utils.multi_sig import *
+from utils.api.multi_sig import *
 
 class Common:
 	AdminNum=5
@@ -493,18 +493,18 @@ def invoke_function_consensus(pubKey):
     return multi_contract(Task(name="invoke_function_commitDpos", ijson=request),Common.AdminNum,Common.AdminPublicKeyList)
 
 def getbalance_ont(wallet_address):
-    getbalance = Task("../utils/baseapi/rpc/getbalance.json")
+    getbalance = Task("../utils/api/requests/rpc/getbalance.json")
     getbalance.data()["REQUEST"]["params"] = [wallet_address]
     (result, response) = run_single_task(getbalance, True, False)
     return int(response["result"]["ont"])
 
 def getblockcount():
-    getbalance = Task("../utils/baseapi/rpc/getblockcount.json")
+    getbalance = Task("../utils/api/requests/rpc/getblockcount.json")
     (result, response) = run_single_task(getbalance, True, False)
     return int(response["result"])
 
 def getMaxBlockChangeView():
-    getbalance = Task("../utils/baseapi/rpc/getstorage.json")
+    getbalance = Task("../utils/api/requests/rpc/getstorage.json")
     contract_address = "0200000000000000000000000000000000000000"
     key = "79626674436f6e666967"
     getbalance.data()["REQUEST"]["params"] = [contract_address, key]

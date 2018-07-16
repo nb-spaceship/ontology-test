@@ -17,9 +17,9 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.contractapi import *
+from utils.api.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.init_ong_ont import init_ont_ong
+from utils.api.init_ong_ont import init_ont_ong
     
 
 def init_admin(contract_address, admin_address, node_index = None):

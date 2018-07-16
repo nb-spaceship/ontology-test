@@ -174,7 +174,7 @@ class WebSocket():
 	def ws_heartbeat_thread(self, heartbeat_gap = 5):
 		while True:
 			time.sleep(heartbeat_gap)
-			self.LONG_LIVE_WS.send(json.dumps(Task("../utils/baseapi/ws/heartbeat.json").data()["REQUEST"]))
+			self.LONG_LIVE_WS.send(json.dumps(Task("../utils/api/requests/ws/heartbeat.json").data()["REQUEST"]))
 
 	def exec(self, heartbeat_gap = 5, message_cb = None):
 		t1 = threading.Thread(target=self.ws_thread, args=(message_cb,))

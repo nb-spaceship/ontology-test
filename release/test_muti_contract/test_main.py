@@ -21,9 +21,9 @@ from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.contractapi import *
-from utils.commonapi import *
-from utils.init_ong_ont import *
+from utils.api.contractapi import *
+from utils.api.commonapi import *
+from utils.api.init_ong_ont import *
 from test_api import *
 from test_common import *
 logger = LoggerInstance

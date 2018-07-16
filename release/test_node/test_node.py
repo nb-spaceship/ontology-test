@@ -22,8 +22,8 @@ from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 
-from utils.commonapi import *
-from utils.rpcapi import RPCApi
+from utils.api.commonapi import *
+from utils.api.rpcapi import RPCApi
 
 logger = LoggerInstance
 

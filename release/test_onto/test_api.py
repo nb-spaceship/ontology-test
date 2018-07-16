@@ -15,10 +15,10 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
+from utils.api.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
 from test_conf import testConfig
-from utils.multi_sig import *
+from utils.api.multi_sig import *
 
 class Common:
 	AdminNum=5

@@ -21,10 +21,10 @@ from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.commonapi import *
-from utils.rpcapi import *
-from utils.multi_sig import *
-from utils.init_ong_ont import *
+from utils.api.commonapi import *
+from utils.api.rpcapi import *
+from utils.api.multi_sig import *
+from utils.api.init_ong_ont import *
 
 NODE_PATH = "/home/ubuntu/ontology/node"
 
