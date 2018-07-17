@@ -125,6 +125,7 @@ def deploy_contract_full(neo_code_path, name = "name", desc = "this is desc", pr
 			p.terminate()
 			print("Error: execute " + cmd + " time out!")
 		time.sleep(0.1)
+	p.stdout.close()
 
 	tmpfile = open("tmp", "r+")  # 打开文件
 	contents = tmpfile.readlines()

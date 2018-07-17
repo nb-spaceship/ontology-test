@@ -58,6 +58,8 @@ class Config():
 	MULTI_SIGNED_ADDRESS = cfg_json["MULTI_SIGNED_ADDRESS"]
 	
 	INIT_AMOUNT_ONG = cfg_json["INIT_AMOUNT_ONG"]
+
+	NODE_ADDRESS = "/home/ubuntu/ontology/node/ontology"
 	
 #####################################################################################
 	ontid_map = {}

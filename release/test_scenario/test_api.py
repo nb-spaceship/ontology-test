@@ -25,21 +25,175 @@ from utils.api.commonapi import *
 from utils.api.rpcapi import *
 from utils.api.multi_sig import *
 from utils.api.init_ong_ont import *
+from utils.api.nativecontractapi import *
 
 NODE_PATH = "/home/ubuntu/ontology/node"
+WALLET_ADDRESS = NODE_PATH + "/wallet.dat"
+WALLET_ADDRESS_BP = NODE_PATH + "/wallet_bp.dat"
 
 TO_ADDRESS = Config.NODES[0]["address"]
-CONTRACT_ADDRESS = "./neo_1_194.cs"
+CONTRACT_ADDRESS = "./tasks/neo_1_194.cs"
 
-AVM_FILE_PATH = Config.ROOT_PATH + "/test_m/tmp.avm"
-get_avm(CONTRACT_ADDRESS).strip("b'")
+AVM_FILE_PATH = Config.ROOT_PATH + "/test_scenario/tmp.avm"
 
 rpcapi = RPCApi()
 
 logger = LoggerInstance
 
+def get_avm(contract_path, type="CSharp"):
+    URL = "http://139.219.97.24:8080/api/v1.0/compile"
+    with open(contract_path, "r") as f:
+        code = f.read()
+    try:
+        data = {"code": code, "type": type}
+        r = requests.post(URL, data=json.dumps(data))
+    except:
+        raise Error("Unable to load " + URL)
+
+    response_json = r.json()
+    if response_json["errcode"] == 0 and response_json["avm"]:
+        avm = response_json["avm"]
+        
+    else:
+        raise Error("Unable to get avm.")
+
+    logger.print(avm)
+
+    # write avm in file
+    with open(AVM_FILE_PATH, "w") as f:
+        f.write(avm.strip("b'"))
+        f.flush()
+    time.sleep(1)
+    
+    return 
+
+get_avm(CONTRACT_ADDRESS)
+
+def get_tx_state(tx_hash):
+    print("waiting for block generating......")
+    time.sleep(10)
+    cmd = Config.NODE_ADDRESS + " info status " + \
+        tx_hash + " > " + Config.ROOT_PATH + "/test_scenario/tmp"
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    print(cmd)
+    state = None
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+    with open("tmp", "r+") as tmpfile:  # 打开文件
+        contents = tmpfile.readlines()
+
+    for line in contents:
+        # for log
+        logger.print(line.strip('\n'))
+
+    for line in contents:
+        regroup = re.search(r'"State": (([0-9])*)', line)
+        if regroup:
+            state = regroup.group(1)
+    return int(state) if state else None
+
+
+def exec_cmd(cmd, show_output=True):
+    contents = None
+
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+    if show_output:
+        with open("tmp", "r+") as tmpfile:  # 打开文件
+            contents = tmpfile.readlines()
+
+        for line in contents:
+            # for log
+            logger.print(line.strip('\n'))
+    return contents
+
+
+def get_wallet(wallet_address):
+    with open(wallet_address, "rb") as wallet_file:
+        wallet_json = json.loads(wallet_file.read().decode("utf-8"))
+
+    return wallet_json
+
+def import_from_wif_key(passwd=b"123456\n", _exist=False):
+    cmd = "cd ~/ontology/node\n"
+    cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
+        '/test_scenario/tasks/WIF-key.txt -wif'  # + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT,
+                         stdin=subprocess.PIPE, shell=True)
+    p.stdin.write(passwd)
+    p.stdin.flush()
+    time.sleep(3)
+    if _exist:
+        p.stdin.close()
+        p.terminate()
+        return
+    p.stdin.write(passwd)
+    p.stdin.flush()
+    time.sleep(3)
+    p.stdin.close()
+    p.terminate()
+    return
+
+
+def shell_transfer(_from, _to, _amount, _gas_price=0):
+    cmd = "cd ~/ontology/node\n"
+    cmd += "echo 123456 | " + Config.NODE_ADDRESS + " asset transfer --from " + str(_from) + " --to " + str(
+        _to) + " --amount " + str(_amount) + " --gasprice " + str(_gas_price) + ' > ' + Config.ROOT_PATH + '/test_scenario/tmp'
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
+    with open("tmp", "r+") as tmpfile:  # 打开文件
+        contents = tmpfile.readlines()
+
+    return contents
+
+
+def change_alg(alg):
+    cmd = "cd ~/ontology/node\n"
+    cmd += "echo 123456 | " + Config.NODE_ADDRESS + \
+        " account set --signature-scheme " + alg + " 1 "
+    print(cmd)
+    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
+    begintime = time.time()
+    secondpass = 0
+    timeout = 2
+    while p.poll() is None:
+        secondpass = time.time() - begintime
+        if secondpass > timeout:
+            p.terminate()
+            print("Error: execute " + cmd + " time out!")
+        time.sleep(0.1)
+
 def set_gasprice_B(gasprice_B, node_counts=0):
-    cmd = Config.ROOT_PATH + "/test_m/main setglobalparam --globalgasprice " + \
+    cmd = Config.ROOT_PATH + "/test_scenario/tasks/main setglobalparam --globalgasprice " + \
         str(gasprice_B) + " --ip " + Config.NODES[0]["ip"] + " --txgasprice 10000"
     print(cmd)
     p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
@@ -81,10 +235,10 @@ def new_wallet(alg="default"):
     cmd = "cd ~/ontology/node\n"
     if alg == "default":
         cmd += Config.NODE_ADDRESS + ' account add -d > ' + \
-            Config.ROOT_PATH + '/test_m/tmp'
+            Config.ROOT_PATH + '/test_scenario/tmp'
     else:
         cmd += Config.NODE_ADDRESS + ' account add > ' + \
-            Config.ROOT_PATH + '/test_m/tmp'
+            Config.ROOT_PATH + '/test_scenario/tmp'
     print(cmd)
     p = subprocess.Popen(cmd, stderr=subprocess.STDOUT,
                          stdin=subprocess.PIPE, shell=True)
@@ -102,34 +256,6 @@ def new_wallet(alg="default"):
     p.stdin.close()
     p.terminate()
     return
-
-
-def get_avm(contract_path, type="CSharp"):
-    URL = "http://139.219.97.24:8080/api/v1.0/compile"
-    with open(contract_path, "r") as f:
-        code = f.read()
-    try:
-        data = {"code": code, "type": type}
-        r = requests.post(URL, data=json.dumps(data))
-    except:
-        raise Error("Unable to load " + URL)
-
-    response_json = r.json()
-    if response_json["errcode"] == 0 and response_json["avm"]:
-        avm = response_json["avm"]
-        
-    else:
-        raise Error("Unable to get avm.")
-
-    logger.print(avm)
-
-    # write avm in file
-    with open(AVM_FILE_PATH, "w") as f:
-        f.write(avm)
-        f.flush()
-    time.sleep(1)
-    
-    return 
 
 
 def transfer_neo(contract_address, pay_address, get_address, amount, node_index=0):
@@ -422,7 +548,7 @@ def test_01_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
             contract_address + \
             " --params string:Add,[int:1,int:1] > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -459,7 +585,7 @@ def test_02_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
             contract_address + \
             " --params string:Add,[int:1,int:1] -p> " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         for line in contents:
@@ -475,7 +601,7 @@ def test_02_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 1 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -517,15 +643,15 @@ def test_20_():
     try:
         cmd = "cd ~/ontology/node\n"
         cmd += 'echo "123456" |' + Config.NODE_ADDRESS + \
-            ' account list > ' + Config.ROOT_PATH + '/test_m/tmp'
+            ' account list > ' + Config.ROOT_PATH + '/test_scenario/tmp'
         exec_cmd(cmd)
 
-        for i in range(0, 10):
+        for i in range(10):
             new_wallet()
 
         cmd = "cd ~/ontology/node\n"
         cmd += 'echo "123456" |' + Config.NODE_ADDRESS + \
-            ' account list > ' + Config.ROOT_PATH + '/test_m/tmp'
+            ' account list > ' + Config.ROOT_PATH + '/test_scenario/tmp'
         exec_cmd(cmd)
 
     except Exception as e:
@@ -558,18 +684,7 @@ def test_23_():
     result = False
     tx_hash = None
     try:
-        restart_all_nodes()
-
-        init_ont_ong()
-        time.sleep(5)
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0, 1, 2, 3, 4, 5, 6, 7, 8])
-        print("start all")
-        start_nodes([0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    Config.DEFAULT_NODE_ARGS+" --gasprice 1000")
-        time.sleep(10)
+        restart_all_nodes(nodes=list(range(7)), gasprice=[1000 for i in range(7)])
 
         # deploy
         contract_address = deploy_contract(AVM_FILE_PATH, price=1000)
@@ -579,7 +694,7 @@ def test_23_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
             contract_address + \
             " --params string:Add,[int:1,int:1] > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -610,7 +725,7 @@ def test_24_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 301 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -641,7 +756,7 @@ def test_25_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 501 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -674,7 +789,7 @@ def test_26_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 800 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -708,7 +823,7 @@ def test_27_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 1001 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -742,7 +857,7 @@ def test_28_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 801 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -776,7 +891,7 @@ def test_29_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 801 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -799,25 +914,7 @@ def test_30_():
     result = False
     tx_hash = None
     try:
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0, 1, 2, 3, 4, 5, 6])
-        print("start all")
-        start_nodes([0, 1, 2, 3, 4, 5, 6],
-                    Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-
-        init_ont_ong()
-        time.sleep(5)
-
-        time.sleep(2)
-        print("stop all")
-        stop_nodes([0, 1, 2, 3, 4, 5, 6])
-        print("start all")
-        start_nodes([0, 1, 2, 3, 4, 5, 6],
-                    Config.DEFAULT_NODE_ARGS+" --gasprice 600")
-        time.sleep(10)
+        restart_all_nodes(nodes=list(range(7)), gasprice=[600 for i in range(7)])
 
         set_gasprice_B(800)
 
@@ -828,7 +925,7 @@ def test_30_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 700 > " + \
-            Config.ROOT_PATH + "/test_m/tmp"
+            Config.ROOT_PATH + "/test_scenario/tmp"
         contents = exec_cmd(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
@@ -846,137 +943,67 @@ def test_30_():
 
     return (result, None)
 
-
-
-
-
-def shell_get_balance(index):
-    cmd = "cd ~/ontology/node\n"
-    cmd += Config.NODE_ADDRESS + " asset balance " + \
-        str(index) + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-    with open("tmp", "r+") as tmpfile:  # 打开文件
-        contents = tmpfile.readlines()
-
-    for line in contents:
-        # for log
-        logger.print(line.strip('\n'))
-
-    for line in contents:
-        regroup = re.search(r'ONT:(([0-9])*)', line)
-        if regroup:
-            balance = regroup.group(1)
-
-    return int(balance)
-
-
-def shell_transfer(_from, _to, _amount, _gas_price=0):
-    cmd = "cd ~/ontology/node\n"
-    cmd += "echo 123456 | " + Config.NODE_ADDRESS + " asset transfer --from " + str(_from) + " --to " + str(
-        _to) + " --amount " + str(_amount) + " --gasprice " + str(_gas_price) + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-    with open("tmp", "r+") as tmpfile:  # 打开文件
-        contents = tmpfile.readlines()
-
-    return contents
-
-
-def change_alg(alg):
-    cmd = "cd ~/ontology/node\n"
-    cmd += "echo 123456 | " + Config.NODE_ADDRESS + \
-        " account set --signature-scheme " + alg + " 1 "
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
-
-
-
-
-
 def test_31_():
     result = True
-
     try:
-        '''
+        if os.path.exists(WALLET_ADDRESS):
+            # back up pre-wallet
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         new_wallet()
+            
 
         stop_node(node_index)
         start_node(node_index, " --testmode --rest --localrpc --gasprice 0 --gaslimit 0 ", True, True)
 
         new_wallet()
-        shell_get_balance(1)
-        shell_get_balance(2)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][2]["address"])
 
         for alg in ["SHA256withECDSA", "SHA224withECDSA", "SHA384withECDSA", "SHA512withECDSA", "SHA3-224withECDSA", "SHA3-256withECDSA", "SHA3-384withECDSA", "SHA3-512withECDSA", "RIPEMD160withECDSA"]:
             print("changing... to alg ", alg)
             time.sleep(2)
             change_alg(alg)
 
-            balance1 = shell_get_balance(1)
+            get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
             shell_transfer(1, 2, 1)
-            time.sleep(8)
-            balance2 = shell_get_balance(1)
+            time.sleep(10)
+            get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
 
             if balance1 - balance2 != 1:
                 raise Error("alg " + alg + " transfer failed")
-        '''
+        
         new_wallet(alg="SM2")
         new_wallet(alg="Ed25519")
 
         # A -> C
-        balance1 = shell_get_balance(1)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
         shell_transfer(1, 3, 1)
         time.sleep(8)
-        balance2 = shell_get_balance(1)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
 
         if balance1 - balance2 != 1:
             raise Error("A transfer to C failed")
 
         # C -> D
-        balance1 = shell_get_balance(3)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][3]["address"])
         shell_transfer(3, 4, 1)
         time.sleep(8)
-        balance2 = shell_get_balance(3)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][3]["address"])
 
         if balance1 - balance2 != 1:
             raise Error("C transfer to D failed")
 
         # D -> C
-        balance1 = shell_get_balance(4)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][4]["address"])
         shell_transfer(4, 3, 1)
         time.sleep(8)
-        balance2 = shell_get_balance(4)
+        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][4]["address"])
 
         if balance1 - balance2 != 1:
             raise Error("D transfer to C failed")
+
+        # move back
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -991,7 +1018,7 @@ def test_32_():
     try:
         cmd = "cd ~/ontology/node\n"
         cmd += Config.NODE_ADDRESS + " account import --source " + \
-            Config.ROOT_PATH + '/test_m/ontWallet.keystore'
+            Config.ROOT_PATH + '/test_scenario/tasks/ontWallet.keystore'
         contents = exec_cmd(cmd)
         for line in contents:
             if "successfully" in line:
@@ -1013,7 +1040,7 @@ def test_33_():
     try:
         cmd = "cd ~/ontology/node\n"
         cmd += Config.NODE_ADDRESS + " account import --source " + \
-            Config.ROOT_PATH + '/test_m/ontWallet_1.keystore'
+            Config.ROOT_PATH + '/test_scenario/tasks/ontWallet_1.keystore'
         contents = exec_cmd(cmd)
         for line in contents:
             if "successfully" in line:
@@ -1032,7 +1059,7 @@ def test_34_():
     try:
         cmd = "cd ~/ontology/node\n"
         cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
-            '/test_m/ontWallet_2.keystore ' + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+            '/test_scenario/tasks/ontWallet_2.keystore ' + ' > ' + Config.ROOT_PATH + '/test_scenario/tmp'
         contents = exec_cmd(cmd)
         for line in contents:
             if "successfully" in line:
@@ -1045,89 +1072,96 @@ def test_34_():
     return (result, None)
 
 
-def get_wallet(wallet_address):
-    with open(wallet_address, "rb") as wallet_file:
-        wallet_json = json.loads(wallet_file.read().decode("utf-8"))
-
-    return wallet_json
-
-
-def import_from_wif_key(passwd=b"123456\n", _exist=False):
-    cmd = "cd ~/ontology/node\n"
-    cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
-        '/test_m/WIF-key.txt -wif'  # + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT,
-                         stdin=subprocess.PIPE, shell=True)
-    p.stdin.write(passwd)
-    p.stdin.flush()
-    time.sleep(3)
-    if _exist:
-        p.stdin.close()
-        p.terminate()
-        return
-    p.stdin.write(passwd)
-    p.stdin.flush()
-    time.sleep(3)
-    p.stdin.close()
-    p.terminate()
-    return
-
-
 def test_35_():
     result = True
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     address = "AFr9bdZxAZwuy1VGZUeE9rmXBUEykdskyk"
 
     try:
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
 
         #
         import_from_wif_key()
-        if not os.path.exists(wallet_address1):
+        if not os.path.exists(WALLET_ADDRESS):
             raise Error("wallet file not exists")
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
         if wallet_json["accounts"][0]["address"] != address:
             raise Error("wallet address 0 is not correct")
 
         #
         import_from_wif_key()
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
         if wallet_json["accounts"][1]["address"] != address:
             raise Error("wallet address 1 is not correct")
 
         #
         import_from_wif_key(passwd=b"654321\n")
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
         if wallet_json["accounts"][2]["address"] != address:
             raise Error("wallet address 1 is not correct")
 
         #
         print("removing wallet...")
-        os.remove(wallet_address1)
+        os.remove(WALLET_ADDRESS)
         import_from_wif_key()
-        if not os.path.exists(wallet_address1):
+        if not os.path.exists(WALLET_ADDRESS):
             raise Error("wallet file not exists")
 
         #
         print("removing wallet...")
-        os.remove(wallet_address1)
+        os.remove(WALLET_ADDRESS)
         import_from_wif_key(_exist=True)
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             raise Error("wallet file exists")
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
         result = False
 
     return (result, None)
+
+def test_37_(node_index):
+    MultiSigAddress = get_multi_sig_address(2)
+    amount1 = "100"
+    amount2 = "50"
+    to_address = TO_ADDRESS
+    sig_times1 = 3
+    sig_times2 = 2
+    node_index = 0
+    all_address = get_all_pubkey()[0]
+    wallet_address = get_all_pubkey()[1]
+    print(wallet_address[0:3])
+
+    try:
+        balance1 = get_balance_ont(MultiSigAddress)
+        stop_sigsvr(node_index)
+        start_sigsvr(NODE_PATH + "/wallet.dat", node_index)
+        time.sleep(2)
+        native_transfer_ont(
+            Config.NODES[0]["address"], MultiSigAddress, amount1, 0)
+        time.sleep(5)
+        balance2 = get_balance_ont(MultiSigAddress)
+
+        if balance2 - balance1 != int(amount1):
+            raise Error("transfer to address [" + MultiSigAddress + "] failed")
+
+        (result, response) = multi_sig_transfer(MultiSigAddress, to_address,
+                                                amount2, 0, sig_times1, all_address[0:3], wallet_address[0:3])
+        time.sleep(10)
+        balance3 = get_balance_ont(MultiSigAddress)
+        if balance2 - balance3 != int(amount2):
+            raise Error("transfer to address [" + to_address + "] failed")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, response)
 
 
 def test_41_():
@@ -1176,97 +1210,6 @@ def test_41_():
 
     return (result, response)
 
-
-def test_61_():
-    MultiSigAddress = get_multi_sig_address(1)
-    all_address = get_all_pubkey()[0]
-    wallet_address = get_all_pubkey()[1]
-    amount1 = "100"
-    amount2 = "50"
-    to_address = TO_ADDRESS
-    sig_times1 = 16
-    sig_times2 = 15
-    node_index = 0
-
-    try:
-        balance1 = get_balance_ont(MultiSigAddress)
-        stop_sigsvr(node_index)
-        start_sigsvr(NODE_PATH + "/wallet.dat", node_index)
-        time.sleep(2)
-        native_transfer_ont(
-            Config.NODES[0]["address"], MultiSigAddress, amount1, 0)
-        time.sleep(5)
-        balance2 = get_balance_ont(MultiSigAddress)
-
-        if balance2 - balance1 != int(amount1):
-            raise Error("transfer to address [" + MultiSigAddress + "] failed")
-
-        (result, response) = multi_sig_transfer(MultiSigAddress, to_address,
-                                                amount2, 0, sig_times1, all_address[16:32], wallet_address[16:32])
-        time.sleep(10)
-        balance3 = get_balance_ont(MultiSigAddress)
-        if balance2 - balance3 != int(amount2):
-            raise Error("transfer to address [" + to_address + "] failed")
-
-        (result, response) = multi_sig_transfer(MultiSigAddress, to_address,
-                                                amount2, 0, sig_times2, all_address[16:32], wallet_address[16:32])
-        time.sleep(10)
-        balance4 = get_balance_ont(MultiSigAddress)
-        if balance4 - balance3 == int(amount2):
-            raise Error("transfer to address [" + to_address + "] failed")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, response)
-
-
-def test_62_():
-    MultiSigAddress = get_multi_sig_address(2)
-    all_address = get_all_pubkey()[0]
-    wallet_address = get_all_pubkey()[1]
-    amount1 = "100"
-    amount2 = "50"
-    to_address = TO_ADDRESS
-    sig_times1 = 3
-    sig_times2 = 2
-    node_index = 0
-
-    try:
-        balance1 = get_balance_ont(MultiSigAddress)
-        stop_sigsvr(node_index)
-        start_sigsvr(NODE_PATH + "/wallet.dat", node_index)
-        time.sleep(2)
-        native_transfer_ont(
-            Config.NODES[0]["address"], MultiSigAddress, amount1, 0)
-        time.sleep(5)
-        balance2 = get_balance_ont(MultiSigAddress)
-
-        if balance2 - balance1 != int(amount1):
-            raise Error("transfer to address [" + MultiSigAddress + "] failed")
-
-        (result, response) = multi_sig_transfer(MultiSigAddress,
-                                                to_address, amount2, 0, sig_times1, all_address, wallet_address)
-        time.sleep(10)
-        balance3 = get_balance_ont(MultiSigAddress)
-        if balance2 - balance3 != int(amount2):
-            raise Error("transfer to address [" + to_address + "] failed")
-
-        (result, response) = multi_sig_transfer(MultiSigAddress,
-                                                to_address, amount2, 0, sig_times2, all_address, wallet_address)
-        time.sleep(10)
-        balance4 = get_balance_ont(MultiSigAddress)
-        if balance4 - balance3 == int(amount2):
-            raise Error("transfer to address [" + to_address + "] failed")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, response)
-
-
 def test_42_(node_index):
     wallets_path = "/home/ubuntu/ontology/node/wallets"
     list_dir = os.listdir(wallets_path)
@@ -1313,7 +1256,6 @@ def test_43_(node_index):
     wallets_path = "/home/ubuntu/ontology/node/wallets"
     list_dir = os.listdir(wallets_path)
     amount = "1"
-
     contract_address = deploy_contract("ont_neo.json")
 
     try:
@@ -1335,7 +1277,7 @@ def test_43_(node_index):
 
                 (result, response) = transfer_neo(contract_address,
                                                   address, Config.NODES[0]["address"], amount)
-                time.sleep(3)
+                time.sleep(5)
 
                 # after transfer get balance
                 balance2 = get_balance_ont(address)
@@ -1351,74 +1293,6 @@ def test_43_(node_index):
         result = False
 
     return (result, response)
-
-
-def test_37_(node_index):
-    MultiSigAddress = get_multi_sig_address(2)
-    amount1 = "100"
-    amount2 = "50"
-    to_address = TO_ADDRESS
-    sig_times1 = 3
-    sig_times2 = 2
-    node_index = 0
-    all_address = get_all_pubkey()[0]
-    wallet_address = get_all_pubkey()[1]
-    print(wallet_address[0:3])
-
-    try:
-        balance1 = get_balance_ont(MultiSigAddress)
-        stop_sigsvr(node_index)
-        start_sigsvr(NODE_PATH + "/wallet.dat", node_index)
-        time.sleep(2)
-        native_transfer_ont(
-            Config.NODES[0]["address"], MultiSigAddress, amount1, 0)
-        time.sleep(5)
-        balance2 = get_balance_ont(MultiSigAddress)
-
-        if balance2 - balance1 != int(amount1):
-            raise Error("transfer to address [" + MultiSigAddress + "] failed")
-
-        (result, response) = multi_sig_transfer(MultiSigAddress, to_address,
-                                                amount2, 0, sig_times1, all_address[0:3], wallet_address[0:3])
-        time.sleep(10)
-        balance3 = get_balance_ont(MultiSigAddress)
-        if balance2 - balance3 != int(amount2):
-            raise Error("transfer to address [" + to_address + "] failed")
-
-    except Exception as e:
-        logger.print(e.msg)
-        result = False
-
-    return (result, response)
-
-
-def native_transfer_ont(pay_address, get_address, amount, node_index=0, errorcode=0, gas_price=0):
-    request = {
-        "REQUEST": {
-            "Qid": "t",
-            "Method": "signativeinvoketx",
-            "Params": {
-                "gas_price": gas_price,
-                "gas_limit": 1000000000,
-                "address": "0100000000000000000000000000000000000000",
-                "method": "transfer",
-                "version": 1,
-                "params": [
-                    [
-                        [
-                            pay_address,
-                            get_address,
-                            amount
-                        ]
-                    ]
-                ]
-            }
-        },
-        "RESPONSE": {"error": errorcode},
-        "NODE_INDEX": node_index
-    }
-    return call_contract(Task(name="transfer", ijson=request), twice=True)
-
 
 def test_40_():
     try:
@@ -1445,9 +1319,6 @@ def test_44_():
         result = False
 
     return (result, None)
-
-
-
 
 
 def test_45_():
@@ -1544,18 +1415,16 @@ def test_48_():
 
 
 def test_49_():
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     try:
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         time.sleep(2)
 
         new_wallet()
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
 
         # restart node with new wallet
         stop_node(node_index)
@@ -1578,7 +1447,7 @@ def test_49_():
         result = True if state == 0 else False
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -1588,19 +1457,17 @@ def test_49_():
 
 
 def test_50_():
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     try:
 
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         time.sleep(2)
 
         new_wallet()
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
 
         # restart node with new wallet
         stop_node(node_index)
@@ -1622,7 +1489,7 @@ def test_50_():
         result = True if state == 0 else False
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -1632,21 +1499,19 @@ def test_50_():
 
 
 def test_51_():
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     amount1 = 10000
     amount2 = 100000
     try:
 
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         time.sleep(2)
 
         new_wallet()
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
 
         balance1 = get_balance_ont(Config.NODES[0]["address"])
         native_transfer_ont(
@@ -1676,7 +1541,7 @@ def test_51_():
         result = True if state == 0 else False
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -1686,22 +1551,20 @@ def test_51_():
 
 
 def test_52_():
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     amount1 = 10000
     amount2 = 10
     result = True
     try:
 
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         time.sleep(2)
 
         new_wallet()
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
 
         balance1 = get_balance_ont(wallet_json["accounts"][0]["address"])
         native_transfer_ont(
@@ -1726,7 +1589,7 @@ def test_52_():
             raise Error("balance is not right")
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -1736,22 +1599,20 @@ def test_52_():
 
 
 def test_53_():
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     amount1 = 10000
     amount2 = 10
     result = True
     try:
 
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         time.sleep(2)
 
         new_wallet()
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
 
         balance1 = get_balance_ont(wallet_json["accounts"][0]["address"])
         native_transfer_ont(
@@ -1776,7 +1637,7 @@ def test_53_():
             raise Error("balance is not right")
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -1786,21 +1647,19 @@ def test_53_():
 
 
 def test_54_():
-    wallet_address1 = "/home/ubuntu/ontology/node/wallet.dat"
-    wallet_address2 = "/home/ubuntu/ontology/node/wallet_bp.dat"
     node_index = 0
     amount1 = 10000
     result = True
     try:
 
-        if os.path.exists(wallet_address1):
+        if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
-            shutil.move(wallet_address1, wallet_address2)
+            shutil.move(WALLET_ADDRESS, WALLET_ADDRESS_BP)
         time.sleep(2)
 
         new_wallet()
 
-        wallet_json = get_wallet(wallet_address1)
+        wallet_json = get_wallet(WALLET_ADDRESS)
 
         # restart node with new wallet
         stop_node(node_index)
@@ -1811,7 +1670,7 @@ def test_54_():
             Config.NODES[1]["address"], Config.NODES[0]["address"], str(amount1))
 
         # move back
-        shutil.move(wallet_address2, wallet_address1)
+        shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
     except Exception as e:
         logger.print(e.msg)
@@ -1887,98 +1746,93 @@ def test_60_():
 
     return (result, response)
 
+def test_61_():
+    MultiSigAddress = get_multi_sig_address(1)
+    all_address = get_all_pubkey()[0]
+    wallet_address = get_all_pubkey()[1]
+    amount1 = "100"
+    amount2 = "50"
+    to_address = TO_ADDRESS
+    sig_times1 = 16
+    sig_times2 = 15
+    node_index = 0
 
-def invoke_function_add(contract_address, node_index=None):
-    request = {
-        "REQUEST": {
-            "Qid": "t",
-            "Method": "signeovminvoketx",
-            "Params": {
-                "gas_price": 0,
-                "gas_limit": 1000000000,
-                "address": contract_address,
-                "version": 0,
-                "params": [
-                    {
-                        "type": "string",
-                        "value": "Add"
-                    },
-                    {
-                        "type": "array",
-                        "value": [
-                            {
-                                "type": "int",
-                                "value": "1"
-                            },
-                            {
-                                "type": "int",
-                                "value": "1"
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "RESPONSE": {}
-    }
+    try:
+        balance1 = get_balance_ont(MultiSigAddress)
+        stop_sigsvr(node_index)
+        start_sigsvr(NODE_PATH + "/wallet.dat", node_index)
+        time.sleep(2)
+        native_transfer_ont(
+            Config.NODES[0]["address"], MultiSigAddress, amount1, 0)
+        time.sleep(5)
+        balance2 = get_balance_ont(MultiSigAddress)
 
-    return call_contract(Task(name="init_admin", ijson=request), twice=True)
+        if balance2 - balance1 != int(amount1):
+            raise Error("transfer to address [" + MultiSigAddress + "] failed")
 
+        (result, response) = multi_sig_transfer(MultiSigAddress, to_address,
+                                                amount2, 0, sig_times1, all_address[16:32], wallet_address[16:32])
+        time.sleep(10)
+        balance3 = get_balance_ont(MultiSigAddress)
+        if balance2 - balance3 != int(amount2):
+            raise Error("transfer to address [" + to_address + "] failed")
 
-def get_tx_state(tx_hash):
-    print("waiting for block generating......")
-    time.sleep(10)
-    cmd = Config.NODE_ADDRESS + " info status " + \
-        tx_hash + " > " + Config.ROOT_PATH + "/test_m/tmp"
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    print(cmd)
-    state = None
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
+        (result, response) = multi_sig_transfer(MultiSigAddress, to_address,
+                                                amount2, 0, sig_times2, all_address[16:32], wallet_address[16:32])
+        time.sleep(10)
+        balance4 = get_balance_ont(MultiSigAddress)
+        if balance4 - balance3 == int(amount2):
+            raise Error("transfer to address [" + to_address + "] failed")
 
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
 
-    with open("tmp", "r+") as tmpfile:  # 打开文件
-        contents = tmpfile.readlines()
-
-    for line in contents:
-        # for log
-        logger.print(line.strip('\n'))
-
-    for line in contents:
-        regroup = re.search(r'"State": (([0-9])*)', line)
-        if regroup:
-            state = regroup.group(1)
-    return int(state) if state else None
+    return (result, response)
 
 
-def exec_cmd(cmd, show_output=True):
-    contents = None
+def test_62_():
+    MultiSigAddress = get_multi_sig_address(2)
+    all_address = get_all_pubkey()[0]
+    wallet_address = get_all_pubkey()[1]
+    amount1 = "100"
+    amount2 = "50"
+    to_address = TO_ADDRESS
+    sig_times1 = 3
+    sig_times2 = 2
+    node_index = 0
 
-    print(cmd)
-    p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, shell=True)
-    begintime = time.time()
-    secondpass = 0
-    timeout = 2
-    while p.poll() is None:
-        secondpass = time.time() - begintime
-        if secondpass > timeout:
-            p.terminate()
-            print("Error: execute " + cmd + " time out!")
-        time.sleep(0.1)
+    try:
+        balance1 = get_balance_ont(MultiSigAddress)
+        stop_sigsvr(node_index)
+        start_sigsvr(NODE_PATH + "/wallet.dat", node_index)
+        time.sleep(2)
+        native_transfer_ont(
+            Config.NODES[0]["address"], MultiSigAddress, amount1, 0)
+        time.sleep(5)
+        balance2 = get_balance_ont(MultiSigAddress)
 
-    if show_output:
-        with open("tmp", "r+") as tmpfile:  # 打开文件
-            contents = tmpfile.readlines()
+        if balance2 - balance1 != int(amount1):
+            raise Error("transfer to address [" + MultiSigAddress + "] failed")
 
-        for line in contents:
-            # for log
-            logger.print(line.strip('\n'))
-    return contents
+        (result, response) = multi_sig_transfer(MultiSigAddress,
+                                                to_address, amount2, 0, sig_times1, all_address, wallet_address)
+        time.sleep(10)
+        balance3 = get_balance_ont(MultiSigAddress)
+        if balance2 - balance3 != int(amount2):
+            raise Error("transfer to address [" + to_address + "] failed")
+
+        (result, response) = multi_sig_transfer(MultiSigAddress,
+                                                to_address, amount2, 0, sig_times2, all_address, wallet_address)
+        time.sleep(10)
+        balance4 = get_balance_ont(MultiSigAddress)
+        if balance4 - balance3 == int(amount2):
+            raise Error("transfer to address [" + to_address + "] failed")
+
+    except Exception as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, response)
+
 
