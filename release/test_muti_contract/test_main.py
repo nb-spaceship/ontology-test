@@ -24,7 +24,6 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.api.contractapi import *
 from utils.api.commonapi import *
 from utils.api.init_ong_ont import *
-from test_api import *
 from test_common import *
 logger = LoggerInstance
 
