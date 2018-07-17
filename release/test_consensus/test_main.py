@@ -327,27 +327,27 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 		log_path = "30_consensus.log"
 		task_name = "30_consensus"
 		self.start(log_path)
-		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
-		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_C, "100000000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "1000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_C, "1000")
 		self.finish(task_name, log_path, result,  "")
 
 	def test_31_consensus(self):
 		log_path = "31_consensus.log"
 		task_name = "31_consensus"
 		self.start(log_path)
-		(result, response) = approve_31(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
-		(result, response) = approve_31(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
-		(result, response) = allowance(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
-		(result, response) = allowance(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
+		(result, response) = approve_31(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "1000")
+		(result, response) = approve_31(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "1000")
+		(result, response) = allowance(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "1000")
+		(result, response) = allowance(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "1000")
 		self.finish(task_name, log_path, result,  "")
 
 	def test_32_consensus(self):
 		log_path = "32_consensus.log"
 		task_name = "32_consensus"
 		self.start(log_path)
-		(result, response) = approve_32(self.CONTRACT_ADDRESS, self.ADDRESS_C, self.ADDRESS_B, "100000000")
-		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "100000000")
-		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_C, "100000000")
+		(result, response) = approve_32(self.CONTRACT_ADDRESS, self.ADDRESS_C, self.ADDRESS_B, "1000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_B, "1000")
+		(result, response) = transfer_19(self.CONTRACT_ADDRESS, self.ADDRESS_A, self.ADDRESS_C, "1000")
 		(result, response) = allowance_32(self.ADDRESS_A, self.ADDRESS_A)
 		self.finish(task_name, log_path, result,  "")
 		
