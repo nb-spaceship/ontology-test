@@ -261,6 +261,18 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 		
 		start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 		time.sleep(3)
+
+	def start(self, log_path):
+		logger.open(log_path)
+
+	def finish(self, task_name, log_path, result, msg):
+		if result:
+			logger.print("[ OK       ] ")
+			logger.append_record(task_name, "pass", log_path)
+		else:
+			logger.print("[ Failed   ] " + msg)
+			logger.append_record(task_name, "fail", log_path)
+		logger.close()
 	
 	def test_19_consensus(self):
 		log_path = "19_consensus.log"
