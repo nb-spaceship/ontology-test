@@ -553,6 +553,21 @@ def withdrawong(index):
 
 	return response
 
+def exec_cmd(cmd, index):
+	request = {
+		"method": "exec_cmd",
+		"jsonrpc": "2.0",
+		"id": 0,
+		"params" : {
+			"cmd":cmd
+		}
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
 def script_hash_bl_reserver(input):
 	if input == None:
 		return ""
@@ -583,3 +598,32 @@ def base58_to_address(input):
 	tmpfile.close()
 	return address
 #check_node_state([0,1,2,3,4,5,6])
+
+def stop_sigsvr(index):
+	print("stop sig_server: " + str(index))
+	request = {
+		"method": "stop_sigsvr",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def start_sigsvr(wallet, index):
+	print("start sig_server: " + str(index))
+	request = {
+		"method": "start_sigsvr",
+		"jsonrpc": "2.0",
+		"id": 0,
+		"params":{
+			"wallet" : wallet
+		}
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response

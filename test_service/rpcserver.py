@@ -206,6 +206,22 @@ def exec_cmd(**kwargs):
   os.system(cmd)
   return True
 
+@dispatcher.add_method
+def stop_sigsvr(**kwargs):
+  os.popen("killall -9 sigsvr-linux")
+  return True
+
+@dispatcher.add_method
+def start_sigsvr(**kwargs):
+  program_name = "sigsvr-linux"
+  if "wallet" in kwargs:
+    wallet = kwargs["wallet"]
+  cmd = "cd " + config.NODE_PATH + "\n"
+  cmd = cmd + "echo 123456|" + config.NODE_PATH + "/" + program_name + " -w=\"" + wallet + "\" &"
+  print(cmd)
+  os.system(cmd)
+  return True
+
 @Request.application
 def application(request):
     # Dispatcher is dictionary {<method_name>: callable}
@@ -219,6 +235,9 @@ def application(request):
     dispatcher["transfer"] = transfer_ont
     dispatcher["transfer_ong"] = transfer_ong
     dispatcher["withdrawong"] = withdrawong
+    dispatcher["exec_cmd"] = exec_cmd
+    dispatcher["start_sigsvr"] = start_sigsvr
+    dispatcher["stop_sigsvr"] = stop_sigsvr
 
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
