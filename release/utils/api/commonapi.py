@@ -189,7 +189,7 @@ def call_signed_contract(signed_tx, pre = True, node_index = None):
 
 	sendrawtxtask.data()["RESPONSE"] = response
 
-	if not response is None and ("result" in response and "Result" in response["result"]):
+	if not response is None and ("result" in response and "Result" in response["result"]) and not isinstance(response["result"]["Result"], list):
 		response["result"]["Result String"] = HexToByte(response["result"]["Result"]).decode('iso-8859-1')
 
 	logger.print("[ CALL CONTRACT ] " + json.dumps(sendrawtxtask.data(), indent = 4))

@@ -450,11 +450,11 @@ namespace Neo.SmartContract
             return attr;
         }
 
-        public static byte[] GetTransactionAttribute_Data(byte[] txid,int index)
+        public static TransactionAttribute[] GetTransactionAttribute_Data(byte[] txid,int index)
         {
             Transaction tran = Blockchain.GetTransaction(txid);
             TransactionAttribute[] attr = tran.GetAttributes(); 
-            return attr[index].Data;
+            return attr;
         }
 
         public static byte GetTransaction_Type(byte[] txid)
