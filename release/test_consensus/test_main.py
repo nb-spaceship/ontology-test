@@ -97,7 +97,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 				raise Error("invoke_function put error...")
 			
 			(result, response) = invoke_function(self.m_contract_addr, "get", "", "1", argvs = [{"type": "bytearray","value": storage_key}], node_index = self.m_current_node)
-			if not result or response["result"]["Result"] == storage_value:
+			if not result or response["result"]["Result"] != storage_value:
 				raise Error("invoke_function get error...")
 			
 		except Exception as e:
@@ -173,7 +173,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 				raise Error("invoke_function put error...")
 			
 			(result, response) = invoke_function(self.m_contract_addr, "get", "", "1", argvs = [{"type": "bytearray","value": storage_key}], node_index = self.m_current_node)
-			if not result or response["result"]["Result"] == storage_value:
+			if not result or response["result"]["Result"] != storage_value:
 				raise Error("invoke_function get error...")
 			
 		except Exception as e:
@@ -218,7 +218,7 @@ class TestConsensus_1_9__19_32(ParametrizedTestCase):
 			(result, response) = transfer(self.m_contract_addr, Config.NODES[self.m_current_node]["address"], Config.NODES[1]["address"], self.AMOUNT, self.m_current_node)
 			if not result:
 				raise Error("transfer error...")
-			
+			time.sleep(30)
 			(result, response) = RPCApi().getblockheightbytxhash(response["txhash"])
 			if not result:
 				raise Error("not a valid block...")
