@@ -29,131 +29,134 @@ logger = LoggerInstance
 
 ####################################################
 #test cases
-class TestNeoAPI(ParametrizedTestCase):
-	
-	def setUp(self):
-		
+class TestNeoAPI_WITHOUT_RESTART(ParametrizedTestCase):
+	@classmethod
+	def setUpClass(cls):
 		time.sleep(2)
 		print("stop all")
 		stop_all_nodes()
 		print("start all")
 		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(20)
+		time.sleep(10)
+
+		(cls.contract_addr, cls.contract_tx_hash) = deploy_contract_full("./tasks/neo_1_194.neo")
+		cls.contract_tx_hash_1 = "1221"
+		time.sleep(60)
+
+		for i in range(3):
+			block_with_no_tx = get_block_with_no_tx(cls.contract_addr)
+			if block_with_no_tx:
+				break
+			time.sleep(30)
 		
-		(self.contract_addr, self.contract_tx_hash) = deploy_contract_full("./tasks/neo_1_194.neo")
-		(self.contract_addr_1, self.contract_tx_hash_1) = deploy_contract_full("./tasks/neo_1_194.neo", price=1000000000)
-		
-		#time.sleep(20)
-		self.block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
-		self.block_hash = script_hash_bl_reserver(rpcApi.getblockhash(self.block_height - 1)[1]["result"])
-		self.CONTRACT_ADDRESS = self.contract_addr
+		cls.block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
+		cls.block_hash = script_hash_bl_reserver(rpcApi.getblockhash(cls.block_height - 1)[1]["result"])
+		cls.CONTRACT_ADDRESS = cls.contract_addr
 
-		self.PUBLICKEY =Config.NODES[0]["pubkey"]
-		self.PUBLICKEY1 =Config.NODES[7]["pubkey"]
-
-		time.sleep(5)
-
-		self.BLOCK_HEIGHT_WITH_TX = str(rpcApi.getblockheightbytxhash(tx_hash=self.contract_tx_hash)[1]["result"])
-		self.BLOCK_HEIGHT_WITHOUT_TX = str(rpcApi.getblockheightbytxhash(tx_hash=self.contract_tx_hash)[1]["result"]+1)
-		time.sleep(5)
-		self.HEIGHT_CORRECT = str(self.block_height)
-		self.HEIGHT_BORDER_BOTTON = "0"
-		self.HEIGHT_BORDER_TOP = "4294967291"
-		self.HEIGHT_INCORRECT_1 = "-1"
-		self.HEIGHT_INCORRECT_2 = str(self.block_height + 1000)
-		self.HEIGHT_INCORRECT_3 = "abc"
-		self.HEIGHT_INCORRECT_4 = ""
-
-		self.BLOCK_HASH_CORRECT = self.block_hash
-		self.BLOCK_HASH_INCORRECT_1 = "" # NULL
-		self.BLOCK_HASH_INCORRECT_2 = self.block_hash[:-2] # HASH NOT EXISTENT
-		self.BLOCK_HASH_INCORRECT_3 = self.block_hash + "1111"
-		self.BLOCK_HASH_INCORRECT_4 = "1234"
-
-		self.TX_HASH_CORRECT = script_hash_bl_reserver(self.contract_tx_hash)
-		self.TX_HASH_INCORRECT_1 = "" # NULL
-		self.TX_HASH_INCORRECT_2 = self.contract_tx_hash[:-2] # TX HASH NOT EXISTENT
-		self.TX_HASH_INCORRECT_3 = self.contract_tx_hash + "1111"
-		self.TX_HASH_INCORRECT_4 = "1234"
-
-		self.SCRIPT_HASH_CORRECT = script_hash_bl_reserver(self.contract_addr)
-		self.SCRIPT_HASH_INCORRECT_1 = "31313131"
-		self.SCRIPT_HASH_INCORRECT_2 = ByteToHex(bytes(self.contract_tx_hash_1, encoding = "utf8"))
-		self.SCRIPT_HASH_INCORRECT_3 = ""
-
-		self.KEY_CORRECT = "313233"
-		self.KEY_CORRECT_1 = "74657374"
-		self.KEY_INCORRECT_1 = ""
-		self.KEY_CORRECT_2 = Conf.LENGTH_65536
-		self.KEY_CORRECT_3 = "2140232524265e2a28295f202b217e60"
-
-		self.VALUE_CORRECT = "313233"
-		self.VALUE_CORRECT_1 = "74657374"
-		self.VALUE_INCORRECT_1 = ""
-		self.VALUE_CORRECT_2 = Conf.LENGTH_65536
-		self.VALUE_CORRECT_3 = "2140232524265e2a28295f202b217e60"
-
-		self.NAME_1 = "test"
-		self.NAME_2 = "123"
-		self.NAME_3 = "!@#%$&^*()_ +!~`"
-		self.NAME_4 = Conf.LENGTH_65536
-		self.NAME_5 = ""
-
-		self.VERSION_1 = "test"
-		self.VERSION_2 = "123"
-		self.VERSION_3 = Conf.LENGTH_65536
-		self.VERSION_4 = "!@#%$&^*()_ +!~`"
-		self.VERSION_5 = ""
-
-		self.AUTHOR_1 = "test"
-		self.AUTHOR_2 = "123"
-		self.AUTHOR_3 = Conf.LENGTH_65536
-		self.AUTHOR_4 = "!@#%$&^*()_ +!~`"
-		self.AUTHOR_5 = ""
-
-		self.EMAIL_1 = "test"
-		self.EMAIL_2 = "123"
-		self.EMAIL_3 = Conf.LENGTH_65536
-		self.EMAIL_4 = "!@#%$&^*()_ +!~`"
-		self.EMAIL_5 = ""
-
-		self.DESC_1 = "test"
-		self.DESC_2 = "123"
-		self.DESC_3 = Conf.LENGTH_65536
-		self.DESC_4 = "!@#%$&^*()_ +!~`"
-		self.DESC_5 = ""
+		cls.PUBLICKEY =Config.NODES[0]["pubkey"]
+		cls.PUBLICKEY1 =Config.NODES[7]["pubkey"]
 
 
-		self.DESC_1 = "test"
+		cls.BLOCK_HEIGHT_WITH_TX = str(rpcApi.getblockheightbytxhash(tx_hash=cls.contract_tx_hash)[1]["result"])
+		cls.BLOCK_HEIGHT_WITHOUT_TX = str(block_with_no_tx)
+		cls.HEIGHT_CORRECT = str(cls.block_height)
+		cls.HEIGHT_BORDER_BOTTON = "0"
+		cls.HEIGHT_BORDER_TOP = "4294967291"
+		cls.HEIGHT_INCORRECT_1 = "-1"
+		cls.HEIGHT_INCORRECT_2 = str(cls.block_height + 1000)
+		cls.HEIGHT_INCORRECT_3 = "abc"
+		cls.HEIGHT_INCORRECT_4 = ""
+
+		cls.BLOCK_HASH_CORRECT = cls.block_hash
+		cls.BLOCK_HASH_INCORRECT_1 = "" # NULL
+		cls.BLOCK_HASH_INCORRECT_2 = cls.block_hash[:-2] # HASH NOT EXISTENT
+		cls.BLOCK_HASH_INCORRECT_3 = cls.block_hash + "1111"
+		cls.BLOCK_HASH_INCORRECT_4 = "1234"
+
+		cls.TX_HASH_CORRECT = script_hash_bl_reserver(cls.contract_tx_hash)
+		cls.TX_HASH_INCORRECT_1 = "" # NULL
+		cls.TX_HASH_INCORRECT_2 = cls.contract_tx_hash[:-2] # TX HASH NOT EXISTENT
+		cls.TX_HASH_INCORRECT_3 = cls.contract_tx_hash + "1111"
+		cls.TX_HASH_INCORRECT_4 = "1234"
+
+		cls.SCRIPT_HASH_CORRECT = script_hash_bl_reserver(cls.contract_addr)
+		cls.SCRIPT_HASH_INCORRECT_1 = "31313131"
+		cls.SCRIPT_HASH_INCORRECT_2 = ByteToHex(bytes(cls.contract_tx_hash_1, encoding = "utf8"))
+		cls.SCRIPT_HASH_INCORRECT_3 = ""
+
+		cls.KEY_CORRECT = "313233"
+		cls.KEY_CORRECT_1 = "74657374"
+		cls.KEY_INCORRECT_1 = ""
+		cls.KEY_CORRECT_2 = Conf.LENGTH_65536
+		cls.KEY_CORRECT_3 = "2140232524265e2a28295f202b217e60"
+
+		cls.VALUE_CORRECT = "313233"
+		cls.VALUE_CORRECT_1 = "74657374"
+		cls.VALUE_INCORRECT_1 = ""
+		cls.VALUE_CORRECT_2 = Conf.LENGTH_65536
+		cls.VALUE_CORRECT_3 = "2140232524265e2a28295f202b217e60"
+
+		cls.NAME_1 = "test"
+		cls.NAME_2 = "123"
+		cls.NAME_3 = "!@#%$&^*()_ +!~`"
+		cls.NAME_4 = Conf.LENGTH_65536
+		cls.NAME_5 = ""
+
+		cls.VERSION_1 = "test"
+		cls.VERSION_2 = "123"
+		cls.VERSION_3 = Conf.LENGTH_65536
+		cls.VERSION_4 = "!@#%$&^*()_ +!~`"
+		cls.VERSION_5 = ""
+
+		cls.AUTHOR_1 = "test"
+		cls.AUTHOR_2 = "123"
+		cls.AUTHOR_3 = Conf.LENGTH_65536
+		cls.AUTHOR_4 = "!@#%$&^*()_ +!~`"
+		cls.AUTHOR_5 = ""
+
+		cls.EMAIL_1 = "test"
+		cls.EMAIL_2 = "123"
+		cls.EMAIL_3 = Conf.LENGTH_65536
+		cls.EMAIL_4 = "!@#%$&^*()_ +!~`"
+		cls.EMAIL_5 = ""
+
+		cls.DESC_1 = "test"
+		cls.DESC_2 = "123"
+		cls.DESC_3 = Conf.LENGTH_65536
+		cls.DESC_4 = "!@#%$&^*()_ +!~`"
+		cls.DESC_5 = ""
+
+
+		cls.DESC_1 = "test"
 	
-		self.GET_HEADER_FUNC_NAME = "GetHeader"
-		self.GET_HEIGHT_FUNC_NAME = "GetHeight"
-		self.GET_BLOCK_FUNC_NAME = "GetBlock"
-		self.GET_TRANSACTION_FUNC_NAME = "GetTransaction"
-		self.GET_CONTRACT_FUNC_NAME = "GetContract"
-		self.GET_HEADER_HASH_FUNC_NAME = "GetHeaderHash"
-		self.GET_HEADER_VERSION_FUNC_NAME = "GetHeaderVersion"
-		self.GET_HEADER_PREHASH_FUNC_NAME = "GetHeaderPrevHash"
-		self.GET_HEADER_INDEX_FUNC_NAME = "GetHeaderIndex"
-		self.GET_HEADER_MERKLEROOT_FUNC_NAME = "GetHeaderMerkleRoot"
-		self.GET_HEADER_TIMESTAMP_FUNC_NAME = "GetHeaderTimestamp"
-		self.GET_HEADER_CONSENSUS_DATA_FUNC_NAME = "GetHeaderConsensusData"
-		self.GET_HEADER_NEXT_CONSENSUS_FUNC_NAME = "GetHeaderNextConsensus"
-		self.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME = "GetBlockTransactionCount"
-		self.GET_BLOCK_TRANSACTIONS_FUNC_NAME = "GetBlockTransactions"
-		self.GET_BLOCK_TRANSACTION_FUNC_NAME = "GetBlockTransaction_40"
-		self.GET_CONTRACTION_FUNC_NAME = "GetTransaction_Hash"
-		self.GET_CONTRACTION_TYPE_FUNC_NAME = "GetTransaction_Type"
-		self.GET_TRANSACTIONS_ATTRIBUTE_FUNC_NAME = "GetTransaction_Attributes"
-		self.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME = "GetTransactionAttribute_Usage"
-		self.GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME = "GetTransactionAttribute_Data"
-		self.GET_CONTRACT_SCRIPT_FUNC_TIME = "GetContract_Script"
-		self.GET_CONTRACT_CREATE_FUNC_TIME = "GetContract_Create"
-		self.GET_CONTRACT_DESTROY_FUNC_NAME = "GetContract_Destroy"
+		cls.GET_HEADER_FUNC_NAME = "GetHeader"
+		cls.GET_HEIGHT_FUNC_NAME = "GetHeight"
+		cls.GET_BLOCK_FUNC_NAME = "GetBlock"
+		cls.GET_TRANSACTION_FUNC_NAME = "GetTransaction"
+		cls.GET_CONTRACT_FUNC_NAME = "GetContract"
+		cls.GET_HEADER_HASH_FUNC_NAME = "GetHeaderHash"
+		cls.GET_HEADER_VERSION_FUNC_NAME = "GetHeaderVersion"
+		cls.GET_HEADER_PREHASH_FUNC_NAME = "GetHeaderPrevHash"
+		cls.GET_HEADER_INDEX_FUNC_NAME = "GetHeaderIndex"
+		cls.GET_HEADER_MERKLEROOT_FUNC_NAME = "GetHeaderMerkleRoot"
+		cls.GET_HEADER_TIMESTAMP_FUNC_NAME = "GetHeaderTimestamp"
+		cls.GET_HEADER_CONSENSUS_DATA_FUNC_NAME = "GetHeaderConsensusData"
+		cls.GET_HEADER_NEXT_CONSENSUS_FUNC_NAME = "GetHeaderNextConsensus"
+		cls.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME = "GetBlockTransactionCount"
+		cls.GET_BLOCK_TRANSACTIONS_FUNC_NAME = "GetBlockTransactions"
+		cls.GET_BLOCK_TRANSACTION_FUNC_NAME = "GetBlockTransaction_40"
+		cls.GET_CONTRACTION_FUNC_NAME = "GetTransaction_Hash"
+		cls.GET_CONTRACTION_TYPE_FUNC_NAME = "GetTransaction_Type"
+		cls.GET_TRANSACTIONS_ATTRIBUTE_FUNC_NAME = "GetTransaction_Attributes"
+		cls.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME = "GetTransactionAttribute_Usage"
+		cls.GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME = "GetTransactionAttribute_Data"
+		cls.GET_CONTRACT_SCRIPT_FUNC_TIME = "GetContract_Script"
+		cls.GET_CONTRACT_CREATE_FUNC_TIME = "GetContract_Create"
+		cls.GET_CONTRACT_DESTROY_FUNC_NAME = "GetContract_Destroy"
 
-		self.PARAM_TYPE_INT = "int"
-		self.PARAM_TYPE_BYTEARRAY = "bytearray"
-	
+		cls.PARAM_TYPE_INT = "int"
+		cls.PARAM_TYPE_BYTEARRAY = "bytearray"
+
 	def start(self, log_path):
 		logger.open(log_path)
 
@@ -229,12 +232,16 @@ class TestNeoAPI(ParametrizedTestCase):
 		self.start(log_path)
 		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.BLOCK_HASH_CORRECT)
 		self.finish(task_name, log_path, result, "")
-
+	
 	def test_11_blockchain_get_header(self):
 		log_path = "11_blockchain_get_header.log"
 		task_name = "11_blockchain_get_header"
 		self.start(log_path)
-		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.BLOCK_HASH_INCORRECT_4)
+		try:
+			(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.BLOCK_HASH_INCORRECT_4, twice=False)
+			print("over....")
+		except:
+			pass
 		self.finish(task_name, log_path, not result, "")
 
 	def test_12_blockchain_get_transaction(self):
@@ -271,14 +278,14 @@ class TestNeoAPI(ParametrizedTestCase):
 		self.start(log_path)
 		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_CONTRACT_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.SCRIPT_HASH_INCORRECT_1)
 		self.finish(task_name, log_path, not result, "")
-
+	'''
 	def test_18_blockchain_get_contact(self):
 		log_path = "18_blockchain_get_contact.log"
 		task_name = "18_blockchain_get_contact"
 		self.start(log_path)
 		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_CONTRACT_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.SCRIPT_HASH_INCORRECT_2)
 		self.finish(task_name, log_path, not result, "")
-
+	'''
 	def test_20_blockchain_get_hash(self):
 		log_path = "20_blockchain_get_hash.log"
 		task_name = "20_blockchain_get_hash"
@@ -322,7 +329,6 @@ class TestNeoAPI(ParametrizedTestCase):
 		self.finish(task_name, log_path, result, "")
 	
 	
-	
 	def test_32_blockchain_get_consensusdata(self):
 		log_path = "32_blockchain_get_consensusdata.log"
 		task_name = "32_blockchain_get_consensusdata"
@@ -348,30 +354,32 @@ class TestNeoAPI(ParametrizedTestCase):
 		log_path = "37_blockchain_get_transaction_count.log"
 		task_name = "37_blockchain_get_transaction_count"
 		self.start(log_path)
-		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME, self.PARAM_TYPE_INT, "3")
-		self.finish(task_name, log_path, not result, "")
+		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME, self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITHOUT_TX)
+		result = (response["result"]["Result"] == "00")
+		self.finish(task_name, log_path, result, "")
 
 	def test_38_blockchain_get_transactions(self):
 		log_path = "38_blockchain_get_transactions.log"
 		task_name = "38_blockchain_get_transactions"
 		self.start(log_path)
 		time.sleep(10)
-		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_TRANSACTIONS_FUNC_NAME, self.PARAM_TYPE_INT, self.HEIGHT_CORRECT)
+		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_TRANSACTIONS_FUNC_NAME, self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX)
 		self.finish(task_name, log_path, result, "")
 
 	def test_39_blockchain_get_transactions(self):
 		log_path = "39_blockchain_get_transactions.log"
 		task_name = "39_blockchain_get_transactions"
 		self.start(log_path)
-		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_TRANSACTIONS_FUNC_NAME, self.PARAM_TYPE_INT, "2")
-		self.finish(task_name, log_path, not result, "")
+		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, self.GET_BLOCK_TRANSACTIONS_FUNC_NAME, self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITHOUT_TX)
+		result = (not response["result"]["Result"])
+		self.finish(task_name, log_path, result, "")
 
 	def test_40_blockchain_get_transactions(self):
 		log_path = "40_blockchain_get_transaction.log"
 		task_name = "40_blockchain_get_transaction"
 		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_40", self.PARAM_TYPE_INT, "1", self.PARAM_TYPE_INT, "0")
-		self.finish(task_name, log_path, not result, "")
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_40", self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX, self.PARAM_TYPE_INT, "0")
+		self.finish(task_name, log_path, result, "")
 
 	def test_41_blockchain_get_transaction(self):
 		log_path = "41_blockchain_get_transaction.log"
@@ -392,20 +400,22 @@ class TestNeoAPI(ParametrizedTestCase):
 		task_name = "43_blockchain_get_transaction"
 		self.start(log_path)
 		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_40", self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX, self.PARAM_TYPE_INT, "0")
-		self.finish(task_name, log_path, not result, "")
+		self.finish(task_name, log_path, result, "")
 
 	def test_44_blockchain_get_transaction(self):
 		log_path = "44_blockchain_get_transaction.log"
 		task_name = "44_blockchain_get_transaction"
 		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_44", self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX, self.PARAM_TYPE_INT, "1")
-		self.finish(task_name, log_path, not result, "")
+		tx_count = invoke_func_with_1_param(self.CONTRACT_ADDRESS, "GetBlockTransactionCount", "int", self.BLOCK_HEIGHT_WITH_TX)[1]["result"]["Result"]
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_44", self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX, self.PARAM_TYPE_INT, str(int(tx_count)-1))
+		self.finish(task_name, log_path, result, "")
 
 	def test_45_blockchain_get_transaction(self):
 		log_path = "45_blockchain_get_transaction.log"
 		task_name = "45_blockchain_get_transaction"
 		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_44", self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX, self.PARAM_TYPE_INT, "2")
+		tx_count = invoke_func_with_1_param(self.CONTRACT_ADDRESS, "GetBlockTransactionCount", "int", self.BLOCK_HEIGHT_WITH_TX)[1]["result"]["Result"]
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "GetBlockTransaction_45", self.PARAM_TYPE_INT, self.BLOCK_HEIGHT_WITH_TX, self.PARAM_TYPE_INT, str(int(tx_count)+1))
 		self.finish(task_name, log_path, not result, "")
 
 	def test_46_blockchain_get_transaction_hash(self):
@@ -442,7 +452,7 @@ class TestNeoAPI(ParametrizedTestCase):
 		log_path = "54_gettransactionattribute_data.log"
 		task_name = "54_gettransactionattribute_data"
 		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, self.GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.TX_HASH_CORRECT,self.PARAM_TYPE_INT, "1")
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, self.GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME, self.PARAM_TYPE_BYTEARRAY, self.TX_HASH_CORRECT,self.PARAM_TYPE_INT, "0")
 		self.finish(task_name, log_path, result, "")
 
 	def test_56_getcontract_script(self):
@@ -661,29 +671,11 @@ class TestNeoAPI(ParametrizedTestCase):
 		task_name = "87_getcontract_destroy"
 		self.start(log_path)
 		(result, response) = invoke_func_with_0_param(self.CONTRACT_ADDRESS, self.GET_CONTRACT_DESTROY_FUNC_NAME)
-		print (str(rpcApi.getblockheightbytxhash(tx_hash=self.contract_tx_hash)[1]["result"]))
+		result = str(rpcApi.getblockheightbytxhash(tx_hash=self.contract_tx_hash)[1]["result"])
+		print(result)
 		self.finish(task_name, log_path, result, "")
 
-	def test_88_storage_context(self):
-		log_path = "88_storage_context.log"
-		task_name = "88_storage_context"
-		self.start(log_path)
-		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, "GetStorageContext", self.PARAM_TYPE_BYTEARRAY, self.SCRIPT_HASH_CORRECT)
-		self.finish(task_name, log_path, result, "")
 
-	def test_90_current_context(self):
-		log_path = "90_current_context.log"
-		task_name = "90_current_context"
-		self.start(log_path)
-		(result, response) = invoke_func_with_0_param(self.CONTRACT_ADDRESS, "GetCurrentContext")
-		self.finish(task_name, log_path, result, "")
-
-	def test_92_storage_get(self):
-		log_path = "92_storage_get.log"
-		task_name = "92_storage_get"
-		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_92", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
-		self.finish(task_name, log_path, result, "")
 
 	def test_93_storage_get(self):
 		log_path = "93_storage_get.log"
@@ -699,26 +691,13 @@ class TestNeoAPI(ParametrizedTestCase):
 		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_94", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
 		self.finish(task_name, log_path, not result, "")
 
-	def test_95_storage_get(self):
-		log_path = "95_storage_get.log"
-		task_name = "95_storage_get"
-		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_92", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
-		self.finish(task_name, log_path, result, "")
-
 	def test_96_storage_get(self):
 		log_path = "96_storage_get.log"
 		task_name = "96_storage_get"
 		self.start(log_path)
 		(result, response) = invoke_storage_get(self.CONTRACT_ADDRESS)
-		self.finish(task_name, log_path, result, "")
-	
-	def test_97_storage_get(self):
-		log_path = "97_storage_get.log"
-		task_name = "97_storage_get"
-		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_92", self.PARAM_TYPE_BYTEARRAY, self.KEY_INCORRECT_1, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
-		self.finish(task_name, log_path, result, "")
+		self.finish(task_name, log_path, not result, "")
+
 
 	def test_98_storage_get(self):
 		log_path = "98_storage_get.log"
@@ -726,13 +705,6 @@ class TestNeoAPI(ParametrizedTestCase):
 		self.start(log_path)
 		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_98", self.PARAM_TYPE_BYTEARRAY, self.KEY_INCORRECT_1, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
 		self.finish(task_name, log_path, not result, "")
-
-	def test_99_storage_put(self):
-		log_path = "99_storage_put.log"
-		task_name = "99_storage_put"
-		self.start(log_path)
-		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Put_99", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
-		self.finish(task_name, log_path, result, "")
 	
 	def test_100_storage_put(self):
 		log_path = "100_storage_put.log"
@@ -929,6 +901,7 @@ class TestNeoAPI(ParametrizedTestCase):
 		task_name = "128_check_witness"
 		self.start(log_path)
 		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, "CheckWitness", self.PARAM_TYPE_BYTEARRAY, self.PUBLICKEY1)
+		result = (response["result"]["Result"] == "00")
 		self.finish(task_name, log_path, result, "")
 
 	def test_129_check_witness(self):
@@ -1055,14 +1028,14 @@ class TestNeoAPI(ParametrizedTestCase):
 		task_name = "168_getcontract_migrate"
 		self.start(log_path)
 		(result, response) = invoke_contract_create(self.CONTRACT_ADDRESS, self.SCRIPT_HASH_INCORRECT_2, self.NAME_1, self.VERSION_1, self.AUTHOR_1, self.EMAIL_1, self.DESC_1)
-		self.finish(task_name, log_path, not result, "")
+		self.finish(task_name, log_path, result, "")
 
 	def test_169_getcontract_migrate(self):
 		log_path = "169_getcontract_migrate.log"
 		task_name = "169_getcontract_migrate"
 		self.start(log_path)
 		(result, response) = invoke_contract_create(self.CONTRACT_ADDRESS, "", self.NAME_1, self.VERSION_1, self.AUTHOR_1, self.EMAIL_1, self.DESC_1)
-		self.finish(task_name, log_path, not result, "")
+		self.finish(task_name, log_path, result, "")
 
 	def test_170_getcontract_migrate(self):
 		log_path = "170_getcontract_migrate.log"
@@ -1245,7 +1218,86 @@ class TestNeoAPI(ParametrizedTestCase):
 		self.start(log_path)
 		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, "CheckWitness", self.PARAM_TYPE_BYTEARRAY, "1111"+self.PUBLICKEY)
 		self.finish(task_name, log_path, not result, "")
+
+
+class TestNeoAPI_WITH_RESTART(ParametrizedTestCase):
 	
+	def setUp(self):
+		
+		time.sleep(2)
+		print("stop all")
+		stop_all_nodes()
+		print("start all")
+		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(10)
+		
+		(self.contract_addr, self.contract_tx_hash) = deploy_contract_full("./tasks/neo_1_194.neo")
+
+		time.sleep(20)
+		self.CONTRACT_ADDRESS = self.contract_addr
+
+		self.SCRIPT_HASH_CORRECT = script_hash_bl_reserver(self.contract_addr)
+
+		self.KEY_CORRECT = "313233"
+		self.KEY_INCORRECT_1 = ""
+		self.VALUE_CORRECT = "313233"
+
+		self.PARAM_TYPE_BYTEARRAY = "bytearray"
+	
+	def start(self, log_path):
+		logger.open(log_path)
+
+	def finish(self, task_name, log_path, result, msg):
+		if result:
+			logger.print("[ OK       ] ")
+			logger.append_record(task_name, "pass", log_path)
+		else:
+			logger.print("[ Failed   ] " + msg)
+			logger.append_record(task_name, "fail", log_path)
+		logger.close()
+
+	def test_88_storage_context(self):
+		log_path = "88_storage_context.log"
+		task_name = "88_storage_context"
+		self.start(log_path)
+		(result, response) = invoke_func_with_1_param(self.CONTRACT_ADDRESS, "GetStorageContext", self.PARAM_TYPE_BYTEARRAY, self.SCRIPT_HASH_CORRECT)
+		self.finish(task_name, log_path, result, "")
+
+	def test_90_current_context(self):
+		log_path = "90_current_context.log"
+		task_name = "90_current_context"
+		self.start(log_path)
+		(result, response) = invoke_func_with_0_param(self.CONTRACT_ADDRESS, "GetCurrentContext")
+		self.finish(task_name, log_path, result, "")
+
+	def test_92_storage_get(self):
+		log_path = "92_storage_get.log"
+		task_name = "92_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_92", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
+		self.finish(task_name, log_path, result, "")
+
+	def test_95_storage_get(self):
+		log_path = "95_storage_get.log"
+		task_name = "95_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_92", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
+		self.finish(task_name, log_path, result, "")
+
+	def test_97_storage_get(self):
+		log_path = "97_storage_get.log"
+		task_name = "97_storage_get"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Get_92", self.PARAM_TYPE_BYTEARRAY, self.KEY_INCORRECT_1, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
+		self.finish(task_name, log_path, result, "")
+
+	def test_99_storage_put(self):
+		log_path = "99_storage_put.log"
+		task_name = "99_storage_put"
+		self.start(log_path)
+		(result, response) = invoke_func_with_2_param(self.CONTRACT_ADDRESS, "Put_99", self.PARAM_TYPE_BYTEARRAY, self.KEY_CORRECT, self.PARAM_TYPE_BYTEARRAY, self.VALUE_CORRECT)
+		self.finish(task_name, log_path, result, "")
+
 ####################################################
 if __name__ == '__main__':
 	suite = unittest.main()

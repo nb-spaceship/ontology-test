@@ -20,6 +20,48 @@ from utils.error import Error
 from utils.api.commonapi import *
 from utils.api.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.api.rpcapi import RPCApi
+
+def get_block_with_no_tx(contract_address):
+    print("seeking block with no transaction......")
+    rpcApi = RPCApi()
+    block_count = rpcApi.getblockcount()[1]["result"]
+    for i in range(block_count):
+        (result, response) = invoke_func_with_1_param(contract_address, "GetBlockTransactionCount", "int", str(i))
+        if response["result"]["Result"] == "00":
+            print("block with no transaction :", str(i))
+            return i
+        time.sleep(1)
+
+    return None
+    
+
+def native_transfer_ont(pay_address,get_address,amount, node_index = 0,errorcode=0):
+	request = {
+		"REQUEST": {
+			"Qid": "t",
+			"Method": "signativeinvoketx",
+			"Params": {
+				"gas_price": 0,
+				"gas_limit": 1000000000,
+				"address": "0100000000000000000000000000000000000000",
+				"method": "transfer",
+				"version": 1,
+				"params": [
+                    [
+                        [
+                            pay_address,
+                            get_address,
+                            amount
+                        ]
+                    ]
+				]
+			}
+		},
+		"RESPONSE":{"error" : errorcode},
+		"NODE_INDEX":node_index
+	}
+	return call_contract(Task(name="transfer", ijson=request), twice = True)
 
 def get_height(contract_address, node_index = None):
     request = {
@@ -51,7 +93,7 @@ def get_height(contract_address, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetHeight", ijson=request), twice = True)
 
 def get_header(contract_address, height, node_index = None):
     request = {
@@ -83,7 +125,7 @@ def get_header(contract_address, height, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetHeader", ijson=request), twice = True)
 
 def get_block(contract_address, block_hash, node_index = None):
     request = {
@@ -115,7 +157,7 @@ def get_block(contract_address, block_hash, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetBlock", ijson=request), twice = True)
 
 def get_transaction(contract_address, tx_hash, node_index = None):
     request = {
@@ -147,7 +189,7 @@ def get_transaction(contract_address, tx_hash, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetTransaction", ijson=request), twice = True)
 
 def get_contract(contract_address, script_hash, node_index = None):
     request = {
@@ -179,39 +221,7 @@ def get_contract(contract_address, script_hash, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
-
-def get_hash(contract_address, script_hash, node_index = None):
-    request = {
-        "DEPLOY" : True,
-        "CODE_PATH" : "tasks/neo.neo",
-        "REQUEST": {
-            "Qid": "t",
-            "Method": "signeovminvoketx",
-            "Params": {
-                "gas_price": 0,
-                "gas_limit": 1000000000,
-                "address": contract_address,
-                "version": 0,
-                "params": [
-                    {
-                        "type": "string",
-                        "value": "GetContract"
-                    },
-                    {
-                        "type": "array",
-                        "value": [{
-                            "type": "bytearray",
-                            "value": script_hash
-                        }]
-                    }
-                ]
-            }
-        },
-        "RESPONSE": {}
-    }
-    
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetContract", ijson=request), twice = True)
 
 def invoke_contract_create(contract_address, script_hash, name, version, author, email, desc, node_index = None):
     request = {
@@ -267,7 +277,7 @@ def invoke_contract_create(contract_address, script_hash, name, version, author,
         "RESPONSE": {}
     }
         
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetContract_Create", ijson=request), twice = True)
 
 
 def invoke_contract_migrate(contract_address, script_hash, name, version, author, email, desc, node_index = None):
@@ -324,11 +334,11 @@ def invoke_contract_migrate(contract_address, script_hash, name, version, author
         "RESPONSE": {}
     }
         
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="GetContract_Migrate", ijson=request), twice = True)
 
 
 
-def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None):
+def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None, twice=True):
     request = {
         "DEPLOY" : False,
         "CODE_PATH" : "tasks/neo.neo",
@@ -358,7 +368,7 @@ def invoke_func_with_1_param(contract_address, func_name, param_type, param_valu
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name=func_name, ijson=request), twice = twice)
 
 def invoke_func_with_0_param(contract_address, func_name, node_index = None):
     request = {
@@ -390,7 +400,7 @@ def invoke_func_with_0_param(contract_address, func_name, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name=func_name, ijson=request), twice = True)
 
 def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_value_1, param_type_2, param_value_2, node_index = None):
     request = {
@@ -428,7 +438,7 @@ def invoke_func_with_2_param(contract_address, func_name, param_type_1, param_va
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name=func_name, ijson=request), twice = True)
 
 
 def invoke_storage_get(contract_address, node_index = None):
@@ -471,7 +481,7 @@ def invoke_storage_get(contract_address, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="Get_Storage", ijson=request), twice = True)
 
 def invoke_storage_put(contract_address, node_index = None):
     request = {
@@ -513,6 +523,6 @@ def invoke_storage_put(contract_address, node_index = None):
         "RESPONSE": {}
     }
     
-    return call_contract(Task(name="init_admin", ijson=request), twice = True)
+    return call_contract(Task(name="Put_Storage", ijson=request), twice = True)
 
 
