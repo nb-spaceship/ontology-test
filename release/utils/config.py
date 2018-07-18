@@ -53,7 +53,7 @@ class Config():
 
 	BASEAPI_PATH = UTILS_PATH + "/api/requests"
 
-	DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --enableconsensus --networkid=299"
+	DEFAULT_NODE_ARGS = "--ws --rest --loglevel=0 --enableconsensus --networkid=299  --gasprice 0 --gaslimit 20000 "
 
 	MULTI_SIGNED_ADDRESS = cfg_json["MULTI_SIGNED_ADDRESS"]
 	
