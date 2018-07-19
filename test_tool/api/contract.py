@@ -20,7 +20,6 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 class ContractApi:
     def deploy_contract_full(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
-        return ("", "")
         if not neo_code_path or neo_code_path == "":
             return None
 
@@ -135,7 +134,7 @@ class ContractApi:
                     node_index = int(taskdata[key])
 
             if deploy_first:
-                deploy_contract_addr = deploy_contract(deploy_code_path)
+                deploy_contract_addr = self.deploy_contract(deploy_code_path)
             #step 1: signed tx
             expect_response = None
             expect_signresponse = None
@@ -148,7 +147,7 @@ class ContractApi:
             if deploy_contract_addr:
                 taskdata["REQUEST"]["Params"]["address"] = deploy_contract_addr.strip()
 
-            (result, response) = sign_transction(task, True, False)
+            (result, response) = self.sign_transction(task, True, False)
 
             task.data()["RESPONSE"] = response
             logger.print("[ SIGNED TX ] " + json.dumps(taskdata, indent = 4))
@@ -170,11 +169,11 @@ class ContractApi:
                 raise Error("no signed tx")
 
             if twice:
-                (result, response) = call_signed_contract(signed_tx, True, node_index)
-                (result1, response2) = call_signed_contract(signed_tx, False, node_index)
+                (result, response) = self.call_signed_contract(signed_tx, True, node_index)
+                (result1, response2) = self.call_signed_contract(signed_tx, False, node_index)
                 response["txhash"] = response2["result"]
             else:
-                (result, response) = call_signed_contract(signed_tx, pre, node_index)
+                (result, response) = self.call_signed_contract(signed_tx, pre, node_index)
         
             if response is None or "error" not in response:# or str(response["error"]) != '0':
                 raise Error("call contract error")
@@ -205,13 +204,13 @@ class ContractApi:
               "id": 0,
             })
             task.request()["params"] = request
-            (result, response) = run_single_task(task, False, process_log)
+            (result, response) = TaskRunner().run_single_task(task, False, process_log)
             if result:
                 response = response["result"]
                 return (result, response)
             else:
                 task.set_type("cli")
-                (result, response) = run_single_task(task, judge, process_log)
+                (result, response) = TaskRunner().run_single_task(task, judge, process_log)
                 return (result, response)
 
     def call_multisig_contract(self, task,m,pubkeyArray):
@@ -237,15 +236,15 @@ class ContractApi:
             for node_index in range(len(Config.NODES)):
                 if Config.NODES[node_index]["pubkey"] == pubkey:
                     request1["NODE_INDEX"] = node_index 
-                    (result, response) = sign_multi_transction(Task(name="multi", ijson=request1))
+                    (result, response) = self.sign_multi_transction(Task(name="multi", ijson=request1))
                     signed_raw = response["result"]["signed_tx"]
                     print("multi sign tx:" + str(execNum)+pubkey)
                     execNum=execNum+1
                     break
                     
             if execNum>=m:
-                (result,response)=call_signed_contract(signed_raw, True)
-                call_signed_contract(signed_raw, False)
+                (result,response)=self.call_signed_contract(signed_raw, True)
+                self.call_signed_contract(signed_raw, False)
                 return (result,response)
                 
         return (False,{"error_info":"multi times lesss than except!only "+str(execNum)})
@@ -295,7 +294,7 @@ class ContractApi:
             node_index = Config.ontid_map[admin_address]
             request["NODE_INDEX"] = node_index		
     	
-        return call_contract(Task(name="init_admin", ijson=request), twice = True)
+        return self.call_contract(Task(name="init_admin", ijson=request), twice = True)
 
     def invoke_function(self, contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None, sleep = 5):
         request = {
@@ -341,7 +340,7 @@ class ContractApi:
             node_index = Config.ontid_map[callerOntID]
             request["NODE_INDEX"] = node_index
     		
-        return call_contract(Task(name="invoke_function", ijson=request), twice = True, sleep = sleep)
+        return self.call_contract(Task(name="invoke_function", ijson=request), twice = True, sleep = sleep)
 
     def invoke_function_test(self, contract_address, function_str, argvs = [{"type": "string","value": ""}], node_index = None):
         request = {
@@ -368,4 +367,4 @@ class ContractApi:
             "RESPONSE":{"error" : 0}
         }
             
-        return call_contract(Task(name="invoke_function_test", ijson=request), twice = True)
+        return self.call_contract(Task(name="invoke_function_test", ijson=request), twice = True)
