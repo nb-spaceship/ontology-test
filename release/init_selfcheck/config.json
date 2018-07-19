@@ -1,0 +1,22 @@
+{
+    "resource":{
+        "root":"/home/ubuntu/ontology/test/init_selfcheck/resource/",
+        "ontology_source_name": "ontology",
+        "wallet_source_name": "wallets",
+        "onto_config_source_name": "onto_config.json",
+        "test_config_source_name": "test_config.json",
+        "sigsvr_source_name": "sigsvr-linux",
+        "abi_source_name": "abi"
+    },
+    
+    "node":{
+        "root":"/home/ubuntu/ontology/node/",
+        "onto_name": "ontology",
+        "wallet_name": "wallet.dat",
+        "onto_config_name": "config.json",
+        "sigsvr_name": "sigsvr-linux",
+        "abi_name": "abi"
+    },
+
+    "test_config_path": "/home/ubuntu/ontology/test/config.json"
+}
