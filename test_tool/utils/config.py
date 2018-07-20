@@ -45,7 +45,7 @@ class Config():
 	WALLET_PATH = RESOURCE_PATH + "/wallet"
 	BASEAPI_PATH = ROOT_PATH + "/api/requests"
 	NODE_PATH = cfg_json["NODE_PATH"]
-
+	LOG_PATH = ROOT_PATH + "/logs"
 	THREAD = 1
 
 	TEST_SERVICE_PORT = 23635

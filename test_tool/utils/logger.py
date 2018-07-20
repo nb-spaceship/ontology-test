@@ -4,7 +4,8 @@ import os
 
 class Logger():
 	def __init__(self):
-		self.prefix = "logs/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
+		self.prefix = LOG_PATH + "/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
+		self.prefixFul = self.prefix;
 		self.init = False
 		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
@@ -13,20 +14,22 @@ class Logger():
 		if self.init:
 			self.collectionfile.close()
 
+	def setSubFolder(folder):
+		self.prefixFul = self.prefixFul + "/" + folder;
+
 	def open(self, filepath, title = None):
 		if not self.init:
-			if not os.path.exists(self.prefix):
-				os.makedirs(self.prefix)
-			self.prefix = self.prefix
-			self.collectionfile = open(self.prefix + "/collection_log.csv", "w")  # 打开文件
+			if not os.path.exists(self.prefixFul):
+				os.makedirs(self.prefixFul)
+			self.collectionfile = open(self.prefixFul + "/collection_log.csv", "w")  # 打开文件
 			self.collectionfile.write("NAME,STATUS,LOG PATH\n")
 			self.init = True
 
-		logdir = self.prefix + "/" + os.path.dirname(filepath)
+		logdir = self.prefixFul + "/" + os.path.dirname(filepath)
 		if not os.path.exists(logdir):
 			os.makedirs(logdir)
 
-		self.logpath = self.prefix + "/" + filepath
+		self.logpath = self.prefixFul + "/" + filepath
 		self.logfile = open(self.logpath, "w")  # 打开文件
 		self.logtitle = title if title else os.path.splitext(filepath)[0]
 	#write
