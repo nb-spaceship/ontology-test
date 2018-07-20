@@ -15,7 +15,7 @@ class Logger():
 			self.collectionfile.close()
 
 	def setSubFolder(folder):
-		self.prefixFul = self.prefixFul + "/" + folder;
+		self.prefixFul = self.prefixFul + "/" + folder
 
 	def open(self, filepath, title = None):
 		if not self.init:
