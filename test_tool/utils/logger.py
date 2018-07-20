@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import time
 import os
+from utils.config import Config
 
 class Logger():
 	def __init__(self):
-		self.prefix = LOG_PATH + "/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
+		self.prefix = Config.LOG_PATH + "/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
 		self.prefixFul = self.prefix;
 		self.init = False
 		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
@@ -15,7 +16,7 @@ class Logger():
 			self.collectionfile.close()
 
 	def setPath(self, path):
-		self.prefixFul = self.prefixFul + "/" + path
+		self.prefixFul = self.prefix + "/" + path
 
 	def open(self, filepath, title = None):
 		if not self.init:
