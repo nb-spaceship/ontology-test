@@ -13,6 +13,7 @@ import subprocess
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
+from utils.taskrunner import TaskRunner
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
@@ -33,7 +34,7 @@ class WebSocketApi:
 		taskrequest["SubscribeRawBlock"] = srawblock
 		taskrequest["SubscribeBlockTxHashs"] = sblocktxhashs
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getgenerateblocktime(self, param = None):
 		task = Task(Config.BASEAPI_PATH + "/ws/getgenerateblocktime.json")
@@ -45,7 +46,7 @@ class WebSocketApi:
 				taskrequest[key] = param[key]
 			task.set_request(taskrequest)
 
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getconnectioncount(self, param = None):
 		task = Task(Config.BASEAPI_PATH + "/ws/getconnectioncount.json")
@@ -56,7 +57,7 @@ class WebSocketApi:
 				taskrequest[key] = param[key]
 			task.set_request(taskrequest)
 
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblocktxsbyheight(self, height):
 		task = Task(Config.BASEAPI_PATH + "/ws/getblocktxsbyheight.json")
@@ -65,7 +66,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Height"] = height
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockbyheight(self, height, raw = 0):
 		task = Task(Config.BASEAPI_PATH + "/ws/getblockbyheight.json")
@@ -75,7 +76,7 @@ class WebSocketApi:
 		taskrequest["Raw"] = raw
 		taskrequest["Height"] = height
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockbyhash(self, _hash, raw = 0):
 		task = Task(Config.BASEAPI_PATH + "/ws/getblockbyhash.json")
@@ -85,13 +86,13 @@ class WebSocketApi:
 		taskrequest["Raw"] = raw
 		taskrequest["Hash"] = _hash
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockheight(self):
 		task = Task(Config.BASEAPI_PATH + "/ws/getblockheight.json")
 		task.set_type("ws")
 
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockhashbyheight(self, height):
 		task = Task(Config.BASEAPI_PATH + "/ws/getblockhash.json")
@@ -100,7 +101,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Height"] = height
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def gettransaction(self, _hash, raw = 0):
 		task = Task(Config.BASEAPI_PATH + "/ws/gettransaction.json")
@@ -110,7 +111,7 @@ class WebSocketApi:
 		taskrequest["Hash"] = _hash
 		taskrequest["Raw"] = raw
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def sendrawtransaction(self, _hex, pre = 0):
 		task = Task(Config.BASEAPI_PATH + "/ws/sendrawtransaction.json")
@@ -120,7 +121,7 @@ class WebSocketApi:
 		taskrequest["Data"] = _hex
 		taskrequest["PreExec"] = pre
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getstorage(self, _hex, key):
 		task = Task(Config.BASEAPI_PATH + "/ws/getstorage.json")
@@ -130,7 +131,7 @@ class WebSocketApi:
 		taskrequest["Hash"] = _hex
 		taskrequest["Key"] = key
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getbalancebyaddr(self, addr):
 		task = Task(Config.BASEAPI_PATH + "/ws/getbalance.json")
@@ -139,7 +140,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Addr"] = addr
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getcontract(self, _hash):
 		task = Task(Config.BASEAPI_PATH + "/ws/getcontract.json")
@@ -148,7 +149,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Hash"] = _hash
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getsmartcodeeventbyheight(self, height):
 		task = Task(Config.BASEAPI_PATH + "/ws/getsmartcodeeventbyheight.json")
@@ -157,7 +158,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Height"] = height
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getsmartcodeeventbyhash(self, _hash):
 		task = Task(Config.BASEAPI_PATH + "/ws/getsmartcodeeventbyhash.json")
@@ -166,7 +167,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Hash"] = _hash
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockheightbytxhash(self, _hash):
 		task = Task(Config.BASEAPI_PATH + "/ws/getblockheightbytxhash.json")
@@ -175,7 +176,7 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Hash"] = _hash
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getmerkleproof(self, _hash):
 		task = Task(Config.BASEAPI_PATH + "/ws/getmerkleproof.json")
@@ -184,19 +185,19 @@ class WebSocketApi:
 		taskrequest = task.request()
 		taskrequest["Hash"] = _hash
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getsessioncount(self):
 		task = Task(Config.BASEAPI_PATH + "/ws/getsessioncount.json")
 		task.set_type("ws")
 
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getgasprice(self):
 		task = Task(Config.BASEAPI_PATH + "/ws/getgasprice.json")
 		task.set_type("ws")
 
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getallowance(self, asset, _from, to):
 		task = Task(Config.BASEAPI_PATH + "/ws/getallowance.json")
@@ -207,4 +208,4 @@ class WebSocketApi:
 		taskrequest["From"] = _from
 		taskrequest["To"] = to
 		task.set_request(taskrequest)
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)

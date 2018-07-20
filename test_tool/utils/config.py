@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
-
+import os
 from utils.hexstring import *
 
 class Config():
-	cfg_file = open("../../config.json", "rb")
+	realdir = os.path.dirname(os.path.realpath(__file__))
+	UTILS_PATH = realdir
+	ROOT_PATH = UTILS_PATH + "/.."
+
+	cfg_file = open(realdir + "/../config.json", "rb")
 	cfg_json = json.loads(cfg_file.read().decode("utf-8"))
 	cfg_file.close()
 
@@ -38,7 +42,6 @@ class Config():
 	    54006 : "GEN_BLOCK_TIMEOUT: can not generate block"
 	}
 
-	ROOT_PATH = cfg_json["ROOT_PATH"]
 	TOOLS_PATH = ROOT_PATH + "/" + "tools"
 	UTILS_PATH = ROOT_PATH + "/" + "utils"
 	RESOURCE_PATH = ROOT_PATH + "/resource"

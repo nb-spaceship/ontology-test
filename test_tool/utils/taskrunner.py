@@ -14,7 +14,8 @@ class TaskRunner:
 	# judge: 是否需要结果判断
 	# process_log： 是否需要记录运行log
 	# 返回值: (result: True or False, response: 网络请求)
-	def run_single_task(self, task, judge = True, process_log = True):
+	@staticmethod
+	def run_single_task(task, judge = True, process_log = True):
 		try:
 			connecttype = task.type()
 			name = task.name()
@@ -69,14 +70,15 @@ class TaskRunner:
 	#假设 task1生成reponse1， task2得到reponse2， compare_src_key为 key1|key2, compare_dist_key为 key3|key4
 	#最终会比较reponse1["key1"]["key2"]和reponse2["key3"]["key4"]
 	#result: 比较结果 True or False
-	def run_pair_task(self, task1, task2, compare_src_key = None, compare_dist_key = None):
+	@staticmethod
+	def run_pair_task(task1, task2, compare_src_key = None, compare_dist_key = None):
 		result = True
 
-		(result1, response1) = self.run_single_task(task1)
+		(result1, response1) = TaskRunner.run_single_task(task1)
 		if not result1:
 			return result1
 
-		(result2, response2) = self.run_single_task(task2)
+		(result2, response2) = TaskRunner.run_single_task(task2)
 		if not result2:
 			return result2
 

@@ -25,7 +25,7 @@ class RPCApi:
 		params = []
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblock(self, height, blockhash, verbose = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblock.json")
@@ -42,13 +42,13 @@ class RPCApi:
 
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockcount(self, node_index = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblockcount.json")
 		if node_index != None:
 			task.data()["NODE_INDEX"] = node_index
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockhash(self, height):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblockhash.json")
@@ -59,15 +59,15 @@ class RPCApi:
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getconnectioncount(self):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getconnectioncount.json")
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getgenerateblocktime(self):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getgenerateblocktime.json")
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getrawtransaction(self, transactionhash, verbose = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getrawtransaction.json")
@@ -79,7 +79,7 @@ class RPCApi:
 			params.append(verbose)
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def sendrawtransaction(self, _hex, pre = True):
 		task = Task(Config.BASEAPI_PATH + "/rpc/sendrawtransaction.json")
@@ -92,7 +92,7 @@ class RPCApi:
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getstorage(self, script_hash, key):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getstorage.json")
@@ -106,15 +106,15 @@ class RPCApi:
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getversion(self):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getversion.json")
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblocksysfee(self):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblocksysfee.json")
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getcontractstate(self, script_hash, verbose = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getcontractstate.json")
@@ -127,7 +127,7 @@ class RPCApi:
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getmempooltxstate(self, tx_hash):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getmempooltxstate.json")
@@ -138,7 +138,7 @@ class RPCApi:
 		taskrequest["params"] = params
 		task.set_request(taskrequest)
 
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getsmartcodeevent(self, height = None, tx_hash = None):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getsmartcodeevent.json")
@@ -150,7 +150,7 @@ class RPCApi:
 			params.append(tx_hash)
 		taskrequest["params"] = params
 
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getblockheightbytxhash(self, tx_hash):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getblockheightbytxhash.json")
@@ -160,7 +160,7 @@ class RPCApi:
 			params.append(tx_hash)
 		taskrequest["params"] = params
 		
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getbalance(self, address):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getbalance.json")
@@ -169,7 +169,7 @@ class RPCApi:
 		if address != None:
 			params.append(address)
 		taskrequest["params"] = params
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getmerkleproof(self, tx_hash):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getmerkleproof.json")
@@ -178,11 +178,11 @@ class RPCApi:
 		if tx_hash != None:
 			params.append(tx_hash)
 		taskrequest["params"] = params
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getgasprice(self):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getgasprice.json")
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)
 
 	def getallowance(self, asset, _from, _to):
 		task = Task(Config.BASEAPI_PATH + "/rpc/getallowance.json")
@@ -195,4 +195,4 @@ class RPCApi:
 		if _to != None:
 			params.append(_to)
 		taskrequest["params"] = params
-		return TaskRunner().run_single_task(task)
+		return TaskRunner.run_single_task(task)

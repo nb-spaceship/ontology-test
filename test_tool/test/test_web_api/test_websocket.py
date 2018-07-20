@@ -9,34 +9,31 @@ import os
 import sys, getopt
 
 sys.path.append('..')
-
-
+sys.path.append('../..')
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
-from utils.logger import LoggerInstance
+from utils.logger import LoggerInstance as logger
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.api.websocketapi import WebSocketApi
-from utils.api.commonapi import *
-from utils.base import WebSocket
+from utils.connect import WebSocket
+from api.apimanager import API
+from test_web_api.ws_api_conf import Conf
 
-time.sleep(2)
-print("stop all")
-stop_all_nodes()
-print("start all")
-start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-time.sleep(60)
-print("waiting for 60s......")
-
-from ws_api_conf import Conf
-
-logger = LoggerInstance
-
-wsapi = WebSocketApi()
-
+####################################################
+wsapi = API.ws()
+nodeApi = API.node()
+contractApi = API.contract()
+####################################################
 
 class TestWebAPI(ParametrizedTestCase):
-		
+	@classmethod
+	def setUpClass(cls):
+		print("stop all")
+		nodeApi.stop_all_nodes()
+		print("start all")
+		nodeApi.start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(60)
+		print("waiting for 60s......")
 
 	def start(self, log_path):
 		logger.open(log_path)

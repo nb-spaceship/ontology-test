@@ -20,46 +20,50 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 class ContractApi:
     def deploy_contract_full(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
-        if not neo_code_path or neo_code_path == "":
-            return None
+        try:
+            if not neo_code_path or neo_code_path == "":
+                return None
 
-        deploy_contract_addr = None
-        deploy_contract_txhash = None
-        
-        logger.print("[ DEPLOY ] ")
-        cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" \"" + str(price) +  "\" > tmp"
-        p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-        print(cmd)
-        begintime = time.time()
-        secondpass = 0
-        timeout = 3
-        while p.poll() is None:
-            secondpass = time.time() - begintime
-            if secondpass > timeout:
-                p.terminate()
-                print("Error: execute " + cmd + " time out!")
-            time.sleep(0.1)
-        p.stdout.close()
+            deploy_contract_addr = None
+            deploy_contract_txhash = None
+            
+            logger.print("[ DEPLOY ] ")
+            cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" \"" + str(price) +  "\" > tmp"
+            p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+            print(cmd)
+            begintime = time.time()
+            secondpass = 0
+            timeout = 3
+            while p.poll() is None:
+                secondpass = time.time() - begintime
+                if secondpass > timeout:
+                    p.terminate()
+                    print("Error: execute " + cmd + " time out!")
+                time.sleep(0.1)
+            p.stdout.close()
 
-        tmpfile = open("tmp", "r+")  # 打开文件
-        contents = tmpfile.readlines()
-        for line in contents:
-            #for log
-            logger.print(line.strip('\n'))
+            tmpfile = open("tmp", "r+")  # 打开文件
+            contents = tmpfile.readlines()
+            for line in contents:
+                #for log
+                logger.print(line.strip('\n'))
 
-        for line in contents:
-            regroup = re.search(r'Contract Address:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                deploy_contract_addr = regroup.group(1)
+            for line in contents:
+                regroup = re.search(r'Contract Address:(([0-9]|[a-z]|[A-Z])*)', line)
+                if regroup:
+                    deploy_contract_addr = regroup.group(1)
 
-            regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
-            if regroup:
-                deploy_contract_txhash = regroup.group(1)
+                regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
+                if regroup:
+                    deploy_contract_txhash = regroup.group(1)
 
-            if deploy_contract_addr and deploy_contract_txhash:
-                break
-        tmpfile.close()
-        return (deploy_contract_addr, deploy_contract_txhash)
+                if deploy_contract_addr and deploy_contract_txhash:
+                    break
+            tmpfile.close()
+            return (deploy_contract_addr, deploy_contract_txhash)
+        except Exception as e:
+            print(e)
+            return (None, None)
 
     #部署合约
     #返回值： 部署的合约地址
@@ -80,13 +84,13 @@ class ContractApi:
                             })
             task.request()["params"] = request
 
-            (result, response) = TaskRunner().run_single_task(task, False, process_log)
+            (result, response) = TaskRunner.run_single_task(task, False, process_log)
             if result:
                 response = response["result"]
             return (result, response)
         else:
             task.set_type("cli")
-            (result, response) = TaskRunner().run_single_task(task, judge, process_log)
+            (result, response) = TaskRunner.run_single_task(task, judge, process_log)
             return (result, response)
 
     def call_signed_contract(self, signed_tx, pre = True, node_index = None):
@@ -99,7 +103,7 @@ class ContractApi:
         if node_index != None:
             sendrawtxtask.data()["NODE_INDEX"] = node_index
             
-        (result, response) = TaskRunner().run_single_task(sendrawtxtask, True, False)
+        (result, response) = TaskRunner.run_single_task(sendrawtxtask, True, False)
 
         sendrawtxtask.data()["RESPONSE"] = response
 
@@ -204,13 +208,13 @@ class ContractApi:
               "id": 0,
             })
             task.request()["params"] = request
-            (result, response) = TaskRunner().run_single_task(task, False, process_log)
+            (result, response) = TaskRunner.run_single_task(task, False, process_log)
             if result:
                 response = response["result"]
                 return (result, response)
             else:
                 task.set_type("cli")
-                (result, response) = TaskRunner().run_single_task(task, judge, process_log)
+                (result, response) = TaskRunner.run_single_task(task, judge, process_log)
                 return (result, response)
 
     def call_multisig_contract(self, task,m,pubkeyArray):

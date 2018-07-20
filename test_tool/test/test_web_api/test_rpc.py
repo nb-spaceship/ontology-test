@@ -36,7 +36,8 @@ contractApi = API.contract()
 # test cases
 class Test_no_block(ParametrizedTestCase):
 	def setUp(self):
-		logger.setPath("test_web_api/test_rpc")
+		print("asdadasdadasd" + self._testMethodName)
+		logger.setPath("test_web_api")
 		nodeApi.stop_all_nodes()
 		nodeApi.start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(5)
@@ -92,7 +93,7 @@ class TestRpc(ParametrizedTestCase):
 		cls.getbalance_address_false = "ccccccccccccccc"
 		
 	def setUp(self):
-		logger.setPath("test_web_api/test_rpc")
+		logger.setPath("test_web_api")
 		time.sleep(1)
 			
 	def test_01_getblock(self):

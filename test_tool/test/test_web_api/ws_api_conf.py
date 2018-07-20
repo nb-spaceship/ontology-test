@@ -7,12 +7,11 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.contractapi import *
-from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.rpcapi import RPCApi
+from api.apimanager import API
 
-rpcApi = RPCApi()
+rpcApi = API.rpc()
+nodeApi = API.node()
+contractApi = API.contract()
 
 def get_signed_data():
     request = {
@@ -34,7 +33,7 @@ def get_signed_data():
     return sign_transction(Task(name="get_signed_data", ijson=request))[1]["result"]["signed_tx"]
 
 class Conf():
-    (contract_addr, contract_tx_hash) = deploy_contract_full(Config.UTILS_PATH + "/test.neo")
+    (contract_addr, contract_tx_hash) = contractApi.deploy_contract_full(Config.UTILS_PATH + "/test.neo")
 
     block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
     block_hash = rpcApi.getblockhash(block_height - 1)[1]["result"]
