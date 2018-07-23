@@ -28,6 +28,7 @@ from api.apimanager import API
 rpcApi = API.rpc()
 nodeApi = API.node()
 contractApi = API.contract()
+TEST_PATH = Config.TESTS_PATH + "/test_web_api"
 ####################################################
 
 
@@ -40,7 +41,7 @@ class Test_no_block(ParametrizedTestCase):
 		logger.setPath("test_web_api")
 		nodeApi.stop_all_nodes()
 		nodeApi.start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(5)
+		time.sleep(10)
 		
 	# can not test
 	def test_21_getbestblockhash(self):
@@ -62,7 +63,7 @@ class TestRpc(ParametrizedTestCase):
 		#time.sleep(60)
 		time.sleep(5)
 		
-		(cls.m_contractaddr_right, cls.m_txhash_right) = contractApi.deploy_contract_full("tasks/A.neo", "name", "desc", 0)
+		(cls.m_contractaddr_right, cls.m_txhash_right) = contractApi.deploy_contract_full(TEST_PATH + "/tasks/A.neo", "name", "desc", 0)
 		cls.m_txhash_wrong = "is a wrong tx hash"
 		
 		(result, reponse) = rpcApi.getblockhash(height = 1)
@@ -76,7 +77,7 @@ class TestRpc(ParametrizedTestCase):
 		
 		cls.m_block_height_overflow = 99999999
 		
-		(result, reponse) = contractApi.sign_transction(Task("tasks/cli/siginvoketx.json"), False)
+		(result, reponse) = contractApi.sign_transction(Task(TEST_PATH + "/tasks/cli/siginvoketx.json"), False)
 		cls.m_signed_txhash_right = reponse["result"]["signed_tx"]
 		cls.m_signed_txhash_wrong = cls.m_signed_txhash_right + "0f0f0f0f"
 		

@@ -7,6 +7,9 @@ import json
 import os
 import sys
 import getopt
+import subprocess
+import time
+import re
 
 sys.path.append('..')
 
@@ -17,6 +20,7 @@ from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.common import Common
 
 class ContractApi:
     def deploy_contract_full(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
@@ -158,7 +162,7 @@ class ContractApi:
 
             #step 2: call contract
             if expect_signresponse != None:             
-                result = cmp(expect_signresponse, response)
+                result = Common.cmp(expect_signresponse, response)
                 if result and "error_code" in response and int(response["error_code"]) != 0:
                     return (result, response) 
 
@@ -183,7 +187,7 @@ class ContractApi:
                 raise Error("call contract error")
 
             if judge and expect_response:
-                result = cmp(expect_response, response)
+                result = Common.cmp(expect_response, response)
                 if not result:
                     raise Error("not except result")
 

@@ -19,6 +19,7 @@ class TestMonitor:
 		self.case_count = 0
 		self.retry_cases = []
 		self.retry_logger_path = []
+		self.initmap = {}
 
 	def reset(self):
 		self.faild_step_count = 0
@@ -26,8 +27,20 @@ class TestMonitor:
 		self.case_count = 0
 		self.retry_cases = []
 		self.retry_logger_path = []
+		self.initmap = {}
+
+	def need_retry():
+		if self.case_count >= CHECK_LOOP and self.faild_step_count / self.total_step_count < 0.4:
+			return False
+		else:
+			return True
 
 	def analysis_case(self, case, logpath):
+		if not os.path.exists(logpath):
+			#recover
+			#TODO
+			return
+
 		f = open(logpath, 'r')
 		org_failed_count = self.faild_step_count
 		for line in f.readlines():
@@ -43,9 +56,8 @@ class TestMonitor:
 		if org_failed_count != self.faild_step_count:
 			self.retry_cases.append(case)
 			self.retry_logger_path.append(logpath)
-
-		if self.case_count >= CHECK_LOOP and self.faild_step_count / self.total_step_count < 0.4:
-			self.reset()
+			if not self.need_retry():
+				self.reset()
 
 	#恢复测试环境
 	def recover_env(self):
@@ -57,36 +69,34 @@ class TestMonitor:
 		self.retry_cases = []
 		for case in testcases:
 			testcaseremain.remove(case)
-			run_case(runner, case)
-			if self.faild_step_count >= MAX_BLOCK_TIMES:
+			self.run_case(runner, case)
+			if self.need_retry():
 				return False
 		return True
 
 	def run_case(self, runner, case):
 		testmethodname = case._testMethodName
 		testcaseclass = case.__class__
-		if (testcaseclass in initmap) and (initmap[testcaseclass] == True):
+		if (testcaseclass in self.initmap) and (self.initmap[testcaseclass] == True):
 			print("already ran init..")
 		else:
 			#TODO ran test_init
-			initmap[testcaseclass] = True
+			self.initmap[testcaseclass] = True
 
 		testsuit = unittest.TestSuite()
 		testsuit.addTest(case)
 		runner.run(testsuit)
-		analysis_case(case, logger.logPath())
+		self.analysis_case(case, logger.logPath())
 
 	def exec(self, runner, testcases):
-		initmap = {}
 		testcaseremain = testcases
 		for case in testcases:
 			testcaseremain.remove(case)
-			run_case(runner, case)
-
-			if self.faild_step_count >= MAX_BLOCK_TIMES:
+			self.run_case(runner, case)
+			if self.need_retry():
 				retry_ret = False
 				for i in range(TRY_RECOVER_TIMES):
-					retry_ret = retry(runner)
+					retry_ret = self.retry(runner)
 					if retry_ret == True:
 						break
 				if retry_ret == False:

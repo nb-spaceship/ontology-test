@@ -10,6 +10,7 @@ class Logger():
 		self.init = False
 		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
+		self.logpath = ""
 
 	def __del__(self):
 		if self.init:
@@ -22,6 +23,7 @@ class Logger():
 		return self.logpath
 
 	def open(self, filepath, title = None):
+		self.logpath = ""
 		if not self.init:
 			if not os.path.exists(self.prefixFul):
 				os.makedirs(self.prefixFul)

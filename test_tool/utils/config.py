@@ -45,6 +45,7 @@ class Config():
 
 	TOOLS_PATH = ROOT_PATH + "/" + "tools"
 	UTILS_PATH = ROOT_PATH + "/" + "utils"
+	TESTS_PATH = ROOT_PATH + "/" + "test"
 	RESOURCE_PATH = ROOT_PATH + "/resource"
 	WALLET_PATH = RESOURCE_PATH + "/wallet"
 	BASEAPI_PATH = ROOT_PATH + "/api/requests"

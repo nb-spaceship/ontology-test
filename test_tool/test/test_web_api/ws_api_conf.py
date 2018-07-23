@@ -33,7 +33,7 @@ def get_signed_data():
     return sign_transction(Task(name="get_signed_data", ijson=request))[1]["result"]["signed_tx"]
 
 class Conf():
-    (contract_addr, contract_tx_hash) = contractApi.deploy_contract_full(Config.UTILS_PATH + "/test.neo")
+    (contract_addr, contract_tx_hash) = contractApi.deploy_contract_full(Config.TESTS_PATH + "/test_web_api/test_rpc.neo")
 
     block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
     block_hash = rpcApi.getblockhash(block_height - 1)[1]["result"]
