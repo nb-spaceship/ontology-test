@@ -29,8 +29,8 @@ class ContractApi:
             
             logger.print("[ DEPLOY ] ")
             cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" \"" + str(price) +  "\" > tmp"
-            p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
             print(cmd)
+            p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
             begintime = time.time()
             secondpass = 0
             timeout = 3
