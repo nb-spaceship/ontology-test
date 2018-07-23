@@ -1,7 +1,7 @@
 import time
 import os
 import unittest
-
+import sys
 sys.path.append('..')
 sys.path.append('../..')
 
@@ -32,15 +32,15 @@ class TestMonitor:
 		org_failed_count = self.faild_step_count
 		for line in f.readlines():
 			line = line.strip()
-		    if line.startswith('[ Failed   ]'):
+			if line.startswith('[ Failed   ]'):
 				self.faild_step_count = self.faild_step_count + 1
-		    	self.total_step_count = self.total_step_count + 1
+				self.total_step_count = self.total_step_count + 1
 			else:
 				self.total_step_count = self.total_step_count + 1
 		f.close()
 
 		self.case_count = self.case_count + 1
-		if org_failed_count != self.faild_step_count
+		if org_failed_count != self.faild_step_count:
 			self.retry_cases.append(case)
 			self.retry_logger_path.append(logpath)
 
@@ -67,7 +67,7 @@ class TestMonitor:
 		testcaseclass = case.__class__
 		if (testcaseclass in initmap) and (initmap[testcaseclass] == True):
 			print("already ran init..")
-		else
+		else:
 			#TODO ran test_init
 			initmap[testcaseclass] = True
 
@@ -85,12 +85,10 @@ class TestMonitor:
 
 			if self.faild_step_count >= MAX_BLOCK_TIMES:
 				retry_ret = False
-				for i in range(TRY_RECOVER_TIMES)
+				for i in range(TRY_RECOVER_TIMES):
 					retry_ret = retry(runner)
 					if retry_ret == True:
 						break
 				if retry_ret == False:
+					pass
 					#set_block
-
-if __name__ == '__main__':
-	TestMonitor().analysis_env("../")

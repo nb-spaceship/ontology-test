@@ -53,10 +53,10 @@ class Logger():
 			if result == "pass":
 				self.print("[ OK       ] ")
 				self.append_record(self.logtitle, "pass", self.logpath)
-			else if result == "fail":
+			elif result == "fail":
 				self.print("[ Failed   ] ")
 				self.append_record(self.logtitle, "fail", self.logpath)
-			else if result == "block":
+			elif result == "block":
 				self.print("[ Block    ] ")
 				self.append_record(self.logtitle, "block", self.logpath)
 		if self.logfile:

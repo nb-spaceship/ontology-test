@@ -11,17 +11,17 @@ from monitor.monitor import TestMonitor
 
 class TestCaseRunner():
 	#通过读config文件，来获取测试例
-	def valid_suite(config):
+	def valid_suite(self, config):
 		pass
 
-	def run_testcase(runner, case):
+	def run_testcase(self, runner, case):
 		testmethodname = case._testMethodName
 		testcaseclass = case.__class__
 		print("---------------------:" + test_case._testMethodName)
 		print("---------------------:" + str(test_case.__class__))
 		runner.run(case)
 
-	def run(monitor):
+	def run(self, monitor):
 		filterfile = ""
 		filtertype = ""
 		filterstr = ""
@@ -39,11 +39,10 @@ class TestCaseRunner():
 		                                            pattern="test_*.py",
 		                                            top_level_dir=None)
 
-		runner = unittest.TextTestRunner()
 		#filter
 		filter_test_suite = []
 		for test_suite in test_suites:
-			if not valid_suite(filterfile):
+			if not self.valid_suite(filterfile):
 				continue
 
 			for test_cases in test_suite:
@@ -53,9 +52,11 @@ class TestCaseRunner():
 					filter_test_suite.append(test_case)
 					print("---------------------:" + test_case._testMethodName)
 					print("---------------------:" + str(test_case.__class__))
+
+		runner = unittest.TextTestRunner()
 		monitor.exec(runner, filter_test_suite)
 
 if __name__ == "__main__":
 	tmonitor = TestMonitor()
-	caserunner = TestCaseRuner()
+	caserunner = TestCaseRunner()
 	caserunner.run(tmonitor)
