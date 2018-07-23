@@ -18,6 +18,9 @@ class Logger():
 	def setPath(self, path):
 		self.prefixFul = self.prefix + "/" + path
 
+	def logPath(self):
+		return self.logpath
+
 	def open(self, filepath, title = None):
 		if not self.init:
 			if not os.path.exists(self.prefixFul):
@@ -47,12 +50,15 @@ class Logger():
 
 	def close(self, result = None, msg = None):
 		if not result is None:
-			if result:
+			if result == "pass":
 				self.print("[ OK       ] ")
 				self.append_record(self.logtitle, "pass", self.logpath)
-			else:
+			else if result == "fail":
 				self.print("[ Failed   ] ")
 				self.append_record(self.logtitle, "fail", self.logpath)
+			else if result == "block":
+				self.print("[ Block    ] ")
+				self.append_record(self.logtitle, "block", self.logpath)
 		if self.logfile:
 			self.logfile.close()
 			self.logfile = None

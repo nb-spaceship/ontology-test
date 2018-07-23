@@ -20,7 +20,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.api.multi_sig import *
 
 
-def transferFromTest(put_address, amount, node_index = None,errorcode=0,public_key_Array=[], errorkey = "error"):
+def transferFromMulti(put_address, amount, node_index = None,errorcode=0,public_key_Array=[], errorkey = "error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -48,7 +48,7 @@ def transferFromTest(put_address, amount, node_index = None,errorcode=0,public_k
 	request["NODE_INDEX"] = node_index	  
 	return multi_contract(Task(name="transferFromTest", ijson=request),public_key_Array[0],public_key_Array[1])
 	
-def transferTest(assetStr,put_address, get_address,amount, node_index = None,errorcode=0,public_key_Array=[], errorkey = "error"):
+def transferMulti(assetStr,put_address, get_address,amount, node_index = None,errorcode=0,public_key_Array=[], errorkey = "error"):
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -76,16 +76,18 @@ def transferTest(assetStr,put_address, get_address,amount, node_index = None,err
 
 def init_ont_ong():
 	for i in range(7):
-		(result, response)=transferTest("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],100000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
+		(result, response)=transferMulti("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],100000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
 		if not result:
 			return (result, response)
 	time.sleep(5)
-	(result, response) = transferFromTest(Config.MULTI_SIGNED_ADDRESS,Config.INIT_AMOUNT_ONG,5,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])		
+	#TODO
+	(result, response) = transferFromMulti(Config.MULTI_SIGNED_ADDRESS,Config.INIT_AMOUNT_ONG,5,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])		
 	if not result:
 		return (result, response)
 	time.sleep(5)
+	#TODO
 	for i in range(7):
-		(result, response)=transferTest("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],1000000000000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
+		(result, response)=transferMulti("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],1000000000000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
 		if not result:
 			return (result, response)
-#init_ont_ong()
+	#TODO
