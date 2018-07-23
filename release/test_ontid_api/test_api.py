@@ -194,7 +194,11 @@ def removeKey(ontId, remove_public_Key,public_key, node_index = None,errorcode=4
 	else:
 		return multi_contract(Task(name="removeKey", ijson=request),public_key_Array[0],public_key_Array[1])
 	
-def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=47001, errorkey = "error"):
+def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=47001, errorkey = "error",RAddressTrue=False):
+	if RAddressTrue:
+		pushaddress=recovery_address
+	else:
+		pushaddress=script_hash_bl_reserver(recovery_address)
 	request = {
 
 		"REQUEST": {
@@ -208,7 +212,7 @@ def addRecovery(ontId, recovery_address,public_key, node_index = None,errorcode=
 				"version": 1,
 				"params": [
 					ontId,
-					script_hash_bl_reserver(recovery_address),
+					pushaddress,
 					public_key
 				]
 			}
@@ -247,7 +251,19 @@ def transfer():
 		"RESPONSE":{"error" : 0}
 	}
 	return multi_contract(Task(name="transfer", ijson=request),3,["031b7025752886d5598e3a165a7ba4accc770955e4450ee5e14d38d35c7dfef8a5","03b36e26db8b132b551a0213ade4eeb39510847acd152490ef170604c5e4e4686d","03f8d89ab17423d9e4a57b7e7174bcf239eb42779fd942b0601b778087440d35aa"])	
-def changeRecovery(ontId, new_recovery_address,old_recovery_address,public_key, node_index = None,errorcode=47001,old_recovery_address_Array=[], errorkey = "error"):
+def changeRecovery(ontId, new_recovery_address,old_recovery_address,public_key, node_index = None,errorcode=47001,old_recovery_address_Array=[], errorkey = "error",RAddressTrue=0):
+	if RAddressTrue==1:
+		pushaddress1=new_recovery_address
+		pushaddress2=script_hash_bl_reserver(old_recovery_address)
+	elif RAddressTrue==2:
+		pushaddress1=script_hash_bl_reserver(new_recovery_address)
+		pushaddress2=old_recovery_address
+	elif RAddressTrue==3:
+		pushaddress1=new_recovery_address
+		pushaddress2=old_recovery_address
+	else:
+		pushaddress1=script_hash_bl_reserver(new_recovery_address)
+		pushaddress2=script_hash_bl_reserver(old_recovery_address)
 	request = {
 
 		"REQUEST": {
@@ -261,8 +277,8 @@ def changeRecovery(ontId, new_recovery_address,old_recovery_address,public_key, 
 				"version": 1,
 				"params": [
 					ontId,
-					script_hash_bl_reserver(new_recovery_address),
-					script_hash_bl_reserver(old_recovery_address)
+					pushaddress1,
+					pushaddress2
 				]
 			}
 		},

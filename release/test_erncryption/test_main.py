@@ -44,7 +44,7 @@ class TestContract(ParametrizedTestCase):
 	@classmethod
 	def setUpClass(self):
 		os.system(nodePath+ "/ontology account import -s wallettest.dat -w "+nodePath+"/wallet.dat")
-		deploy_contract
+		init_ont_ong()
 	def test_001(self):
 		logger.open("test_001.log", "test_001")
 		result=self.all_case(get_address1)
@@ -108,8 +108,8 @@ class TestContract(ParametrizedTestCase):
 		transfervalue1ong=int(response["result"]["ong"])
 		##case
 		if(charge):
-			os.system("echo 123456 | "+nodePath+ "/ontology asset transfer --from="+pay_address+" --to=1 --amount=10 --asset=ont -w "+nodePath+"/wallet.dat")
-			os.system("echo 123456 | "+nodePath+ "/ontology asset transfer --from="+pay_address+" --to=1 --amount=0.00000001 --asset=ong -w "+nodePath+"/wallet.dat")
+			os.system("echo 123456 | "+nodePath+ "/ontology asset transfer --gasprice=0 --gaslimit=1000000000 --from="+pay_address+" --to=1 --amount=10 --asset=ont -w "+nodePath+"/wallet.dat")
+			os.system("echo 123456 | "+nodePath+ "/ontology asset transfer --gasprice=0 --gaslimit=1000000000 --from="+pay_address+" --to=1 --amount=0.00000001 --asset=ong -w "+nodePath+"/wallet.dat")
 			time.sleep(5)
 		else:
 			(result, response) = forNeo(contract_address,pay_address,get_address, node_index)

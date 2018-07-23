@@ -401,7 +401,7 @@ class TestContract(ParametrizedTestCase):
 		log_path = "044_addRecovery.log"
 		task_name = "044_addRecovery.log"
 		self.start(log_path)
-		(result, response) = addRecovery(ontId, recoveryAddress3,public_key,node_index,900,errorkey="error_code")
+		(result, response) = addRecovery(ontId, recoveryAddress3,public_key,node_index,900,errorkey="error_code",RAddressTrue=True)
 		self.finish(task_name, log_path, result,  "")
 
 
@@ -500,7 +500,7 @@ class TestContract(ParametrizedTestCase):
 		log_path = "056_changeRecovery.log"
 		task_name = "056_changeRecovery.log"
 		self.start(log_path)
-		(result, response) = changeRecovery(ontId, new_recoveryAddress3,old_recovery_address,public_key,node_index,900,errorkey="error_code")
+		(result, response) = changeRecovery(ontId, new_recoveryAddress3,old_recovery_address,public_key,node_index,900,errorkey="error_code",RAddressTrue=1)
 		self.finish(task_name, log_path, result,  "")
 
 
@@ -525,7 +525,7 @@ class TestContract(ParametrizedTestCase):
 		log_path = "059_changeRecovery.log"
 		task_name = "059_changeRecovery.log"
 		self.start(log_path)
-		(result, response) = changeRecovery(ontId, new_recovery_address,old_recoverAddress2,public_key,node_index,900,errorkey="error_code")
+		(result, response) = changeRecovery(ontId, new_recovery_address,old_recoverAddress2,public_key,node_index,900,errorkey="error_code",RAddressTrue=2)
 		self.finish(task_name, log_path, result,  "")
 
 
