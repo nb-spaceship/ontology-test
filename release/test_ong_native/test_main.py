@@ -97,9 +97,9 @@ class TestContract(ParametrizedTestCase):
 		init_ont_ong()
 		time.sleep(10)
 		global contract_address
-		contract_address=deploy_contract("ont_neo.json")
+		contract_address=deploy_contract("ong_neo.json")
 		global sender5
-		sender5= deploy_contract("ontErr.json") 
+		sender5= deploy_contract("ongErr.json") 
 		#os.system(nodePath+ "/ontology account import -s wallettest.dat -w "+nodePath+"/wallet.dat")
 		#deploy_contract
 	def test_001_transfer(self):
