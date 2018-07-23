@@ -68,7 +68,7 @@ class ContractApi:
     #部署合约
     #返回值： 部署的合约地址
     def deploy_contract(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
-        (deploy_contract_addr, deploy_contract_txhash) = deploy_contract_full(neo_code_path, name, desc, price)
+        (deploy_contract_addr, deploy_contract_txhash) = self.deploy_contract_full(neo_code_path, name, desc, price)
         time.sleep(6)
         return deploy_contract_addr
 
