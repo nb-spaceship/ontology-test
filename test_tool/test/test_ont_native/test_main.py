@@ -11,6 +11,8 @@ import time
 
 sys.path.append('..')
 sys.path.append('../..')
+testpath = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(testpath)
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
@@ -21,7 +23,6 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 from test_api import *
 
-testpath = os.path.dirname(os.path.realpath(__file__))
 
 node_index=5
 nodePath=Config.NODE_PATH

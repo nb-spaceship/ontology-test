@@ -105,9 +105,15 @@ class TestCaseRunner():
 				filterstr = value
 
 		case_path = os.path.dirname(os.path.realpath(__file__))
-		test_suites = unittest.defaultTestLoader.discover(case_path,
-		                                            pattern="test_*.py",
-		                                            top_level_dir=None)
+		print("---------" + case_path)
+		try:
+			test_suites = unittest.defaultTestLoader.discover(case_path,
+														pattern="test_*.py",
+														top_level_dir=None)
+		except Exception as e:
+			print(e)
+			
+		print(test_suites)
 
 		cases = self.filter_test_cases(test_suites, filterfile, filtertype, filterstr)
 		print(len(cases))
