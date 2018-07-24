@@ -127,3 +127,6 @@ class Config():
 	roleA_hex = ByteToHex(b"roleA")
 	roleB_hex = ByteToHex(b"roleB")    
 	roleC_hex = ByteToHex(b"roleC")
+
+	AdminNum = 5
+	AdminPublicKeyList = [NODES[0]["pubkey"],NODES[1]["pubkey"],NODES[2]["pubkey"],NODES[3]["pubkey"],NODES[4]["pubkey"],NODES[5]["pubkey"],NODES[6]["pubkey"]]
