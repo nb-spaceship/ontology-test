@@ -94,9 +94,9 @@ class TestMonitor:
 			self.start_nodes([node_index], clear_chain = True, clear_log = True)
 
 		#restart sigserver
-		#API.node().stop_all_nodes()
-		#for node_index in range(len(Config.NODES)):
-		#	self.start_nodes([node_index], clear_chain = True, clear_log = True)
+		for node_index in range(len(Config.NODES)):
+			API.node().stop_sigsvr(node_index)
+			API.node().start_sigsvr(node_index)
 
 		return True
 
@@ -144,7 +144,7 @@ class TestMonitor:
 			try:
 				self.run_case(case)
 				continue
-				
+
 				self.run_case(case)
 				if self.need_retry():
 					retry_ret = False

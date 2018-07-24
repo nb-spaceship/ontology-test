@@ -58,7 +58,7 @@ class Common:
 	# msg:暂停原因
 	# 返回值: 手动输入的值
 	@staticmethod
-	def pause(self, msg):
+	def pause(msg):
 		print("[ PAUSE     ] " + msg)
 		command = ""
 		try:
@@ -68,7 +68,7 @@ class Common:
 		return command
 
 	@staticmethod
-	def bl_reserver(self, input):
+	def bl_reserver(input):
 		if input == None:
 			return ""
 		rstrs = input[::-1]
@@ -79,7 +79,7 @@ class Common:
 		return output
 
 	@staticmethod
-	def base58_to_address(self, input):
+	def base58_to_address(input):
 		if input == None:
 			return ""
 		address = ""
@@ -98,4 +98,8 @@ class Common:
 				address = regroup.group(1)
 		tmpfile.close()
 		return address
+
+	@staticmethod
+	def bl_address(input):
+		return Common.bl_reserver(Common.base58_to_address(input))
 	#check_node_state([0,1,2,3,4,5,6])

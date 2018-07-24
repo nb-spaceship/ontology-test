@@ -12,14 +12,14 @@ class ParametrizedTestCase(unittest.TestCase):
         self.param = param
         self.m_result = "fail" #pass, fail, block
 
-    def ASSERT(result, info = ""):
+    def ASSERT(self, result, info = ""):
         if not result:
             self.m_result = "fail"
             raise Error(info)
         else:
             self.m_result = "pass"
 
-    def BLOCK(result, info = ""):
+    def BLOCK(self, result, info = ""):
         if not result:
             self.m_result = "block"
             raise Error(info)
