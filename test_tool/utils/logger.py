@@ -11,10 +11,11 @@ class Logger():
 		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
 		self.logpath = ""
+		self.collectionfile = None
 
 	def __del__(self):
 		if self.init:
-			self.collectionfile.close()
+			pass
 
 	def setPath(self, path):
 		self.prefixFul = self.prefix + "/" + path
@@ -27,8 +28,7 @@ class Logger():
 		if not self.init:
 			if not os.path.exists(self.prefixFul):
 				os.makedirs(self.prefixFul)
-			self.collectionfile = open(self.prefixFul + "/collection_log.csv", "w")  # 打开文件
-			self.collectionfile.write("NAME,STATUS,LOG PATH\n")
+			self.append_record("NAME", "STATUS", "LOG PATH")
 			self.init = True
 
 		logdir = self.prefixFul + "/" + os.path.dirname(filepath)
@@ -66,7 +66,8 @@ class Logger():
 			self.logfile = None
 
 	def append_record(self, name, status, logpath):
+		self.collectionfile = open(self.prefixFul + "/collection_log.csv", "a+")  # 打开文件
 		self.collectionfile.write(name + "," + status + "," + logpath + "\n")
-
+		self.collectionfile.close()
 
 LoggerInstance = Logger()

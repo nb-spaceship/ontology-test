@@ -222,7 +222,7 @@ class ContractApi:
                 return (result, response)
 
     def call_multisig_contract(self, task,m,pubkeyArray):
-        (result, response) = sign_transction(task)#Task(name="multi", ijson=request))
+        (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
         signed_tx = response["result"]["signed_tx"]
         
         #print(request1)
