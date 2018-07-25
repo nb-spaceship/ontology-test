@@ -20,8 +20,6 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-from api.apimanager import API
-
 #from test_api import test_api
 #from test_config import test_config
 
@@ -31,6 +29,7 @@ from api.apimanager import API
 		
 class test_benefit_model_1(ParametrizedTestCase):
 	def test_init(self):
+		print("sssssss")
 		pass
 	'''
 	def setUp(self):

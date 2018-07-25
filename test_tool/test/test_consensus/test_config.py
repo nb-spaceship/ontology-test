@@ -37,7 +37,6 @@ class test_config():
 	m_contract_addr2 = ""
 	m_contract_txhash2 = ""
 		
-	#A节点是Admin节点
 	#(process, response) = init_admin(m_contract_addr, Config.ontID_A)
 	#(process, response) = bind_role_function(m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
 		
@@ -58,10 +57,10 @@ class test_config():
 	PUBLIC_KEY_5 = Config.NODES[4]["pubkey"]
 	
 	
-	vote_node = 13 #投票节点
-	peer_node1 = 7 #被投票节点1
-	peer_node2 = 8 #被投票节点2
-	peer_node3 = 9 #被投票节点3
+	vote_node = 13 
+	peer_node1 = 7 #be vote 1
+	peer_node2 = 8 #be vote 2
+	peer_node3 = 9 #be vote 3
 	
 
 		
