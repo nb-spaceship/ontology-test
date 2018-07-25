@@ -35,7 +35,7 @@ class TestMonitor:
 		self.retry_logger_path = []
 		self.initmap = {}
 
-	def need_retry():
+	def need_retry(self):
 		if self.case_count >= CHECK_LOOP and self.faild_step_count * 100 / self.total_step_count < FAILED_RADIO:
 			return False
 		else:
@@ -62,19 +62,22 @@ class TestMonitor:
 						if "result" in RESPONSE and "State" in RESPONSE["result"]:
 							#for contract pre called.
 							if RESPONSE["result"]["State"] != 1:
+								print("catch faild [1]")
 								self.faild_step_count = self.faild_step_count + 1
 						elif "error" in RESPONSE:
 							if RESPONSE["error"] != 0:
+								print("catch faild [2]")
 								self.faild_step_count = self.faild_step_count + 1
 						elif "error_code" in RESPONSE:
 							if RESPONSE["error_code"] != 0:
+								print("catch faild [3]")
 								self.faild_step_count = self.faild_step_count + 1
 					else:
 						self.faild_step_count = self.faild_step_count + 1
 
 					self.total_step_count = self.total_step_count + 1
 			except Exception as e:
-				print(e.args)
+				#print(e.args)
 				pass
 		f.close()
 
@@ -102,7 +105,7 @@ class TestMonitor:
 
 	def retry(self):
 		self.recover_env()
-		testcaseremain = self.retry_cases
+		testcases = self.retry_cases.copy()
 		self.reset()
 		for case in testcases:
 			self.run_case(case)
@@ -110,16 +113,20 @@ class TestMonitor:
 	def run_case(self, case):
 		testmethodname = case._testMethodName
 		testcaseclass = case.__class__
+		if testmethodname == "test_init":
+			return
 		if (testcaseclass in self.initmap) and (self.initmap[testcaseclass] == True):
 			print("already ran init..")
 		else:
 			for initcase in self.alltestcase:
 				if initcase.__class__ == testcaseclass and initcase._testMethodName == "test_init":
+					print("run init" + str(initcase.__class__) + "." + initcase._testMethodName)
 					testsuit = unittest.TestSuite()
 					testsuit.addTest(initcase)
 					self.unittestrunner.run(testsuit)
 					self.initmap[testcaseclass] = True
 
+		print("run " + str(case.__class__) + "." + case._testMethodName)
 		testsuit = unittest.TestSuite()
 		testsuit.addTest(case)
 		self.unittestrunner.run(testsuit)
@@ -140,6 +147,7 @@ class TestMonitor:
 		self.alltestcase = testcases.copy()
 		self.unittestrunner = runner
 		testcaseremain = testcases.copy()
+
 		for case in testcaseremain:
 			try:
 				self.run_case(case)
