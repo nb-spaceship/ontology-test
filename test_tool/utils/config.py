@@ -58,8 +58,9 @@ class Config():
 	#init nodes
 	NODES = cfg_json["NODES"]
 	for node_index in range(len(NODES)):
-		str_node_index = "0" + str(node_index) if node_index < 10 else str(node_index)
-		cfg_file = open(WALLET_PATH + "/wallet" + str_node_index + ".dat", "rb")
+		#str_node_index = "0" + str(node_index) if node_index < 10 else str(node_index)
+		walletfile = NODES[node_index]["wallet"]
+		cfg_file = open(WALLET_PATH + "/" + walletfile, "rb")
 		walletdata = json.loads(cfg_file.read().decode("utf-8"))
 		accounts = walletdata["accounts"]
 		for account in accounts:
