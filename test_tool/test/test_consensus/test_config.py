@@ -17,30 +17,29 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.api.commonapi import *
-from utils.api.contractapi import *
-from utils.api.rpcapi import *
-from utils.api.init_ong_ont import *
+from utils.common import Common
 
 from test_api import *
 
-
 class test_config():
 	testpath = os.path.dirname(os.path.realpath(__file__))
-	deploy_neo_1=testpath + "/resource/A.neo"
-	deploy_neo_2=testpath + "/resource/B.neo"
-	name1="name"
-	name2="nameB"
-	desc="desc"
-	desc2="descB"
-	price=0
+	deploy_neo_1 = testpath + "/resource/A.neo"
+	deploy_neo_2 = testpath + "/resource/B.neo"
+	name1 = "name"
+	name2 = "nameB"
+	desc = "desc"
+	desc2 = "descB"
+	price = 0
 
-	(m_contract_addr, m_contract_txhash) = deploy_contract_full(deploy_neo_1, name1, desc, price)
-	(m_contract_addr2, m_contract_txhash2) = deploy_contract_full(deploy_neo_2, name2, desc2, price)
+	m_contract_addr = ""
+	m_contract_txhash = ""
+
+	m_contract_addr2 = ""
+	m_contract_txhash2 = ""
 		
 	#A节点是Admin节点
-	(process, response) = init_admin(m_contract_addr, Config.ontID_A)
-	(process, response) = bind_role_function(m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
+	#(process, response) = init_admin(m_contract_addr, Config.ontID_A)
+	#(process, response) = bind_role_function(m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
 		
 	m_current_node = 0
 	m_storage_key = ByteToHex(b'Test Key')
@@ -48,9 +47,9 @@ class test_config():
 	m_stop_2_nodes = [5,6]
 	
 	CONTRACT_ADDRESS = ""
-	ADDRESS_A = script_hash_bl_reserver(base58_to_address(Config.NODES[0]["address"]))
-	ADDRESS_B = script_hash_bl_reserver(base58_to_address(Config.NODES[1]["address"]))
-	ADDRESS_C = script_hash_bl_reserver(base58_to_address(Config.NODES[2]["address"]))
+	ADDRESS_A = Common.bl_address(Config.NODES[0]["address"])
+	ADDRESS_B = Common.bl_address(Config.NODES[1]["address"])
+	ADDRESS_C = Common.bl_address(Config.NODES[2]["address"])
 	AMOUNT = "1001"
 	PUBLIC_KEY = Config.NODES[0]["pubkey"]
 	PUBLIC_KEY_2 = Config.NODES[1]["pubkey"]
