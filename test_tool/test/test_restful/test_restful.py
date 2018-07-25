@@ -31,7 +31,7 @@ class test_restful_1(ParametrizedTestCase):
 		logger.open( self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
-		logger.close(self.m_result)
+		logger.close(self.result())
 			
 	def test_base_001_getgenerateblocktime(self):
 		try:
@@ -53,7 +53,7 @@ class test_restful_2(ParametrizedTestCase):
 		time.sleep(5)
 		
 	def tearDown(self):
-		logger.close(self.m_result)
+		logger.close(self.result())
 
 	def test_normal_006_getblocktxsbyheight(self,height=0):
 		try:
@@ -89,7 +89,7 @@ class test_restful_2(ParametrizedTestCase):
 	# 无区块
 	def test_abnormal_053_getcontract(self):
 		try:
-			(contractaddr_right, txhash_right) = API.contract().deploy_contract_full("/home/ubuntu/ontology/git/test/test_tool/test/test_web_api/tasks/A.neo", "name", "desc", 0)
+			(contractaddr_right, txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
 			time.sleep(10)
 			script_hash=contractaddr_right
 			(process, response) = API.restful().getcontract(script_hash) 
@@ -104,12 +104,12 @@ class test_restful_3(ParametrizedTestCase):
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(50)
 
-		(testConfig.m_contractaddr_right, testConfig.m_txhash_right) = API.contract().deploy_contract_full("/home/ubuntu/ontology/git/test/test_tool/test/test_web_api/tasks/A.neo", "name", "desc", 0)
+		(testConfig.m_contractaddr_right, testConfig.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
 		time.sleep(10)
 		(result, reponse) = API.rpc().getblockhash(height = 1)
 		testConfig.m_block_hash_right = reponse["result"]
 
-		(result, reponse) = API.contract().sign_transction(Task("/home/ubuntu/ontology/git/test/test_tool/test/test_web_api/tasks/cli/siginvoketx.json"), False)
+		(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
 		testConfig.m_signed_txhash_right = reponse["result"]["signed_tx"]
 		testConfig.m_signed_txhash_wrong = "0f0f0f0f" + testConfig.m_signed_txhash_right 
 
@@ -120,7 +120,7 @@ class test_restful_3(ParametrizedTestCase):
 		time.sleep(1)
 		
 	def tearDown(self):
-		logger.close(self.m_result)
+		logger.close(self.result())
 		
 	def test_normal_002_getgenerateblocktime(self):
 		try:
