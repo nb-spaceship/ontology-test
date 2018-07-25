@@ -221,7 +221,8 @@ class ContractApi:
                 (result, response) = TaskRunner.run_single_task(task, judge, process_log)
                 return (result, response)
 
-    def call_multisig_contract(self, task,m,pubkeyArray):
+    #TODO
+    def call_multisig_contract(self, task, m, pubkeyArray):
         (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
         signed_tx = response["result"]["signed_tx"]
         
@@ -239,7 +240,7 @@ class ContractApi:
                         "pub_keys":pubkeyArray
                     }
                 },
-                "RESPONSE": {}
+                "RESPONSE": {"errrcode" : 0}
             }
             for node_index in range(len(Config.NODES)):
                 if Config.NODES[node_index]["pubkey"] == pubkey:
@@ -250,12 +251,12 @@ class ContractApi:
                     execNum=execNum+1
                     break
                     
-            if execNum>=m:
+            if execNum >= m:
                 (result,response)=self.call_signed_contract(signed_raw, True)
                 self.call_signed_contract(signed_raw, False)
                 return (result,response)
                 
-        return (False,{"error_info":"multi times lesss than except!only "+str(execNum)})
+        return (False, {"error_info":"multi times lesss than except!only "+str(execNum)})
 
     def init_admin(self, contract_address, admin_address, node_index = None):
         request = {

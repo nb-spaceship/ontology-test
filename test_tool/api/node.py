@@ -18,19 +18,21 @@ from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from api.rpc import RPCApi
+
 
 class NodeApi:
 	def wait_gen_block(self):
-		lastheight = get_block_count()
+		RPC_API = RPCApi()
+		lastheight = RPC_API.get_block_count()
 		times = 0
 		while True:
 			time.sleep(1)
 			times = times + 1
-			currentheight = get_block_count()
+			currentheight = RPC_API.get_block_count()
 			if (lastheight != currentheight):
 				return True
-			if (times > 60):
-				raise TestError()
+			if (times > 40):
 				return False
 
 	def get_current_node(self):
