@@ -17,7 +17,7 @@ class ParametrizedTestCase(unittest.TestCase):
         self.m_assertcount = 0
         pass
                 
-    def result():
+    def result(self):
         if self.m_result == "block" and self.m_assertcount > 0:
             self.m_result = "pass"
         return self.m_result   
