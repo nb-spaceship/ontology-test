@@ -25,6 +25,7 @@ class TestCaseRunner():
 	def filter_test_cases(self, test_suites, filterfile, filtertype, filterstr):
 		filter_condition = {"files":None, "class":None, "method":None, "except":[]}
 
+		result = []
 		try:
 			if filterstr:
 				if "!" in filterstr:
@@ -63,7 +64,6 @@ class TestCaseRunner():
 
 			print(filter_condition)
 
-			result = []
 			for test_suite in test_suites:
 				if filter_condition["files"] == []:
 					continue
