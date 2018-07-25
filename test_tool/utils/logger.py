@@ -10,20 +10,25 @@ class Logger():
 		self.init = False
 		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
+		self.logpath = ""
+		self.collectionfile = None
 
 	def __del__(self):
 		if self.init:
-			self.collectionfile.close()
+			pass
 
 	def setPath(self, path):
 		self.prefixFul = self.prefix + "/" + path
 
+	def logPath(self):
+		return self.logpath
+
 	def open(self, filepath, title = None):
+		self.logpath = ""
 		if not self.init:
 			if not os.path.exists(self.prefixFul):
 				os.makedirs(self.prefixFul)
-			self.collectionfile = open(self.prefixFul + "/collection_log.csv", "w")  # 打开文件
-			self.collectionfile.write("NAME,STATUS,LOG PATH\n")
+			self.append_record("NAME", "STATUS", "LOG PATH")
 			self.init = True
 
 		logdir = self.prefixFul + "/" + os.path.dirname(filepath)
@@ -47,18 +52,22 @@ class Logger():
 
 	def close(self, result = None, msg = None):
 		if not result is None:
-			if result:
+			if result == "pass":
 				self.print("[ OK       ] ")
 				self.append_record(self.logtitle, "pass", self.logpath)
-			else:
+			elif result == "fail":
 				self.print("[ Failed   ] ")
 				self.append_record(self.logtitle, "fail", self.logpath)
+			elif result == "block":
+				self.print("[ Block    ] ")
+				self.append_record(self.logtitle, "block", self.logpath)
 		if self.logfile:
 			self.logfile.close()
 			self.logfile = None
 
 	def append_record(self, name, status, logpath):
+		self.collectionfile = open(self.prefixFul + "/collection_log.csv", "a+")  # 打开文件
 		self.collectionfile.write(name + "," + status + "," + logpath + "\n")
-
+		self.collectionfile.close()
 
 LoggerInstance = Logger()

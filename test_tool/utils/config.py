@@ -6,9 +6,10 @@ from utils.hexstring import *
 class Config():
 	realdir = os.path.dirname(os.path.realpath(__file__))
 	UTILS_PATH = realdir
-	ROOT_PATH = UTILS_PATH + "/.."
-
-	cfg_file = open(realdir + "/../config.json", "rb")
+	ROOT_PATH = UTILS_PATH.replace("\\\\", "/")
+	ROOT_PATH = UTILS_PATH.replace("/utils", "")
+	print(ROOT_PATH)
+	cfg_file = open(ROOT_PATH + "/config.json", "rb")
 	cfg_json = json.loads(cfg_file.read().decode("utf-8"))
 	cfg_file.close()
 
@@ -44,6 +45,7 @@ class Config():
 
 	TOOLS_PATH = ROOT_PATH + "/" + "tools"
 	UTILS_PATH = ROOT_PATH + "/" + "utils"
+	TESTS_PATH = ROOT_PATH + "/" + "test"
 	RESOURCE_PATH = ROOT_PATH + "/resource"
 	WALLET_PATH = RESOURCE_PATH + "/wallet"
 	BASEAPI_PATH = ROOT_PATH + "/api/requests"
@@ -55,7 +57,8 @@ class Config():
 	#init nodes
 	NODES = cfg_json["NODES"]
 	for node_index in range(len(NODES)):
-		cfg_file = open(WALLET_PATH + "/wallet" + str(node_index) + ".dat", "rb")
+		str_node_index = "0" + str(node_index) if node_index < 10 else str(node_index)
+		cfg_file = open(WALLET_PATH + "/wallet" + str_node_index + ".dat", "rb")
 		walletdata = json.loads(cfg_file.read().decode("utf-8"))
 		accounts = walletdata["accounts"]
 		for account in accounts:
@@ -124,3 +127,6 @@ class Config():
 	roleA_hex = ByteToHex(b"roleA")
 	roleB_hex = ByteToHex(b"roleB")    
 	roleC_hex = ByteToHex(b"roleC")
+
+	AdminNum = 5
+	AdminPublicKeyList = [NODES[0]["pubkey"],NODES[1]["pubkey"],NODES[2]["pubkey"],NODES[3]["pubkey"],NODES[4]["pubkey"],NODES[5]["pubkey"],NODES[6]["pubkey"]]

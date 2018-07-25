@@ -6,7 +6,7 @@ class Error(Exception):
 	def __init__(self, msg):
 		self.msg = msg
 
-class TestError(Exception):
+class TestError(Error):
 	def __init__(self, code):
 		self.code = code
 		self.msg = "UNKNOW ERROR"
@@ -14,4 +14,3 @@ class TestError(Exception):
 			self.msg = Config.ERR_CODE[code]
 
 		logger.error(self.msg)
-

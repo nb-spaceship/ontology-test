@@ -7,6 +7,9 @@ import json
 import os
 import sys
 import getopt
+import subprocess
+import time
+import re
 
 sys.path.append('..')
 
@@ -17,6 +20,7 @@ from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.common import Common
 
 class ContractApi:
     def deploy_contract_full(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
@@ -29,8 +33,8 @@ class ContractApi:
             
             logger.print("[ DEPLOY ] ")
             cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" \"" + str(price) +  "\" > tmp"
-            p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
             print(cmd)
+            p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
             begintime = time.time()
             secondpass = 0
             timeout = 3
@@ -68,7 +72,7 @@ class ContractApi:
     #部署合约
     #返回值： 部署的合约地址
     def deploy_contract(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
-        (deploy_contract_addr, deploy_contract_txhash) = deploy_contract_full(neo_code_path, name, desc, price)
+        (deploy_contract_addr, deploy_contract_txhash) = self.deploy_contract_full(neo_code_path, name, desc, price)
         time.sleep(6)
         return deploy_contract_addr
 
@@ -158,7 +162,7 @@ class ContractApi:
 
             #step 2: call contract
             if expect_signresponse != None:             
-                result = cmp(expect_signresponse, response)
+                result = Common.cmp(expect_signresponse, response)
                 if result and "error_code" in response and int(response["error_code"]) != 0:
                     return (result, response) 
 
@@ -183,7 +187,7 @@ class ContractApi:
                 raise Error("call contract error")
 
             if judge and expect_response:
-                result = cmp(expect_response, response)
+                result = Common.cmp(expect_response, response)
                 if not result:
                     raise Error("not except result")
 
@@ -218,7 +222,7 @@ class ContractApi:
                 return (result, response)
 
     def call_multisig_contract(self, task,m,pubkeyArray):
-        (result, response) = sign_transction(task)#Task(name="multi", ijson=request))
+        (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
         signed_tx = response["result"]["signed_tx"]
         
         #print(request1)
