@@ -116,8 +116,11 @@ class TestCaseRunner():
 		print(test_suites)
 
 		cases = self.filter_test_cases(test_suites, filterfile, filtertype, filterstr)
-		print(len(cases))
+		if cases == None:
+			print("no test case found...")
+			return
 
+		print(len(cases))
 		runner = unittest.TextTestRunner()
 		monitor.exec(runner, cases)
 
