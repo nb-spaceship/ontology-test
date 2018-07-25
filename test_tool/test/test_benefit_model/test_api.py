@@ -17,8 +17,11 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
+
+from api.apimanager import API
+
+from test_config import test_config
 
 class test_api:
     @staticmethod
@@ -52,7 +55,7 @@ class test_api:
         avgpos = int(totalposvalue / len(totalpos))
         print("avgpos: " + str(avgpos))
         for pos in totalpos:
-            totalyi = totalyi + get_yi(pos, avgpos)
+            totalyi = totalyi + test_api.get_yi(pos, avgpos)
             
         if totalyi == 0:
             return 0
@@ -61,9 +64,9 @@ class test_api:
         print("initpos: " + str(initpos)) 
         print("avgpos: " + str(avgpos)) 
         print("totalyi: " + str(totalyi)) 
-        print("get_yi: " + str(get_yi(initpos, avgpos)))
+        print("get_yi: " + str(test_api.get_yi(initpos, avgpos)))
 
-        return totalgas * get_yi(initpos, avgpos) / totalyi
+        return totalgas * test_api.get_yi(initpos, avgpos) / totalyi
 
     @staticmethod 
     def get_candidate_benifit_value(totalgas, initpos, totalpos = [1000, 1000, 1000, 1000, 1000, 1000, 1000]):
@@ -77,25 +80,25 @@ class test_api:
         #新加入节点, 并申请候选节点
         start_nodes([new_node], clear_chain = True, clear_log = True)
         time.sleep(5)
-        regIDWithPublicKey(new_node)
-        (process, response) = bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])
+        API.native().regid_with_publickey(new_node)
+        (process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])
         if not process:
             return (process, response)
             
-        (process, response) = bind_user_role("0700000000000000000000000000000000000000",ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),[ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8"))])
+        (process, response) = API.native().bind_user_role("0700000000000000000000000000000000000000",ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),[ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8"))])
         if not process:
             return (process, response)
             
-        transfer_ont(from_node, new_node, init_ont, price = 0)
-        transfer_ong(from_node, new_node, init_ong, price = 0)
+        API.node().transfer_ont(from_node, new_node, init_ont, price = 0)
+        API.node().transfer_ong(from_node, new_node, init_ong, price = 0)
         
         time.sleep(10)
         
-        (process, response) = invoke_function_register(Config.NODES[new_node]["pubkey"], Config.NODES[new_node]["address"], str(init_pos), ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8")), "1")
+        (process, response) = API.native().register_candidate(Config.NODES[new_node]["pubkey"], Config.NODES[new_node]["address"], str(init_pos), ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8")), "1")
         if not process:
             return (process, response)  
             
-        (process, response) = invoke_function_candidate(Config.NODES[new_node]["pubkey"])       
+        (process, response) = API.native().approve_candidate(Config.NODES[new_node]["pubkey"])       
         return (process, response)
 
     '''
