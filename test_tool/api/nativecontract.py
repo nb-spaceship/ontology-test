@@ -18,8 +18,10 @@ from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.contract import ContractApi
+from api.node import NodeApi
 
 CONTRACT_API = ContractApi()
+NODE_API = NodeApi()
 
 class NativeApi:
     ADMIN_NUM = 5
@@ -568,20 +570,23 @@ class NativeApi:
         request["NODE_INDEX"] = node_index    
         return CONTRACT_API.call_multisig_contract(Task(name="transfer_multi", ijson=request),public_key_Array[0],public_key_Array[1])
 
-    def init_ont_ong(self):
-        for i in range(7):
-            (result, response)=self.transfer_multi("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],100000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
+    def init_ont_ong(self, node_count = 7):
+        for i in range(node_count):
+            (result, response)=self.transfer_multi("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],10000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
             if not result:
                 return (result, response)
-        time.sleep(5)
-        #TODO
+        if not NODE_API.wait_gen_block():
+            return (False, "wait_gen_block time out[1]")
+
         (result, response) = self.transferFrom_multi(Config.MULTI_SIGNED_ADDRESS,Config.INIT_AMOUNT_ONG,5,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])       
         if not result:
             return (result, response)
-        time.sleep(5)
-        #TODO
-        for i in range(7):
-            (result, response)=self.transfer_multi("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],1000000000000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
+        if not NODE_API.wait_gen_block():
+            return (False, "wait_gen_block time out[2]")
+
+        for i in range(node_count):
+            (result, response)=self.transfer_multi("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"], int(Config.INIT_AMOUNT_ONG / node_count),public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
             if not result:
                 return (result, response)
-        #TODO
+        if not NODE_API.wait_gen_block():
+            return (False, "wait_gen_block time out[2]")
