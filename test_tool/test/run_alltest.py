@@ -112,7 +112,7 @@ class TestCaseRunner():
 		print("---------" + case_path)
 		try:
 			test_suites = unittest.defaultTestLoader.discover(case_path,
-														pattern="test_*.py",
+														pattern="test_main*.py",
 														top_level_dir=None)
 		except Exception as e:
 			print("test discover", e)
