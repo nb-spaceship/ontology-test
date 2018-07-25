@@ -28,10 +28,10 @@ from test_config import test_config
 # 请准备 9个节点进行测试
 		
 class test_benefit_model_1(ParametrizedTestCase):
-	def test_init(self):
-		pass
-	
 	def setUp(self):
+		if self._testMethodName == "test_init":
+			return
+
 		logger.open("test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
@@ -61,7 +61,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 
 			ong1=int(response["result"]["ong"])
 			
-			API.native().API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
+			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
 			API.native().commit_dpos()
@@ -76,7 +76,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong2 != ong1, "get balance error")
 
 		except Exception as e:
-			print(e.msg)
+			print(e)
 		
 	#blocked
 	def test_normal_002_benefit(self):
@@ -91,9 +91,9 @@ class test_benefit_model_1(ParametrizedTestCase):
 			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
-			time.sleep(15)
+			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
 			API.native().commit_dpos()
-			time.sleep(15)
+			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
 
 			(process, response) = API.rpc().getbalance(address1)
 			self.ASSERT(process, "get balance error")
@@ -103,7 +103,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 - ong1) > 0, "error")
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
 		
 	def test_abnormal_003_benefit(self):
@@ -133,7 +133,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 - ong1) == 0, "error")
 
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
  
 	#
@@ -175,7 +175,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong_stop2 != ong_stop1, "benefit[2]")
 				
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
  	
 	
@@ -220,7 +220,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 != ong1), "normal node benefit error")
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
  
 	
 	def test_normal_006_benefit(self):
@@ -257,7 +257,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong3 - ong2) == except_benifit, "first benefit error")
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 	
 	#前提: 7个节点initpos 都是 1000
@@ -288,7 +288,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((int(ong2 - ong1) == int(except_benifit)), "")
 		
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 	
 	#第7个节点为新加入节点
@@ -369,7 +369,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = abs((int(ong4 - ong3) - int(except_benifit4))) < 10
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
 
 	#第7个节点为新加入节点
@@ -548,10 +548,12 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(process, "benefit error")
 		
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 class test_benefit_model_2(ParametrizedTestCase):
 	def setUp(self):
+		if self._testMethodName == "test_init":
+			return
 		logger.open( "test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		self.m_checknode = 4
 		time.sleep(2)
@@ -632,7 +634,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 			
 	def test_normal_012_benefit(self):
@@ -679,7 +681,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			self.ASSERT((normal_ong2 - normal_ong) == except_benifit1, "benefit normal node error")
 			self.ASSERT((candidate_ong2 - candidate_ong) == except_benifit2, "benefit candidate node error")
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 
 	def test_normal_013_benefit(self):
@@ -725,7 +727,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
 
 	
