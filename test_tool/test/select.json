@@ -2,5 +2,6 @@
     "test_rpc" : false,
     "test_restful" : false,
     "test_websocket" : false,
-    "test_consensus" : true
+    "test_consensus" : false,
+    "test_benefit_model" : true
 }
