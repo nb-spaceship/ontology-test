@@ -433,6 +433,7 @@ class NativeApi:
 
         return CONTRACT_API.call_multisig_contract(Task(name="commit_dpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
 
+    #same to invoke_function_approve
     def approve_candidate(self, pubKey, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
             "NODE_INDEX":0,
@@ -455,8 +456,40 @@ class NativeApi:
             
         return API.contract().call_multisig_contract(Task(name="approve_candidate", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
 
+    #same to invoke_function_register
+    def register_candidate(self, pubKey, walletAddress, ontCount, ontID, user, node_index = None, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0700000000000000000000000000000000000000",
+                    "method": "registerCandidate",
+                    "version": 0,
+                    "params": [
+                                pubKey,
+                                walletAddress,
+                                ontCount,
+                                ontID,
+                                user
+                              ]
+                        }
+                    },
+            "RESPONSE":{"error" : errorcode}
+        }
+           
+        if node_index != None:
+            request["NODE_INDEX"] = node_index
+        else:
+            node_index = Config.ontid_map[ontID]
+            request["NODE_INDEX"] = node_index
+        
+        return API.contract().call_contract(Task(name="invoke_function_register", ijson=request), twice = True)
 
 
+##############################################
     def transferFrom_multi(self, put_address, amount, node_index = None,errorcode=0,public_key_Array=[], errorkey = "error", gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
             "REQUEST": {
