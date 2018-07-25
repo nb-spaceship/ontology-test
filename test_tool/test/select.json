@@ -1,0 +1,5 @@
+{
+    "test_rpc" : false,
+    "test_restful" : true,
+    "test_websocket" : false
+}

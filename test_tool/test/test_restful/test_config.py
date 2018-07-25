@@ -19,7 +19,7 @@ from api.apimanager import API
 
 rpcApi = API.rpc()
 
-class testConfig():
+class test_config():
     m_contractaddr_right = ""
     m_txhash_right = ""
     m_txhash_wrong = "this is a wrong tx hash"
