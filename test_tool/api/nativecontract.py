@@ -442,6 +442,28 @@ class NativeApi:
 
         return CONTRACT_API.call_contract(Task(name="invoke_function_quitNode", ijson=request), twice = True)
 
+    def black_node(self, node_public_key, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0700000000000000000000000000000000000000",
+                    "method": "blackNode",
+                    "version": 0,
+                    "params": [
+                        node_public_key
+                    ]
+                }
+            },
+            "RESPONSE": {"error" : errorcode}
+        }
+
+        return CONTRACT_API.call_multisig_contract(Task(name="invoke_function_blackNode", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
+
+
     def commit_dpos(self, errorcode = 0, gas_price = Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
             "NODE_INDEX":0,
