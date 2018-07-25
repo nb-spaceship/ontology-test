@@ -57,7 +57,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 		try:
 			address1 = Config.NODES[1]["address"]
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 
 			ong1=int(response["result"]["ong"])
 			
@@ -68,12 +68,12 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(10)
 			
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 
 			ong2=int(response["result"]["ong"])
 			print("before cost[1]: " + str(ong1))
 			print("after cost[1]: " + str(ong2))
-			ASSERT(ong2 != ong1, "get balance error")
+			self.ASSERT(ong2 != ong1, "get balance error")
 
 		except Exception as e:
 			print(e.msg)
@@ -84,7 +84,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 		try:
 			address1 = Config.NODES[self.m_checknode]["address"]
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 
 			ong1=int(response["result"]["ong"])
 			
@@ -96,11 +96,11 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong2=int(response["result"]["ong"])
 			print("before cost[1]: " + str(ong1))
 			print("after cost[1]: " + str(ong2))
-			ASSERT((ong2 - ong1) > 0, "error")
+			self.ASSERT((ong2 - ong1) > 0, "error")
 			
 		except Exception as e:
 			print(e.msg)
@@ -112,7 +112,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			# logger.open("test_003_benefit.log", "test_003_benefit")
 			process = True
 			(process, response)=API.rpc().getbalance(address)
-			ASSERT(process, "get balance error[1]")
+			self.ASSERT(process, "get balance error[1]")
 
 			ong1=int(response["result"]["ong"])
 			ont1=int(response["result"]["ont"])
@@ -125,12 +125,12 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(address)
-			ASSERT(process, "get balance error[2]")
+			self.ASSERT(process, "get balance error[2]")
 			
 			ong2 = int(response["result"]["ong"])
 			ont2 = int(response["result"]["ont"])
 		
-			ASSERT((ong2 - ong1) == 0, "error")
+			self.ASSERT((ong2 - ong1) == 0, "error")
 
 		except Exception as e:
 			print(e.msg)
@@ -142,14 +142,14 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = False
 			address_stop = Config.NODES[self.m_stop_2_nodes[0]]["address"]
 			(process, response) = API.rpc().getbalance(address_stop)
-			ASSERT(process, "get balance error[1]")
+			self.ASSERT(process, "get balance error[1]")
 
 			ong_stop1 = int(response["result"]["ong"])
 			
 			API.node().stop_nodes(self.m_stop_2_nodes)
 			address1 = Config.NODES[1]["address"]
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error[2]")
+			self.ASSERT(process, "get balance error[2]")
 
 			ong1=int(response["result"]["ong"])
 			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
@@ -160,19 +160,19 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error[3]")
+			self.ASSERT(process, "get balance error[3]")
 			ong2=int(response["result"]["ong"])
-			ASSERT(ong2 != ong1, "no benefit[1]")
+			self.ASSERT(ong2 != ong1, "no benefit[1]")
 			
 			#start_nodes(self.m_stop_2_nodes)
 			#time.sleep(10)
 			
 			(process, response) = API.rpc().getbalance(address_stop)
-			ASSERT(process, "get balance error[4]")
+			self.ASSERT(process, "get balance error[4]")
 			ong_stop2 = int(response["result"]["ong"])
 			print("no benefit, before cost[1]: " + str(ong_stop1))
 			print("no benefit, after cost[1]: " + str(ong_stop2))
-			ASSERT(ong_stop2 != ong_stop1, "benefit[2]")
+			self.ASSERT(ong_stop2 != ong_stop1, "benefit[2]")
 				
 		except Exception as e:
 			print(e.msg)
@@ -187,13 +187,13 @@ class test_benefit_model_1(ParametrizedTestCase):
 			start_nodes(self.m_dbft_nodes, Config.DEFAULT_NODE_ARGS, True, True, program = "ontology-bft_1")
 
 			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
-			ASSERT(process, "updateGlobalParam error")
+			self.ASSERT(process, "updateGlobalParam error")
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong1 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_dbft_nodes[0]]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			dbft_ong1 = int(response["result"]["ong"])
 					
 			#进行第一轮共识
@@ -208,16 +208,16 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong2 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_dbft_nodes[0]]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			dbft_ong2 = int(response["result"]["ong"])
 			
 			#第二轮判断
 			except_benifit = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			ASSERT((dbft_ong2 != dbft_ong1), "bft node benefit error")
-			ASSERT((ong2 != ong1), "normal node benefit error")
+			self.ASSERT((dbft_ong2 != dbft_ong1), "bft node benefit error")
+			self.ASSERT((ong2 != ong1), "normal node benefit error")
 			
 		except Exception as e:
 			print(e.msg)
@@ -228,20 +228,20 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = False
  
 			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
-			ASSERT(process, "updateGlobalParam error")
+			self.ASSERT(process, "updateGlobalParam error")
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong1 = int(response["result"]["ong"])
 			
 			API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong2 = int(response["result"]["ong"])
 			
 			#第一轮判断
-			ASSERT(ong1 == ong2, "benefit error")
+			self.ASSERT(ong1 == ong2, "benefit error")
 		
 			#进行第一轮共识
 			time.sleep(15)
@@ -249,12 +249,12 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong3 = int(response["result"]["ong"])
 			
 			#第二轮判断
 			except_benifit = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			ASSERT((ong3 - ong2) == except_benifit, "first benefit error")
+			self.ASSERT((ong3 - ong2) == except_benifit, "first benefit error")
 			
 		except Exception as e:
 			print(e.msg)
@@ -267,7 +267,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 		
 			address1 = Config.NODES[self.m_checknode]["address"]
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error[1]")
+			self.ASSERT(process, "get balance error[1]")
 
 			ong1=int(response["result"]["ong"])
 			
@@ -280,12 +280,12 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(10)
 			
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error[2]")
+			self.ASSERT(process, "get balance error[2]")
 
 			ong2=int(response["result"]["ong"])
 			print("before cost[1]: " + str(ong1))
 			print("after cost[1]: " + str(ong2))
-			ASSERT((int(ong2 - ong1) == int(except_benifit)), "")
+			self.ASSERT((int(ong2 - ong1) == int(except_benifit)), "")
 		
 		except Exception as e:
 			print(e.msg)
@@ -303,11 +303,11 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 
 			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
-			ASSERT(process, "updateGlobalParam error")
+			self.ASSERT(process, "updateGlobalParam error")
 			
 			address4 = Config.NODES[self.m_checknode]["address"]
 			(process, response) = API.rpc().getbalance(address4)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong1 = int(response["result"]["ong"])
 			
 			####################################################################################
@@ -329,22 +329,22 @@ class test_benefit_model_1(ParametrizedTestCase):
 			logger.print("except_benifit[3]: " + str(except_benifit3))
 			logger.print("except_benifit[4]: " + str(except_benifit4))
 			(process, response) = API.rpc().getbalance(address4)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			
 			ong2 = int(response["result"]["ong"])
 			print("before cost[1]: " + str(ong1))
 			print("after cost[1]: " + str(ong2))
 			process = (int(ong2 - ong1) == int(except_benifit))
-			ASSERT(process, "first benefit error")
+			self.ASSERT(process, "first benefit error")
 			
 			####################################################################################
 			#添加候选节点1
 			(process, response) = test_api.add_candidate_node(new_node, init_ong = candidate_pos)
-			ASSERT(process, "add candidate node error")
+			self.ASSERT(process, "add candidate node error")
 			
 			#4.消耗的0.2ong的50%被分配给刚加入的候选节点
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 
 			ong3 = int(response["result"]["ong"])
 			
@@ -360,7 +360,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			#nodeCountCheck([], 7)
 			#4.消耗的0.2ong的50%被分配给刚加入的候选节点
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			
 			ong4 = int(response["result"]["ong"])
 			
@@ -391,14 +391,14 @@ class test_benefit_model_1(ParametrizedTestCase):
 
 			#添加候选节点1
 			(process, response) = test_api.add_candidate_node(new_node1, init_pos = candidate_pos)
-			ASSERT(process, "add candidate error")
+			self.ASSERT(process, "add candidate error")
 		
 			#区块到达分红数量要求,获取共识前后的ong值
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong1 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node1]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate1_ong_1 = int(response["result"]["ong"])
 	
 			#第一次分红，只分红共识节点的，因为候选节点要在下个周期才分红
@@ -410,10 +410,10 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong2 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node1]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate1_ong_2 = int(response["result"]["ong"])
 			
 			#计算分红值
@@ -426,16 +426,16 @@ class test_benefit_model_1(ParametrizedTestCase):
 			logger.print("before cost[1]: " + str(normal_ong1))
 			logger.print("after cost[1]: " + str(normal_ong2))
 			process = abs(int(normal_ong2 - normal_ong1) - int(except_benifit1 + except_benifit2)) < 10
-			ASSERT(process, "first benefit error[normal node][1]")
+			self.ASSERT(process, "first benefit error[normal node][1]")
 			
 			process = abs(int(candidate1_ong_2 - candidate1_ong_1) - int(except_candidate_benifit1)) < 10
-			ASSERT(process, "first benefit error[candidate node][2]")
+			self.ASSERT(process, "first benefit error[candidate node][2]")
 		
 			
 			
 			#添加候选节点2
 			(process, response) = test_api.add_candidate_node(new_node2)
-			ASSERT(process, "add candidate node error")
+			self.ASSERT(process, "add candidate node error")
 
 			#第一次共识，确保下次一起分红，因为候选节点要在下个周期才分红
 			time.sleep(15)
@@ -445,16 +445,16 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			#4.消耗的0.2ong的50%被分配给刚加入的候选节点
 			process = API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
-			ASSERT(process, "transfer ont error")
+			self.ASSERT(process, "transfer ont error")
 			time.sleep(5)
 		
 			
 			#区块到达分红数量要求
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong3 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node2]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate2_ong_1 = int(response["result"]["ong"])
 			
 			#第二次分红，候选节点也分红
@@ -463,11 +463,11 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(address1)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong4 = int(response["result"]["ong"])
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node2]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate2_ong_2 = int(response["result"]["ong"])
 			
 			#计算分红值
@@ -479,11 +479,11 @@ class test_benefit_model_1(ParametrizedTestCase):
 			logger.print("before cost[2]: " + str(normal_ong3))
 			logger.print("after cost[2]: " + str(normal_ong4))
 			process = abs(int(normal_ong4 - normal_ong3) - int(except_benifit1)) < 10
-			ASSERT(process, "first benefit error[normal node][3]")
+			self.ASSERT(process, "first benefit error[normal node][3]")
 			
 			#在10以内的误差
 			process = abs((int(candidate2_ong_2 - candidate2_ong_1) - int(except_candidate_benifit1))) < 10
-			ASSERT(process, "first benefit error[candidate node][4]")
+			self.ASSERT(process, "first benefit error[candidate node][4]")
 			
 		except Exception as e:
 			print(e)
@@ -500,7 +500,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			address4 = Config.NODES[self.m_checknode]["address"]
 			(process, response) = API.rpc().getbalance(address4)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			ong1 = int(response["result"]["ong"])
 
 			test_api.add_candidate_node(new_node, init_pos = 20000)
@@ -515,10 +515,10 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(5)
  
 			(process, response) = API.rpc().getbalance(address4)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong = int(response["result"]["ong"])
 			
 			#第二次共识，有ong分润
@@ -536,16 +536,16 @@ class test_benefit_model_1(ParametrizedTestCase):
 			print(except_candidate_benifit2)
 			
 			(process, response) = API.rpc().getbalance(address4)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong2 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[new_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
 			print("normal_ong2: " + str(normal_ong2))
 			print("candidate_ong2: " + str(candidate_ong2))
 			process = abs((int(candidate_ong2 - candidate_ong) - int(except_benifit3))) < 10
-			ASSERT(process, "benefit error")
+			self.ASSERT(process, "benefit error")
 		
 		except Exception as e:
 			print(e.msg)
@@ -603,10 +603,10 @@ class test_benefit_model_2(ParametrizedTestCase):
 			response = API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
 
 			(process, response) = API.rpc().getbalance(Config.NODES[peer_node1]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[unpeer_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong = int(response["result"]["ong"])
 			
 			time.sleep(15)
@@ -614,10 +614,10 @@ class test_benefit_model_2(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[peer_node1]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong2 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[unpeer_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
 			except_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 5000, [5000, 5000, 5000, 10000, 10000, 10000]))
@@ -627,8 +627,8 @@ class test_benefit_model_2(ParametrizedTestCase):
 			
 			print("candidate_ong2: " + str(candidate_ong2))
 			print("except_benifit2: " + str(except_benifit2))
-			ASSERT((normal_ong2 - normal_ong) == except_benifit2, "benefit normal node error")
-			ASSERT((candidate_ong2 - candidate_ong) == except_benifit1, "benefit candidate node error")
+			self.ASSERT((normal_ong2 - normal_ong) == except_benifit2, "benefit normal node error")
+			self.ASSERT((candidate_ong2 - candidate_ong) == except_benifit1, "benefit candidate node error")
 
 			
 		except Exception as e:
@@ -655,10 +655,10 @@ class test_benefit_model_2(ParametrizedTestCase):
 			response = API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
 
 			(process, response) = API.rpc().getbalance(address)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[unpeer_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong = int(response["result"]["ong"])
 			
 			time.sleep(15)
@@ -666,18 +666,18 @@ class test_benefit_model_2(ParametrizedTestCase):
 			time.sleep(15)
 			
 			(process, response) = API.rpc().getbalance(address)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong2 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[unpeer_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
 			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			except_benifit2 = 0
 			print("normal_ong2: " + str(normal_ong2))
 			print("candidate_ong2: " + str(candidate_ong2))
-			ASSERT((normal_ong2 - normal_ong) == except_benifit1, "benefit normal node error")
-			ASSERT((candidate_ong2 - candidate_ong) == except_benifit2, "benefit candidate node error")
+			self.ASSERT((normal_ong2 - normal_ong) == except_benifit1, "benefit normal node error")
+			self.ASSERT((candidate_ong2 - candidate_ong) == except_benifit2, "benefit candidate node error")
 		except Exception as e:
 			print(e.msg)
 
@@ -701,27 +701,27 @@ class test_benefit_model_2(ParametrizedTestCase):
 			response = API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
 
 			(process, response) = API.rpc().getbalance(address)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[unpeer_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong = int(response["result"]["ong"])
 			time.sleep(15)
 			API.native().commit_dpos()
 			time.sleep(15)
 			(process, response) = API.rpc().getbalance(address)
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			normal_ong2 = int(response["result"]["ong"])
 			(process, response) = API.rpc().getbalance(Config.NODES[unpeer_node]["address"])
-			ASSERT(process, "get balance error")
+			self.ASSERT(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
 			except_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST, 5000, [5000, 5000, 5000, 5000, 5000, 5000, 5000]))
 			except_benifit2 = 0
 			print("normal_ong2: " + str(normal_ong2))
 			print("candidate_ong2: " + str(candidate_ong2))
-			ASSERT((normal_ong2 - normal_ong) == except_benifit2, "benefit normal node error")
-			ASSERT((candidate_ong2 - candidate_ong) == except_benifit1, "benefit candidate node error")
+			self.ASSERT((normal_ong2 - normal_ong) == except_benifit2, "benefit normal node error")
+			self.ASSERT((candidate_ong2 - candidate_ong) == except_benifit1, "benefit candidate node error")
 			
 			
 		except Exception as e:
