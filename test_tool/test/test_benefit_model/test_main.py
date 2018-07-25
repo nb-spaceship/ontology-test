@@ -28,10 +28,10 @@ from test_config import test_config
 # 请准备 9个节点进行测试
 		
 class test_benefit_model_1(ParametrizedTestCase):
-	def test_init(self):
-		pass
-	
 	def setUp(self):
+		if self._testMethodName == "test_init":
+			return
+
 		logger.open("test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
@@ -552,6 +552,8 @@ class test_benefit_model_1(ParametrizedTestCase):
 
 class test_benefit_model_2(ParametrizedTestCase):
 	def setUp(self):
+		if self._testMethodName == "test_init":
+			return
 		logger.open( "test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		self.m_checknode = 4
 		time.sleep(2)
