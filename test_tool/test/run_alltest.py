@@ -124,7 +124,6 @@ class TestCaseRunner():
 			return
 
 		print(len(cases))
-		print(cases)
 		runner = unittest.TextTestRunner()
 		monitor.exec(runner, cases)
 

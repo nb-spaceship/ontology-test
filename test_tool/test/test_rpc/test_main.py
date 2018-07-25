@@ -70,7 +70,7 @@ class test_rpc_2(ParametrizedTestCase):
 		test_config.m_getstorage_contract_addr = test_config.m_contractaddr_right
 		(result, response) = API.rpc().getblockhash(height = 1)
 		test_config.m_block_hash_right = response["result"]
-		(result, response) = API.restful().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+		(result, response) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
 		test_config.m_signed_txhash_right = response["result"]["signed_tx"]
 		test_config.m_signed_txhash_wrong = test_config.m_signed_txhash_right + "0f0f0f0f"
 		
@@ -81,7 +81,7 @@ class test_rpc_2(ParametrizedTestCase):
 		time.sleep(1)
 		
 	def tearDown(self):
-		logger.close(self.m_result)
+		logger.close(self.result())
 			
 	def test_base_001_getblock(self):
 		try:
@@ -689,7 +689,7 @@ class test_rpc_2(ParametrizedTestCase):
 
 	def test_normal_094_getmerkleproof(self):
 		try:
-			task = Task("tasks/rpc/94_getmerkleproof.json")
+			task = Task(testpath+"/resource/rpc/94_getmerkleproof.json")
 			task.request()["params"] = [test_config.m_txhash_right]
 			(process, response) =  TaskRunner.run_single_task(task)
 			self.ASSERT(process, "")
@@ -698,7 +698,7 @@ class test_rpc_2(ParametrizedTestCase):
 
 	def test_normal_095_getmerkleproof(self):
 		try:
-			task = Task("tasks/rpc/95_getmerkleproof.json")
+			task = Task(testpath+"/resource/rpc/95_getmerkleproof.json")
 			task.request()["params"] = [test_config.m_txhash_right]
 			(process, response) =  TaskRunner.run_single_task(task)
 			self.ASSERT(process, "")
@@ -708,7 +708,7 @@ class test_rpc_2(ParametrizedTestCase):
 	# can not test
 	def test_abnormal_096_getmerkleproof(self):
 		try:
-			task = Task("tasks/rpc/96_getmerkleproof.json")
+			task = Task(testpath+"/resource/rpc/96_getmerkleproof.json")
 			(process, response) =  TaskRunner.run_single_task(task)
 			self.ASSERT(not process, "")
 		except Exception as e:
@@ -716,7 +716,7 @@ class test_rpc_2(ParametrizedTestCase):
 	
 	def test_abnormal_097_getmerkleproof(self):
 		try:
-			task = Task("tasks/rpc/97_getmerkleproof.1.json")
+			task = Task(testpath+"/resource/rpc/97_getmerkleproof.1.json")
 			(process, response) =  TaskRunner.run_single_task(task)
 			self.ASSERT(not process, "")
 		except Exception as e:
