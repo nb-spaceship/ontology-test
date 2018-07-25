@@ -607,7 +607,7 @@ class NativeApi:
             return (False, "wait_gen_block time out[2]")
 
         for i in range(node_count):
-            (result, response)=self.transfer_multi("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"], int(Config.INIT_AMOUNT_ONG / node_count),public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
+            (result, response)=self.transfer_multi("ong",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"], int(int(Config.INIT_AMOUNT_ONG) / node_count),public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]])
             if not result:
                 return (result, response)
         if not NODE_API.wait_gen_block():
