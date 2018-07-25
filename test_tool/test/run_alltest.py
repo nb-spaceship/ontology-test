@@ -90,7 +90,8 @@ class TestCaseRunner():
 		except Exception as e:
 			print(e.args)
 
-		return result.sort(key=lambda tc:int(tc._testMethodName))
+		#return result.sort(key=lambda tc:int(tc._testMethodName))
+		return result
 
 	def run(self, monitor):
 		filterfile = ""
