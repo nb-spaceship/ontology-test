@@ -20,7 +20,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-from test_api import *
+from test_api import test_api
 from test_config import test_config
 
 ############################################################
@@ -57,11 +57,11 @@ class test_consensus_1(ParametrizedTestCase):
 		process = False
 		try:
 			try:
-				(process, response) = transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
+				(process, response) = test_api.transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
 				if not process:
 					raise Error("transfer error...")
 			
-				(process, response) = RPCApi().getblockheightbytxhash(response["txhash"])
+				(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 				if not process:
 					raise Error("not a valid block...")
 			
@@ -217,11 +217,11 @@ class test_consensus_1(ParametrizedTestCase):
 			stop_nodes(stopnodes)
 			process = False
 			try:
-				(process, response) = transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
+				(process, response) = test_api.transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
 				if not process:
 					raise Error("transfer error...")
 				
-				(process, response) = RPCApi().getblockheightbytxhash(response["txhash"])
+				(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 				if not process:
 					raise Error("not a valid block...")
 				
@@ -252,7 +252,7 @@ class test_consensus_1(ParametrizedTestCase):
 						raise Error("invoke_function put error...")
 					
 					time.sleep(30)
-					(process, response) = RPCApi().getblockheightbytxhash(response["txhash"])
+					(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 					if not process:
 						raise Error("not a valid block...in " + str(i) + " times")
 					time.sleep(10)
@@ -425,7 +425,7 @@ class test_consensus_2(ParametrizedTestCase):
 					if not process:
 						raise Error("invoke_function error...")
 					
-					(process, response) = RPCApi().getblockheightbytxhash(response["txhash"])
+					(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 					if not process:
 						raise Error("not a valid block...")
 				
@@ -561,11 +561,11 @@ class test_consensus_3(ParametrizedTestCase):
 		process = False
 		try:
 			try:
-				(process, response) = transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
+				(process, response) = test_api.transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
 				if not process:
 					raise Error("transfer error...")
 				
-				(process, response) = RPCApi().getblockheightbytxhash(response["txhash"])
+				(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 				if not process:
 					raise Error("not a valid block...")
 				

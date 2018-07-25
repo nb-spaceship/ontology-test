@@ -21,110 +21,11 @@ from utils.error import Error
 from api.apimanager import API
 
 class test_api:
+	@staticmethod
 	def getStorageConf(confName):
-		rpcapiTest=RPCApi()
-		return rpcapiTest.getstorage("0700000000000000000000000000000000000000",ByteToHex(confName.encode("utf-8")))
+		return API.rpc().getstorage("0700000000000000000000000000000000000000",ByteToHex(confName.encode("utf-8")))
 
-	def invoke_function_consensus(pubKey):
-		request = {
-			"NODE_INDEX":0,
-			"REQUEST": {
-				"Qid": "t",
-				"Method": "signativeinvoketx",
-				"Params": {
-					"gas_price": 0,
-					"gas_limit": 1000000000,
-					"address": "0700000000000000000000000000000000000000",
-					"method": "commitDpos",
-					"version": 0,
-					"params": [
-							  ]
-						}
-					},
-			"RESPONSE":{"error" : 0}
-		}
-
-		return API.contract().call_multisig_contract(Task(name="invoke_function_commitDpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
-
-
-	def invoke_function_approve(pubKey):
-		request = {
-			"NODE_INDEX":0,
-			"REQUEST": {
-				"Qid": "t",
-				"Method": "signativeinvoketx",
-				"Params": {
-					"gas_price": 0,
-					"gas_limit": 1000000000,
-					"address": "0700000000000000000000000000000000000000",
-					"method": "approveCandidate",
-					"version": 0,
-					"params": [
-								pubKey
-							  ]
-						}
-					},
-			"RESPONSE":{"error" : 0}
-		}
-			
-		return API.contract().call_multisig_contract(Task(name="invoke_function_candidate", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
-
-
-	def native_transfer_ont(pay_address, get_address, amount, node_index=None, errorcode=0, gas_price=0):
-		request = {
-			"REQUEST": {
-				"Qid": "t",
-				"Method": "signativeinvoketx",
-				"Params": {
-					"gas_price": 0,
-					"gas_limit": 1000000000,
-					"address": "0100000000000000000000000000000000000000",
-					"method": "transfer",
-					"version": 1,
-					"params": [
-						[
-							[
-								pay_address,
-								get_address,
-								amount
-							]
-						]
-					]
-				}
-			},
-			"RESPONSE": {"error": errorcode},
-			"NODE_INDEX": node_index
-		}
-		return API.contract().call_contract(Task(name="transfer", ijson=request), twice=True)
-
-	def native_transfer_ong(pay_address, get_address, amount, node_index=None, errorcode=0, gas_price=0):
-		amount = str(int(amount)*1000000000)
-		request = {
-			"REQUEST": {
-				"Qid": "t",
-				"Method": "signativeinvoketx",
-				"Params": {
-					"gas_price": 0,
-					"gas_limit": 1000000000,
-					"address": "0200000000000000000000000000000000000000",
-					"method": "transfer",
-					"version": 1,
-					"params": [
-						[
-							[
-								pay_address,
-								get_address,
-								amount
-							]
-						]
-					]
-				}
-			},
-			"RESPONSE": {"error": errorcode},
-			"NODE_INDEX": node_index
-		}
-		return API.contract().call_contract(Task(name="transfer", ijson=request), twice=True)
-
+	@staticmethod
 	def transfer(contract_address,from_address,to_address,amount, node_index = None):
 		request = {
 			"REQUEST": {
@@ -150,11 +51,11 @@ class test_api:
 								{
 									"type": "bytearray",
 									
-									"value": script_hash_bl_reserver(base58_to_address(from_address))
+									"value": bl_address(from_address)
 								},
 								{
 									"type": "bytearray",
-									"value": script_hash_bl_reserver(base58_to_address(to_address))
+									"value": bl_address(to_address)
 								},
 								{
 									"type": "int",
@@ -170,29 +71,7 @@ class test_api:
 		}
 		return API.contract().call_contract(Task(name="transfer", ijson=request), twice = True)
 
-
-	def sign_multi_transction(task, judge = True, process_log = True):
-		if task.node_index() != None:
-			print("sign transction with other node: " + str(task.node_index()))
-			task.set_type("st")
-			request = task.request()
-			task.set_request({
-								"method": "siginvoketx",
-								"jsonrpc": "2.0",
-								"id": 0,
-							})
-			task.request()["params"] = request
-
-			(result, response) = run_single_task(task, False, process_log)
-			if result:
-				response = response["result"]
-			return (result, response)
-		else:
-			task.set_type("cli")
-			(result, response) = run_single_task(task, judge, process_log)
-			return (result, response)
-
-
+	@staticmethod
 	def transfer_19(neo_contract_address, from_address, to_address, amount):
 		
 		request = {
@@ -234,7 +113,7 @@ class test_api:
 
 		return API.contract().call_contract(Task(name="test_1", ijson=request), twice = True) 
 
-
+	@staticmethod
 	def transfer_20(neo_contract_address, from_address, to_address, amount, public_key):
 		
 		request = {
@@ -274,7 +153,7 @@ class test_api:
 			"RESPONSE": {}
 		}
 
-		(result, response) = sign_transction(Task(name="test_1", ijson=request))
+		(result, response) = API.contract().sign_transction(Task(name="test_1", ijson=request))
 
 		signed_tx = response["result"]["signed_tx"]
 
@@ -293,12 +172,13 @@ class test_api:
 				"RESPONSE": {}
 		}
 
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
-		(result, response) = call_signed_contract(signed_tx, True)
-		(result, response) = call_signed_contract(signed_tx, False)
+		(result, response) = API.contract().call_signed_contract(signed_tx, True)
+		(result, response) = API.contract().call_signed_contract(signed_tx, False)
 		return (result, response)
 
+	@staticmethod
 	def transfer_21(neo_contract_address, from_address, to_address, amount, public_key):
 		
 		request = {
@@ -339,7 +219,7 @@ class test_api:
 			"RESPONSE": {}
 		}
 
-		(result, response) = sign_transction(Task(name="test_1", ijson=request))
+		(result, response) = API.contract().sign_transction(Task(name="test_1", ijson=request))
 
 		signed_tx = response["result"]["signed_tx"]
 
@@ -358,12 +238,13 @@ class test_api:
 				"RESPONSE": {}
 		}
 
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
-		(result, response) = call_signed_contract(signed_tx, True)
-		(result, response) = call_signed_contract(signed_tx, False)
+		(result, response) = API.contract().call_signed_contract(signed_tx, True)
+		(result, response) = API.contract().call_signed_contract(signed_tx, False)
 		return (result, response)
 
+	@staticmethod
 	def transfer_22(neo_contract_address, from_address, to_address, amount, public_key):
 		
 		request = {
@@ -404,7 +285,7 @@ class test_api:
 			"RESPONSE": {}
 		}
 
-		(result, response) = sign_transction(Task(name="test_1", ijson=request))
+		(result, response) = API.contract().sign_transction(Task(name="test_1", ijson=request))
 
 		signed_tx = response["result"]["signed_tx"]
 
@@ -423,12 +304,13 @@ class test_api:
 				"RESPONSE": {}
 		}
 
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
-		(result, response) = call_signed_contract(signed_tx, True)
-		(result, response) = call_signed_contract(signed_tx, False)
+		(result, response) = API.contract().call_signed_contract(signed_tx, True)
+		(result, response) = API.contract().call_signed_contract(signed_tx, False)
 		return (result, response)
 
+	@staticmethod
 	def transfer_23(neo_contract_address, from_address, to_address, amount, public_key):
 		
 		request = {
@@ -468,7 +350,7 @@ class test_api:
 			"RESPONSE": {}
 		}
 
-		(result, response) = sign_transction(Task(name="test_1", ijson=request))
+		(result, response) = API.contract().sign_transction(Task(name="test_1", ijson=request))
 
 		signed_tx = response["result"]["signed_tx"]
 
@@ -487,12 +369,13 @@ class test_api:
 				"RESPONSE": {}
 		}
 
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
-		(result, response) = call_signed_contract(signed_tx, True)
-		(result, response) = call_signed_contract(signed_tx, False)
+		(result, response) = API.contract().call_signed_contract(signed_tx, True)
+		(result, response) = API.contract().call_signed_contract(signed_tx, False)
 		return (result, response)
 
+	@staticmethod
 	def transfer_24(neo_contract_address, from_address, to_address, amount, public_key_1, public_key_2, public_key_3, public_key_4):
 		
 		request = {
@@ -532,7 +415,7 @@ class test_api:
 			"RESPONSE": {}
 		}
 
-		(result, response) = sign_transction(Task(name="test_1", ijson=request))
+		(result, response) = API.contract().sign_transction(Task(name="test_1", ijson=request))
 
 		signed_tx = response["result"]["signed_tx"]
 
@@ -554,7 +437,7 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 		request = {
@@ -575,7 +458,7 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 		request = {
@@ -596,7 +479,7 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 		request = {
@@ -617,14 +500,15 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 
-		(result, response) = call_signed_contract(signed_tx, True)
-		(result, response) = call_signed_contract(signed_tx, False)
+		(result, response) = API.contract().call_signed_contract(signed_tx, True)
+		(result, response) = API.contract().call_signed_contract(signed_tx, False)
 		return (result, response)
 
+	@staticmethod
 	def transfer_25(neo_contract_address, from_address, to_address, amount, public_key_1, public_key_2, public_key_3, public_key_4):
 		
 		request = {
@@ -665,7 +549,7 @@ class test_api:
 			"RESPONSE": {}
 		}
 
-		(result, response) = sign_transction(Task(name="test_1", ijson=request))
+		(result, response) = API.contract().sign_transction(Task(name="test_1", ijson=request))
 
 		signed_tx = response["result"]["signed_tx"]
 
@@ -687,7 +571,7 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 		request = {
@@ -708,7 +592,7 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 		request = {
@@ -729,7 +613,7 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 		request = {
@@ -750,16 +634,15 @@ class test_api:
 				},
 				"RESPONSE": {}
 		}
-		sign_multi_transction(Task(name="test_1", ijson=request)) 
+		API.contract().sign_multi_transction(Task(name="test_1", ijson=request)) 
 		signed_tx = response["result"]["signed_tx"]
 
 
-		(result, response) = call_signed_contract(signed_tx, True)
-		(result, response) = call_signed_contract(signed_tx, False)
+		(result, response) = API.contract().call_signed_contract(signed_tx, True)
+		(result, response) = API.contract().call_signed_contract(signed_tx, False)
 		return (result, response)
 
-
-
+	@staticmethod
 	def approve_31(neo_contract_address, from_address, to_address, amount):
 		request = {
 				"REQUEST":  {
@@ -785,6 +668,7 @@ class test_api:
 		}
 		return API.contract().call_contract(Task(name="test_1", ijson=request), twice = True) 
 
+	@staticmethod
 	def approve_32(neo_contract_address, from_address, to_address, amount):
 		request = {
 				"NODE_INDEX":3,
@@ -811,7 +695,7 @@ class test_api:
 		}
 		return API.contract().call_contract(Task(name="test_1", ijson=request), twice = True) 
 
-
+	@staticmethod
 	def allowance(neo_contract_address, from_address, to_address, amount):
 
 		request = {
@@ -837,6 +721,7 @@ class test_api:
 			}
 		return API.contract().call_contract(Task(name="test_1", ijson=request), twice = True) 
 
+	@staticmethod
 	def allowance_32(from_address, to_address):
 
 		request = {

@@ -27,8 +27,8 @@ from test_api import *
 
 class test_config():
 	testpath = os.path.dirname(os.path.realpath(__file__))
-	deploy_neo_1=testpath + "/tasks/A.neo"
-	deploy_neo_2=testpath + "/tasks/B.neo"
+	deploy_neo_1=testpath + "/resource/A.neo"
+	deploy_neo_2=testpath + "/resource/B.neo"
 	name1="name"
 	name2="nameB"
 	desc="desc"
