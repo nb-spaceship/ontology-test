@@ -1,41 +1,38 @@
 # -*- coding:utf-8 -*-
-import re
 import ddt
 import unittest
 import urllib
 import urllib.request
 import json
 import os
-import sys
-import getopt
+import sys, getopt
 import time
-import requests
-import subprocess
 
 sys.path.append('..')
 sys.path.append('../..')
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from utils.config import Config
+from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from api.apimanager import API
+
+from api.apimanager import API
+
+#from test_api import test_api
+#from test_config import test_config
 
 ####################################################
 # test cases
 # 请准备 9个节点进行测试
-
-def ASSERT(condition, error):
-	if not condition:
-		raise Error(error)
-
-
 		
 class test_benefit_model_1(ParametrizedTestCase):
 	def test_init(self):
 		pass
-	
+	'''
 	def setUp(self):
 		logger.open("test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
@@ -191,7 +188,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			API.node().stop_nodes(self.m_dbft_nodes)
 			start_nodes(self.m_dbft_nodes, Config.DEFAULT_NODE_ARGS, True, True, program = "ontology-bft_1")
 
-			(process, response) = invoke_function_update("updateGlobalParam", "0", "1000", "32", "1", "50", "50", "5", "5")
+			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
 			ASSERT(process, "updateGlobalParam error")
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
@@ -226,14 +223,13 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
-			process = False
  
 	
 	def test_normal_006_benefit(self):
 		try:
 			process = False
  
-			(process, response) = invoke_function_update("updateGlobalParam", "0", "1000", "32", "1", "50", "50", "5", "5")
+			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
 			ASSERT(process, "updateGlobalParam error")
 			
 			(process, response) = API.rpc().getbalance(Config.NODES[self.m_checknode]["address"])
@@ -264,7 +260,6 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 		except Exception as e:
 			print(e.msg)
-			process = False
 
 	
 	#前提: 7个节点initpos 都是 1000
@@ -274,8 +269,8 @@ class test_benefit_model_1(ParametrizedTestCase):
 		
 			address1 = Config.NODES[self.m_checknode]["address"]
 			(process, response) = API.rpc().getbalance(address1)
-			if not process:
-				raise Error("get balance error")
+			ASSERT(process, "get balance error[1]")
+
 			ong1=int(response["result"]["ong"])
 			
 			process = API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
@@ -287,16 +282,15 @@ class test_benefit_model_1(ParametrizedTestCase):
 			time.sleep(10)
 			
 			(process, response) = API.rpc().getbalance(address1)
-			if not process:
-				raise Error("get balance error")
+			ASSERT(process, "get balance error[2]")
+
 			ong2=int(response["result"]["ong"])
 			print("before cost[1]: " + str(ong1))
 			print("after cost[1]: " + str(ong2))
-			process = (int(ong2 - ong1) == int(except_benifit))
-			
+			ASSERT((int(ong2 - ong1) == int(except_benifit)), "")
+		
 		except Exception as e:
 			print(e.msg)
-			process = False
 
 	
 	#第7个节点为新加入节点
@@ -310,7 +304,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			new_node = self.m_new_2_nodes[0] #新加入节点
 			
 
-			(process, response) = invoke_function_update("updateGlobalParam", "0", "1000", "32", "1", "50", "50", "5", "5")
+			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
 			ASSERT(process, "updateGlobalParam error")
 			
 			address4 = Config.NODES[self.m_checknode]["address"]
@@ -347,7 +341,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			####################################################################################
 			#添加候选节点1
-			(process, response) = add_candidate_node(new_node, init_ong = candidate_pos)
+			(process, response) = test_api.add_candidate_node(new_node, init_ong = candidate_pos)
 			ASSERT(process, "add candidate node error")
 			
 			#4.消耗的0.2ong的50%被分配给刚加入的候选节点
@@ -391,14 +385,14 @@ class test_benefit_model_1(ParametrizedTestCase):
 			new_node2 = self.m_new_2_nodes[1]
 			address1 = Config.NODES[self.m_checknode]["address"]
  
-			invoke_function_update("updateGlobalParam", "0", "1000", "32", "1", "50", "50", "5", "5")
+			API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
 			
 			#发生一笔交易
 			API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
 			time.sleep(5)
 
 			#添加候选节点1
-			(process, response) = add_candidate_node(new_node1, init_pos = candidate_pos)
+			(process, response) = test_api.add_candidate_node(new_node1, init_pos = candidate_pos)
 			ASSERT(process, "add candidate error")
 		
 			#区块到达分红数量要求,获取共识前后的ong值
@@ -427,7 +421,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			#计算分红值
 			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			except_benifit2 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_candidate_benifit1 = int(get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, candidate_pos, [candidate_pos]))
+			except_candidate_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, candidate_pos, [candidate_pos]))
 			
 			#判断分红值
 			#消耗的0.2ong的50%被平均分给七个节点，50%被分配给刚加入的候选节点
@@ -442,7 +436,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			
 			#添加候选节点2
-			(process, response) = add_candidate_node(new_node2)
+			(process, response) = test_api.add_candidate_node(new_node2)
 			ASSERT(process, "add candidate node error")
 
 			#第一次共识，确保下次一起分红，因为候选节点要在下个周期才分红
@@ -480,7 +474,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			#计算分红值
 			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_candidate_benifit1 = int(get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, candidate_pos, [candidate_pos, candidate_pos]))
+			except_candidate_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, candidate_pos, [candidate_pos, candidate_pos]))
 			#判断分红值
 			#消耗的0.2ong的50%被平均分给七个节点，50%被分配给刚加入的候选节点
 
@@ -494,8 +488,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			ASSERT(process, "first benefit error[candidate node][4]")
 			
 		except Exception as e:
-			logger.print(e.msg)
-			process = False
+			print(e)
 
 		
 	def test_normal_010_benefit(self):
@@ -503,7 +496,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			address = Config.NODES[2]["address"]
 			process = False
 
-			invoke_function_update("updateGlobalParam", "0", "1000", "32", "1", "50", "50", "5", "5")
+			API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
 
 			new_node = self.m_new_2_nodes[0] #新加入节点
 			
@@ -512,7 +505,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			ASSERT(process, "get balance error")
 			ong1 = int(response["result"]["ong"])
 
-			add_candidate_node(new_node, init_pos = 20000)
+			test_api.add_candidate_node(new_node, init_pos = 20000)
 			time.sleep(10)
 
 			#第一次共识，没有ong分润，但是候选节点会成为共识节点
@@ -556,8 +549,8 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = abs((int(candidate_ong2 - candidate_ong) - int(except_benifit3))) < 10
 			ASSERT(process, "benefit error")
 		
-			except Exception as e:
-				print(e.msg)
+		except Exception as e:
+			print(e.msg)
 
 class test_benefit_model_2(ParametrizedTestCase):
 	def setUp(self):
@@ -565,14 +558,13 @@ class test_benefit_model_2(ParametrizedTestCase):
 		self.m_checknode = 4
 		time.sleep(2)
 		print("stop all")
-		for node_index in range(len(Config.NODES)):
-			stop_nodes([node_index])
+		API.node().stop_all_nodes()
 		print("start all")
-		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
-		for i in range(0, 7):
-			regIDWithPublicKey(i)
-		init_ont_ong()
+		for i in range(7):
+			API.native().regid_with_publickey(i)
+		API.native().init_ont_ong()
 
 	def tearDown(self):
 		logger.close(self.m_result)
@@ -587,17 +579,17 @@ class test_benefit_model_2(ParametrizedTestCase):
 			unpeer_node = 10 #未被投票节点
  
 			
-			invoke_function_update("updateGlobalParam", "0", "1000", "32", "10", "50","50", "5", "5")
+			API.native().update_global_param("0", "1000", "32", "10", "50","50", "5", "5")
 			
-			start_nodes([vote_node], Config.DEFAULT_NODE_ARGS, True, True)
+			API.node().start_nodes([vote_node], Config.DEFAULT_NODE_ARGS, True, True)
 			API.node().transfer_ont(0, vote_node, 5000000, price = 0)
-			transfer_ong(0, vote_node, 1000, price = 0)
+			API.node().transfer_ong(0, vote_node, 1000, price = 0)
 			
 			for i in range(7, 13):
-				add_candidate_node(i, init_pos = 5000, from_node = i - 7)
+				test_api.add_candidate_node(i, init_pos = 5000, from_node = i - 7)
 			
 			#投票给三个节点成为共识节点
-			(process, response) = invoke_function_vote(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"])
+			(process, response) = API.native().invoke_function_vote(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"])
 			if not process:
 				raise Error("vote error")
 			
@@ -630,7 +622,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			ASSERT(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
-			except_benifit1 = int(get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 5000, [5000, 5000, 5000, 10000, 10000, 10000]))
+			except_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 5000, [5000, 5000, 5000, 10000, 10000, 10000]))
 			except_benifit2 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000, 20000, 20000, 10000, 10000, 10000, 10000]))
 			print("normal_ong2: " + str(normal_ong2))
 			print("except_benifit1: " + str(except_benifit1))
@@ -651,10 +643,10 @@ class test_benefit_model_2(ParametrizedTestCase):
 			process = False
 			unpeer_node = 10 #未被投票节点
 
-			invoke_function_update("updateGlobalParam", "0", "1000","32", "10", "100","0", "5", "5")
+			API.native().update_global_param("0", "1000","32", "10", "100","0", "5", "5")
 			
 			for i in range(7, 14):
-				add_candidate_node(i, init_pos = 5000, from_node = i - 7)
+				test_api.add_candidate_node(i, init_pos = 5000, from_node = i - 7)
 			
 			#先共识一次，确保节点都会在下一次共识分红
 			time.sleep(15)
@@ -690,7 +682,6 @@ class test_benefit_model_2(ParametrizedTestCase):
 			ASSERT((candidate_ong2 - candidate_ong) == except_benifit2, "benefit candidate node error")
 		except Exception as e:
 			print(e.msg)
-			process = False
 
 
 	def test_normal_013_benefit(self):
@@ -699,9 +690,9 @@ class test_benefit_model_2(ParametrizedTestCase):
 			process = False
 			unpeer_node = 10 #未被投票节点
 
-			invoke_function_update("updateGlobalParam", "0", "1000","32", "10", "0","100", "5", "5")
+			API.native().update_global_param("0", "1000","32", "10", "0","100", "5", "5")
 			for i in range(7, 14):
-				add_candidate_node(i, init_pos = 5000, from_node = i - 7)
+				test_api.add_candidate_node(i, init_pos = 5000, from_node = i - 7)
 			
 			#先共识一次，确保节点都会在下一次共识分红
 			time.sleep(15)
@@ -727,7 +718,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			ASSERT(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
-			except_benifit1 = int(get_candidate_benifit_value(20000 * test_config.PRICE_TEST, 5000, [5000, 5000, 5000, 5000, 5000, 5000, 5000]))
+			except_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST, 5000, [5000, 5000, 5000, 5000, 5000, 5000, 5000]))
 			except_benifit2 = 0
 			print("normal_ong2: " + str(normal_ong2))
 			print("candidate_ong2: " + str(candidate_ong2))
@@ -739,7 +730,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			print(e.msg)
 			process = False
 
-		
+	'''
 ####################################################
 if __name__ == '__main__':
 	'''

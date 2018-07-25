@@ -1,4 +1,4 @@
-# coding:utf-8
+# -*- coding:utf-8 -*-
 import unittest
 import os
 import sys, getopt
@@ -98,6 +98,7 @@ class TestCaseRunner():
 		filterfile = ""
 		filtertype = ""
 		filterstr = ""
+		test_suites = None
 		opts, args = getopt.getopt(sys.argv[1:], "c:t:f:", ["config=", "type=","filter="])
 		for op, value in opts:
 			if op in ("-c", "--config"):
@@ -114,9 +115,9 @@ class TestCaseRunner():
 														pattern="test_*.py",
 														top_level_dir=None)
 		except Exception as e:
-			print(e)
+			print("test discover", e)
 			
-		print(test_suites)
+		print("test_suites", test_suites)
 
 		cases = self.filter_test_cases(test_suites, filterfile, filtertype, filterstr)
 		if cases == None:
