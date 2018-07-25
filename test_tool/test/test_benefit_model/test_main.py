@@ -61,7 +61,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 
 			ong1=int(response["result"]["ong"])
 			
-			API.native().API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
+			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
 			API.native().commit_dpos()
@@ -91,9 +91,8 @@ class test_benefit_model_1(ParametrizedTestCase):
 			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
-			time.sleep(15)
 			API.native().commit_dpos()
-			time.sleep(15)
+			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
 
 			(process, response) = API.rpc().getbalance(address1)
 			self.ASSERT(process, "get balance error")
