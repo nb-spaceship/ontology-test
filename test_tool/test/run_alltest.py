@@ -68,7 +68,8 @@ class TestCaseRunner():
 			for test_suite in test_suites:
 				if filter_condition["files"] == []:
 					continue
-				if filter_condition["files"] and test_suite._tests and test_suite._tests[0]._tests and not str(test_suite._tests[0]._tests[0].__class__).strip('\'>').split('.')[-2] in filter_condition["files"]:
+				print(test_suite)
+				if filter_condition["files"] and test_suite._tests and test_suite._tests[-1]._tests and not str(test_suite._tests[-1]._tests[0].__class__).strip('<class \'').split('.')[-3] in filter_condition["files"]:
 					continue
 				for test_cases in test_suite:
 					if test_cases._tests and filter_condition["method"]:
@@ -90,9 +91,9 @@ class TestCaseRunner():
 		except Exception as e:
 			print(e.args)
 
-		#return result.sort(key=lambda tc:int(tc._testMethodName))
+		result.sort(key=lambda tc:tc._testMethodName.split("_")[2] if tc._testMethodName != "test_init" else "0")
 		return result
-
+	
 	def run(self, monitor):
 		filterfile = ""
 		filtertype = ""
@@ -123,6 +124,7 @@ class TestCaseRunner():
 			return
 
 		print(len(cases))
+		print(cases)
 		runner = unittest.TextTestRunner()
 		monitor.exec(runner, cases)
 

@@ -633,7 +633,7 @@ class test_websocket_1(ParametrizedTestCase):
 	def test_abnormal_083_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = wsapi.getsmartcodeeventbyheight(config.HEIGHT_BORDER)
-			ASSERT(not process, "")
+			ASSERT(process, "")
 		except:
 			pass
 
@@ -666,11 +666,11 @@ class test_websocket_1(ParametrizedTestCase):
 		except:
 			pass
 
-	def test_abnormal_088_getsmartcodeeventbyhash(self):
+	def test_normal_088_getsmartcodeeventbyhash(self):
 		try:
 			time.sleep(10)
 			(process, response) = wsapi.getsmartcodeeventbyhash(config.TX_HASH_INCORRECT_5)
-			ASSERT(not process, "")
+			ASSERT(process, "")
 		except:
 			pass
 
