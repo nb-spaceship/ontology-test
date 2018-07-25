@@ -82,7 +82,7 @@ class NativeApi:
 
     ##############################################
     ###0200000000000000000000000000000000000000###
-    def allowance_ong(neo_contract_address, from_address, to_address, amount, node_index=None,errorcode=0,gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+    def allowance_ong(self, neo_contract_address, from_address, to_address, amount, node_index=None,errorcode=0,gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
                     "REQUEST":  {
                     "Qid": "t",
@@ -321,7 +321,97 @@ class NativeApi:
                     break
             
         return CONTRACT_API.call_contract(Task(name="invoke_function_vote", ijson=request), twice = True)
+
+    def unvote_for_peer(self, wallet_address, nodes_to_vote, ballot_to_vote, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0700000000000000000000000000000000000000",
+                    "method": "unVoteForPeer",
+                    "version": 0,
+                    "params": [
+                        wallet_address,
+                        nodes_to_vote,
+                        ballot_to_vote
+                    ]
+                }
+            },
+            "RESPONSE": {"error" : errorcode}
+        }
+        if node_index != None:
+            request["NODE_INDEX"] = node_index
+        else:
+            for node in Config.NODES:
+                if node["address"] == wallet_address:
+                    request["NODE_INDEX"] = Config.NODES.index(node)
+                    break
+
+        return CONTRACT_API.call_contract(Task(name="invoke_function_unvote", ijson=request), twice = True)
+        
+    def withdraw_ont(self, wallet_address, nodes_to_vote, ballot_to_vote, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0700000000000000000000000000000000000000",
+                    "method": "withdraw",
+                    "version": 0,
+                    "params": [
+                        wallet_address,
+                        nodes_to_vote,
+                        ballot_to_vote
+                    ]
+                }
+            },
+            "RESPONSE": {"error" : errorcode}
+        }
+
+        if node_index != None:
+            request["NODE_INDEX"] = node_index
+        else:
+            for node in Config.NODES:
+                if node["address"] == wallet_address:
+                    request["NODE_INDEX"] = Config.NODES.index(node)
+                    break
+
+        return CONTRACT_API.call_contract(Task(name="invoke_function_withdraw", ijson=request), twice = True)
     
+    def update_global_param(self, param0,param1,param2,param3,param4,param5,param6,param7,errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0700000000000000000000000000000000000000",
+                    "method": "updateGlobalParam",
+                    "version": 0,
+                    "params": [
+                                param0,
+                                param1,
+                                param2,
+                                param3,
+                                param4,
+                                param5,
+                                param6,
+                                param7
+                            ]
+                        }
+                },
+            "RESPONSE":{"error" : errorcode}
+        }
+
+        return CONTRACT_API.call_multisig_contract(Task(name="invoke_function_updateGlobalParam", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
+
+         
     def commit_dpos(self, errorcode = 0, gas_price = Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
             "NODE_INDEX":0,
@@ -341,7 +431,7 @@ class NativeApi:
             "RESPONSE":{"error" : errorcode}
         }
 
-        return API.contract().call_multisig_contract(Task(name="commit_dpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
+        return CONTRACT_API.call_multisig_contract(Task(name="commit_dpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
 
     def approve_candidate(self, pubKey, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
