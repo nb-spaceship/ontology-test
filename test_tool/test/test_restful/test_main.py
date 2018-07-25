@@ -141,9 +141,9 @@ class test_restful_3(ParametrizedTestCase):
 		try:
 			API.node().stop_all_nodes()
 			(process, response) = API.restful().getconnectioncount()
-			API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+			API.node().start_nodes([1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 			time.sleep(10)
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			print(e.args)
 		
@@ -470,7 +470,7 @@ class test_restful_3(ParametrizedTestCase):
 			key=""
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			print(e.args)
 		
