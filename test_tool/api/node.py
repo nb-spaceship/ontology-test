@@ -33,12 +33,13 @@ class NodeApi:
 				raise TestError()
 				return False
 
+	def get_current_node(self):
+		pass
 
 	def findSystemNode(self):
 		PubKeyList=[]
 		PubKeyDict={}
 		for i in range(len(Config.NODES)):
-			
 			ontid = Config.NODES[i]["ontid"]
 			pubkey = Config.NODES[i]["pubkey"]
 			PubKeyList.append(pubkey)
