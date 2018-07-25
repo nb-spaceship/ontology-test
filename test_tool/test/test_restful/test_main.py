@@ -21,7 +21,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.taskrunner import TaskRunner
 from api.apimanager import API
-from test_config import testConfig
+from test_config import test_config
 
 ####################################################
 #test cases
@@ -104,16 +104,16 @@ class test_restful_3(ParametrizedTestCase):
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(50)
 
-		(testConfig.m_contractaddr_right, testConfig.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
+		(test_config.m_contractaddr_right, test_config.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
 		time.sleep(10)
 		(result, reponse) = API.rpc().getblockhash(height = 1)
-		testConfig.m_block_hash_right = reponse["result"]
+		test_config.m_block_hash_right = reponse["result"]
 
 		(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
-		testConfig.m_signed_txhash_right = reponse["result"]["signed_tx"]
-		testConfig.m_signed_txhash_wrong = "0f0f0f0f" + testConfig.m_signed_txhash_right 
+		test_config.m_signed_txhash_right = reponse["result"]["signed_tx"]
+		test_config.m_signed_txhash_wrong = "0f0f0f0f" + test_config.m_signed_txhash_right 
 
-		API.contract().invoke_function(testConfig.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": testConfig.m_getstorage_contract_key},{"type": "bytearray","value": testConfig.m_getstorage_contract_value}], node_index = 0)
+		API.contract().invoke_function(test_config.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": test_config.m_getstorage_contract_key},{"type": "bytearray","value": test_config.m_getstorage_contract_value}], node_index = 0)
 		
 	def setUp(self):
 		logger.open( self._testMethodName+".log",self._testMethodName)
@@ -240,14 +240,14 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_base_020_getblockbyhash(self):	
 		try:
-			(process, response) = API.restful().getblockbyhash(testConfig.m_block_hash_right, 1)	
+			(process, response) = API.restful().getblockbyhash(test_config.m_block_hash_right, 1)	
 			self.ASSERT(process, "")
 		except Exception as e:
 			print(e.args)
 
 	def test_abnormal_021_getblockbyhash(self):	
 		try:
-			(process, response) = API.restful().getblockbyhash(testConfig.m_block_hash_error, 1)  
+			(process, response) = API.restful().getblockbyhash(test_config.m_block_hash_error, 1)  
 			self.ASSERT(not process, "")
 		except Exception as e:
 			print(e.args)
@@ -303,14 +303,14 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_base_031_gettransactionbytxhash(self):
 		try:
-			(process, response) = API.restful().gettransactionbytxhash(testConfig.m_txhash_right) 
+			(process, response) = API.restful().gettransactionbytxhash(test_config.m_txhash_right) 
 			self.ASSERT(process, "")
 		except Exception as e:
 			print(e.args)
 		
 	def test_abnormal_032_gettransactionbytxhash(self):
 		try:
-			(process, response) = API.restful().gettransactionbytxhash(testConfig.m_txhash_wrong) 
+			(process, response) = API.restful().gettransactionbytxhash(test_config.m_txhash_wrong) 
 			self.ASSERT(not process, "")
 		except Exception as e:
 			print(e.args)	
@@ -318,7 +318,7 @@ class test_restful_3(ParametrizedTestCase):
 	def test_base_033_postrawtx(self):
 		
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = "sendrawtransaction"
 			version = "1.0.0"
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
@@ -328,7 +328,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_034_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = "sendrawtransaction_wrong"
 			version = "1.0.0"
 		
@@ -339,7 +339,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_035_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = ""
 			version = "1.0.0"
 		
@@ -350,7 +350,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_036_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = "sendrawtransaction"
 			version = "1.0.0"
 	
@@ -361,7 +361,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_037_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = "sendrawtransaction"
 			version = "2.0.8"
 		
@@ -372,7 +372,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_038_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = "sendrawtransaction"
 			version = ""
 		
@@ -383,7 +383,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_039_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_right
+			rawtxdata=test_config.m_signed_txhash_right
 			action = "sendrawtransaction"
 			version = "1.0.0"
 	
@@ -394,7 +394,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_abnormal_040_postrawtx(self):
 		try:
-			rawtxdata=testConfig.m_signed_txhash_wrong
+			rawtxdata=test_config.m_signed_txhash_wrong
 			action = "sendrawtransaction"
 			version = "1.0.0"
 		
@@ -416,8 +416,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_base_042_getstorage(self):
 		try:
-			script_hash=testConfig.m_getstorage_contract_addr
-			key=testConfig.m_getstorage_contract_key
+			script_hash=test_config.m_getstorage_contract_addr
+			key=test_config.m_getstorage_contract_key
 			
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
@@ -426,8 +426,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_043_getstorage(self):
 		try:
-			script_hash=testConfig.m_getstorage_contract_addr_wrong
-			key=testConfig.m_getstorage_contract_key
+			script_hash=test_config.m_getstorage_contract_addr_wrong
+			key=test_config.m_getstorage_contract_key
 			
 			(process, response) = API.restful().getstorage(script_hash, key)
 			self.ASSERT(process, "")
@@ -437,7 +437,7 @@ class test_restful_3(ParametrizedTestCase):
 	def test_abnormal_044_getstorage(self):
 		try:
 			script_hash=""
-			key=testConfig.m_getstorage_contract_key
+			key=test_config.m_getstorage_contract_key
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(not process, "")
@@ -446,8 +446,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_045_getstorage(self):
 		try:
-			script_hash=testConfig.m_getstorage_contract_addr
-			key=testConfig.m_getstorage_contract_key
+			script_hash=test_config.m_getstorage_contract_addr
+			key=test_config.m_getstorage_contract_key
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
@@ -456,8 +456,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_046_getstorage(self):
 		try:
-			script_hash=testConfig.m_getstorage_contract_addr
-			key=testConfig.m_getstorage_contract_key + "1111"
+			script_hash=test_config.m_getstorage_contract_addr
+			key=test_config.m_getstorage_contract_key + "1111"
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
@@ -466,7 +466,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_abnormal_047_getstorage(self):
 		try:
-			script_hash=testConfig.m_getstorage_contract_addr
+			script_hash=test_config.m_getstorage_contract_addr
 			key=""
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
@@ -476,8 +476,8 @@ class test_restful_3(ParametrizedTestCase):
 		
 	def test_normal_048_getstorage(self):
 		try:
-			script_hash=testConfig.m_getstorage_contract_addr
-			key=testConfig.m_getstorage_contract_key + "1111"
+			script_hash=test_config.m_getstorage_contract_addr
+			key=test_config.m_getstorage_contract_key + "1111"
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
@@ -486,7 +486,7 @@ class test_restful_3(ParametrizedTestCase):
 		
 	def test_base_049_getbalance(self):
 		try:
-			attr=testConfig.getbalance_address_true
+			attr=test_config.getbalance_address_true
 		
 			(process, response) = API.restful().getbalance(attr) 
 			self.ASSERT(process, "")
@@ -495,7 +495,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_abnormal_050_getbalance(self):
 		try:
-			attr=testConfig.getbalance_address_false
+			attr=test_config.getbalance_address_false
 		
 			(process, response) = API.restful().getbalance(attr) 
 			self.ASSERT(not process, "")
@@ -511,7 +511,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_base_052_getcontract(self):
 		try:
-			script_hash=testConfig.m_contractaddr_right
+			script_hash=test_config.m_contractaddr_right
 			
 			(process, response) = API.restful().getcontract(script_hash) 
 			self.ASSERT(process, "")
@@ -520,7 +520,7 @@ class test_restful_3(ParametrizedTestCase):
 		
 	def test_abnormal_054_getcontract(self):
 		try:
-			script_hash=testConfig.m_contractaddr_wrong
+			script_hash=test_config.m_contractaddr_wrong
 		
 			(process, response) = API.restful().getcontract(script_hash) 
 			self.ASSERT(not process, "")
@@ -557,7 +557,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_base_059_getsmartcodeeventbyhash(self):
 		try:
-			hash=testConfig.m_txhash_right
+			hash=test_config.m_txhash_right
 		
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(process, "")
@@ -566,7 +566,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_abnormal_060_getsmartcodeeventbyhash(self):
 		try:
-			hash=testConfig.m_txhash_wrong
+			hash=test_config.m_txhash_wrong
 	
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
@@ -575,7 +575,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_061_getsmartcodeeventbyhash(self):
 		try:
-			hash=testConfig.m_txhash_right
+			hash=test_config.m_txhash_right
 	
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(process, "")
@@ -584,7 +584,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_abnormal_062_getsmartcodeeventbyhash(self):
 		try:
-			hash=testConfig.m_txhash_wrong
+			hash=test_config.m_txhash_wrong
 	
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
@@ -614,7 +614,7 @@ class test_restful_3(ParametrizedTestCase):
 		
 	def test_base_066_getblockheightbytxhash(self):
 		try:
-			hash=testConfig.m_txhash_right
+			hash=test_config.m_txhash_right
 	
 			(process, response) = API.restful().getblockheightbytxhash(hash)
 			self.ASSERT(process, "")
@@ -623,7 +623,7 @@ class test_restful_3(ParametrizedTestCase):
 		
 	def test_abnormal_067_getblockheightbytxhash(self):
 		try:
-			hash=testConfig.m_txhash_wrong
+			hash=test_config.m_txhash_wrong
 	
 			(process, response) = API.restful().getblockheightbytxhash(hash)
 			self.ASSERT(not process, "")
@@ -646,7 +646,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_base_070_getmerkleproofbytxhash(self):
 		try:
-			hash=testConfig.m_txhash_right
+			hash=test_config.m_txhash_right
 	
 			(process, response) = API.restful().getmerkleproofbytxhash(hash) 
 			self.ASSERT(process, "")
@@ -655,7 +655,7 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_abnormal_071_getmerkleproofbytxhash(self):
 		try:
-			hash=testConfig.m_txhash_wrong
+			hash=test_config.m_txhash_wrong
 		
 			(process, response) = API.restful().getmerkleproofbytxhash(hash) 
 			self.ASSERT(not process, "")
