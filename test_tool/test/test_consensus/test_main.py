@@ -46,7 +46,7 @@ class test_consensus_1(ParametrizedTestCase):
 
 
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open("test_consensus/" + self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -318,7 +318,7 @@ class test_consensus_2(ParametrizedTestCase):
 		pass
 	
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open( "test_consensus/" + self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -443,7 +443,7 @@ class test_consensus_3(ParametrizedTestCase):
 		
 	
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open( "test_consensus/" +  self._testMethodName+".log",self._testMethodName)
 		test_config.AMOUNT = "1001"
 	
 	def tearDown(self):
@@ -549,7 +549,7 @@ def add_candidate_node(new_node, init_ont = 5000000, init_ong = 1000, init_pos =
 class test_consensus_4(ParametrizedTestCase):
 	
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open( "test_consensus/" +  self._testMethodName+".log",self._testMethodName)
 		self.m_checknode = 4
 		time.sleep(2)
 		print("stop all")
