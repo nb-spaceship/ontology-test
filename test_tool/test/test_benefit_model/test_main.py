@@ -91,6 +91,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
+			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
 			API.native().commit_dpos()
 			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
 
