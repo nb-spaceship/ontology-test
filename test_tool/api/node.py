@@ -24,12 +24,12 @@ from api.rpc import RPCApi
 class NodeApi:
 	def wait_gen_block(self):
 		RPC_API = RPCApi()
-		lastheight = RPC_API.get_block_count()
+		lastheight = RPC_API.getblockcount()
 		times = 0
 		while True:
 			time.sleep(1)
 			times = times + 1
-			currentheight = RPC_API.get_block_count()
+			currentheight = RPC_API.getblockcount()
 			if (lastheight != currentheight):
 				return True
 			if (times > 40):
