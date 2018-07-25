@@ -76,7 +76,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong2 != ong1, "get balance error")
 
 		except Exception as e:
-			print(e.msg)
+			print(e)
 		
 	#blocked
 	def test_normal_002_benefit(self):
@@ -103,7 +103,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 - ong1) > 0, "error")
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
 		
 	def test_abnormal_003_benefit(self):
@@ -133,7 +133,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 - ong1) == 0, "error")
 
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
  
 	#
@@ -175,7 +175,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong_stop2 != ong_stop1, "benefit[2]")
 				
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
  	
 	
@@ -220,7 +220,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 != ong1), "normal node benefit error")
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
  
 	
 	def test_normal_006_benefit(self):
@@ -257,7 +257,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong3 - ong2) == except_benifit, "first benefit error")
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 	
 	#前提: 7个节点initpos 都是 1000
@@ -288,7 +288,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((int(ong2 - ong1) == int(except_benifit)), "")
 		
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 	
 	#第7个节点为新加入节点
@@ -369,7 +369,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = abs((int(ong4 - ong3) - int(except_benifit4))) < 10
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
 
 	#第7个节点为新加入节点
@@ -548,7 +548,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(process, "benefit error")
 		
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 class test_benefit_model_2(ParametrizedTestCase):
 	def setUp(self):
@@ -632,7 +632,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 			
 	def test_normal_012_benefit(self):
@@ -679,7 +679,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			self.ASSERT((normal_ong2 - normal_ong) == except_benifit1, "benefit normal node error")
 			self.ASSERT((candidate_ong2 - candidate_ong) == except_benifit2, "benefit candidate node error")
 		except Exception as e:
-			print(e.msg)
+			print(e)
 
 
 	def test_normal_013_benefit(self):
@@ -725,7 +725,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			
 			
 		except Exception as e:
-			print(e.msg)
+			print(e)
 			process = False
 
 	
