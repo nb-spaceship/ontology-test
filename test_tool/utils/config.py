@@ -66,7 +66,7 @@ class Config():
 		for account in accounts:
 			if account["isDefault"] == True:
 				NODES[node_index]["address"] = account["address"]
-				NODES[node_index]["ontid"] = "did:ont" + account["address"]
+				NODES[node_index]["ontid"] = "did:ont:" + account["address"]
 				NODES[node_index]["pubkey"] = account["publicKey"]
 				break
 		cfg_file.close()

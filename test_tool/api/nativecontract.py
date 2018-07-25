@@ -51,7 +51,7 @@ class NativeApi:
             }
         if node_index != None:
             request["NODE_INDEX"] = node_index
-        return API.contract().call_contract(Task(name="allowance_ont", ijson=request), twice = True) 
+        return CONTRACT_API.call_contract(Task(name="allowance_ont", ijson=request), twice = True) 
 
     def transfer_ont(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
@@ -106,7 +106,7 @@ class NativeApi:
         if node_index != None:
             request["NODE_INDEX"] = node_index
 
-        return API.contract().call_contract(Task(name="allowance_ong", ijson=request), twice = True) 
+        return CONTRACT_API.call_contract(Task(name="allowance_ong", ijson=request), twice = True) 
 
     def transfer_ong(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
         request = {
@@ -506,7 +506,7 @@ class NativeApi:
             "RESPONSE":{"error" : errorcode}
         }
             
-        return API.contract().call_multisig_contract(Task(name="approve_candidate", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
+        return CONTRACT_API.call_multisig_contract(Task(name="approve_candidate", ijson=request),Config.AdminNum,Config.AdminPublicKeyList)
 
     #same to invoke_function_register
     def register_candidate(self, pubKey, walletAddress, ontCount, ontID, user, node_index = None, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
@@ -538,7 +538,7 @@ class NativeApi:
             node_index = Config.ontid_map[ontID]
             request["NODE_INDEX"] = node_index
         
-        return API.contract().call_contract(Task(name="invoke_function_register", ijson=request), twice = True)
+        return CONTRACT_API.call_contract(Task(name="invoke_function_register", ijson=request), twice = True)
 
 
 ##############################################
