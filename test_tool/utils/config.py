@@ -6,7 +6,8 @@ from utils.hexstring import *
 class Config():
 	realdir = os.path.dirname(os.path.realpath(__file__))
 	UTILS_PATH = realdir
-	ROOT_PATH = UTILS_PATH.replace("\\\\", "/")
+	UTILS_PATH = UTILS_PATH.replace("\\\\", "/")
+	UTILS_PATH = UTILS_PATH.replace("\\", "/")
 	ROOT_PATH = UTILS_PATH.replace("/utils", "")
 	print(ROOT_PATH)
 	cfg_file = open(ROOT_PATH + "/config.json", "rb")

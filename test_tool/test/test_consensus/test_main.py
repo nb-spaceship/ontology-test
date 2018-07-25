@@ -27,7 +27,7 @@ from test_config import test_config
 ############################################################
 #正常节点和vbft共识
 class test_consensus_1(ParametrizedTestCase):
-	def test_init(cls):
+	def test_init(self):
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(8)
@@ -472,7 +472,7 @@ class test_consensus_2(ParametrizedTestCase):
 					time.sleep(30)
 					
 					#A节点是Admin节点
-					(process, response) = init_admin(test_config..m_contract_addr, Config.ontID_A)
+					(process, response) = init_admin(test_config.m_contract_addr, Config.ontID_A)
 					if not process:
 						raise Error("init_admin error...")
 						

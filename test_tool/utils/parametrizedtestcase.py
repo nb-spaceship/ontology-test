@@ -7,11 +7,14 @@ class ParametrizedTestCase(unittest.TestCase):
     """ TestCase classes that want to be parametrized should  
     inherit from this class.  
     """  
-    def __init__(self, methodName='runTest', param=None):    
-        super(ParametrizedTestCase, self).__init__(methodName)    
+    def __init__(self, methodName='runTest', param=None):
         self.param = param
         self.m_result = "block" #pass, fail, block
         self.m_assertcount = 0
+        try:   
+            super(ParametrizedTestCase, self).__init__(methodName)
+        except Exception as e:
+            print(e)
 
     def setUp(self):
         self.m_assertcount = 0
