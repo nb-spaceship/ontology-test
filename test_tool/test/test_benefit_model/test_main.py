@@ -30,7 +30,7 @@ from test_config import test_config
 class test_benefit_model_1(ParametrizedTestCase):
 	def test_init(self):
 		pass
-	'''
+	
 	def setUp(self):
 		logger.open("test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
@@ -728,7 +728,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			print(e.msg)
 			process = False
 
-	'''
+	
 ####################################################
 if __name__ == '__main__':
 	'''
