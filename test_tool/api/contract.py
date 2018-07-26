@@ -259,8 +259,9 @@ class ContractApi:
                     break
                     
             if execNum >= m:
-                (result,response)=self.call_signed_contract(signed_raw, True, sleep = sleep)
-                self.call_signed_contract(signed_raw, False, sleep = sleep)
+                (result,response)=self.call_signed_contract(signed_raw, True)
+                self.call_signed_contract(signed_raw, False)
+                time.sleep(sleep)
                 return (result,response)
                 
         return (False, {"error_info":"multi times lesss than except!only "+str(execNum)})
