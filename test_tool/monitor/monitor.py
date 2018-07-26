@@ -54,7 +54,7 @@ class TestMonitor:
 		#restart node
 		API.node().stop_all_nodes()
 		for node_index in range(len(Config.NODES)):
-			self.start_nodes([node_index], clear_chain = True, clear_log = True)
+			API.node().start_nodes([node_index], clear_chain = True, clear_log = True)
 
 		#restart sigserver
 		for node_index in range(len(Config.NODES)):
