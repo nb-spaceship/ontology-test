@@ -61,12 +61,11 @@ class test_rpc_1(ParametrizedTestCase):
 	
 class test_rpc_2(ParametrizedTestCase):
 	def test_init(self):
-		API.node().stop_all_nodes()
-		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(50)
+		# API.node().stop_all_nodes()
+		# API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		# time.sleep(50)
 		
 		(test_config.m_contractaddr_right, test_config.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
-		time.sleep(10)
 
 		test_config.m_getstorage_contract_addr = test_config.m_contractaddr_right
 		(result, response) = API.rpc().getblockhash(height = 1)
