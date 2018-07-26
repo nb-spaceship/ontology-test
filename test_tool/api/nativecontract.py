@@ -512,7 +512,7 @@ class NativeApi:
         return CONTRACT_API.call_multisig_contract(Task(name="invoke_function_blackNode", ijson=request),Config.AdminNum,Config.AdminPublicKeyList, sleep=sleep)
 
 
-    def commit_dpos(self, errorcode = 0, gas_price = Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+    def commit_dpos(self, errorcode = 0, gas_price = Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep = 5):
         request = {
             "NODE_INDEX":0,
             "REQUEST": {
