@@ -640,7 +640,7 @@ class NativeApi:
         request["NODE_INDEX"] = node_index    
         return CONTRACT_API.call_multisig_contract(Task(name="transfer_multi", ijson=request),public_key_Array[0],public_key_Array[1], sleep=sleep)
 
-    def init_ont_ong(self, node_count = 7, sleep=5):
+    def init_ont_ong(self, node_count = 7, sleep=0):
         for i in range(node_count):
             (result, response)=self.transfer_multi("ont",Config.MULTI_SIGNED_ADDRESS,Config.NODES[i]["address"],10000000,public_key_Array=[5,[Config.NODES[0]["pubkey"],Config.NODES[1]["pubkey"],Config.NODES[2]["pubkey"],Config.NODES[3]["pubkey"],Config.NODES[4]["pubkey"],Config.NODES[5]["pubkey"],Config.NODES[6]["pubkey"]]], sleep=sleep)
             if not result:
