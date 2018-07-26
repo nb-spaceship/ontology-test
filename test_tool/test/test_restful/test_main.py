@@ -680,6 +680,7 @@ class test_restful_3(ParametrizedTestCase):
 			print(e.args)
 	
 	def test_abnormal_074_getConnCount1(self):
+		print(test_config())
 		try:
 			request = {
 					"TYPE" : "restful",
