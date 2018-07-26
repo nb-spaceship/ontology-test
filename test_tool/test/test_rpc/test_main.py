@@ -26,7 +26,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.taskrunner import TaskRunner
 from api.apimanager import API
-from test_config import test_config
+from test_rpc.test_config import test_config
 
 
 ######################################################
@@ -63,9 +63,11 @@ class test_rpc_2(ParametrizedTestCase):
 	def test_init(self):
 		# API.node().stop_all_nodes()
 		# API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		# time.sleep(50)
+		# API.node().wait_gen_block()
+		# API.node().wait_gen_block()
 		
 		(test_config.m_contractaddr_right, test_config.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
+		API.node().wait_gen_block()
 
 		test_config.m_getstorage_contract_addr = test_config.m_contractaddr_right
 		(result, response) = API.rpc().getblockhash(height = 1)
@@ -73,6 +75,8 @@ class test_rpc_2(ParametrizedTestCase):
 		(result, response) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
 		test_config.m_signed_txhash_right = response["result"]["signed_tx"]
 		test_config.m_signed_txhash_wrong = test_config.m_signed_txhash_right + "0f0f0f0f"
+		test_config.m_getstorage_contract_addr_wrong = test_config.m_contractaddr_right + "0f0f0f0f"
+
 		
 		API.contract().invoke_function(test_config.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": test_config.m_getstorage_contract_key},{"type": "bytearray","value": test_config.m_getstorage_contract_value}], node_index = 0)
 		
@@ -253,7 +257,7 @@ class test_rpc_2(ParametrizedTestCase):
 	def test_abnormal_026_getgenerateblocktime(self):
 		try:
 			(process, response) = API.rpc().getgenerateblocktime()
-			self.ASSERT(not process, "")
+			self.ASSERT(not response["result"], "")
 		except Exception as e:
 			print(e.args)
 	
