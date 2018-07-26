@@ -21,7 +21,8 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.taskrunner import TaskRunner
 from api.apimanager import API
-from test_config import test_config
+from test_restful.test_config import test_config
+
 
 ####################################################
 #test cases
@@ -680,7 +681,6 @@ class test_restful_3(ParametrizedTestCase):
 			print(e.args)
 	
 	def test_abnormal_074_getConnCount1(self):
-		print(test_config())
 		try:
 			request = {
 					"TYPE" : "restful",
