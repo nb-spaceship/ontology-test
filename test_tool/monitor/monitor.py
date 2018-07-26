@@ -8,7 +8,9 @@ import fileinput
 sys.path.append('..')
 sys.path.append('../..')
 
-from utils.logger import LoggerInstance as logger 
+from utils.logger import LoggerInstance as logger
+from utils.config import Config
+
 from api.apimanager import API
 
 TRY_RECOVER_TIMES = 2
@@ -36,20 +38,52 @@ class TestMonitor:
 		self.initmap = {}
 
 	def need_retry(self):
+		print("case_count:", self.case_count, " faild_step_count:", self.faild_step_count, " total_step_count:", self.total_step_count)
+		if self.total_step_count <= 10:
+			return False
+
 		if self.case_count >= CHECK_LOOP and self.faild_step_count * 100 / self.total_step_count < FAILED_RADIO:
 			return False
 		else:
 			return True
 
+
+	#恢复测试环境
+	def recover_env(self):
+		print("recover env...")
+		#restart node
+		API.node().stop_all_nodes()
+		for node_index in range(len(Config.NODES)):
+			API.node().start_nodes([node_index], clear_chain = True, clear_log = True)
+
+		#restart sigserver
+		for node_index in range(len(Config.NODES)):
+			API.node().stop_sigsvr(node_index)
+			API.node().start_sigsvr(node_index)
+
+		return True
+
+	def retry(self):
+		self.recover_env()
+		testcases = self.retry_cases.copy()
+		self.reset()
+		for case in testcases:
+			self.run_case(case)
+
 	def analysis_case(self, case, logpath):
 		if not os.path.exists(logpath):
-			return
+			print("no log gennerator...")
+			return False
 
 		f = open(logpath, 'r')
 		org_failed_count = self.faild_step_count
 		JSONBody = ""
 		for line in f.readlines():
 			line = line.strip()
+			if line.find("ERROR: Connect Error") >= 0:
+				print("catch connect error...")
+				return False
+
 			if line.startswith('[ CALL CONTRACT ] {') or line.startswith("[ SIGNED TX ] {"):
 				JSONBody = "{"
 			elif JSONBody != "":
@@ -83,38 +117,17 @@ class TestMonitor:
 
 		self.case_count = self.case_count + 1
 		if org_failed_count != self.faild_step_count:
-			self.retry_cases.append(case)
-			self.retry_logger_path.append(logpath)
-			if not self.need_retry():
-				self.reset()
-
-	#恢复测试环境
-	def recover_env(self):
-		print("recover env...")
-		#restart node
-		API.node().stop_all_nodes()
-		for node_index in range(len(Config.NODES)):
-			self.start_nodes([node_index], clear_chain = True, clear_log = True)
-
-		#restart sigserver
-		for node_index in range(len(Config.NODES)):
-			API.node().stop_sigsvr(node_index)
-			API.node().start_sigsvr(node_index)
+			if case not in self.retry_cases:
+				self.retry_cases.append(case)
+				self.retry_logger_path.append(logpath)
 
 		return True
-
-	def retry(self):
-		self.recover_env()
-		testcases = self.retry_cases.copy()
-		self.reset()
-		for case in testcases:
-			self.run_case(case)
 
 	def run_case(self, case):
 		testmethodname = case._testMethodName
 		testcaseclass = case.__class__
 		if testmethodname == "test_init":
-			return
+			return True
 		if (testcaseclass in self.initmap) and (self.initmap[testcaseclass] == True):
 			print("already ran init..")
 		else:
@@ -130,7 +143,7 @@ class TestMonitor:
 		testsuit = unittest.TestSuite()
 		testsuit.addTest(case)
 		self.unittestrunner.run(testsuit)
-		self.analysis_case(case, logger.logPath())
+		return self.analysis_case(case, logger.logPath())
 
 	def set_retry_block(self):
 		for path in self.retry_logger_path:
@@ -150,11 +163,21 @@ class TestMonitor:
 
 		for case in testcaseremain:
 			try:
-				self.run_case(case)
-				continue
+				#self.run_case(case)
+				#continue
+				if self.run_case(case):
+					if self.case_count >= CHECK_LOOP:
+						if not self.need_retry():
+							self.reset()
+				else:
+					print("retry single case...")
+					self.recover_env()
+					self.initmap = {}
+					if not self.run_case(case):
+						self.set_retry_block()
 
-				self.run_case(case)
 				if self.need_retry():
+					print("need retry...[1]")
 					retry_ret = False
 					for i in range(TRY_RECOVER_TIMES):
 						self.retry()
@@ -162,6 +185,7 @@ class TestMonitor:
 						if retry_ret == True:
 							break
 					if retry_ret == False:
+						print("need retry...[2]")
 						self.set_retry_block()
 			except Exception as e:
 				print(e.args)

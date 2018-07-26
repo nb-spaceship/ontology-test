@@ -37,7 +37,7 @@ class test_restful_1(ParametrizedTestCase):
 		try:
 			API.node().stop_all_nodes()
 			API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
-			time.sleep(10)
+			time.sleep(5)
 		
 			(process, response) = API.restful().getgenerateblocktime()
 			self.ASSERT(process, "")
@@ -99,13 +99,15 @@ class test_restful_2(ParametrizedTestCase):
 		
 class test_restful_3(ParametrizedTestCase):
 	def test_init(self):
-		for node_index in range(len(Config.NODES)):
-			API.node().stop_nodes([node_index])
+		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(50)
+		while True:
+			if API.rpc().getblockcount() > 0:
+				break;
+			time.sleep(1)
 
 		(test_config.m_contractaddr_right, test_config.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
-		time.sleep(10)
+		time.sleep(5)
 		(result, reponse) = API.rpc().getblockhash(height = 1)
 		test_config.m_block_hash_right = reponse["result"]
 
@@ -142,7 +144,7 @@ class test_restful_3(ParametrizedTestCase):
 			API.node().stop_all_nodes()
 			(process, response) = API.restful().getconnectioncount()
 			API.node().start_nodes([1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-			time.sleep(10)
+			time.sleep(5)
 			self.ASSERT(process, "")
 		except Exception as e:
 			print(e.args)
