@@ -43,6 +43,7 @@ class TestMonitor:
 			return False
 
 		if self.case_count >= CHECK_LOOP and (self.faild_step_count * 100 / self.total_step_count) < FAILED_RADIO:
+			print("case_count:", self.case_count, " radio:", self.faild_step_count * 100 / self.total_step_count)
 			return False
 		else:
 			return True
