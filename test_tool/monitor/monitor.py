@@ -42,10 +42,12 @@ class TestMonitor:
 		if self.total_step_count <= 10:
 			return False
 
-		if self.case_count >= CHECK_LOOP and self.faild_step_count * 100 / self.total_step_count < FAILED_RADIO:
-			return False
-		else:
+		if (self.case_count >= CHECK_LOOP) and (self.faild_step_count * 100 / self.total_step_count) >= FAILED_RADIO:
+			print("case_count:", self.case_count, " radio:", self.faild_step_count * 100 / self.total_step_count)
 			return True
+		else:
+			print("case_count:", self.case_count, " radio:", self.faild_step_count * 100 / self.total_step_count)
+			return False
 
 
 	#恢复测试环境
@@ -59,7 +61,7 @@ class TestMonitor:
 		#restart sigserver
 		for node_index in range(len(Config.NODES)):
 			API.node().stop_sigsvr(node_index)
-			API.node().start_sigsvr(node_index)
+			API.node().start_sigsvr("wallet.dat", node_index)
 
 		return True
 
@@ -78,11 +80,14 @@ class TestMonitor:
 		f = open(logpath, 'r')
 		org_failed_count = self.faild_step_count
 		JSONBody = ""
+		catch_connet_error = False
+		end_line = ""
 		for line in f.readlines():
 			line = line.strip()
+			end_line = line
 			if line.find("ERROR: Connect Error") >= 0:
 				print("catch connect error...")
-				return False
+				catch_connet_error = True
 
 			if line.startswith('[ CALL CONTRACT ] {') or line.startswith("[ SIGNED TX ] {"):
 				JSONBody = "{"
@@ -121,6 +126,10 @@ class TestMonitor:
 				self.retry_cases.append(case)
 				self.retry_logger_path.append(logpath)
 
+		if end_line.find("[ OK       ]") < 0 and catch_connet_error:
+			print("sure connect error...")
+			return False
+
 		return True
 
 	def run_case(self, case):
@@ -156,36 +165,38 @@ class TestMonitor:
 					line.rstrip().replace('pass', 'block')
 					line.rstrip().replace('fail', 'block')
 
-	def exec(self, runner, testcases):
+	def exec(self, runner, testcases, monitor = True):
 		self.alltestcase = testcases.copy()
 		self.unittestrunner = runner
 		testcaseremain = testcases.copy()
 
 		for case in testcaseremain:
 			try:
-				#self.run_case(case)
-				#continue
-				if self.run_case(case):
-					if self.case_count >= CHECK_LOOP:
-						if not self.need_retry():
-							self.reset()
+				if not monitor:
+					self.run_case(case)
+					continue
 				else:
-					print("retry single case...")
-					self.recover_env()
-					self.initmap = {}
-					if not self.run_case(case):
-						self.set_retry_block()
+					if self.run_case(case):
+						if self.case_count >= CHECK_LOOP:
+							if not self.need_retry():
+								self.reset()
+					else:
+						print("retry single case...")
+						self.recover_env()
+						self.initmap = {}
+						if not self.run_case(case):
+							self.set_retry_block()
 
-				if self.need_retry():
-					print("need retry...[1]")
-					retry_ret = False
-					for i in range(TRY_RECOVER_TIMES):
-						self.retry()
-						retry_ret = self.need_retry()
-						if retry_ret == True:
-							break
-					if retry_ret == False:
-						print("need retry...[2]")
-						self.set_retry_block()
+					if self.need_retry():
+						print("need retry...[1]")
+						retry_ret = False
+						for i in range(TRY_RECOVER_TIMES):
+							self.retry()
+							retry_ret = self.need_retry()
+							if retry_ret == True:
+								break
+						if retry_ret == False:
+							print("need retry...[2]")
+							self.set_retry_block()
 			except Exception as e:
 				print(e.args)

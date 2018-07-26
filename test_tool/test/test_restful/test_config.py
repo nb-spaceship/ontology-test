@@ -8,6 +8,7 @@ import os
 import sys, getopt
 
 sys.path.append('..')
+sys.path.append('../..')
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task

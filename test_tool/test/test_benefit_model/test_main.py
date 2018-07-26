@@ -10,7 +10,6 @@ import time
 
 sys.path.append('..')
 sys.path.append('../..')
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
@@ -20,8 +19,8 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-from test_api import test_api
-from test_config import test_config
+from test_benefit.test_api import test_api
+from test_benefit.test_config import test_config
 
 ####################################################
 # test cases
@@ -29,20 +28,18 @@ from test_config import test_config
 		
 class test_benefit_model_1(ParametrizedTestCase):
 	def setUp(self):
+		logger.open("test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		if self._testMethodName == "test_init":
 			return
 
-		logger.open("test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
 		
 		for i in range(7):
 			API.native().regid_with_publickey(i, sleep = 0)
-		API.node().wait_gen_block()
 
 		API.native().init_ont_ong(sleep = 0)
-		API.node().wait_gen_block()
 		
 		time.sleep(5)
 		self.m_current_node = 0
@@ -78,7 +75,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong2 != ong1, "get balance error")
 
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 		
 	#blocked
 	def test_normal_002_benefit(self):
@@ -105,7 +102,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong2 != ong1, "get balance error")
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 			process = False
 		
 	def test_abnormal_003_benefit(self):
@@ -135,7 +132,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 - ong1) == 0, "error")
 
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 			process = False
  
 	#
@@ -177,7 +174,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(ong_stop2 != ong_stop1, "benefit[2]")
 				
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 			process = False
  	
 	
@@ -186,7 +183,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = False
 			#启动拜占庭节点
 			API.node().stop_nodes(self.m_dbft_nodes)
-			start_nodes(self.m_dbft_nodes, Config.DEFAULT_NODE_ARGS, True, True, program = "ontology-bft_1")
+			API.node().start_nodes(self.m_dbft_nodes, Config.DEFAULT_NODE_ARGS, True, True, program = "ontology-bft_1")
 
 			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
 			self.ASSERT(process, "updateGlobalParam error")
@@ -222,7 +219,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong2 != ong1), "normal node benefit error")
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
  
 	
 	def test_normal_006_benefit(self):
@@ -259,7 +256,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((ong3 - ong2) == except_benifit, "first benefit error")
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 
 	
 	#前提: 7个节点initpos 都是 1000
@@ -290,7 +287,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT((int(ong2 - ong1) == int(except_benifit)), "")
 		
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 
 	
 	#第7个节点为新加入节点
@@ -371,7 +368,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = abs((int(ong4 - ong3) - int(except_benifit4))) < 10
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 			process = False
 
 	#第7个节点为新加入节点
@@ -488,7 +485,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(process, "first benefit error[candidate node][4]")
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 
 		
 	def test_normal_010_benefit(self):
@@ -550,13 +547,14 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.ASSERT(process, "benefit error")
 		
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 
 class test_benefit_model_2(ParametrizedTestCase):
 	def setUp(self):
+		logger.open( "test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
 		if self._testMethodName == "test_init":
 			return
-		logger.open( "test_benefit_model/" + self._testMethodName+".log",self._testMethodName)
+
 		self.m_checknode = 4
 		time.sleep(2)
 		print("stop all")
@@ -636,7 +634,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 
 			
 	def test_normal_012_benefit(self):
@@ -683,7 +681,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			self.ASSERT((normal_ong2 - normal_ong) == except_benifit1, "benefit normal node error")
 			self.ASSERT((candidate_ong2 - candidate_ong) == except_benifit2, "benefit candidate node error")
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 
 
 	def test_normal_013_benefit(self):
@@ -729,7 +727,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			
 			
 		except Exception as e:
-			print(e)
+			logger.print(e.args[0])
 			process = False
 
 	

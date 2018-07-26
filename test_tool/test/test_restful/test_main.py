@@ -21,14 +21,17 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.taskrunner import TaskRunner
 from api.apimanager import API
-from test_config import test_config
+from test_restful.test_config import test_config
+
 
 ####################################################
 #test cases
 class test_restful_1(ParametrizedTestCase):
 
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open( "test_restful/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -37,20 +40,23 @@ class test_restful_1(ParametrizedTestCase):
 		try:
 			API.node().stop_all_nodes()
 			API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
-			time.sleep(5)
+			time.sleep(10)
 		
 			(process, response) = API.restful().getgenerateblocktime()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 		
 class test_restful_2(ParametrizedTestCase):
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open("test_restful/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return
+
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(5)
+		time.sleep(10)
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -60,7 +66,7 @@ class test_restful_2(ParametrizedTestCase):
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	# 无区块
 	def test_normal_014_getblockbyheight(self,height=0):
@@ -68,7 +74,7 @@ class test_restful_2(ParametrizedTestCase):
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	# 无区块
 	def test_normal_023_getblockheight(self):
@@ -76,7 +82,7 @@ class test_restful_2(ParametrizedTestCase):
 			(process, response) = API.restful().getblockheight()	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	# 无区块
 	def test_normal_025_getblockhashbyheight(self,height=0):
@@ -84,7 +90,7 @@ class test_restful_2(ParametrizedTestCase):
 			(process, response) = API.restful().getblockhashbyheight(height)	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	# 无区块
 	def test_abnormal_053_getcontract(self):
@@ -95,14 +101,15 @@ class test_restful_2(ParametrizedTestCase):
 			(process, response) = API.restful().getcontract(script_hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 class test_restful_3(ParametrizedTestCase):
 	def test_init(self):
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(10)
 		while True:
-			if API.rpc().getblockcount() > 0:
+			if API.rpc().getblockcount()[1]["result"] > 0:
 				break;
 			time.sleep(1)
 
@@ -118,7 +125,9 @@ class test_restful_3(ParametrizedTestCase):
 		API.contract().invoke_function(test_config.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": test_config.m_getstorage_contract_key},{"type": "bytearray","value": test_config.m_getstorage_contract_value}], node_index = 0)
 		
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open("test_restful/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return
 		time.sleep(1)
 		
 	def tearDown(self):
@@ -129,14 +138,14 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getgenerateblocktime()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_base_003_getconnectioncount(self):
 		try:
 			(process, response) = API.restful().getconnectioncount()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	# 无节点
 	def test_abnormal_004_getconnectioncount(self):
@@ -147,175 +156,175 @@ class test_restful_3(ParametrizedTestCase):
 			time.sleep(5)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_base_005_getblocktxsbyheight(self,height=1):
 		try:
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_007_getblocktxsbyheight(self,height=6000):
 		try:
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_008_getblocktxsbyheight(self,height=65537):
 		try:
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_009_getblocktxsbyheight(self,height="abc"):
 		try:
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_010_getblocktxsbyheight(self,height=-1):
 		try:
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_011_getblocktxsbyheight(self,height=""):
 		try:
 			(process, response) = API.restful().getblocktxsbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_012_getblockbyheight(self,height=1):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_013_getblockbyheight(self,height=0):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_015_getblockbyheight(self,height=6000):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_016_getblockbyheight(self,height=65536):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_017_getblockbyheight(self,height="abc"):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_018_getblockbyheight(self,height=-1):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_019_getblockbyheight(self,height=""):
 		try:
 			(process, response) = API.restful().getblockbyheight(height)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_020_getblockbyhash(self):	
 		try:
 			(process, response) = API.restful().getblockbyhash(test_config.m_block_hash_right, 1)	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_021_getblockbyhash(self):	
 		try:
 			(process, response) = API.restful().getblockbyhash(test_config.m_block_hash_error, 1)  
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_022_getblockheight(self):	
 		try:
 			(process, response) = API.restful().getblockheight()	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_024_getblockhashbyheight(self,height=1):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_026_getblockhashbyheight(self,height=6000):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_027_getblockhashbyheight(self,height=65536):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)	
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_028_getblockhashbyheight(self,height="abc"):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)	
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_029_getblockhashbyheight(self,height=-1):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_030_getblockhashbyheight(self,height=""):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)   
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_031_gettransactionbytxhash(self):
 		try:
 			(process, response) = API.restful().gettransactionbytxhash(test_config.m_txhash_right) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_032_gettransactionbytxhash(self):
 		try:
 			(process, response) = API.restful().gettransactionbytxhash(test_config.m_txhash_wrong) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)	
+			logger.print(e.args[0])	
 
 	def test_base_033_postrawtx(self):
 		
@@ -326,7 +335,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_034_postrawtx(self):
 		try:
@@ -337,7 +346,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_035_postrawtx(self):
 		try:
@@ -348,7 +357,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_036_postrawtx(self):
 		try:
@@ -359,7 +368,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_037_postrawtx(self):
 		try:
@@ -370,7 +379,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_038_postrawtx(self):
 		try:
@@ -381,7 +390,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_039_postrawtx(self):
 		try:
@@ -392,7 +401,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_040_postrawtx(self):
 		try:
@@ -403,7 +412,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_041_postrawtx(self):
 		try:
@@ -414,7 +423,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_042_getstorage(self):
 		try:
@@ -424,7 +433,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_043_getstorage(self):
 		try:
@@ -434,7 +443,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_044_getstorage(self):
 		try:
@@ -444,7 +453,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_045_getstorage(self):
 		try:
@@ -454,7 +463,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_046_getstorage(self):
 		try:
@@ -464,7 +473,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_047_getstorage(self):
 		try:
@@ -474,7 +483,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_048_getstorage(self):
 		try:
@@ -484,7 +493,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getstorage(script_hash, key) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_base_049_getbalance(self):
 		try:
@@ -493,7 +502,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getbalance(attr) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_050_getbalance(self):
 		try:
@@ -502,14 +511,14 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getbalance(attr) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_051_getbalance(self,attr=""):
 		try:
 			(process, response) = API.restful().getbalance(attr) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_052_getcontract(self):
 		try:
@@ -518,7 +527,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getcontract(script_hash) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_054_getcontract(self):
 		try:
@@ -527,35 +536,35 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getcontract(script_hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_055_getsmartcodeeventbyheight(self,height=1):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyheight(height) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_056_getsmartcodeeventbyheight(self,height=999):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyheight(height) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_057_getsmartcodeeventbyheight(self,height="abc"):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyheight(height) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_058_getsmartcodeeventbyheight(self,height=""):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyheight(height) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_059_getsmartcodeeventbyhash(self):
 		try:
@@ -564,7 +573,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_060_getsmartcodeeventbyhash(self):
 		try:
@@ -573,7 +582,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_061_getsmartcodeeventbyhash(self):
 		try:
@@ -582,7 +591,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_062_getsmartcodeeventbyhash(self):
 		try:
@@ -591,28 +600,28 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_063_getsmartcodeeventbyhash(self,hash="abc"):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_064_getsmartcodeeventbyhash(self,hash=123):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_065_getsmartcodeeventbyhash(self,hash=""):
 		try:
 			(process, response) = API.restful().getsmartcodeeventbyhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_base_066_getblockheightbytxhash(self):
 		try:
@@ -621,7 +630,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getblockheightbytxhash(hash)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_067_getblockheightbytxhash(self):
 		try:
@@ -630,21 +639,21 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getblockheightbytxhash(hash)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_068_getblockheightbytxhash(self,hash=""):
 		try:
 			(process, response) = API.restful().getblockheightbytxhash(hash)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_069_getblockheightbytxhash(self,hash=123):
 		try:
 			(process, response) = API.restful().getblockheightbytxhash(hash)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_070_getmerkleproofbytxhash(self):
 		try:
@@ -653,7 +662,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getmerkleproofbytxhash(hash) 
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_071_getmerkleproofbytxhash(self):
 		try:
@@ -662,21 +671,21 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = API.restful().getmerkleproofbytxhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_072_getmerkleproofbytxhash(self,hash=""):
 		try:
 			(process, response) = API.restful().getmerkleproofbytxhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_073_getmerkleproofbytxhash(self,hash=123):
 		try:
 			(process, response) = API.restful().getmerkleproofbytxhash(hash) 
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_074_getConnCount1(self):
 		try:
@@ -693,7 +702,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = TaskRunner.run_single_task(task)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_075_noUrl(self):
 		try:
@@ -710,7 +719,7 @@ class test_restful_3(ParametrizedTestCase):
 			(process, response) = TaskRunner.run_single_task(task)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 ####################################################
 if __name__ == '__main__':
