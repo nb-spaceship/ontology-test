@@ -7,13 +7,12 @@ import urllib.request
 import json
 import os
 import sys, getopt
+import time
 
 sys.path.append('..')
 sys.path.append('../..')
 testpath = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(testpath)
-
-
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
@@ -24,25 +23,47 @@ from utils.connect import WebSocket
 from api.apimanager import API
 from utils.taskrunner import TaskRunner
 
-
-
 #from ws_api_conf import Conf
-from test_config import *
+from test_config import test_config
+
+rpcApi = API.rpc()
 
 
 class test_websocket_1(ParametrizedTestCase):
 
 	def test_init(self):
 		time.sleep(2)
-		# print("stop all")
-		# stop_all_nodes()
-		# print("start all")
-		# start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+		print("stop all")
+		API.node().stop_all_nodes()
+		print("start all")
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS[0], True, True)
 		time.sleep(60)
 		print("waiting for 60s......")
-		
+
+		(test_config.contract_addr, test_config.contract_tx_hash) = API.contract().deploy_contract_full(testpath+"/resource/test.neo")
+		test_config.CONTRACT_ADDRESS_CORRECT = test_config.contract_addr
+		test_config.CONTRACT_ADDRESS_INCORRECT_2 = test_config.contract_addr + "11"
+		test_config.TX_HASH_CORRECT = test_config.contract_tx_hash
+		test_config.TX_HASH_INCORRECT_2 = test_config.contract_tx_hash[:-2]
+		test_config.TX_HASH_INCORRECT_3 = test_config.contract_tx_hash + "1111"
+
+		test_config.block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
+		test_config.block_hash = rpcApi.getblockhash(test_config.block_height - 1)[1]["result"]
+		test_config.signed_data = get_signed_data()
+
+		test_config.HEIGHT_CORRECT = test_config.block_height - 1
+		test_config.HEIGHT_INCORRECT_2 = test_config.block_height + 1000
+		test_config.BLOCK_HASH_CORRECT = test_config.block_hash
+		test_config.BLOCK_HASH_INCORRECT_2 = test_config.block_hash[:-2] # HASH NOT EXISTENT
+		test_config.BLOCK_HASH_INCORRECT_3 = test_config.block_hash + "1111"
+
+		test_config.RAW_TRANSACTION_DATA_CORRECT = test_config.signed_data
+		test_config.RAW_TRANSACTION_DATA_INCORRECT_2 = "11111111" + test_config.signed_data + "1111111111" 
+
 	def setUp(self):
 		logger.open("test_websocket/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -52,35 +73,35 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().heartbeat()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_002_heartbeat(self):
 		try:
-			API.node().stop_node(0)
+			#API.node().stop_node(0)
 			(process, response) = API.ws().heartbeat()
-			API.node().start_node(0, Config.DEFAULT_NODE_ARGS)
+			#API.node().start_node(0, Config.DEFAULT_NODE_args[0])
 			time.sleep(5)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
-	
+			logger.print(e.args[0])
+	'''
 	def test_abnormal_003_heartbeat(self):
 		try:
-			ws = WebSocket()
-			ws.exec(heartbeat_gap=400)
+			API.ws = WebSocket()
+			API.ws.exec(heartbeat_gap=400)
 			process=True
 			# (result, response) = API.ws().heartbeat()
 			self.ASSERT(process, "")
 		except Exception as e:
 			process=False
-
+	'''
 	def test_base_004_subscribe(self):
 		try:
 			time.sleep(5)
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT])
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_005_subscribe(self):
 		try:
@@ -88,7 +109,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_INCORRECT_2])
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_normal_006_subscribe(self):
 		try:
@@ -96,7 +117,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_INCORRECT_3])
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_007_subscribe(self):
 		try:
@@ -104,7 +125,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sevent=True)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_008_subscribe(self):
 		try:
@@ -112,7 +133,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sevent=False)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_009_subscribe(self):
 		try:
@@ -120,21 +141,21 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sevent=None)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_010_subscribe(self):
 		try:
 			(process, response) = API.ws().subscribe(None, sevent=True)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_011_subscribe(self):
 		try:
 			(process, response) = API.ws().subscribe(None, sevent=0)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_012_subscribe(self):
 		try:
@@ -142,7 +163,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sjsonblock=True)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_013_subscribe(self):
 		try:
@@ -150,7 +171,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sjsonblock=False)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_014_subscribe(self):
 		try:
@@ -158,7 +179,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sjsonblock=None)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_015_subscribe(self):
 		try:
@@ -166,7 +187,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sjsonblock=0)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_016_subscribe(self):
 		try:
@@ -174,7 +195,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], srawblock=True)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_017_subscribe(self):
 		try:
@@ -182,7 +203,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], srawblock=False)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_018_subscribe(self):
 		try:
@@ -190,7 +211,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], srawblock=None)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_019_subscribe(self):
 		try:
@@ -198,7 +219,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], srawblock=0)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_020_subscribe(self):
 		try:
@@ -206,7 +227,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sblocktxhashs=True)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_021_subscribe(self):
 		try:
@@ -214,7 +235,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sblocktxhashs=False)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_022_subscribe(self):
 		try:
@@ -222,7 +243,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sblocktxhashs=None)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_023_subscribe(self):
 		try:
@@ -230,202 +251,202 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().subscribe([test_config.CONTRACT_ADDRESS_CORRECT], sblocktxhashs=0)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_024_getgenerateblocktime(self):
 		try:
 			(process, response) = API.ws().getgenerateblocktime()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_025_getgenerateblocktime(self):
 		try:
 			(process, response) = API.ws().getgenerateblocktime({"height":"1"})
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_026_getconnectioncount(self):
 		try:
 			(process, response) = API.ws().getconnectioncount()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_027_getconnectioncount(self):
 		try:
 			API.node().stop_node(0)
 			(process, response) = API.ws().getconnectioncount()
-			API.node().start_node(0, Config.DEFAULT_NODE_ARGS)
+			API.node().start_node(0, Config.DEFAULT_NODE_args[0])
 			time.sleep(5)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_028_getconnectioncount(self):
 		try:
 			(process, response) = API.ws().getconnectioncount({"height":"1"})
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_029_getblocktxsbyheight(self):
 		try:
 			(process, response) = API.ws().getblocktxsbyheight(test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_031_getblocktxsbyheight(self):
 		try:
 			(process, response) = API.ws().getblocktxsbyheight(test_config.HEIGHT_BORDER)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_032_getblocktxsbyheight(self):
 		try:
 			(process, response) = API.ws().getblocktxsbyheight(test_config.HEIGHT_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_033_getblocktxsbyheight(self):
 		try:
 			(process, response) = API.ws().getblocktxsbyheight(test_config.HEIGHT_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_034_getblocktxsbyheight(self):
 		try:
 			(process, response) = API.ws().getblocktxsbyheight(test_config.HEIGHT_INCORRECT_3)
 			self.ASSERT(not process, "")		
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_035_getblockbyheight(self):
 		try:
 			(process, response) = API.ws().getblockbyheight(test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_037_getblockbyheight(self):
 		try:
 			(process, response) = API.ws().getblockbyheight(test_config.HEIGHT_BORDER)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_038_getblockbyheight(self):
 		try:
 			(process, response) = API.ws().getblockbyheight(test_config.HEIGHT_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_039_getblockbyheight(self):
 		try:
 			(process, response) = API.ws().getblockbyheight(test_config.HEIGHT_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_040_getblockbyheight(self):
 		try:
 			(process, response) = API.ws().getblockbyheight(test_config.HEIGHT_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_041_getblockbyhash(self):
 		try:
 			(process, response) = API.ws().getblockbyhash(test_config.BLOCK_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_043_getblockbyhash(self):
 		try:
 			(process, response) = API.ws().getblockbyhash(test_config.BLOCK_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_044_getblockbyhash(self):
 		try:
 			(process, response) = API.ws().getblockbyhash(test_config.BLOCK_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_045_getblockbyhash(self):
 		try:
 			(process, response) = API.ws().getblockbyhash(test_config.BLOCK_HASH_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_046_getblockbyhash(self):
 		try:
 			(process, response) = API.ws().getblockbyhash(test_config.BLOCK_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_047_getblockheight(self):
 		try:
 			(process, response) = API.ws().getblockheight()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_normal_048_getblockheight(self):
 		try:
 			API.node().stop_nodes([0, 1, 2, 3, 4, 5, 6])
-			start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS)
+			start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_args[0])
 			time.sleep(10)
 			(process, response) = API.ws().getblockheight()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_base_049_getblockhashbyheight(self):
 		try:
 			(process, response) = API.ws().getblockhashbyheight(test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_051_getblockhashbyheight(self):
 		try:
 			(process, response) = API.ws().getblockhashbyheight(test_config.HEIGHT_BORDER)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_052_getblockhashbyheight(self):
 		try:
 			(process, response) = API.ws().getblockhashbyheight(test_config.HEIGHT_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_053_getblockhashbyheight(self):
 		try:
 			(process, response) = API.ws().getblockhashbyheight(test_config.HEIGHT_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_054_getblockhashbyheight(self):
 		try:
 			(process, response) = API.ws().getblockhashbyheight(test_config.HEIGHT_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_055_gettransaction(self):
 		try:
@@ -433,70 +454,70 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().gettransaction(test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_056_gettransaction(self):
 		try:
 			(process, response) = API.ws().gettransaction(test_config.TX_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_057_gettransaction(self):
 		try:
 			(process, response) = API.ws().gettransaction(test_config.TX_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_058_gettransaction(self):
 		try:
 			(process, response) = API.ws().gettransaction(test_config.TX_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_059_gettransaction(self):
 		try:
 			(process, response) = API.ws().gettransaction(test_config.TX_HASH_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_060_gettransaction(self):
 		try:
 			(process, response) = API.ws().gettransaction(test_config.TX_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_061_sendrawtransaction(self):
 		try:
 			(process, response) = API.ws().sendrawtransaction(test_config.RAW_TRANSACTION_DATA_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_063_sendrawtransaction(self):
 		try:
 			(process, response) = API.ws().sendrawtransaction(test_config.RAW_TRANSACTION_DATA_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_064_sendrawtransaction(self):
 		try:
 			(process, response) = API.ws().sendrawtransaction(test_config.RAW_TRANSACTION_DATA_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_065_sendrawtransaction(self):
 		try:
 			(process, response) = API.ws().sendrawtransaction(test_config.RAW_TRANSACTION_DATA_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_066_get_version(self):
 		try:
@@ -511,7 +532,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = TaskRunner.run_single_task(task)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_068_get_version(self):
 		try:
@@ -526,7 +547,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = TaskRunner.run_single_task(task)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_069_get_version(self):
 		try:
@@ -541,42 +562,42 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = TaskRunner.run_single_task(task)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_070_getbalancebyaddr(self):
 		try:
 			(process, response) = API.ws().getbalancebyaddr(test_config.ACCOUNT_ADDRESS_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_071_getbalancebyaddr(self):
 		try:
 			(process, response) = API.ws().getbalancebyaddr(test_config.ACCOUNT_ADDRESS_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_072_getbalancebyaddr(self):
 		try:
 			(process, response) = API.ws().getbalancebyaddr(test_config.ACCOUNT_ADDRESS_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_073_getbalancebyaddr(self):
 		try:
 			(process, response) = API.ws().getbalancebyaddr(test_config.ACCOUNT_ADDRESS_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_074_getcontract(self):
 		try:
 			(process, response) = API.ws().getcontract(test_config.ACCOUNT_ADDRESS_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_075_getcontract(self):
 		try:
@@ -584,7 +605,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getcontract(test_config.CONTRACT_ADDRESS_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_077_getcontract(self):
 		try:
@@ -592,7 +613,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getcontract(test_config.CONTRACT_ADDRESS_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_078_getcontract(self):
 		try:
@@ -600,7 +621,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getcontract(test_config.CONTRACT_ADDRESS_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_079_getcontract(self):
 		try:
@@ -608,7 +629,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getcontract(test_config.CONTRACT_ADDRESS_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_080_getcontract(self):
 		try:
@@ -616,49 +637,49 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getcontract(test_config.CONTRACT_ADDRESS_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_081_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = API.ws().getsmartcodeeventbyheight(test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_082_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = API.ws().getsmartcodeeventbyheight(test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_083_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = API.ws().getsmartcodeeventbyheight(test_config.HEIGHT_BORDER)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_084_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = API.ws().getsmartcodeeventbyheight(test_config.HEIGHT_INCORRECT_1)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_085_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = API.ws().getsmartcodeeventbyheight(test_config.HEIGHT_INCORRECT_2)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_086_getsmartcodeeventbyheight(self):
 		try:
 			(process, response) = API.ws().getsmartcodeeventbyheight(test_config.HEIGHT_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_087_getsmartcodeeventbyhash(self):
 		try:
@@ -666,7 +687,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getsmartcodeeventbyhash(test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_088_getsmartcodeeventbyhash(self):
 		try:
@@ -674,7 +695,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getsmartcodeeventbyhash(test_config.TX_HASH_INCORRECT_5)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_089_getsmartcodeeventbyhash(self):
 		try:
@@ -682,7 +703,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getsmartcodeeventbyhash(test_config.TX_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_090_getsmartcodeeventbyhash(self):
 		try:
@@ -690,7 +711,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getsmartcodeeventbyhash(test_config.TX_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_091_getsmartcodeeventbyhash(self):
 		try:
@@ -698,7 +719,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getsmartcodeeventbyhash(test_config.TX_HASH_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_092_getsmartcodeeventbyhash(self):
 		try:
@@ -706,7 +727,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getsmartcodeeventbyhash(test_config.TX_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_093_getblockheightbytxhash(self):
 		try:
@@ -714,7 +735,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_094_getblockheightbytxhash(self):
 		try:
@@ -722,7 +743,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_INCORRECT_5)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_095_getblockheightbytxhash(self):
 		try:
@@ -730,7 +751,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_096_getblockheightbytxhash(self):
 		try:
@@ -738,7 +759,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_097_getblockheightbytxhash(self):
 		try:
@@ -746,7 +767,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_098_getblockheightbytxhash(self):
 		try:
@@ -754,7 +775,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_099_getmerkleproof(self):
 		try:
@@ -762,7 +783,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_normal_100_getmerkleproof(self):
 		try:
@@ -770,7 +791,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_INCORRECT_5)
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_101_getmerkleproof(self):
 		try:
@@ -778,7 +799,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_102_getmerkleproof(self):
 		try:
@@ -786,7 +807,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_103_getmerkleproof(self):
 		try:
@@ -794,7 +815,7 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_104_getmerkleproof(self):
 		try:
@@ -802,24 +823,24 @@ class test_websocket_1(ParametrizedTestCase):
 			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_105_getsessioncount(self):
 		try:
 			(process, response) = API.ws().getsessioncount()
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_106_getsessioncount(self):
 		try:
 			API.node().stop_node(0)
 			(process, response) = API.ws().getsessioncount()
-			API.node().start_node(0, Config.DEFAULT_NODE_ARGS)
+			API.node().start_node(0, Config.DEFAULT_NODE_args[0])
 			time.sleep(5)
 			self.ASSERT(not process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	'''
 	def test_107_getstorage(self):

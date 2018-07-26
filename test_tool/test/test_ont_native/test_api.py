@@ -16,9 +16,10 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
+
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.common import Common
 from api.apimanager import API
+from utils.common import Common 
 
 def transfer(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001,errorkey="error"):
 	request = {
@@ -42,11 +43,11 @@ def transfer(contract_address,pay_address,get_address,amount, node_index = None,
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_address(pay_address)
+								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_address(get_address)
+								"value": Common.bl_reserver(Common.base58_to_address(get_address))
 							},
 							{
 								"type": "int",
@@ -85,11 +86,11 @@ def approve(contract_address,pay_address,get_address, amount,node_index = None,e
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_address(pay_address)
+								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_address(get_address)
+								"value": Common.bl_reserver(Common.base58_to_address(get_address))
 							},
 							{
 								"type": "int",
@@ -108,10 +109,10 @@ def approve(contract_address,pay_address,get_address, amount,node_index = None,e
 	return API.contract().call_contract(Task(name="approve", ijson=request), twice = True)
 def transferFrom(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001,errorkey="error"):
 	if not senderType:
-		sender=Common.bl_address(sender)
+		sender=Common.bl_reserver(Common.base58_to_address(sender))
 		getaddress=sender
 	else:
-		getaddress=Common.bl_address(get_address)
+		getaddress=Common.bl_reserver(Common.base58_to_address(get_address))
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -138,7 +139,7 @@ def transferFrom(contract_address,sender,pay_address,get_address, amount,node_in
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_address(pay_address)
+								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
 							},
 							{
 								"type": "bytearray",
@@ -269,7 +270,7 @@ def balanceOf(contract_address,address,node_index = None,errorcode=47001):
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_address(address)
+								"value": Common.bl_reserver(Common.base58_to_address(address))
 							}
 						]
 					}
@@ -302,11 +303,11 @@ def allowance(contract_address,pay_address,get_address,node_index = None,errorco
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_address(pay_address)
+								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_address(get_address)
+								"value": Common.bl_reserver(Common.base58_to_address(get_address))
 							}
 						]
 					}

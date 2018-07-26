@@ -11,18 +11,10 @@ import sys, getopt
 sys.path.append('..')
 
 from utils.config import Config
-from utils.taskdata import TaskData, Task
-from utils.logger import LoggerInstance as logger
-from utils.hexstring import *
-from utils.error import Error
-from utils.parametrizedtestcase import ParametrizedTestCase
-#from utils.api.commonapi import 
-from api.apimanager import *
 
 class test_config():
 	node_index=5
-	#nodePath="/home/ubuntu/ontology/node"
-	contract_address=API.contract().deploy_contract("resource/ong_neo.json")
+	contract_address=""
 	pay_address=Config.NODES[node_index]["address"]
 	get_address=Config.NODES[2]["address"]
 	amount="10"
@@ -30,50 +22,50 @@ class test_config():
 	sender_node=2
 	senderType=False
 	
-	from1= pay_address  #from_ÕıÈ·µÄfromÖµ_Õı³£
-	from2= "1111111111111111111111111111"  #from_´íÎóµÄfromÖµ£¨²ÎÊı²»ÕıÈ·£©_Òì³£
-	from3= ""  #from_Áô¿Õ_Òì³£
-	to1= get_address  #to_ÕıÈ·µÄtoÖµ_Õı³£
-	to2= from2  #to_´íÎóµÄtoÖµ_Òì³£
-	to3= ""  #to_Áô¿Õ_Òì³£
-	amount1= "10"  #amount_ÕıÈ·µÄÊıÁ¿10_Õı³£
-	amount2= "0"  #amount_ÕıÈ·µÄÊıÁ¿0_Õı³£
-	amount3= "-1"  #amount_´íÎóµÄÊıÁ¿£¨-1£©_Òì³£
-	amount4= "2000000000000"  #amount_´íÎóµÄÊıÁ¿£¨fromÕË»§²»´æÔÚÕâÃ´¶àÊıÁ¿µÄont£©_Òì³£
-	amount5= "abc"  #amount_´íÎóµÄÊıÁ¿£¨abc£©_Òì³£
-	amount6= ""  #amount_´íÎóµÄÊıÁ¿£¨Áô¿Õ£©_Òì³£
-	from4= from2  #from_´íÎóµÄfromÖµ_Òì³£
-	sender1= to1 #sender_ÕıÈ·µÄsenderÖµ£¨±»ÊÚÈ¨µÄÕË»§µØÖ·)_Õı³£
+	from1= pay_address  #from_ï¿½ï¿½È·ï¿½ï¿½fromÖµ_ï¿½ï¿½ï¿½ï¿½
+	from2= "1111111111111111111111111111"  #from_ï¿½ï¿½ï¿½ï¿½ï¿½fromÖµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½_ï¿½ì³£
+	from3= ""  #from_ï¿½ï¿½ï¿½_ï¿½ì³£
+	to1= get_address  #to_ï¿½ï¿½È·ï¿½ï¿½toÖµ_ï¿½ï¿½ï¿½ï¿½
+	to2= from2  #to_ï¿½ï¿½ï¿½ï¿½ï¿½toÖµ_ï¿½ì³£
+	to3= ""  #to_ï¿½ï¿½ï¿½_ï¿½ì³£
+	amount1= "10"  #amount_ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½10_ï¿½ï¿½ï¿½ï¿½
+	amount2= "0"  #amount_ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0_ï¿½ï¿½ï¿½ï¿½
+	amount3= "-1"  #amount_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-1ï¿½ï¿½_ï¿½ì³£
+	amount4= "2000000000000"  #amount_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fromï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ontï¿½ï¿½_ï¿½ì³£
+	amount5= "abc"  #amount_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½abcï¿½ï¿½_ï¿½ì³£
+	amount6= ""  #amount_ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ£ï¿½_ï¿½ì³£
+	from4= from2  #from_ï¿½ï¿½ï¿½ï¿½ï¿½fromÖµ_ï¿½ì³£
+	sender1= to1 #sender_ï¿½ï¿½È·ï¿½ï¿½senderÖµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½Ö·)_ï¿½ï¿½ï¿½ï¿½
 	sender1_node=2
 	sender1Type=senderType
-	sender2= contract_address  #sender_ÕıÈ·µÄsenderÖµ£¨±»ÊÚÈ¨µÄÖÇÄÜºÏÔ¼µØÖ·)_Õı³£
+	sender2= ""  #sender_ï¿½ï¿½È·ï¿½ï¿½senderÖµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½Üºï¿½Ô¼ï¿½ï¿½Ö·)_ï¿½ï¿½ï¿½ï¿½
 	sender2_node=2
 	sender2Type=True
-	sender3= from1  #sender_ÕıÈ·µÄsenderÖµ£¨fromÕË»§µØÖ·)_Õı³£
+	sender3= from1  #sender_ï¿½ï¿½È·ï¿½ï¿½senderÖµï¿½ï¿½fromï¿½Ë»ï¿½ï¿½ï¿½Ö·)_ï¿½ï¿½ï¿½ï¿½
 	sender3_node=2
 	sender3Type=False
-	sender4= "ANdtbPPwfMv79eMev9z7aAZRM6bUuQQ3rf"  #sender_´íÎóµÄsenderÖµ£¨Î´±»ÊÚÈ¨µÄÕË»§µØÖ·)_Òì³£
+	sender4= "ANdtbPPwfMv79eMev9z7aAZRM6bUuQQ3rf"  #sender_ï¿½ï¿½ï¿½ï¿½ï¿½senderÖµï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½Ö·)_ï¿½ì³£
 	sender4_node=2
 	sender4Type=False
-	sender5= API.contract().deploy_contract("resource/ongErr.json")  #sender_´íÎóµÄsenderÖµ£¨Î´±»ÊÚÈ¨µÄÖÇÄÜºÏÔ¼µØÖ·)_Òì³£
+	sender5= ""  #sender_ï¿½ï¿½ï¿½ï¿½ï¿½senderÖµï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½Üºï¿½Ô¼ï¿½ï¿½Ö·)_ï¿½ì³£
 	sender5_node=2
 	sender5Type=True
-	sender6= "abc"  #sender_´íÎóµÄsenderÖµ£¨abc£©_Òì³£
+	sender6= "abc"  #sender_ï¿½ï¿½ï¿½ï¿½ï¿½senderÖµï¿½ï¿½abcï¿½ï¿½_ï¿½ì³£
 	sender6Type=False
 	sender6_node=2
-	sender7= ""  #sender_Áô¿Õ_Òì³£
+	sender7= ""  #sender_ï¿½ï¿½ï¿½_ï¿½ì³£
 	sender7_node=2
 	sender7Type=False
-	from5= from1  #from_ÕıÈ·µÄfromÖµ£¨ÕË»§´æÔÚ£©_Õı³£
-	from6= "ASK6GGsZfPf8WfSYhWUhw7SaZxnZ111111"  #from_´íÎóµÄfromÖµ£¨ÕË»§²»´æÔÚ£©_Òì³£
-	to4= to1  #to_ÕıÈ·µÄtoÖµ£¨ÕË»§´æÔÚ£©_Õı³£
-	to5= from6  #to_´íÎóµÄtoÖµ£¨ÕË»§²»´æÔÚ£©_Òì³£
-	amount7= "10"  #amount_ÕıÈ·µÄÊıÁ¿10_Òì³£
-	address1= from1  #address_ÕıÈ·µÄaddressÖµ_Õı³£
-	address2= from2  #address_´íÎóµÄaddressÖµ_Òì³£
-	address3= ""  #address_Áô¿Õ_Òì³£
-	from7= from1  #from_ÕıÈ·µÄfromÖµ_Òì³£
-	sender8= to1  #sender_ÕıÈ·µÄsenderÖµ£¨±»ÊÚÈ¨µÄÕË»§µØÖ·)_Òì³£
+	from5= from1  #from_ï¿½ï¿½È·ï¿½ï¿½fromÖµï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ú£ï¿½_ï¿½ï¿½ï¿½ï¿½
+	from6= "ASK6GGsZfPf8WfSYhWUhw7SaZxnZ111111"  #from_ï¿½ï¿½ï¿½ï¿½ï¿½fromÖµï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½_ï¿½ì³£
+	to4= to1  #to_ï¿½ï¿½È·ï¿½ï¿½toÖµï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½ï¿½Ú£ï¿½_ï¿½ï¿½ï¿½ï¿½
+	to5= from6  #to_ï¿½ï¿½ï¿½ï¿½ï¿½toÖµï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½_ï¿½ì³£
+	amount7= "10"  #amount_ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½10_ï¿½ì³£
+	address1= from1  #address_ï¿½ï¿½È·ï¿½ï¿½addressÖµ_ï¿½ï¿½ï¿½ï¿½
+	address2= from2  #address_ï¿½ï¿½ï¿½ï¿½ï¿½addressÖµ_ï¿½ì³£
+	address3= ""  #address_ï¿½ï¿½ï¿½_ï¿½ì³£
+	from7= from1  #from_ï¿½ï¿½È·ï¿½ï¿½fromÖµ_ï¿½ì³£
+	sender8= to1  #sender_ï¿½ï¿½È·ï¿½ï¿½senderÖµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ë»ï¿½ï¿½ï¿½Ö·)_ï¿½ì³£
 	sender8_node=5
 	sender8Type=False
-	address4= from1  #address_ÕıÈ·µÄaddressÖµ_Òì³£
+	address4= from1  #address_ï¿½ï¿½È·ï¿½ï¿½addressÖµ_ï¿½ì³£

@@ -7,19 +7,37 @@ import json
 import os
 import sys, getopt
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 sys.path.append('..')
+=======
+
+>>>>>>> 6d4f23321680096677cc36227510dcacc3e81fba
+=======
+sys.path.append('..')
+>>>>>>> f021845a005899ce1abbd2c8e8fc94ce34d43b52
 sys.path.append('../..')
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
+<<<<<<< HEAD
+from api.apimanager import API
+from utils.common import Common
+from utils.hexstring import *
+from test_neo_api.test_api import *
+=======
 from utils.logger import LoggerInstance as logger
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.common import Common
 from utils.hexstring import *
 
+<<<<<<< HEAD
+>>>>>>> 6d4f23321680096677cc36227510dcacc3e81fba
+=======
 from api.apimanager import API
 
 from test_neo_api.test_api import test_api
+>>>>>>> f021845a005899ce1abbd2c8e8fc94ce34d43b52
 
 class test_config():
 	try:

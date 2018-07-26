@@ -30,13 +30,14 @@ class test_neo_api_1(ParametrizedTestCase):
 
 	def test_init(self):
 		time.sleep(2)
-		#print("stop all")
-		#API.node().stop_all_nodes()
-		#print("start all")
-		#API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		#time.sleep(10)
+		print("stop all")
+		API.node().stop_all_nodes()
+		print("start all")
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(10)
 
 		(test_config.contract_addr, test_config.contract_tx_hash) = API.contract().deploy_contract_full(test_config.deploy_neo)
+		API.node().wait_gen_block()
 		time.sleep(10)
 		#time.sleep(60)
 
