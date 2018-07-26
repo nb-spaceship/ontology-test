@@ -12,8 +12,10 @@ from abc import ABCMeta, abstractmethod
 
 from utils.config import Config
 from utils.taskthread import TaskThread
+from utils.taskdata import Task
 from utils.logger import LoggerInstance as logger 
 from utils.error import TestError
+
 
 def multithread_run(logger, cfg_request, cfg_response):
 	result = True
@@ -174,7 +176,11 @@ class WebSocket():
 	def ws_heartbeat_thread(self, heartbeat_gap = 5):
 		while True:
 			time.sleep(heartbeat_gap)
-			self.LONG_LIVE_WS.send(json.dumps(Task("../utils/api/requests/ws/heartbeat.json").data()["REQUEST"]))
+			try:
+				self.LONG_LIVE_WS.send(json.dumps(Task(Config.BASEAPI_PATH + "/ws/heartbeat.json").data()["REQUEST"]))
+			except Exception as e:
+				logger.print(e.args[0])
+				return False
 
 	def exec(self, heartbeat_gap = 5, message_cb = None):
 		t1 = threading.Thread(target=self.ws_thread, args=(message_cb,))
@@ -193,4 +199,4 @@ class WebSocket():
 				#ws.send(json.dumps(self.load_cfg(request)))
 			except Exception as e:
 				print(e)
-				break
+				return False

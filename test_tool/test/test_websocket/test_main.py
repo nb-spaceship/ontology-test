@@ -42,7 +42,7 @@ class test_websocket_1(ParametrizedTestCase):
 		print("waiting for 60s......")
 		
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open("test_websocket/" + self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
 		logger.close(self.result())
