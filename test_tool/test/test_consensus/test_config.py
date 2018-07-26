@@ -46,15 +46,16 @@ class test_config():
 	m_stop_2_nodes = [5,6]
 	
 	CONTRACT_ADDRESS = ""
-	ADDRESS_A = Common.bl_address(Config.NODES[0]["address"])
-	ADDRESS_B = Common.bl_address(Config.NODES[1]["address"])
-	ADDRESS_C = Common.bl_address(Config.NODES[2]["address"])
+	ADDRESS_A = Config.NODES[0]["address"]
+	ADDRESS_B = Config.NODES[1]["address"]
+	ADDRESS_C = Config.NODES[2]["address"]
 	AMOUNT = "1001"
 	PUBLIC_KEY = Config.NODES[0]["pubkey"]
 	PUBLIC_KEY_2 = Config.NODES[1]["pubkey"]
 	PUBLIC_KEY_3 = Config.NODES[2]["pubkey"]
 	PUBLIC_KEY_4 = Config.NODES[3]["pubkey"]
 	PUBLIC_KEY_5 = Config.NODES[4]["pubkey"]
+	PUBLIC_KEY_6 = Config.NODES[5]["pubkey"]
 	
 	
 	vote_node = 13 

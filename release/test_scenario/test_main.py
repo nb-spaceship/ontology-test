@@ -31,6 +31,16 @@ rpcapiTest=RPCApi()
 
 # test cases
 class TestMultiWallet(ParametrizedTestCase):
+    @classmethod
+    def setUpClass(cls):
+        time.sleep(2)
+        print("stop all")
+        stop_all_nodes()
+        print("start all")
+        start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+        time.sleep(10)
+
+        init_ont_ong()
 
     def test_01(self):
         logger.open("test_01.log", "test_01")
@@ -150,6 +160,12 @@ class TestMultiWallet(ParametrizedTestCase):
         (result, response) = test_37_(0)
         logger.close(result)
 
+    def test_38(self):
+        logger.open("test_38.log", "test_38")
+        #init(0)
+        (result, response) = test_38_()
+        logger.close(result)
+
     def test_40(self):
         logger.open("test_40.log", "test_40")
         #init(0)
@@ -252,10 +268,6 @@ class TestMultiWallet(ParametrizedTestCase):
         (result, response) = multi_wallet_sig(0)
 
         logger.close(result)
-
-    
-
-    
     
 
     def test_60(self):

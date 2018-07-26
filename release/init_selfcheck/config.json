@@ -1,8 +1,8 @@
 {
     "resource":{
-        "root":"/home/ubuntu/ontology/test/init_selfcheck/resource/",
+        "root":"/home/ubuntu/ontology/git/test/test_tool/resource",
         "ontology_source_name": "ontology",
-        "wallet_source_name": "wallets",
+        "wallet_source_name": "wallet",
         "onto_config_source_name": "onto_config.json",
         "test_config_source_name": "test_config.json",
         "sigsvr_source_name": "sigsvr",

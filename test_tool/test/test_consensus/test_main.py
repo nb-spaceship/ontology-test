@@ -60,7 +60,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 			self.ASSERT(process, "not a valid block...")
 		except Exception as e:
-			print(e)
+			print(e.args)
 	
 	#contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None
 	def test_normal_002_consensus(self):
@@ -75,7 +75,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...")
 			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...")
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_normal_003_consensus(self):
 		process = False
@@ -89,7 +89,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 		
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 	def test_normal_004_consensus(self):
 		process = False
@@ -103,7 +103,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "")
 
 		except Exception as e:
-			print(e)
+			print(e.args)
 	
 	def test_normal_005_consensus(self):
 		process = False
@@ -117,7 +117,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...[1]")
 			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...[2]")
 		except Exception as e:
-			print(e)
+			print(e.args)
 	
 	def test_base_006_consensus(self):
 		try:
@@ -138,7 +138,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 	def test_normal_007_consensus(self):
 		try:
@@ -158,7 +158,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 	def test_normal_008_consensus(self):
 		try:
@@ -174,7 +174,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_normal_009_consensus(self):
 		try:
@@ -197,114 +197,134 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e)
-			
+			print(e.args)
+
 
 	def test_base_019_consensus(self):
 		try:
-			(process, response) = test_api.transfer_19(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT)
-			self.ASSERT(process, "")	
+			(process, response) = test_api.transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT)
+			self.ASSERT(process, "test_base_019_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
-'''	
+
 	def test_normal_020_consensus(self):
-		# log_path = "20_consensus.log"
-		# task_name = "20_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_20(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, test_config.PUBLIC_KEY)
-			self.ASSERT(process, "")	
+			m = 1
+			pubkey_array = [test_config.PUBLIC_KEY]
+			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=0)
+			self.ASSERT(process, "test_normal_020_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_normal_021_consensus(self):
-		# log_path = "21_consensus.log"
-		# task_name = "21_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_21(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, test_config.PUBLIC_KEY)
-			self.ASSERT(process, "")	
+			m = 1
+			pubkey_array = [test_config.PUBLIC_KEY]
+			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=1)
+			self.ASSERT(process, "test_normal_021_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_normal_022_consensus(self):
-		# log_path = "22_consensus.log"
-		# task_name = "22_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_22(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_C, test_config.ADDRESS_B, test_config.AMOUNT, test_config.PUBLIC_KEY)
-			self.ASSERT(process, "")	
+			m = 1
+			pubkey_array = [test_config.PUBLIC_KEY]
+			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_C, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=2)
+			self.ASSERT(process, "test_normal_022_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_abnormal_023_consensus(self):
-		# log_path = "23_consensus.log"
-		# task_name = "23_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_23(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_C, test_config.ADDRESS_B, test_config.AMOUNT, test_config.PUBLIC_KEY)
-			self.ASSERT(process, "")	
+			m = 1
+			pubkey_array = [test_config.PUBLIC_KEY]
+			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_C, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=0)
+			self.ASSERT(not process, "test_abnormal_023_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_normal_024_consensus(self):
-		# log_path = "24_consensus.log"
-		# task_name = "24_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_24(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, test_config.PUBLIC_KEY, test_config.PUBLIC_KEY_2, test_config.PUBLIC_KEY_3, test_config.PUBLIC_KEY_4)
-			self.ASSERT(process, "")	
+			m = 4
+			pubkey_array = [test_config.PUBLIC_KEY_2. test_config.PUBLIC_KEY_3, test_config.PUBLIC_KEY_4, test_config.PUBLIC_KEY_5]
+			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=0)
+			self.ASSERT(process, "test_normal_024_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_abnormal_025_consensus(self):
-		# log_path = "25_consensus.log"
-		# task_name = "25_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_25(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, test_config.PUBLIC_KEY_5, test_config.PUBLIC_KEY_2, test_config.PUBLIC_KEY_3, test_config.PUBLIC_KEY_4)
-			self.ASSERT(process, "")	
+			m = 4
+			pubkey_array = [test_config.PUBLIC_KEY_3, test_config.PUBLIC_KEY_4, test_config.PUBLIC_KEY_5, test_config.PUBLIC_KEY_6]
+			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=1)
+			self.ASSERT(not process, "test_abnormal_025_consensus failed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_base_030_consensus(self):
-		# log_path = "30_consensus.log"
-		# task_name = "30_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.transfer_19(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, "1000")
-			(process, response) = test_api.transfer_19(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_C, "1000")
-			self.ASSERT(process, "")	
+			# ensure balance of wallet A is 1000
+			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, str(balance_of_wallet_A-1000), 0)
+			
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, "1000", 0, sleep=0)
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, "1000", 0, sleep=0)
+			API.node().wait_gen_block()
+
+			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")	
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_abnormal_031_consensus(self):
-		# log_path = "31_consensus.log"
-		# task_name = "31_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.approve_31(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, "1000")
-			(process, response) = test_api.approve_31(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, "1000")
-			(process, response) = test_api.allowance(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, "1000")
-			(process, response) = test_api.allowance(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, "1000")
-			self.ASSERT(process, "")	
+			# ensure balance of wallet A is 1000
+			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, str(balance_of_wallet_A-1000), 0)
+			API.node().wait_gen_block()
+
+			(process, response) = API.native().approve_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, "1000", 0, sleep=0)
+			(process, response) = API.native().approve_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, "1000", 0, sleep=0)
+			API.node().wait_gen_block()
+
+			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")
+
+			(process, response) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, 0)
+			# need to check
+			self.ASSERT(response["result"] == "00" , "allowance to wallet B is not 0")
+
+			(process, response) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, 0)
+			# need to checkADDRESS_C
+			self.ASSERT(response["result"] == "00" , "allowance to wallet C is not 0")
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_abnormal_032_consensus(self):
-		# log_path = "32_consensus.log"
-		# task_name = "32_consensus"
-		# self.start(log_path)
 		try:
-			(process, response) = test_api.approve_32(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_C, test_config.ADDRESS_B, "1000")
-			(process, response) = test_api.transfer_19(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, "1000")
-			(process, response) = test_api.transfer_19(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_C, "1000")
-			(process, response) = test_api.allowance_32(test_config.ADDRESS_A, test_config.ADDRESS_A)
-			self.ASSERT(process, "")	
+			# ensure balance of wallet A is 1000
+			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, str(balance_of_wallet_A-1000), 0)
+			API.node().wait_gen_block()
+
+			(process, response) = API.native().approve_ont(test_config.ADDRESS_B, test_config.ADDRESS_A, "1000", 1)
+			API.node().wait_gen_block()
+
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, "1000", 0, sleep=0)
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, "1000", 0, sleep=0)
+			API.node().wait_gen_block()
+
+			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")	
+
+			(process, response) = API.native().allowance_ont(test_config.ADDRESS_B, test_config.ADDRESS_A, 1)
+			# need to check
+			self.ASSERT(response["result"] == "1000" , "allowance to wallet A is not 1000")
+
 		except Exception as e:
-			print(e)
-'''
+			print(e.args)
+
 		
 ############################################################
 ############################################################
@@ -350,7 +370,7 @@ class test_consensus_2(ParametrizedTestCase):
 				self.ASSERT(process, "not a valid block...")
 				
 		except Exception as e:
-			print(e)
+			print(e.args)
 	
 	#contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None
 	def test_normal_011_consensus(self):
@@ -369,7 +389,7 @@ class test_consensus_2(ParametrizedTestCase):
 				self.ASSERT(response["result"]["Result"] == storage_value, "invoke_function error...[2]")
 
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_abnormal_012_consensus(self):
 		process = False
@@ -394,7 +414,7 @@ class test_consensus_2(ParametrizedTestCase):
 				self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 	def test_normal_013_consensus(self):
 		process = False
@@ -410,7 +430,7 @@ class test_consensus_2(ParametrizedTestCase):
 					time.sleep(10)
 						
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 		
 ############################################################
@@ -419,8 +439,8 @@ class test_consensus_2(ParametrizedTestCase):
 class test_consensus_3(ParametrizedTestCase):
 	def test_init(self):
 		for node_index in range(len(Config.NODES)):
-			stop_nodes([node_index])
-		start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
+			API.node().stop_nodes([node_index])
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
 		#start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(8)
 		for node_index in range(7):
@@ -455,7 +475,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "not a valid block...")
 
 		except Exception as e:
-			print(e.msg)
+			print(e.args)
 		
 	
 	def test_normal_015_consensus(self):
@@ -471,7 +491,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...")
 
 		except Exception as e:
-			print(e.msg)
+			print(e.args)
 		
 	def test_abnormal_016_consensus(self):
 		process = False
@@ -485,7 +505,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 	def test_normal_017_consensus(self):
 		process = False
@@ -499,7 +519,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "check_node_state")
 
 		except Exception as e:
-			print(e)
+			print(e.args)
 		
 	def test_normal_018_consensus(self):
 		process = False
@@ -513,33 +533,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...[1]")
 			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...[2]")		
 		except Exception as e:
-			print(e)
-
-
-def add_candidate_node(new_node, init_ont = 5000000, init_ong = 1000, init_pos = 10000, from_node = 0):
-	#新加入节点, 并申请候选节点
-	start_nodes([new_node], clear_chain = True, clear_log = True)
-	time.sleep(5)
-	API.native().regid_with_publickey(new_node)
-	(process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])
-	if not process:
-		return (process, response)
-		
-	(process, response) = API.native().bind_user_role("0700000000000000000000000000000000000000",ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),[ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8"))])
-	if not process:
-		return (process, response)
-		
-	API.native().transfer_ont(Config.NODES[from_node]["address"], Config.NODES[new_node]["address"], str(init_ont), 0)
-	API.native().transfer_ong(Config.NODES[from_node]["address"], Config.NODES[new_node]["address"], str(init_ong), 0)
-	
-	time.sleep(10)
-	
-	(process, response) = API.native().register_candidate(Config.NODES[new_node]["pubkey"], Config.NODES[new_node]["address"], str(init_pos), ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8")), "1", new_node)
-	if not process:
-		return (process, response)	
-		
-	(process, response) = API.native().approve_candidate(Config.NODES[new_node]["pubkey"])		
-	return (process, response)
+			print(e.args)
 
 
 class test_consensus_4(ParametrizedTestCase):
@@ -563,15 +557,16 @@ class test_consensus_4(ParametrizedTestCase):
 	def test_base_033_consensus(self):
 		process = False
 		try:
-			add_candidate_node(7, init_pos = 2000, from_node = 0)
+			test_api.add_candidate_node(7, init_pos = 2000, from_node = 0)
 			test_api.getStorageConf("vbftConfig")
 			# step 2 wallet A unvote in the second round
-			(process, response) = commit_dpos()
-			time.sleep(5)
+			(process, response) = API.native().commit_dpos()
+			API.node().wait_gen_block()
+			
 			test_api.getStorageConf("vbftConfig")
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 	def test_normal_034_consensus(self):
 		process = False
@@ -583,24 +578,22 @@ class test_consensus_4(ParametrizedTestCase):
 				
 			API.node().start_nodes([vote_node], Config.DEFAULT_NODE_ARGS, True, True)
 			API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[vote_node]["address"], "5000000", 0)
-			API.native().transfer_ong(Config.NODES[0]["address"], Config.NODES[vote_node]["address"], "1000", 0)
+			API.native().transfer_ong(Config.NODES[0]["address"], Config.NODES[vote_node]["address"], "1000000000000", 0)
 
 			for i in range(7, 14):
-				add_candidate_node(i, init_pos = 10000, from_node = 0)
-
-			(process, response) = vote_for_peer(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"])
-			self.ASSERT(process, "vote error")
+				test_api.add_candidate_node(i, init_pos = 10000, from_node = 0)
+			(process, response) = API.native().vote_for_peer(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"], 8, vote_node)
+			self.ASSERT(process, "vote_for_peer error")
 			
-			getStorageConf("vbftConfig")
+			test_api.getStorageConf("vbftConfig")
 			# step 2 wallet A unvote in the second round
-			(process, response) = commit_dpos()
-			time.sleep(5)
-			#if not process:
-			#	raise Error("unvote error")
+			(process, response) = API.native().commit_dpos()
+			API.node().wait_gen_block()
 
-			getStorageConf("vbftConfig")
+			test_api.getStorageConf("vbftConfig")
+			self.ASSERT(process, "")
 		except Exception as e:
-			print(e)
+			print(e.args)
 
 
 if __name__ == '__main__':
