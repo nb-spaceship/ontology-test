@@ -30,7 +30,7 @@ from test_muti_contract.test_config import test_config
 # test cases
 class test_muti_contract(ParametrizedTestCase):
 	def setUp(self):
-		logger.open("test_consensus/" + self._testMethodName + ".log", self._testMethodName)
+		logger.open("test_muti_contract/" + self._testMethodName + ".log", self._testMethodName)
 		if self._testMethodName == "test_init":
 			return True
 
