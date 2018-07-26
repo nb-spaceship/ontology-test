@@ -125,7 +125,7 @@ class TestMonitor:
 				self.retry_logger_path.append(logpath)
 
 		if end_line.find("[ OK       ]") < 0 and catch_connet_error:
-			print("catch connect error...")
+			print("sure connect error...")
 			return False
 
 		return True
