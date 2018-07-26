@@ -42,7 +42,7 @@ class test_ong_native_1(ParametrizedTestCase):
 		#deploy_contract
 		
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open("test_ong_native/" + self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
 		logger.close(self.result())
