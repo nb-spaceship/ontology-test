@@ -12,7 +12,7 @@ import getopt
 import time
 import requests
 import subprocess
-import tempfile
+import paramiko
 
 import utils.base
 from utils.config import Config
@@ -57,7 +57,7 @@ def get_avm(contract_path, type="CSharp"):
     else:
         raise Error("Unable to get avm.")
 
-    logger.print(avm)
+    logger.print(avm.strip("b'"))
 
     # write avm in file
     with open(AVM_FILE_PATH, "w") as f:
@@ -102,7 +102,7 @@ def get_tx_state(tx_hash):
     return int(state) if state else None
 
 
-def exec_cmd(cmd, show_output=True):
+def exec_cmd_(cmd, show_output=True):
     contents = None
 
     print(cmd)
@@ -136,7 +136,7 @@ def get_wallet(wallet_address):
 def import_from_wif_key(passwd=b"123456\n", _exist=False):
     cmd = "cd ~/ontology/node\n"
     cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
-        '/test_scenario/tasks/WIF-key.txt -wif'  # + ' > ' + Config.ROOT_PATH + '/test_m/tmp'
+        '/test_scenario/tasks/WIF-key.txt -wif' 
     print(cmd)
     p = subprocess.Popen(cmd, stderr=subprocess.STDOUT,
                          stdin=subprocess.PIPE, shell=True)
@@ -394,7 +394,7 @@ def init(node_index):
                 if balance2 - balance1 != int(amount):
                     raise Error("transfer to address [" + address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -436,7 +436,7 @@ def multi_wallet_sig(node_index):
                 if balance1 - balance2 != int(amount):
                     raise Error("transfer to address [" + address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -520,6 +520,7 @@ def multi_sig_transfer(pay_address, get_address, amount, node_index, sig_times, 
     return my_multi_contract(Task(name="transfer", ijson=request), sig_times, MultiSigAddress, all_wallet_address)
 
 def search_txhash_in_contents(contents):
+    tx_hash = None
     for line in contents:
         regroup = re.search(r'TxHash:(([0-9]|[a-z]|[A-Z])*)', line)
         if regroup:
@@ -547,9 +548,9 @@ def test_01_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
             contract_address + \
-            " --params string:Add,[int:1,int:1] > " + \
+            " --params string:Add,[int:1,int:1] --gaslimit=100000 --gasprice=0 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -557,7 +558,7 @@ def test_01_():
 
         result = True if state == 1 else False
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -584,9 +585,9 @@ def test_02_():
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + \
             contract_address + \
-            " --params string:Add,[int:1,int:1] -p> " + \
+            " --params string:Add,[int:1,int:1] --gaslimit=100000 --gasprice=0 -p> " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         for line in contents:
             regroup = re.search(r'Return:(([0-9]|[a-z]|[A-Z])*)', line)
@@ -600,9 +601,9 @@ def test_02_():
         # invoke
         cmd = "cd ~/ontology/node\n"
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
-            " --params string:Add,[int:1,int:1] --gasprice 1 > " + \
+            " --params string:Add,[int:1,int:1] --gasprice 1 --gaslimit=100000 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -621,7 +622,7 @@ def test_02_():
         if gas_price1 - gas_price2 < 20000:
             raise Error("gas price is not 20000")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -632,7 +633,7 @@ def test_18_():
         (result, response) = native_transfer_ont(
             Config.NODES[0]["address"], Config.NODES[1]["address"], "10", 0)
         rpcapi.getsmartcodeevent(response["txhash"])
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -644,7 +645,7 @@ def test_20_():
         cmd = "cd ~/ontology/node\n"
         cmd += 'echo "123456" |' + Config.NODE_ADDRESS + \
             ' account list > ' + Config.ROOT_PATH + '/test_scenario/tmp'
-        exec_cmd(cmd)
+        exec_cmd_(cmd)
 
         for i in range(10):
             new_wallet()
@@ -652,9 +653,9 @@ def test_20_():
         cmd = "cd ~/ontology/node\n"
         cmd += 'echo "123456" |' + Config.NODE_ADDRESS + \
             ' account list > ' + Config.ROOT_PATH + '/test_scenario/tmp'
-        exec_cmd(cmd)
+        exec_cmd_(cmd)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -674,7 +675,7 @@ def test_21_():
         logger.print("block count2 "+str(block_count2))
 
         rpcapi.getblock(block_count2-1, None)
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -695,7 +696,7 @@ def test_23_():
             contract_address + \
             " --params string:Add,[int:1,int:1] > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -706,7 +707,7 @@ def test_23_():
         else:
             raise Error("invoke contract error")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -726,7 +727,7 @@ def test_24_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 301 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -737,7 +738,7 @@ def test_24_():
         else:
             raise Error("invoke contract error")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -757,7 +758,7 @@ def test_25_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 501 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -768,7 +769,7 @@ def test_25_():
         else:
             raise Error("tx state is not 1")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -790,7 +791,7 @@ def test_26_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 800 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -801,7 +802,7 @@ def test_26_():
         else:
             raise Error("tx state is not 1")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -824,7 +825,7 @@ def test_27_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 1001 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -835,7 +836,7 @@ def test_27_():
         else:
             raise Error("tx state is not 1")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -858,7 +859,7 @@ def test_28_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 801 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -869,7 +870,7 @@ def test_28_():
         else:
             raise Error("tx state exists")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -892,7 +893,7 @@ def test_29_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 801 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -903,7 +904,7 @@ def test_29_():
         else:
             raise Error("tx state is not 1")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -926,7 +927,7 @@ def test_30_():
         cmd += "echo 123456|" + Config.NODE_ADDRESS + " contract invoke --address " + contract_address + \
             " --params string:Add,[int:1,int:1] --gasprice 700 > " + \
             Config.ROOT_PATH + "/test_scenario/tmp"
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
 
         tx_hash = search_txhash_in_contents(contents)
 
@@ -937,7 +938,7 @@ def test_30_():
         else:
             raise Error("tx state exists")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -945,6 +946,7 @@ def test_30_():
 
 def test_31_():
     result = True
+    node_index = 0
     try:
         if os.path.exists(WALLET_ADDRESS):
             # back up pre-wallet
@@ -964,10 +966,10 @@ def test_31_():
             time.sleep(2)
             change_alg(alg)
 
-            get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
+            balance1 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
             shell_transfer(1, 2, 1)
             time.sleep(10)
-            get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
+            balance2 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
 
             if balance1 - balance2 != 1:
                 raise Error("alg " + alg + " transfer failed")
@@ -976,28 +978,28 @@ def test_31_():
         new_wallet(alg="Ed25519")
 
         # A -> C
-        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
+        balance1 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
         shell_transfer(1, 3, 1)
         time.sleep(8)
-        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
+        balance2 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][1]["address"])
 
         if balance1 - balance2 != 1:
             raise Error("A transfer to C failed")
 
         # C -> D
-        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][3]["address"])
+        balance1 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][3]["address"])
         shell_transfer(3, 4, 1)
         time.sleep(8)
-        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][3]["address"])
+        balance2 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][3]["address"])
 
         if balance1 - balance2 != 1:
             raise Error("C transfer to D failed")
 
         # D -> C
-        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][4]["address"])
+        balance1 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][4]["address"])
         shell_transfer(4, 3, 1)
         time.sleep(8)
-        get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][4]["address"])
+        balance2 = get_balance_ont(get_wallet(WALLET_ADDRESS)["accounts"][4]["address"])
 
         if balance1 - balance2 != 1:
             raise Error("D transfer to C failed")
@@ -1005,7 +1007,7 @@ def test_31_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1019,7 +1021,7 @@ def test_32_():
         cmd = "cd ~/ontology/node\n"
         cmd += Config.NODE_ADDRESS + " account import --source " + \
             Config.ROOT_PATH + '/test_scenario/tasks/ontWallet.keystore'
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
         for line in contents:
             if "successfully" in line:
                 result = True
@@ -1027,7 +1029,7 @@ def test_32_():
             else:
                 raise Error("import from ontWallet.keystore failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1041,12 +1043,12 @@ def test_33_():
         cmd = "cd ~/ontology/node\n"
         cmd += Config.NODE_ADDRESS + " account import --source " + \
             Config.ROOT_PATH + '/test_scenario/tasks/ontWallet_1.keystore'
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
         for line in contents:
             if "successfully" in line:
                 raise Error("import from ontWallet.keystore_1 failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1060,12 +1062,12 @@ def test_34_():
         cmd = "cd ~/ontology/node\n"
         cmd += Config.NODE_ADDRESS + " account import --source " + Config.ROOT_PATH + \
             '/test_scenario/tasks/ontWallet_2.keystore ' + ' > ' + Config.ROOT_PATH + '/test_scenario/tmp'
-        contents = exec_cmd(cmd)
+        contents = exec_cmd_(cmd)
         for line in contents:
             if "successfully" in line:
                 raise Error("import from ontWallet.keystore_1 failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1119,7 +1121,7 @@ def test_35_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1157,12 +1159,59 @@ def test_37_(node_index):
         if balance2 - balance3 != int(amount2):
             raise Error("transfer to address [" + to_address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
     return (result, response)
 
+def download_block(node_index):
+    block_dat_path = "/home/ubuntu/ontology/node/blocks.dat"
+
+    private_key = paramiko.RSAKey.from_private_key_file("./tasks/id_rsa", "367wxd")
+
+    transport = paramiko.Transport((Config.NODES[node_index]["ip"] , 22))
+
+    transport.connect(username="ubuntu", pkey=private_key)
+
+    sftp = paramiko.SFTPClient.from_transport(transport)
+
+    sftp.get(block_dat_path, block_dat_path)
+
+    transport.close()
+
+def test_38_():
+    node_index = 1
+    result = True
+    try:
+        block_count1 = int(rpcapi.getblockcount()[1]["result"])
+        stop_node(0)
+
+        # remove block chain
+        shutil.rmtree(os.path.join(os.path.dirname(Config.NODE_ADDRESS), "Chain"))
+
+        cmd = "cd ~/ontology/node\n"
+        cmd += "./ontology export"
+        exec_cmd(cmd, node_index)
+        time.sleep(10)
+
+        download_block(node_index)
+
+        start_params = " --ws --rest --networkid=299 --loglevel=0 --config=config.json  --gasprice 0 --gaslimit 20000 --import "
+        start_node(0, start_params=start_params, clear_chain=False)
+
+        time.sleep(20)
+
+        block_count2 = int(rpcapi.getblockcount()[1]["result"])
+
+        if block_count2 - block_count1 == 0:
+            raise Error("block count not changed.")
+
+    except Error as e:
+        logger.print(e.msg)
+        result = False
+
+    return (result, None)
 
 def test_41_():
     MultiSigAddress = get_multi_sig_address(0)
@@ -1204,7 +1253,7 @@ def test_41_():
         if balance4 - balance3 == int(amount2):
             raise Error("transfer to address [" + to_address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1245,7 +1294,7 @@ def test_42_(node_index):
                 if balance1 - balance2 != int(amount):
                     raise Error("transfer to address [" + address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1288,7 +1337,7 @@ def test_43_(node_index):
                 if balance1 - balance2 != int(amount):
                     raise Error("transfer to address [" + address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1298,7 +1347,7 @@ def test_40_():
     try:
         (result, response) = native_transfer_ont(
             Config.NODES[0]["address"], Config.NODES[1]["address"], "1000", 0)
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1314,7 +1363,7 @@ def test_44_():
         if block_count1 == block_count2:
             raise Error("block count is not changing")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1339,7 +1388,7 @@ def test_45_():
         if block_count1 != block_count2:
             raise Error("block count is changing")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1366,7 +1415,7 @@ def test_46_():
         if block_count1 != block_count2:
             raise Error("block count is changing")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1382,7 +1431,7 @@ def test_47_():
         if block_count1 == block_count2:
             raise Error("block count is not changing")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1407,7 +1456,7 @@ def test_48_():
         if block_count1 == block_count2:
             raise Error("block count is not changing")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1449,7 +1498,7 @@ def test_49_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1491,7 +1540,7 @@ def test_50_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1543,7 +1592,7 @@ def test_51_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1591,7 +1640,7 @@ def test_52_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1639,7 +1688,7 @@ def test_53_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1672,7 +1721,7 @@ def test_54_():
         # move back
         shutil.move(WALLET_ADDRESS_BP, WALLET_ADDRESS)
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1694,7 +1743,7 @@ def test_55_():
 
         if balance1 - balance2 != int(amount):
             raise Error("transfer failed")
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1716,7 +1765,7 @@ def test_56_():
         if balance1 - balance2 != amount:
             raise Error("transfer failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1740,7 +1789,7 @@ def test_60_():
 
         if balance2 - balance1 != int(amount):
             raise Error("transfer failed")
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1784,7 +1833,7 @@ def test_61_():
         if balance4 - balance3 == int(amount2):
             raise Error("transfer to address [" + to_address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 
@@ -1829,7 +1878,7 @@ def test_62_():
         if balance4 - balance3 == int(amount2):
             raise Error("transfer to address [" + to_address + "] failed")
 
-    except Exception as e:
+    except Error as e:
         logger.print(e.msg)
         result = False
 

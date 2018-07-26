@@ -612,6 +612,10 @@ def stop_sigsvr(index):
 
 	return response
 
+def stop_sigsvrs(indexes):
+	for index in indexes:
+		stop_sigsvr(index)
+
 def start_sigsvr(wallet, index):
 	print("start sig_server: " + str(index))
 	request = {
@@ -621,6 +625,156 @@ def start_sigsvr(wallet, index):
 		"params":{
 			"wallet" : wallet
 		}
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def start_sigsvrs(wallet, indexes):
+	for index in indexes:
+		start_sigsvr(wallet, index)
+
+def heart_beat(index=0):
+	print("getting heart beat...")
+	request = {
+		"method": "heart_beat",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def check_xmode_ontology(index=0):
+	request = {
+		"method": "check_xmode_ontology",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def check_xmode_sigsvr(index=0):
+	request = {
+		"method": "check_xmode_sigsvr",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def check_xmode_tools(index=0):
+	request = {
+		"method": "check_xmode_tools",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_ontology(index=0):
+	request = {
+		"method": "get_version_ontology",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_wallet(index=0):
+	request = {
+		"method": "get_version_wallet",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_onto_config(index=0):
+	request = {
+		"method": "get_version_onto_config",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_test_config(index=0):
+	request = {
+		"method": "get_version_test_config",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_sigsvr(index=0):
+	request = {
+		"method": "get_version_sigsvr",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_abi(index=0):
+	request = {
+		"method": "get_version_abi",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def stop_test_service(index):
+	print("stop test_service: " + str(index))
+	request = {
+		"method": "stop_test_service",
+		"jsonrpc": "2.0",
+		"id": 0
+	}
+
+	ip = Config.NODES[index]["ip"]
+	response = utils.base.con_test_service(ip, request)
+
+	return response
+
+def get_version_test_service(index=0):
+	request = {
+		"method": "get_version_test_service",
+		"jsonrpc": "2.0",
+		"id": 0
 	}
 
 	ip = Config.NODES[index]["ip"]

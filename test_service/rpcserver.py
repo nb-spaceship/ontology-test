@@ -228,11 +228,12 @@ def exec_cmd(**kwargs):
 @dispatcher.add_method
 def stop_sigsvr(**kwargs):
   os.popen("killall -9 sigsvr-linux")
+  os.popen("killall -9 sigsvr")
   return True
 
 @dispatcher.add_method
 def start_sigsvr(**kwargs):
-  program_name = "sigsvr-linux"
+  program_name = "sigsvr"
   if "wallet" in kwargs:
     wallet = kwargs["wallet"]
   cmd = "cd " + config.NODE_PATH + "\n"
@@ -260,7 +261,7 @@ def check_xmode_ontology(**kwargs):
 @dispatcher.add_method
 def check_xmode_sigsvr(**kwargs):
   sigsvr_path = None
-  for sigsvr in ["sigsvr", "sigsvr-linux"]:
+  for sigsvr in ["sigsvr"]:
     sigsvr_path = config.NODE_PATH + "/" + sigsvr
     if os.path.exists(sigsvr_path):
       break
@@ -354,7 +355,7 @@ def get_version_sigsvr(**kwargs):
   sigsvr_path = None
   result = {}
 
-  for sigsvr in ["sigsvr", "sigsvr-linux"]:
+  for sigsvr in ["sigsvr"]:
     sigsvr_path = config.NODE_PATH + "/" + sigsvr
     if os.path.exists(sigsvr_path):
       break
@@ -393,6 +394,22 @@ def get_version_abi(**kwargs):
 
   return md5
 
+@dispatcher.add_method
+def get_version_test_service(**kwargs):
+  test_service_path = "/home/ubuntu/ontology/test_service/rpcserver.py"
+  if not os.path.exists(test_service_path):
+    return test_service_path + " doesnot exists."
+
+  # get md5
+  md5 = calc_md5_for_file(test_service_path)
+
+  return md5
+
+@dispatcher.add_method
+def stop_test_service(**kwargs):
+  os.popen("killall -9 test_service")
+  return True
+
 
 @Request.application
 def application(request):
@@ -420,6 +437,8 @@ def application(request):
     dispatcher["get_version_test_config"] = get_version_test_config
     dispatcher["get_version_sigsvr"] = get_version_sigsvr
     dispatcher["get_version_abi"] = get_version_abi
+    dispatcher["get_version_test_service"] = get_version_test_service
+    dispatcher["stop_test_service"] = stop_test_service
 
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
