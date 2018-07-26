@@ -76,7 +76,7 @@ class test_governance_1(ParametrizedTestCase):
 			API.node().wait_gen_block()
 			
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 			
 	def tearDown(self):
 		logger.close(self.result())
@@ -109,7 +109,7 @@ class test_governance_1(ParametrizedTestCase):
 			self.ASSERT(balance_of_wallet_A_1 - balance_of_wallet_A_2 == int(vote_price), "the decrease of balance of wallet A is not %s." % vote_price)
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 
 	def test_normal_002_gover(self):
@@ -136,7 +136,7 @@ class test_governance_1(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 			
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_003_gover(self):
 		process = False
@@ -171,7 +171,7 @@ class test_governance_1(ParametrizedTestCase):
 
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_004_gover(self):
 		process = False
@@ -208,7 +208,7 @@ class test_governance_1(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_015_gover(self):
@@ -229,7 +229,7 @@ class test_governance_1(ParametrizedTestCase):
 			self.ASSERT(process, "vote_for_peer error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_abnormal_016_gover(self):
@@ -249,7 +249,7 @@ class test_governance_1(ParametrizedTestCase):
 			self.ASSERT(not process, "vote_for_peer error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_017_gover(self):
@@ -281,7 +281,7 @@ class test_governance_1(ParametrizedTestCase):
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], ["1000"], 8)
 			self.ASSERT(process, "vote_for_peer error")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 class test_governance_2(ParametrizedTestCase):
@@ -343,7 +343,7 @@ class test_governance_2(ParametrizedTestCase):
 				
 			API.node().wait_gen_block()
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 			
 	def tearDown(self):
 		logger.close(self.result())
@@ -371,7 +371,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(balance_of_wallet_A_1 - balance_of_wallet_A_2 == int(vote_price), "the decrease of balance of wallet A is not %s." % vote_price)
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		self.ASSERT(process, "")
 
 
@@ -396,7 +396,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_007_gover(self):
@@ -427,7 +427,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_008_gover(self):
@@ -459,7 +459,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_009_gover(self):
@@ -497,7 +497,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_010_gover(self):
 		process = False
@@ -536,7 +536,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 			
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_011_gover(self):
 		process = False
@@ -580,7 +580,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_012_gover(self):
@@ -611,7 +611,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_013_gover(self):
@@ -653,7 +653,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(not process, "withdraw_ont error")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_normal_014_gover(self):
@@ -694,7 +694,7 @@ class test_governance_2(ParametrizedTestCase):
 
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 

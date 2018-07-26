@@ -63,7 +63,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 			self.ASSERT(process, "not a valid block...")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	#contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None
 	def test_normal_002_consensus(self):
@@ -78,7 +78,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...")
 			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_003_consensus(self):
 		process = False
@@ -92,7 +92,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 		
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_004_consensus(self):
 		process = False
@@ -106,7 +106,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_normal_005_consensus(self):
 		process = False
@@ -120,7 +120,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...[1]")
 			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...[2]")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_base_006_consensus(self):
 		try:
@@ -141,7 +141,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_007_consensus(self):
 		try:
@@ -161,7 +161,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_008_consensus(self):
 		try:
@@ -177,7 +177,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_009_consensus(self):
 		try:
@@ -200,7 +200,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
 			time.sleep(3)
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 	def test_base_019_consensus(self):
@@ -208,7 +208,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, node_index=0)
 			self.ASSERT(process, "test_base_019_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 
 	def test_normal_020_consensus(self):
@@ -218,7 +218,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=0)
 			self.ASSERT(process, "test_normal_020_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_021_consensus(self):
 		try:
@@ -227,7 +227,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=1)
 			self.ASSERT(process, "test_normal_021_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_022_consensus(self):
 		try:
@@ -236,7 +236,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_C, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=2)
 			self.ASSERT(process, "test_normal_022_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_023_consensus(self):
 		try:
@@ -245,7 +245,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_C, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=0)
 			self.ASSERT(not process, "test_abnormal_023_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_024_consensus(self):
 		try:
@@ -254,7 +254,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=0)
 			self.ASSERT(process, "test_normal_024_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_025_consensus(self):
 		try:
@@ -263,7 +263,7 @@ class test_consensus_1(ParametrizedTestCase):
 			(process, response) = test_api.multi_sig_transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, m, pubkey_array, node_index=1)
 			self.ASSERT(not process, "test_abnormal_025_consensus failed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_030_consensus(self):
 		try:
@@ -278,7 +278,7 @@ class test_consensus_1(ParametrizedTestCase):
 			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
 			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")	
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_031_consensus(self):
 		try:
@@ -302,7 +302,7 @@ class test_consensus_1(ParametrizedTestCase):
 			# need to checkADDRESS_C
 			self.ASSERT(response["result"] == "00" , "allowance to wallet C is not 0")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_032_consensus(self):
 		try:
@@ -326,7 +326,7 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(response["result"] == "1000" , "allowance to wallet A is not 1000")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 		
 ############################################################
@@ -375,7 +375,7 @@ class test_consensus_2(ParametrizedTestCase):
 				self.ASSERT(process, "not a valid block...")
 				
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	#contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None
 	def test_normal_011_consensus(self):
@@ -394,7 +394,7 @@ class test_consensus_2(ParametrizedTestCase):
 				self.ASSERT(response["result"]["Result"] == storage_value, "invoke_function error...[2]")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_012_consensus(self):
 		process = False
@@ -419,7 +419,7 @@ class test_consensus_2(ParametrizedTestCase):
 				self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_013_consensus(self):
 		process = False
@@ -435,7 +435,7 @@ class test_consensus_2(ParametrizedTestCase):
 					time.sleep(10)
 						
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 		
 ############################################################
@@ -482,7 +482,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "not a valid block...")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	
 	def test_normal_015_consensus(self):
@@ -498,7 +498,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_abnormal_016_consensus(self):
 		process = False
@@ -512,7 +512,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_017_consensus(self):
 		process = False
@@ -526,7 +526,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "check_node_state")
 
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 		
 	def test_normal_018_consensus(self):
 		process = False
@@ -540,7 +540,7 @@ class test_consensus_3(ParametrizedTestCase):
 			self.ASSERT(process, "invoke_function get error...[1]")
 			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...[2]")		
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 class test_consensus_4(ParametrizedTestCase):
@@ -573,7 +573,7 @@ class test_consensus_4(ParametrizedTestCase):
 			test_api.getStorageConf("vbftConfig")
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_034_consensus(self):
 		process = False
@@ -600,7 +600,7 @@ class test_consensus_4(ParametrizedTestCase):
 			test_api.getStorageConf("vbftConfig")
 			self.ASSERT(process, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 
 if __name__ == '__main__':
