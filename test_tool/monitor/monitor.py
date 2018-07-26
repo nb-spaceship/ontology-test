@@ -78,11 +78,14 @@ class TestMonitor:
 		f = open(logpath, 'r')
 		org_failed_count = self.faild_step_count
 		JSONBody = ""
+		catch_connet_error = False
+		end_line = ""
 		for line in f.readlines():
 			line = line.strip()
+			end_line = line
 			if line.find("ERROR: Connect Error") >= 0:
 				print("catch connect error...")
-				return False
+				catch_connet_error = True
 
 			if line.startswith('[ CALL CONTRACT ] {') or line.startswith("[ SIGNED TX ] {"):
 				JSONBody = "{"
@@ -120,6 +123,10 @@ class TestMonitor:
 			if case not in self.retry_cases:
 				self.retry_cases.append(case)
 				self.retry_logger_path.append(logpath)
+
+		if end_line.find("[ OK       ]") < 0 and catch_connet_error:
+			print("catch connect error...")
+			return False
 
 		return True
 
