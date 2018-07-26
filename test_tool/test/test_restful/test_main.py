@@ -37,7 +37,7 @@ class test_restful_1(ParametrizedTestCase):
 		try:
 			API.node().stop_all_nodes()
 			API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
-			time.sleep(5)
+			time.sleep(10)
 		
 			(process, response) = API.restful().getgenerateblocktime()
 			self.ASSERT(process, "")
@@ -50,7 +50,7 @@ class test_restful_2(ParametrizedTestCase):
 		logger.open( self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(5)
+		time.sleep(10)
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -101,6 +101,7 @@ class test_restful_3(ParametrizedTestCase):
 	def test_init(self):
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(10)
 		while True:
 			if API.rpc().getblockcount() > 0:
 				break;
