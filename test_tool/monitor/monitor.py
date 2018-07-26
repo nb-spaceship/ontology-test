@@ -38,7 +38,6 @@ class TestMonitor:
 		self.initmap = {}
 
 	def need_retry(self):
-		print("need: ", self.case_count >= CHECK_LOOP and self.faild_step_count * 100 / self.total_step_count < FAILED_RADIO)
 		print("case_count:", self.case_count, " faild_step_count:", self.faild_step_count, " total_step_count:", self.total_step_count)
 		if self.total_step_count <= 10:
 			return False
