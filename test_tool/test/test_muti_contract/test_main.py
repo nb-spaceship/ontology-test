@@ -21,6 +21,7 @@ from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.common import Common
 from api.apimanager import API
 
 from test_muti_contract.test_api import test_api
@@ -30,7 +31,10 @@ from test_muti_contract.test_config import test_config
 # test cases
 class test_muti_contract(ParametrizedTestCase):
 	def setUp(self):
-		logger.open(self._testMethodName + ".log", self._testMethodName)
+		logger.open("test_muti_contract/" + self._testMethodName + ".log", self._testMethodName)
+		if self._testMethodName == "test_init":
+			return True
+
 		print("stop all")
 		API.node().stop_all_nodes()
 		print("start all")
@@ -66,7 +70,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_002_mutiContract(self):
 		try:
@@ -91,7 +95,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_003_mutiContract(self):
 		try:
@@ -115,7 +119,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 
 	def test_normal_004_mutiContract(self):
@@ -143,7 +147,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_normal_005_mutiContract(self):
 		try:
@@ -176,7 +180,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_006_mutiContract(self):
 		try:
@@ -213,7 +217,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_normal_007_mutiContract(self):
 		try:
@@ -249,7 +253,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)				
+			logger.print(e2.args[0])				
 
 	def test_abnormal_008_mutiContract(self):
 		try:
@@ -288,7 +292,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_009_mutiContract(self):
 		try:
@@ -327,7 +331,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
    
 	def test_abnormal_010_mutiContract(self):
 		try:
@@ -349,7 +353,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 	'''   
 	def test_11(self):
 		try:
@@ -542,7 +546,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	'''	
 	def test_17(self):
@@ -859,7 +863,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 	'''
 	def test_26(self):
 		try:
@@ -1055,7 +1059,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_abnormal_031_mutiContract(self):
 		try:
@@ -1099,7 +1103,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 	'''
 	def test_32(self):
 		try:
@@ -1158,7 +1162,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_034_mutiContract(self):
 		try:
@@ -1176,7 +1180,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_normal_035_mutiContract(self):
 		try:
@@ -1200,7 +1204,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_036_mutiContract(self):
 		try:
@@ -1228,10 +1232,12 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
-		
+			logger.print(e2.args[0])
+			
+	'''
 	def test_abnormal_037_mutiContract(self):
 		pass
+	'''
 
 	def test_normal_038_mutiContract(self):
 		try:
@@ -1242,11 +1248,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户A调用智能合约A中的A方法
 			(process, response) = API.contract().invoke_function(contract_address, "transfer", Config.ontID_A, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1261,7 +1267,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_039_mutiContract(self):
 		try:
@@ -1277,11 +1283,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法
 			(process, response) = API.contract().invoke_function(contract_address, "transfer", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1296,7 +1302,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_040_mutiContract(self):
 		try:
@@ -1312,11 +1318,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法
 			(process, response) = API.contract().invoke_function(contract_address, "transfer", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1329,7 +1335,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_abnormal_041_mutiContract(self):
 		try:
@@ -1345,11 +1351,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法
 			(process, response) = API.contract().invoke_function(contract_address, "approve", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1362,7 +1368,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 	   
 	def test_normal_042_mutiContract(self):
 		try:
@@ -1381,11 +1387,11 @@ class test_muti_contract(ParametrizedTestCase):
 			
 			(process, response) = API.contract().invoke_function(contract_address, "approve", Config.ontID_A, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1395,11 +1401,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法
 			(process, response) = API.contract().invoke_function(contract_address, "allowance", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				}])
 			
 			if not process:
@@ -1411,7 +1417,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_normal_043_mutiContract(self):
 		try:
@@ -1430,11 +1436,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法 approve
 			(process, response) = API.contract().invoke_function(contract_address, "approve", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1444,11 +1450,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法 allowance
 			(process, response) = API.contract().invoke_function(contract_address, "allowance", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				}])
 			if not process:
 				raise Error("invoke_function error")
@@ -1459,7 +1465,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_044_mutiContract(self):
 		try:
@@ -1483,7 +1489,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_045_mutiContract(self):
 		try:
@@ -1500,7 +1506,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_046_mutiContract(self):
 		try:
@@ -1524,7 +1530,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_047_mutiContract(self):
 		try:
@@ -1546,7 +1552,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_abnormal_048_mutiContract(self):
 		try:
@@ -1562,11 +1568,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户A调用智能合约A中的A方法approve用户A给用户C 10 ont
 			(process, response) = API.contract().invoke_function(contract_address, "approve", Config.ontID_A, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1579,15 +1585,15 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法,让用户A使用transferFrom方法获取用户A从用户B的账户上转账来的 10 ONT
 			(process, response) = API.contract().invoke_function(contract_address, "transferFrom", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1602,7 +1608,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_049_mutiContract(self):
 		try:
@@ -1618,7 +1624,7 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法,让用户A使用balanceof方法获取用户A的账户余额
 			(process, response) = API.contract().invoke_function(contract_address, "balanceOf", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				}])
 
 			process = (process and response["result"]["Result"] != "00")	
@@ -1627,7 +1633,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 	def test_abnormal_050_mutiContract(self):
 		try:
@@ -1638,11 +1644,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法从用户A的账户中转账10 ont 给用户C
 			(process, response) = API.contract().invoke_function(contract_address, "transfer", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1654,7 +1660,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_051_mutiContract(self):
 		try:
@@ -1665,11 +1671,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法从用户A的账户中approve10 ont 给用户C
 			(process, response) = API.contract().invoke_function(contract_address, "approve", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1681,7 +1687,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_052_mutiContract(self):
 		try:
@@ -1692,11 +1698,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户A调用智能合约A中的A方法approve用户A给用户C 10 ont
 			(process, response) = API.contract().invoke_function(contract_address, "approve", Config.ontID_A, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1709,15 +1715,15 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法提取用户A给用户C的10 ont
 			(process, response) = API.contract().invoke_function(contract_address, "transferFrom", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1729,7 +1735,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_053_mutiContract(self):
 		try:
@@ -1740,7 +1746,7 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法查询用户A的账户ont余额
 			(process, response) = API.contract().invoke_function(contract_address, "balanceOf", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				}])
 			process = (process and response["result"]["Result"] != "00")	
 		
@@ -1748,7 +1754,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_054_mutiContract(self):
 		try:
@@ -1759,11 +1765,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法查询用户A给用户C的ont还有多少没有接收
 			(process, response) = API.contract().invoke_function(contract_address, "allowance", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				}])
 			process = (process and response["result"]["Result"] != "00")	
 
@@ -1772,7 +1778,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_055_mutiContract(self):
 		try:
@@ -1783,11 +1789,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法从用户A的账户中转账10 ONG 给用户C
 			(process, response) = API.contract().invoke_function(contract_address, "transfer_ong", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1799,7 +1805,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_056_mutiContract(self):
 		try:
@@ -1810,11 +1816,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法从用户A的账户中approve10 ong 给用户C
 			(process, response) = API.contract().invoke_function(contract_address, "approve_ong", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1827,7 +1833,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_abnormal_057_mutiContract(self):
 		try:
@@ -1838,11 +1844,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户A调用智能合约A中的A方法approve用户A给用户C 10 ong
 			(process, response) = API.contract().invoke_function(contract_address, "approve_ong", Config.ontID_A, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1855,15 +1861,15 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法提取用户A给用户C的10 ong
 			(process, response) = API.contract().invoke_function(contract_address, "transferFrom_ong", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_B]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_B]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				},
 																				{
 																					"type": "int",
@@ -1876,7 +1882,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_058_mutiContract(self):
 		try:
@@ -1887,7 +1893,7 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法查询用户A的账户ont余额
 			(process, response) = API.contract().invoke_function(contract_address, "balanceOf_ong", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				}])
 			process = (process and response["result"]["Result"] != "00")	
 
@@ -1896,7 +1902,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	def test_normal_059_mutiContract(self):
 		try:
@@ -1907,11 +1913,11 @@ class test_muti_contract(ParametrizedTestCase):
 			# 用户B调用智能合约A中的A方法查询用户A给用户C的ont还有多少没有接收
 			(process, response) = API.contract().invoke_function(contract_address, "allowance_ong", Config.ontID_B, argvs = [ {
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_A]["address"]))
 																				},
 																				{
 																					"type": "bytearray",
-																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
+																					"value": Common.bl_address((Config.NODES[Config.node_C]["address"]))
 																				}])
 			process = (process and response["result"]["Result"] != "00")	
 
@@ -1920,7 +1926,7 @@ class test_muti_contract(ParametrizedTestCase):
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 ####################################################
 if __name__ == '__main__':

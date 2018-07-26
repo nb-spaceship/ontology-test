@@ -531,7 +531,13 @@ class NativeApi:
             "RESPONSE":{"error" : errorcode}
         }
 
-        return CONTRACT_API.call_multisig_contract(Task(name="commit_dpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList, sleep=sleep)
+        (result, response) = CONTRACT_API.call_multisig_contract(Task(name="commit_dpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList, sleep=sleep)
+
+        if result:
+            result = NodeApi.wait_gen_block()
+
+        return (result, response)
+
 
     #same to invoke_function_approve
     def approve_candidate(self, pubKey, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):

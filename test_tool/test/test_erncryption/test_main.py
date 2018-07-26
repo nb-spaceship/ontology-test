@@ -10,6 +10,7 @@ import sys, getopt
 
 sys.path.append('..')
 sys.path.append('../..')
+test_path = os.path.dirname(os.path.realpath(__file__))
 
 
 from utils.config import Config
@@ -32,6 +33,7 @@ class test_erncryption_1(ParametrizedTestCase):
 	def test_init(self):
 		os.system(test_config.nodePath+ "/ontology account import -s resource/wallettest.dat -w "+test_config.nodePath+"/wallet.dat")
 		#deploy_contract #API.contract().deploy_contract();
+		test_config.contractaddress=API.contract().deploy_contract(test_path + "/resource/transferong_ont.json")
 		
 	def setUp(self):
 		os.system(test_config.nodePath+ "/ontology account import -s resource/wallettest.dat -w "+test_config.nodePath+"/wallet.dat")

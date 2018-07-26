@@ -11,6 +11,7 @@ import time
 
 sys.path.append('..')
 sys.path.append('../..')
+test_path = os.path.dirname(os.path.realpath(__file__))
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
@@ -22,9 +23,6 @@ from api.apimanager import API
 
 from test_ontid_api.test_api import *
 from test_ontid_api.test_config import *
-#from utils.api.commonapi import call_contract
-#from api.init_ong_ont import *
-#from apimanager import API 
 
 ####################################################
 #test cases
@@ -307,9 +305,12 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_init(self):
 		API.node().stop_all_nodes()
 		API.node().start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
-		#time.sleep(10)
+		time.sleep(10)
 		API.native().init_ont_ong()
 		#time.sleep(20)
+		
+		test_config.contract_address = API.contract().deploy_contract(test_path + "/resource/ontid.json")
+		API.node().wait_gen_block()
 		
 	def setUp(self):
 		logger.open( "test_ontid_api/"+self._testMethodName+".log",self._testMethodName)
@@ -530,7 +531,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_027_removeKey(self):
 		try:
-			(process, response) = addKey(test_config.ontId, test_config.del_pubkey1,test_config.pubkey_re_address,test_config.node_index,0)#先把这个key加上�?
+			(process, response) = addKey(test_config.ontId, test_config.del_pubkey1,test_config.pubkey_re_address,test_config.node_index,0)#先把这个key加上�?
 			(process, response) = removeKey(test_config.ontId, test_config.del_pubkey1,test_config.pubkey_re_address,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -571,7 +572,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_032_removeKey(self):
 		try:
-			(process, response) = addKey(test_config.ontId, test_config.removeKey_32,test_config.pubkey_reAddress1,test_config.node_index,0)#先注册公�?
+			(process, response) = addKey(test_config.ontId, test_config.removeKey_32,test_config.pubkey_reAddress1,test_config.node_index,0)#先注册公�?
 			(process, response) = removeKey(test_config.ontId, test_config.removeKey_32,test_config.pubkey_reAddress1,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -596,7 +597,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_035_removeKey(self):
 		try:
-			(process, response) = addKey(test_config.ontId, test_config.removeKey_35, test_config.pubkey_reAddress1,test_config.node_index,0)#先注册公�?	
+			(process, response) = addKey(test_config.ontId, test_config.removeKey_35, test_config.pubkey_reAddress1,test_config.node_index,0)#先注册公�?	
 			(process, response) = removeKey(test_config.ontId, test_config.removeKey_35,test_config.pubkey_reAddress3,test_config.node_index,0,test_config.pubkey_reAddress3_Array)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -621,7 +622,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_base_038_addRecovery(self):
 		try:
-			(process, response) = regIDWithPublicKey(test_config.addRecovery_38,test_config.public_key,test_config.node_index,0)#先注册一个账�?
+			(process, response) = regIDWithPublicKey(test_config.addRecovery_38,test_config.public_key,test_config.node_index,0)#先注册一个账�?
 			(process, response) = addRecovery(test_config.addRecovery_38, test_config.recoveryaddress,test_config.public_key,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -654,7 +655,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_042_addRecovery(self):
 		try:
-			(process, response) = regIDWithPublicKey(test_config.addRecovery_42,test_config.public_key,test_config.node_index,0)#先注册一个账�?
+			(process, response) = regIDWithPublicKey(test_config.addRecovery_42,test_config.public_key,test_config.node_index,0)#先注册一个账�?
 			(process, response) = addRecovery(test_config.addRecovery_42, test_config.recoveryAddress1,test_config.public_key,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -687,7 +688,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_046_addRecovery(self):
 		try:
-			(process, response) = regIDWithPublicKey(test_config.addRecovery_46,test_config.public_key,test_config.node_index,0)#先注册一个账�?
+			(process, response) = regIDWithPublicKey(test_config.addRecovery_46,test_config.public_key,test_config.node_index,0)#先注册一个账�?
 			(process, response) = addRecovery(test_config.addRecovery_46, test_config.recoveryaddress,test_config.public_key4,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -720,7 +721,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_base_050_changeRecovery(self):
 		try:
-			(process, response) = changeRecovery(test_config.userOntId6, test_config.new_recovery_address,test_config.old_recovery_address,test_config.public_key,test_config.node_index,0,test_config.old_recovery_address_Array)#先把它换成新�?
+			(process, response) = changeRecovery(test_config.userOntId6, test_config.new_recovery_address,test_config.old_recovery_address,test_config.public_key,test_config.node_index,0,test_config.old_recovery_address_Array)#先把它换成新�?
 			(process, response) = changeRecovery(test_config.userOntId6, test_config.old_recovery_address,test_config.new_recovery_address,test_config.public_key,test_config.node_index,0,test_config.new_recovery_address_Array)#再把它换回来
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -753,7 +754,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_054_changeRecovery(self):
 		try:
-			(process, response) = changeRecovery(test_config.ontId, test_config.new_recoveryAddress1,test_config.old_recovery_address,test_config.public_key,test_config.node_index,0,test_config.old_recovery_address_Array)#换这�?
+			(process, response) = changeRecovery(test_config.ontId, test_config.new_recoveryAddress1,test_config.old_recovery_address,test_config.public_key,test_config.node_index,0,test_config.old_recovery_address_Array)#换这�?
 			(process, response) = changeRecovery(test_config.ontId, test_config.old_recovery_address,test_config.new_recoveryAddress1,test_config.public_key,test_config.node_index,0,test_config.new_recoveryAddress1_Array)#再换回来
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -786,7 +787,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_058_changeRecovery(self):
 		try:
-			(process, response) = changeRecovery(test_config.ontId, test_config.new_recovery_address,test_config.old_recoverAddress1,test_config.public_key,test_config.node_index,0,test_config.old_recoverAddress1_Array)#换这�?
+			(process, response) = changeRecovery(test_config.ontId, test_config.new_recovery_address,test_config.old_recoverAddress1,test_config.public_key,test_config.node_index,0,test_config.old_recoverAddress1_Array)#换这�?
 			(process, response) = changeRecovery(test_config.ontId, test_config.old_recoverAddress1,test_config.new_recovery_address,test_config.public_key,test_config.node_index,0,test_config.new_recovery_address_Array)#再换回来
 			self.ASSERT(process, "")
 		except Exception as e:

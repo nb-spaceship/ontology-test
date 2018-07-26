@@ -7,6 +7,7 @@ import urllib.request
 import json
 import os
 import sys, getopt
+import time
 
 sys.path.append('..')
 sys.path.append('../..')
@@ -23,26 +24,27 @@ from test_ong_native.test_api import *
 from test_ong_native.test_config import test_config
 from api.apimanager import API
 
-
+test_path = os.path.dirname(os.path.realpath(__file__))
 
 ####################################################
 #test cases
 class test_ong_native_1(ParametrizedTestCase):
 	def test_init(self):
-		# API.node().stop_all_nodes()
-		# API.node().start_nodes(range(0, 7), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
-		#time.sleep(10)
+		API.node().stop_all_nodes()
+		API.node().start_nodes(range(0, 7), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
+		time.sleep(10)
 		API.node().wait_gen_block()
 		API.native().init_ont_ong()
-		#time.sleep(10)
-		#global contract_address
-		#global test_config.sender5
+		time.sleep(10)
+
+		test_config.contract_address = API.contract().deploy_contract( test_path + "/resource/ong_neo.json")
 		test_config.sender5= API.contract().deploy_contract("ontErr.json") 
-		#os.system(nodePath+ "/ontology account import -s wallettest.dat -w "+nodePath+"/wallet.dat")
-		#deploy_contract
+		test_config.sender2 = test_config.contract_address
 		
 	def setUp(self):
 		logger.open("test_ong_native/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		
 	def tearDown(self):
 		logger.close(self.result())

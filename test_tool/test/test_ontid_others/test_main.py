@@ -62,9 +62,9 @@ class test_ontid_others_1(ParametrizedTestCase):
 				raise Error("failed")
 				self.ASSERT(not process, "")
 		except Error as e:
-			logger.print(e.msg)
+			logger.print(e.args[0])
 		except Exception as e2:
-			logger.print(e2.args) 	
+			logger.print(e2.args[0]) 	
 		
 		
 	def test_normal_002_ontidOthers(self):
@@ -79,9 +79,9 @@ class test_ontid_others_1(ParametrizedTestCase):
 			(process, response) = regIDWithPublicKey(test_config.tc002_ontid2, test_config.tc002_pubkey1,test_config.node_A,0)
 			self.ASSERT(process, "")
 		except Error as e:
-			logger.print(e.msg)
+			logger.print(e.args[0])
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 		
 
 	def test_normal_003_ontidOthers(self):
@@ -118,9 +118,9 @@ class test_ontid_others_1(ParametrizedTestCase):
 				raise Error("failed")
 			self.ASSERT(process, "")
 		except Error as e:
-			logger.print(e.msg)
+			logger.print(e.args[0])
 		except Exception as e2:
-			logger.print(e2.args)
+			logger.print(e2.args[0])
 
 	
 			

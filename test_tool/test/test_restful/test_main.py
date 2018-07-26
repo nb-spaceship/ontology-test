@@ -29,13 +29,11 @@ from test_restful.test_config import test_config
 class test_restful_1(ParametrizedTestCase):
 
 	def setUp(self):
+		logger.open( "test_restful/" + self._testMethodName+".log",self._testMethodName)
 		if self._testMethodName == "test_init":
 			return
-		logger.open( self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
-		if self._testMethodName == "test_init":
-			return
 		logger.close(self.result())
 			
 	def test_base_001_getgenerateblocktime(self):
@@ -52,16 +50,15 @@ class test_restful_1(ParametrizedTestCase):
 		
 class test_restful_2(ParametrizedTestCase):
 	def setUp(self):
+		logger.open("test_restful/" + self._testMethodName+".log",self._testMethodName)
 		if self._testMethodName == "test_init":
 			return
-		logger.open( self._testMethodName+".log",self._testMethodName)
+
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
 		
 	def tearDown(self):
-		if self._testMethodName == "test_init":
-			return
 		logger.close(self.result())
 
 	def test_normal_006_getblocktxsbyheight(self,height=0):
@@ -128,14 +125,12 @@ class test_restful_3(ParametrizedTestCase):
 		API.contract().invoke_function(test_config.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": test_config.m_getstorage_contract_key},{"type": "bytearray","value": test_config.m_getstorage_contract_value}], node_index = 0)
 		
 	def setUp(self):
+		logger.open("test_restful/" + self._testMethodName+".log",self._testMethodName)
 		if self._testMethodName == "test_init":
 			return
-		logger.open( self._testMethodName+".log",self._testMethodName)
 		time.sleep(1)
 		
 	def tearDown(self):
-		if self._testMethodName == "test_init":
-			return
 		logger.close(self.result())
 		
 	def test_normal_002_getgenerateblocktime(self):

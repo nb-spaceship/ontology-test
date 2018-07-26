@@ -10,7 +10,6 @@ import getopt
 
 sys.path.append('..')
 sys.path.append('../..')
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
@@ -21,7 +20,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 from api.apimanager import API
 
-from test_config import test_config
+from test_benefit_model.test_config import test_config
 
 class test_api:
     @staticmethod

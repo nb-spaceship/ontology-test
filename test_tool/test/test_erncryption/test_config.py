@@ -13,7 +13,7 @@ class test_config():
 
 
 	nodePath=Config.NODE_PATH
-	contractaddress=API.contract().deploy_contract("resource/transferong_ont.json")
+	contractaddress=""
 	node_index=0
 	pay_address=Config.NODES[node_index]["address"]
 	get_address1="ANdtbPPwfMv79eMev9z7aAZRM6bUuQQ3rf"

@@ -30,4 +30,4 @@ class test_config():
 	deploy_neo="resource/A.neo"
 	name="test"
 	desc="test name"
-	m_contract_address= API.contract().deploy_contract_full(deploy_neo, name, desc)[0]
+	m_contract_address= ""
