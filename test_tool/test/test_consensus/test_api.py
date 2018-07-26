@@ -7,6 +7,7 @@ import json
 import os
 import sys
 import getopt
+import time
 
 sys.path.append('..')
 sys.path.append('../..')
@@ -17,7 +18,7 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.common import bl_address
+from utils.common import Common
 
 from api.apimanager import API
 
@@ -54,11 +55,11 @@ class test_api:
 								{
 									"type": "bytearray",
 									
-									"value": bl_address(from_address)
+									"value": Common.bl_reserver(from_address)
 								},
 								{
 									"type": "bytearray",
-									"value": bl_address(to_address)
+									"value": Common.bl_reserver(to_address)
 								},
 								{
 									"type": "int",
@@ -95,11 +96,11 @@ class test_api:
 							"value": [
 								{
 									"type": "bytearray",
-									"value": bl_address(from_address)
+									"value": Common.bl_reserver(from_address)
 								},
 								{
 									"type": "bytearray",
-									"value": bl_address(to_address)
+									"value": Common.bl_reserver(to_address)
 								},
 								{
 									"type": "int",
@@ -119,7 +120,7 @@ class test_api:
 	@staticmethod
 	def add_candidate_node(new_node, init_ont = 5000000, init_ong = 1000, init_pos = 10000, from_node = 0):
 		#新加入节点, 并申请候选节点
-		start_nodes([new_node], clear_chain = True, clear_log = True)
+		API.native().start_nodes([new_node], clear_chain = True, clear_log = True)
 		time.sleep(5)
 		API.native().regid_with_publickey(new_node)
 		(process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])

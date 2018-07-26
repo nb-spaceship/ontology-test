@@ -20,14 +20,15 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-from test_api import test_api
-from test_config import test_config
+from test_consensus.test_api import test_api
+from test_consensus.test_config import test_config
 
 ############################################################
 ############################################################
 #正常节点和vbft共识
 class test_consensus_1(ParametrizedTestCase):
 	def test_init(self):
+		'''
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(8)
@@ -36,13 +37,13 @@ class test_consensus_1(ParametrizedTestCase):
 		
 		API.native().init_ont_ong()
 		time.sleep(10)
-		
+		'''
 		(test_config.m_contract_addr, test_config.m_contract_txhash) = API.contract().deploy_contract_full(test_config.deploy_neo_1, test_config.name1, test_config.desc, test_config.price)
 		(test_config.m_contract_addr2, test_config.m_contract_txhash2) = API.contract().deploy_contract_full(test_config.deploy_neo_2, test_config.name2, test_config.desc2, test_config.price)
 		
 		#A节点是Admin节点
-		(process, response) = API.contract().init_admin(test_config.m_contract_addr, Config.ontID_A)
-		(process, response) = API.native().bind_role_function(test_config.m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
+		# (process, response) = API.contract().init_admin(test_config.m_contract_addr, Config.ontID_A)
+		# (process, response) = API.native().bind_role_function(test_config.m_contract_addr, Config.ontID_A, Config.roleA_hex, ["auth_put"])
 
 
 	def setUp(self):
@@ -202,6 +203,9 @@ class test_consensus_1(ParametrizedTestCase):
 
 	def test_base_019_consensus(self):
 		try:
+			print(test_config.m_contract_addr)
+			print(test_config.ADDRESS_A)
+			print(test_config.ADDRESS_B)
 			(process, response) = test_api.transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT)
 			self.ASSERT(process, "test_base_019_consensus failed")	
 		except Exception as e:

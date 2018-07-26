@@ -21,7 +21,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.taskrunner import TaskRunner
 from api.apimanager import API
 
-from test_api import test_api
+from test_governance.test_api import test_api
 
 ####################################################
 #test cases
