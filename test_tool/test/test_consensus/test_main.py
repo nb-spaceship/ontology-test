@@ -48,6 +48,8 @@ class test_consensus_1(ParametrizedTestCase):
 
 	def setUp(self):
 		logger.open("test_consensus/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -203,10 +205,7 @@ class test_consensus_1(ParametrizedTestCase):
 
 	def test_base_019_consensus(self):
 		try:
-			print(test_config.m_contract_addr)
-			print(test_config.ADDRESS_A)
-			print(test_config.ADDRESS_B)
-			(process, response) = test_api.transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT)
+			(process, response) = test_api.transfer(test_config.m_contract_addr, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT, node_index=0)
 			self.ASSERT(process, "test_base_019_consensus failed")	
 		except Exception as e:
 			print(e.args)
@@ -339,6 +338,8 @@ class test_consensus_2(ParametrizedTestCase):
 	
 	def setUp(self):
 		logger.open( "test_consensus/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		
 	def tearDown(self):
 		logger.close(self.result())
@@ -464,6 +465,8 @@ class test_consensus_3(ParametrizedTestCase):
 	
 	def setUp(self):
 		logger.open( "test_consensus/" +  self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		test_config.AMOUNT = "1001"
 	
 	def tearDown(self):

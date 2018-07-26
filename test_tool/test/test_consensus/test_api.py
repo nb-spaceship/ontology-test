@@ -55,11 +55,11 @@ class test_api:
 								{
 									"type": "bytearray",
 									
-									"value": Common.bl_reserver(from_address)
+									"value": Common.bl_reserver(Common.base58_to_address(from_address))
 								},
 								{
 									"type": "bytearray",
-									"value": Common.bl_reserver(to_address)
+									"value": Common.bl_reserver(Common.base58_to_address(to_address))
 								},
 								{
 									"type": "int",
@@ -96,11 +96,11 @@ class test_api:
 							"value": [
 								{
 									"type": "bytearray",
-									"value": Common.bl_reserver(from_address)
+									"value": Common.bl_reserver(Common.base58_to_address(from_address))
 								},
 								{
 									"type": "bytearray",
-									"value": Common.bl_reserver(to_address)
+									"value": Common.bl_reserver(Common.base58_to_address(to_address))
 								},
 								{
 									"type": "int",

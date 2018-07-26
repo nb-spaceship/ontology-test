@@ -82,6 +82,8 @@ class test_rpc_2(ParametrizedTestCase):
 		
 	def setUp(self):
 		logger.open( self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		time.sleep(1)
 		
 	def tearDown(self):

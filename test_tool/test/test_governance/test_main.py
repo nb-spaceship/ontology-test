@@ -29,6 +29,8 @@ class test_governance_1(ParametrizedTestCase):
     
 	def setUp(self):
 		logger.open("test_governance/" + self._testMethodName+".log",self._testMethodName)
+		if self._testMethodName == "test_init":
+			return 
 		time.sleep(2)
 		print("stop all")
 		API.node().stop_all_nodes()
