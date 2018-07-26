@@ -42,7 +42,7 @@ class TestMonitor:
 		if self.total_step_count <= 10:
 			return False
 
-		if self.case_count >= CHECK_LOOP and self.faild_step_count * 100 / self.total_step_count < FAILED_RADIO:
+		if self.case_count >= CHECK_LOOP and (self.faild_step_count * 100 / self.total_step_count) < FAILED_RADIO:
 			return False
 		else:
 			return True
