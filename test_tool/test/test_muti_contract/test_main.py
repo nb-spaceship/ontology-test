@@ -14,7 +14,6 @@ import subprocess
 
 sys.path.append('..')
 sys.path.append('../..')
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
@@ -24,7 +23,8 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-from test_api import test_api
+from test_muti_contract.test_api import test_api
+from test_muti_contract.test_config import test_config
 
 ####################################################
 # test cases
@@ -37,7 +37,8 @@ class test_muti_contract(ParametrizedTestCase):
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
 		for i in range(0, 7):
-			API.native().regid_with_publickey(index)
+			API.native().regid_with_publickey(index, sleep = 0)
+		API.node().wait_gen_block()
 		API.native().init_ont_ong()
 
 	def tearDown(self):
