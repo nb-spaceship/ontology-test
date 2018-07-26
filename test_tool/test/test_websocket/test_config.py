@@ -1,18 +1,23 @@
 # -*- coding: utf-8 -*-
 import sys
+import os
+
 sys.path.append('..')
+sys.path.append('../..')
+testpath = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(testpath)
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-from utils.commonapi import *
-from utils.contractapi import *
+#from utils.commonapi import *#wrong
+#from utils.contractapi import *
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.rpcapi import RPCApi
+from api.apimanager import *
 
-rpcApi = RPCApi()
+rpcApi = API.rpc()
 
 def get_signed_data():
     request = {
@@ -31,10 +36,10 @@ def get_signed_data():
         "RESPONSE": {
         }
     }
-    return sign_transction(Task(name="get_signed_data", ijson=request))[1]["result"]["signed_tx"]
+    return API.contract().sign_transction(Task(name="get_signed_data", ijson=request))[1]["result"]["signed_tx"]
 
 class config():
-    (contract_addr, contract_tx_hash) = deploy_contract_full(Config.UTILS_PATH + "/test.neo")
+    (contract_addr, contract_tx_hash) = API.contract().deploy_contract_full(Config.UTILS_PATH + "/test.neo")
 
     block_height = int(rpcApi.getblockcount()[1]["result"]) - 1
     block_hash = rpcApi.getblockhash(block_height - 1)[1]["result"]
