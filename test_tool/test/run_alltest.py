@@ -112,7 +112,7 @@ class TestCaseRunner():
 				needmonitor = str(value)
 				if needmonitor == "0":
 					needmonitor = False
-				elif needmonitor == "1"
+				elif needmonitor == "1":
 					needmonitor = True
 
 		case_path = os.path.dirname(os.path.realpath(__file__))
