@@ -221,7 +221,7 @@ class ContractApi:
             (result, response) = TaskRunner.run_single_task(task, False, process_log)
             return (result, response)
 
-    def call_multisig_contract(self, task, m, pubkeyArray):
+    def call_multisig_contract(self, task, m, pubkeyArray, sleep = 5):
         taskdata = task.data()
 
         (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
@@ -259,8 +259,8 @@ class ContractApi:
                     break
                     
             if execNum >= m:
-                (result,response)=self.call_signed_contract(signed_raw, True)
-                self.call_signed_contract(signed_raw, False)
+                (result,response)=self.call_signed_contract(signed_raw, True, sleep = sleep)
+                self.call_signed_contract(signed_raw, False, sleep = sleep)
                 return (result,response)
                 
         return (False, {"error_info":"multi times lesss than except!only "+str(execNum)})

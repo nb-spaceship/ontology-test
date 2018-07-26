@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-import sys, getopt
+import sys, getopt,os,json
 import time
 sys.path.append('..')
+sys.path.append('../..')
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.api.commonapi import *
+from api.apimanager import API
 
 #init doc
 __doc__ = "[1] -h --help\n[2] -a --action\n[3] -n --node\n[4] -v --value\n[5] -v1 --value1\n[6] -v2 --value2"
@@ -52,18 +54,18 @@ def main(argv = None):
 			raise(Usage("please set -n which is node index..."))
 
 		if _action == "check_state":
-			print(check_node_state(_nodes))
+			print(API.node().check_node_state(_nodes))
 		elif _action == "check_block":
-			print(check_node_block(_nodes))
+			print(API.node().check_node_block(_nodes))
 		elif _action == "check_ledgerevent":
-			print(check_node_ledgerevent(_nodes))
+			print(API.node().check_node_ledgerevent(_nodes))
 		elif _action == "check_all":
 			print("check state:")
-			print(check_node_state(_nodes))
+			print(API.node().check_node_state(_nodes))
 			print("\ncheck block:")
-			print(check_node_block(_nodes))
+			print(API.node().check_node_block(_nodes))
 			print("\ncheck ledgerevent:")
-			print(check_node_ledgerevent(_nodes))
+			print(API.node().check_node_ledgerevent(_nodes))
 		else:
 			for _node in _nodes:
 				print(_action + ": " + str(_node))
@@ -71,10 +73,10 @@ def main(argv = None):
 					_node = int(_node)
 					if _node >= 0:
 						if _action == "start":
-							start_node(_node, Config.DEFAULT_NODE_ARGS)
+							API.node().start_node(_node, Config.DEFAULT_NODE_ARGS)
 							time.sleep(3)
 						elif _action == "stop":
-							stop_node(_node)
+							API.node().stop_node(_node)
 						elif _action == "replace_config":
 							cfg_json = None
 							if _value == "":
@@ -84,9 +86,9 @@ def main(argv = None):
 							cfg_json = json.loads(cfg_file.read().decode("utf-8"))
 							cfg_file.close()
 
-							replace_config(_node, cfg_json)
+							API.node().replace_config(_node, cfg_json)
 						elif _action == "restart":
-							start_node(_node, Config.DEFAULT_NODE_ARGS, True, True)
+							API.node().start_node(_node, Config.DEFAULT_NODE_ARGS, True, True)
 							time.sleep(3)
 						else:
 							raise(Usage("no action: " + str(_action)))
