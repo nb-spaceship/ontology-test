@@ -198,20 +198,16 @@ class test_consensus_1(ParametrizedTestCase):
 			time.sleep(3)
 		except Exception as e:
 			print(e)
+			
 
-##TODO
-'''
 	def test_base_019_consensus(self):
-		# log_path = "19_consensus.log"
-		# task_name = "19_consensus"
 		try:
-		# self.start(log_path)
 			(process, response) = test_api.transfer_19(test_config.CONTRACT_ADDRESS, test_config.ADDRESS_A, test_config.ADDRESS_B, test_config.AMOUNT)
 			self.ASSERT(process, "")	
 		except Exception as e:
 			print(e)
 		
-		
+'''	
 	def test_normal_020_consensus(self):
 		# log_path = "20_consensus.log"
 		# task_name = "20_consensus"
