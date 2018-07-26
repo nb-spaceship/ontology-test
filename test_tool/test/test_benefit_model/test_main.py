@@ -38,10 +38,12 @@ class test_benefit_model_1(ParametrizedTestCase):
 		time.sleep(10)
 		
 		for i in range(7):
-			API.native().regid_with_publickey(i)
-		
-		API.native().init_ont_ong()
+			API.native().regid_with_publickey(i, sleep = 0)
+		API.node().wait_gen_block()
 
+		API.native().init_ont_ong(sleep = 0)
+		API.node().wait_gen_block()
+		
 		time.sleep(5)
 		self.m_current_node = 0
 		self.m_stop_2_nodes = [5,6]
@@ -64,7 +66,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
-			API.native().commit_dpos()
+			API.native().commit_dpos(sleep = 0)
 			self.ASSERT(API.node().wait_gen_block(), "can't gen block")
 			
 			(process, response) = API.rpc().getbalance(address1)
