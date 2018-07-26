@@ -13,30 +13,32 @@ from api.apimanager import API
 rpcApi = API.rpc()
 
 class test_config():
-		m_contractaddr_right = ""
-		m_txhash_right = ""		
-		
-		m_txhash_wrong = "is a wrong tx hash"
-		
-		m_block_hash_right = ""
-		
-		m_block_hash_error = "this is a wrong block hash"
-		
-		m_block_height_right = 1
-		
-		m_block_height_wrong = 9999
-		
-		m_block_height_overflow = 99999999
-	
-		m_signed_txhash_right = ""
-		m_signed_txhash_wrong = "" #两个self
-				
-		m_getstorage_contract_addr = ""
-		m_getstorage_contract_addr_wrong = m_contractaddr_right + "0f0f0f0f"
-		m_getstorage_contract_key = ByteToHex(b'key1')
-		m_getstorage_contract_value = ByteToHex(b'value1')
-		
-		getsmartcodeevent_height = 5
+	m_getstorage_contract_key = "1234" # ByteToHex(b'key1')
+	m_getstorage_contract_value = ByteToHex(b'value1')
 
-		getbalance_address_true = Config.NODES[0]["address"]
-		getbalance_address_false = "ccccccccccccccc"
+	getsmartcodeevent_height = 5
+
+	getbalance_address_true = Config.NODES[0]["address"]
+	getbalance_address_false = "ccccccccccccccc"
+
+	m_contractaddr_right = ""
+	m_txhash_right = ""		
+
+	m_txhash_wrong = "is a wrong tx hash"
+
+	m_block_hash_right = ""
+
+	m_block_hash_error = "this is a wrong block hash"
+
+	m_block_height_right = 1
+
+	m_block_height_wrong = 9999
+
+	m_block_height_overflow = 99999999
+
+	m_signed_txhash_right = ""
+	m_signed_txhash_wrong = "" #两个self
+			
+	m_getstorage_contract_addr = ""
+	m_getstorage_contract_addr_wrong = ""
+
