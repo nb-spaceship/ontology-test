@@ -29,6 +29,7 @@ from test_neo_api.test_config import test_config
 class test_neo_api_1(ParametrizedTestCase):
 
 	def test_init(self):
+
 		time.sleep(2)
 		print("stop all")
 		API.node().stop_all_nodes()
@@ -36,10 +37,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
 
-		(test_config.contract_addr, test_config.contract_tx_hash) = API.contract().deploy_contract_full(test_config.deploy_neo)
-		API.node().wait_gen_block()
-		time.sleep(10)
-		#time.sleep(60)
+		test_config.init()
 
 		for i in range(5):
 			test_config.block_with_no_tx = test_api.get_block_with_no_tx(test_config.contract_addr)
