@@ -17,9 +17,11 @@ from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.connect import WebSocket
-from test_neo_api.test_api import *
-from test_neo_api.test_config import test_config
+
 from api.apimanager import API
+
+from test_neo_api.test_api import test_api
+from test_neo_api.test_config import test_config
 
 
 ####################################################
@@ -40,7 +42,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		#time.sleep(60)
 
 		for i in range(5):
-			block_with_no_tx = get_block_with_no_tx(test_config.contract_addr)
+			block_with_no_tx = test_api.get_block_with_no_tx(test_config.contract_addr)
 			if block_with_no_tx:
 				break
 			time.sleep(30)
@@ -57,7 +59,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "test_01_blockchainGetHeight.log"
 		# task_name = "test_01_blockchainGetHeight"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEIGHT_FUNC_NAME)
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEIGHT_FUNC_NAME)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -66,7 +68,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "test_03_blockchainGetHeader.log"
 		# task_name = "test_03_blockchainGetHeader"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -75,7 +77,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "test_04_blockchainGetHeader.log"
 		# task_name = "test_04_blockchainGetHeader"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_2)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -84,7 +86,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "test_05_blockchainGetHeader.log"
 		# task_name = "test_05_blockchainGetHeader"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_BORDER_BOTTON)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_BORDER_BOTTON)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -93,7 +95,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "test_06_blockchainGetHeader.log"
 		# task_name = "test_06_blockchainGetHeader"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_BORDER_TOP)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_BORDER_TOP)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -102,7 +104,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "test_07_blockchainGetHeader.log"
 		# task_name = "test_07_blockchainGetHeader"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_1 )
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_1 )
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -111,7 +113,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "08_blockchainGet_header.log"
 		# task_name = "08_blockchainGet_header"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_3)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -120,7 +122,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "09_blockchainGet_header.log"
 		# task_name = "09_blockchainGet_header"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_4)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -130,7 +132,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "10_blockchainGet_block.log"
 		# task_name = "10_blockchainGet_block"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.BLOCK_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.BLOCK_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -139,7 +141,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "11_blockchainGet_header.log"
 		# task_name = "11_blockchainGet_header"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.BLOCK_HASH_INCORRECT_4)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.BLOCK_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -148,7 +150,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "12_blockchainGetTransaction.log"
 		# task_name = "12_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -157,7 +159,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "13_blockchainGetTransaction.log"
 		# task_name = "13_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_INCORRECT_4)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_INCORRECT_4)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -166,7 +168,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "15_blockchainGetTransaction.log"
 		# task_name = "15_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, [test_config.TX_HASH_CORRECT, test_config.TX_HASH_CORRECT])
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, [test_config.TX_HASH_CORRECT, test_config.TX_HASH_CORRECT])
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -175,7 +177,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "16_blockchainGetContact.log"
 		# task_name = "16_blockchainGetContact"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -184,7 +186,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "17_blockchainGetContact.log"
 		# task_name = "17_blockchainGetContact"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_1)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -193,7 +195,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "18_blockchainGetContact.log"
 		# task_name = "18_blockchainGetContact"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_2)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -202,7 +204,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "20_blockchainGetHash.log"
 		# task_name = "20_blockchainGetHash"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_HASH_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_HASH_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -211,7 +213,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "22_blockchainGetVersion.log"
 		# task_name = "22_blockchainGetVersion"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_VERSION_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_VERSION_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -220,7 +222,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "24_blockchainGetPrehash.log"
 		# task_name = "24_blockchainGetPrehash"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_PREHASH_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_PREHASH_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -229,7 +231,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "26_blockchainGetIndex.log"
 		# task_name = "26_blockchainGetIndex"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_INDEX_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_INDEX_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -238,7 +240,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "28_blockchainGet_merkle_root.log"
 		# task_name = "28_blockchainGet_merkle_root"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_MERKLEROOT_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_MERKLEROOT_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -247,7 +249,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "30_blockchainGet_timestamp.log"
 		# task_name = "30_blockchainGet_timestamp"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_TIMESTAMP_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_TIMESTAMP_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -258,7 +260,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "32_blockchainGet_consensusdata.log"
 		# task_name = "32_blockchainGet_consensusdata"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_CONSENSUS_DATA_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_CONSENSUS_DATA_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -267,7 +269,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "34_blockchainGet_next_consensus.log"
 		# task_name = "34_blockchainGet_next_consensus"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_NEXT_CONSENSUS_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_NEXT_CONSENSUS_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -276,7 +278,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "36_blockchainGetTransaction_count.log"
 		# task_name = "36_blockchainGetTransaction_count"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -285,7 +287,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "37_blockchainGetTransaction_count.log"
 		# task_name = "37_blockchainGetTransaction_count"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME, test_config.PARAM_TYPE_INT, "3")
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTION_COUNT_FUNC_NAME, test_config.PARAM_TYPE_INT, "3")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -295,7 +297,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "38_blockchainGetTransactions"
 		try:
 			time.sleep(10)
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTIONS_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTIONS_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -304,7 +306,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "39_blockchainGetTransactions.log"
 		# task_name = "39_blockchainGetTransactions"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTIONS_FUNC_NAME, test_config.PARAM_TYPE_INT, "2")
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_BLOCK_TRANSACTIONS_FUNC_NAME, test_config.PARAM_TYPE_INT, "2")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -313,7 +315,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "40_blockchainGetTransaction.log"
 		# task_name = "40_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, "1", test_config.PARAM_TYPE_INT, "0")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, "1", test_config.PARAM_TYPE_INT, "0")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -322,7 +324,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "41_blockchainGetTransaction.log"
 		# task_name = "41_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITHOUT_TX, test_config.PARAM_TYPE_INT, "0")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITHOUT_TX, test_config.PARAM_TYPE_INT, "0")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -331,7 +333,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "42_blockchainGetTransaction.log"
 		# task_name = "42_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "-1")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "-1")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -340,7 +342,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "43_blockchainGetTransaction.log"
 		# task_name = "43_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "0")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "0")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -349,7 +351,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "44_blockchainGetTransaction.log"
 		# task_name = "44_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "1")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "1")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -358,7 +360,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "45_blockchainGetTransaction.log"
 		# task_name = "45_blockchainGetTransaction"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "2")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "2")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -367,7 +369,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "46_blockchainGetTransactionHash.log"
 		# task_name = "46_blockchainGetTransactionHash"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACTION_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -376,7 +378,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "48_blockchainGetTransaction_type.log"
 		# task_name = "48_blockchainGetTransaction_type"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACTION_TYPE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACTION_TYPE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -386,7 +388,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "50Gettransaction_attributes"
 		try:
 			time.sleep(10)
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -396,7 +398,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "52Gettransactionattribute_usage.log"
 		# task_name = "52Gettransactionattribute_usage"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, "1")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, "1")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -405,7 +407,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "54Gettransactionattribute_data.log"
 		# task_name = "54Gettransactionattribute_data"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, "1")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_DATA_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, "1")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -414,7 +416,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "56Getcontract_script.log"
 		# task_name = "56Getcontract_script"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_SCRIPT_FUNC_TIME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_SCRIPT_FUNC_TIME, test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -423,7 +425,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "58GetcontractCreate.log"
 		# task_name = "58GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -432,7 +434,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "59GetcontractCreate.log"
 		# task_name = "59GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_1, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_1, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -441,7 +443,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "60GetcontractCreate.log"
 		# task_name = "60GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_3, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_3, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -450,7 +452,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "61GetcontractCreate.log"
 		# task_name = "61GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -459,7 +461,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "62GetcontractCreate.log"
 		# task_name = "62GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_2, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_2, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -468,7 +470,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "63GetcontractCreate.log"
 		# task_name = "63GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_3, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_3, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -477,7 +479,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "64GetcontractCreate.log"
 		# task_name = "64GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_4, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_4, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -486,7 +488,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "65GetcontractCreate.log"
 		# task_name = "65GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_5, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_5, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -495,7 +497,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "66GetcontractCreate.log"
 		# task_name = "66GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -504,7 +506,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "67GetcontractCreate.log"
 		# task_name = "67GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_2, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_2, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -513,7 +515,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "68GetcontractCreate.log"
 		# task_name = "68GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_3, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_3, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -522,7 +524,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "69GetcontractCreate.log"
 		# task_name = "69GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_4, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_4, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -531,7 +533,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "70GetcontractCreate.log"
 		# task_name = "70GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_5, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_5, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -540,7 +542,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "71GetcontractCreate.log"
 		# task_name = "71GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -549,7 +551,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "72GetcontractCreate.log"
 		# task_name = "72GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_2, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_2, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -558,7 +560,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "73GetcontractCreate.log"
 		# task_name = "73GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_3, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_3, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -567,7 +569,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "74GetcontractCreate.log"
 		# task_name = "74GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_4, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_4, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -576,7 +578,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "75GetcontractCreate.log"
 		# task_name = "75GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_5, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_5, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -585,7 +587,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "76GetcontractCreate.log"
 		# task_name = "76GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -594,7 +596,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "77GetcontractCreate.log"
 		# task_name = "77GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_2, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_2, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -603,7 +605,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "78GetcontractCreate.log"
 		# task_name = "78GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_3, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_3, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -612,7 +614,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "79GetcontractCreate.log"
 		# task_name = "79GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_4, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_4, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -621,7 +623,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "80GetcontractCreate.log"
 		# task_name = "80GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_5, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_5, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -631,7 +633,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "81GetcontractCreate.log"
 		# task_name = "81GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -640,7 +642,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "82GetcontractCreate.log"
 		# task_name = "82GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_2)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_2)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -649,7 +651,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "83GetcontractCreate.log"
 		# task_name = "83GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_3)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_3)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -658,7 +660,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "84GetcontractCreate.log"
 		# task_name = "84GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_4)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_4)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -667,7 +669,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "85GetcontractCreate.log"
 		# task_name = "85GetcontractCreate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_5)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_5)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -676,7 +678,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "86Getcontract_destroy.log"
 		# task_name = "86Getcontract_destroy"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -685,7 +687,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "87Getcontract_destroy.log"
 		# task_name = "87Getcontract_destroy"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
 			result = str(API.rpc().getblockheightbytxhash(txHash=test_config.contract_tx_Hash)[1]["result"])
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -697,7 +699,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "93_storageGet.log"
 		# task_name = "93_storageGet"
 		try:
-			(process, response) = invoke_storage_get(test_config.CONTRACT_ADDRESS)
+			(process, response) = test_api.invoke_storage_get(test_config.CONTRACT_ADDRESS)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -706,7 +708,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "94_storageGet.log"
 		# task_name = "94_storageGet"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_94", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_94", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -717,7 +719,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "96_storageGet.log"
 		# task_name = "96_storageGet"
 		try:
-			(process, response) = invoke_storage_get(test_config.CONTRACT_ADDRESS)
+			(process, response) = test_api.invoke_storage_get(test_config.CONTRACT_ADDRESS)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -728,7 +730,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "98_storageGet.log"
 		# task_name = "98_storageGet"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_98", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_INCORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_98", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_INCORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -739,7 +741,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "100_storagePut.log"
 		# task_name = "100_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_100", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, "")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_100", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, "")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -748,7 +750,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "101_storagePut.log"
 		# task_name = "101_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_101", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_101", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -757,7 +759,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "102_storagePut.log"
 		# task_name = "102_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -766,7 +768,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "103_storagePut.log"
 		# task_name = "103_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -775,7 +777,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "104_storagePut.log"
 		# task_name = "104_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_2, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_2, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -784,7 +786,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "105_storagePut.log"
 		# task_name = "105_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_3, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_3, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -793,7 +795,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "106_storagePut.log"
 		# task_name = "106_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_INCORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_INCORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -802,7 +804,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "107_storagePut.log"
 		# task_name = "107_storagePut"
 		try:
-			(process, response) = invoke_storage_put(test_config.CONTRACT_ADDRESS)
+			(process, response) = test_api.invoke_storage_put(test_config.CONTRACT_ADDRESS)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -811,8 +813,8 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "108_storagePut.log"
 		# task_name = "108_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -821,7 +823,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "109_storagePut.log"
 		# task_name = "109_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT_1)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -830,7 +832,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "110_storagePut.log"
 		# task_name = "110_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -839,7 +841,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "111_storagePut.log"
 		# task_name = "111_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT_2)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT_2)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -848,7 +850,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "112_storagePut.log"
 		# task_name = "112_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT_3)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT_3)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -857,7 +859,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "113_storagePut.log"
 		# task_name = "113_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_INCORRECT_1)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_INCORRECT_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -866,7 +868,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "114_storageDelete.log"
 		# task_name = "114_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -875,7 +877,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "115_storageDelete.log"
 		# task_name = "115_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_115", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_115", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -884,7 +886,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "116_storageDelete.log"
 		# task_name = "116_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_116", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_116", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -893,7 +895,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "117_storageDelete.log"
 		# task_name = "117_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -902,7 +904,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "118_storageDelete.log"
 		# task_name = "118_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_3)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT_3)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -911,7 +913,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "119_storageDelete.log"
 		# task_name = "119_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_114", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -920,7 +922,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "120_storageDelete.log"
 		# task_name = "120_storageDelete"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_120", test_config.PARAM_TYPE_BYTEARRAY, "", test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Delete_120", test_config.PARAM_TYPE_BYTEARRAY, "", test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -929,7 +931,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "121Get_time.log"
 		# task_name = "121Get_time"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetTime")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetTime")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -938,7 +940,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "123_checkWitness.log"
 		# task_name = "123_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -947,7 +949,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "124_checkWitness.log"
 		# task_name = "124_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_2)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_2)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -956,7 +958,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "125_checkWitness.log"
 		# task_name = "125_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_1)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_INCORRECT_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -965,7 +967,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "126_checkWitness.log"
 		# task_name = "126_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, "")
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, "")
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -974,7 +976,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "127_checkWitness.log"
 		# task_name = "127_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.PUBLICKEY)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.PUBLICKEY)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -983,7 +985,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "128_checkWitness.log"
 		# task_name = "128_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.PUBLICKEY1)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, test_config.PUBLICKEY1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -992,7 +994,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "129_checkWitness.log"
 		# task_name = "129_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, "11" + test_config.PUBLICKEY)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, "11" + test_config.PUBLICKEY)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1001,7 +1003,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "130_notify.log"
 		# task_name = "130_notify"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_130")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_130")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1010,7 +1012,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "131_notify.log"
 		# task_name = "131_notify"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_131")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_131")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1019,7 +1021,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "132_notify.log"
 		# task_name = "132_notify"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_132")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_132")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1028,7 +1030,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "133_notify.log"
 		# task_name = "133_notify"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_133")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Notify_133")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1037,7 +1039,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "134_log.log"
 		# task_name = "134_log"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_134")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_134")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1046,7 +1048,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "135_log.log"
 		# task_name = "135_log"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_135")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_135")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1055,7 +1057,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "136_log.log"
 		# task_name = "136_log"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "Log_136", "string", test_config.VALUE_CORRECT_2)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "Log_136", "string", test_config.VALUE_CORRECT_2)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1064,7 +1066,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "137_log.log"
 		# task_name = "137_log"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_137")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_137")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1073,7 +1075,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "138_log.log"
 		# task_name = "138_log"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_138")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "Log_138")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1082,7 +1084,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "153_script_container.log"
 		# task_name = "153_script_container"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetScriptContainer")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetScriptContainer")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1091,7 +1093,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "155_excuting_script.log"
 		# task_name = "155_excuting_script"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetExecutingScriptHash")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetExecutingScriptHash")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1100,7 +1102,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "157_calling_script.log"
 		# task_name = "157_calling_script"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetCallingScriptHash")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetCallingScriptHash")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1109,7 +1111,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "159_entry_scriptHash.log"
 		# task_name = "159_entry_scriptHash"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetEntryScriptHash")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetEntryScriptHash")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1118,7 +1120,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "163_tx_type.log"
 		# task_name = "163_tx_type"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "GetTransaction_Type", test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "GetTransaction_Type", test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1127,7 +1129,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "166getcontractMigrate.log"
 		# task_name = "166getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1136,7 +1138,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "167getcontractMigrate.log"
 		# task_name = "167getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_2, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_2, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1145,7 +1147,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "168getcontractMigrate.log"
 		# task_name = "168getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_2, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_2, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1154,7 +1156,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "169getcontractMigrate.log"
 		# task_name = "169getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, "", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, "", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1163,7 +1165,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "170getcontractMigrate.log"
 		# task_name = "170getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1172,7 +1174,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "171getcontractMigrate.log"
 		# task_name = "171getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_2, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_2, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1181,7 +1183,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "172getcontractMigrate.log"
 		# task_name = "172getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_3, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_3, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1190,7 +1192,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "173getcontractMigrate.log"
 		# task_name = "173getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_4, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_4, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1199,7 +1201,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "174getcontractMigrate.log"
 		# task_name = "174getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_5, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_5, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1208,7 +1210,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "175getcontractMigrate.log"
 		# task_name = "175getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1217,7 +1219,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "176getcontractMigrate.log"
 		# task_name = "176getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_2, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_2, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1226,7 +1228,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "177getcontractMigrate.log"
 		# task_name = "177getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_3, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_3, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1235,7 +1237,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "178getcontractMigrate.log"
 		# task_name = "178getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_4, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_4, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1244,7 +1246,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "179getcontractMigrate.log"
 		# task_name = "179getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_5, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_5, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1253,7 +1255,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "180getcontractMigrate.log"
 		# task_name = "180getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1262,7 +1264,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "181getcontractMigrate.log"
 		# task_name = "181getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_2, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_2, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1271,7 +1273,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "182getcontractMigrate.log"
 		# task_name = "182getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_3, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_3, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1280,7 +1282,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "183getcontractMigrate.log"
 		# task_name = "183getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_4, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_4, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1289,7 +1291,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "184getcontractMigrate.log"
 		# task_name = "184getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_5, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_5, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1298,7 +1300,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "185getcontractMigrate.log"
 		# task_name = "185getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1307,7 +1309,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "186getcontractMigrate.log"
 		# task_name = "186getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_2, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_2, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1316,7 +1318,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "187getcontractMigrate.log"
 		# task_name = "187getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_3, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_3, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1325,7 +1327,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "188getcontractMigrate.log"
 		# task_name = "188getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_4, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_4, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1334,7 +1336,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "189getcontractMigrate.log"
 		# task_name = "189getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_5, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_5, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1343,7 +1345,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "190getcontractMigrate.log"
 		# task_name = "190getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1352,7 +1354,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "191getcontractMigrate.log"
 		# task_name = "191getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_2)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_2)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1361,7 +1363,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "192getcontractMigrate.log"
 		# task_name = "192getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_3)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_3)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1370,7 +1372,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "193getcontractMigrate.log"
 		# task_name = "193getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_4)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_4)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1379,7 +1381,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "194getcontractMigrate.log"
 		# task_name = "194getcontractMigrate"
 		try:
-			(process, response) = invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_5)
+			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_CORRECT, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_5)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1388,7 +1390,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "195_checkWitness.log"
 		# task_name = "195_checkWitness"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, "1111"+test_config.PUBLICKEY)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "CheckWitness", test_config.PARAM_TYPE_BYTEARRAY, "1111"+test_config.PUBLICKEY)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1417,7 +1419,7 @@ class test_neo_api_2(ParametrizedTestCase):
 		# log_path = "88_storage_context.log"
 		# task_name = "88_storage_context"
 		try:
-			(process, response) = invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "GetStorageContext", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
+			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, "GetStorageContext", test_config.PARAM_TYPE_BYTEARRAY, test_config.SCRIPT_HASH_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1426,7 +1428,7 @@ class test_neo_api_2(ParametrizedTestCase):
 		# log_path = "90_current_context.log"
 		# task_name = "90_current_context"
 		try:
-			(process, response) = invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetCurrentContext")
+			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, "GetCurrentContext")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1435,7 +1437,7 @@ class test_neo_api_2(ParametrizedTestCase):
 		# log_path = "92_storageGet.log"
 		# task_name = "92_storageGet"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_92", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_92", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1444,7 +1446,7 @@ class test_neo_api_2(ParametrizedTestCase):
 		# log_path = "95_storageGet.log"
 		# task_name = "95_storageGet"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_92", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_92", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1453,7 +1455,7 @@ class test_neo_api_2(ParametrizedTestCase):
 		# log_path = "97_storageGet.log"
 		# task_name = "97_storageGet"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_92", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_INCORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Get_92", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_INCORRECT_1, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1462,7 +1464,7 @@ class test_neo_api_2(ParametrizedTestCase):
 		# log_path = "99_storagePut.log"
 		# task_name = "99_storagePut"
 		try:
-			(process, response) = invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "Put_99", test_config.PARAM_TYPE_BYTEARRAY, test_config.KEY_CORRECT, test_config.PARAM_TYPE_BYTEARRAY, test_config.VALUE_CORRECT)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])

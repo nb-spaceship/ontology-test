@@ -77,7 +77,7 @@ class test_api:
     @staticmethod
     def add_candidate_node(new_node, init_ont = 5000000, init_ong = 1000, init_pos = 1000, from_node = 0):
         #新加入节点, 并申请候选节点
-        start_nodes([new_node], clear_chain = True, clear_log = True)
+        API.node().start_nodes([new_node], clear_chain = True, clear_log = True)
         time.sleep(5)
         API.native().regid_with_publickey(new_node)
         (process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])
