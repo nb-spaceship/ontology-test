@@ -103,7 +103,7 @@ class test_restful_3(ParametrizedTestCase):
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(10)
 		while True:
-			if API.rpc().getblockcount()["Result"] > 0:
+			if API.rpc().getblockcount()["result"] > 0:
 				break;
 			time.sleep(1)
 
