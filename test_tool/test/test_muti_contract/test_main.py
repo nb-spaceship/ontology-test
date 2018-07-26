@@ -30,23 +30,23 @@ from test_api import test_api
 ####################################################
 # test cases
 class test_muti_contract(ParametrizedTestCase):
-    def setUp(self):
-        logger.open(self._testMethodName + ".log", self._testMethodName)
-        print("stop all")
-        API.node().stop_all_nodes()
-        print("start all")
-        API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-        time.sleep(10)
-        for i in range(0, 7):
+	def setUp(self):
+		logger.open(self._testMethodName + ".log", self._testMethodName)
+		print("stop all")
+		API.node().stop_all_nodes()
+		print("start all")
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
+		time.sleep(10)
+		for i in range(0, 7):
 			API.native().regid_with_publickey(index)
 		API.native().init_ont_ong()
 
 	def tearDown(self):
 		logger.close(self.result())		
-        time.sleep(2)
+		time.sleep(2)
 
-    def test_base_001_mutiContract(self):
-        try:
+	def test_base_001_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -68,8 +68,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_002_mutiContract(self):
-        try:
+	def test_normal_002_mutiContract(self):
+	   	try:
 			process = False
  
 				
@@ -93,8 +93,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_003_mutiContract(self):
-        try:
+	def test_abnormal_003_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -118,8 +118,8 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e2.args)
 
 
-    def test_normal_004_mutiContract(self):
-        try:
+	def test_normal_004_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -144,9 +144,9 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_normal_005_mutiContract(self):
-        try:
+		
+	def test_normal_005_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -178,8 +178,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_006_mutiContract(self):
-        try:
+	def test_abnormal_006_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -200,7 +200,7 @@ class test_muti_contract(ParametrizedTestCase):
 				raise Error("bind_user_role error")
 			
 			print("wait.......60s")
-			time.sleep(60)            
+			time.sleep(60)			
 
 			# setp 2 用户A访问B函数
 			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_A)
@@ -214,9 +214,9 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_normal_007_mutiContract(self):
-        try:
+		
+	def test_normal_007_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -251,8 +251,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)				
 
-    def test_abnormal_008_mutiContract(self):
-        try:
+	def test_abnormal_008_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -290,8 +290,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_009_mutiContract(self):
-        try:
+	def test_normal_009_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -329,8 +329,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
    
-    def test_abnormal_010_mutiContract(self):
-        try:
+	def test_abnormal_010_mutiContract(self):
+		try:
 			process = False
  
 				
@@ -350,180 +350,180 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-    '''   
-    def test_11(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	'''   
+	def test_11(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定roleA角色绑定到用户A
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 1 用户A授权用户A拥有roleA的权限
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "5", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            print("wait 60s.....")
-            time.sleep(60)
+			# setp 1 绑定roleA角色绑定到用户A
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 1 用户A授权用户A拥有roleA的权限
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "5", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			print("wait 60s.....")
+			time.sleep(60)
 
-            # setp 2 用户A访问C函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_A)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 2 用户A访问C函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_A)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_12(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_12(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定roleA角色绑定到用户A
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 1 用户A授权用户A拥有roleA的权限
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "5", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            print("wait 60s.....")
-            time.sleep(60)
+			# setp 1 绑定roleA角色绑定到用户A
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 1 用户A授权用户A拥有roleA的权限
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "5", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			print("wait 60s.....")
+			time.sleep(60)
 
-            # setp 2 用户A访问C函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_A)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 2 用户A访问C函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_A)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-        
-    def test_13(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+		
+	def test_13(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定roleA角色绑定到用户A
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 授权用户A拥有roleA角色，level1
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 收回授权用户A拥有的roleA角色
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 4 用户A访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_A)
-            if not process:
-                raise Error("invoke_function error")
+			# setp 1 绑定roleA角色绑定到用户A
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 授权用户A拥有roleA角色，level1
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 收回授权用户A拥有的roleA角色
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 4 用户A访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_A)
+			if not process:
+				raise Error("invoke_function error")
 
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
-			self.ASSERT(process, "")
-		except:
-			pass
-
-    def test_14(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
-
-            # setp 1 绑定roleA角色绑定到用户A
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 授权用户A拥有roleA角色，level1
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 收回授权用户A拥有的roleA角色
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 4 用户A访问C函数
-            (process, response) = API.contract().invoke_function(contract_address, "C", Config.ontID_A)
-            if not process:
-                raise Error("invoke_function error")
-
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_15(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_14(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定roleA角色绑定到用户A
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 授权用户A拥有roleA角色，level1
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 收回授权用户A拥有的roleA角色
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 4 用户A访问C函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_A)
-            if not process:
-                raise Error("invoke_function error")
+			# setp 1 绑定roleA角色绑定到用户A
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 授权用户A拥有roleA角色，level1
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 收回授权用户A拥有的roleA角色
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 4 用户A访问C函数
+			(process, response) = API.contract().invoke_function(contract_address, "C", Config.ontID_A)
+			if not process:
+				raise Error("invoke_function error")
 
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-    '''
-    def test_abnormal_016_mutiContract(self):
-        try:
+
+	def test_15(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+
+			# setp 1 绑定roleA角色绑定到用户A
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 授权用户A拥有roleA角色，level1
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 收回授权用户A拥有的roleA角色
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_A, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 4 用户A访问C函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_A)
+			if not process:
+				raise Error("invoke_function error")
+
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
+			self.ASSERT(process, "")
+		except:
+			pass
+	'''
+	def test_abnormal_016_mutiContract(self):
+		try:
 			process = False
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
@@ -544,295 +544,295 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    '''    
-    def test_17(self):
-        try:
-        process = False
-        try:
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	'''	
+	def test_17(self):
+		try:
+		process = False
+		try:
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定roleA角色绑定到用户A,B
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户A收回用户B拥有的roleA角色，level1的授权
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 4 用户B访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定roleA角色绑定到用户A,B
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户A收回用户B拥有的roleA角色，level1的授权
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 4 用户B访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_18(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
-            
-            # setp 1 绑定roleA角色绑定到用户A, B
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "5", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            print("wait 60s...")
-            time.sleep(60)
-            
-            # setp 2 用户B访问B函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
+	def test_18(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+			
+			# setp 1 绑定roleA角色绑定到用户A, B
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "5", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			print("wait 60s...")
+			time.sleep(60)
+			
+			# setp 2 用户B访问B函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-        
-    def test_19(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
-            
-            # setp 1 绑定roleA角色绑定到用户A, B
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "5", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            print("wait 60s...")
-            time.sleep(60)
-            
-            # setp 2 用户B访问B函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
-			self.ASSERT(process, "")
-		except:
-			pass
-
-    def test_20(self):
-        try:
-        process = False
-        try:
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
-
-            # setp 2 绑定用户A拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 3 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 4 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            print("wait 60s...")
-            time.sleep(60)
-            
-            # setp 2 用户B访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-            
-        except Exception as e:
-            print(e.msg)
+		
+	def test_19(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+			
+			# setp 1 绑定roleA角色绑定到用户A, B
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "5", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			print("wait 60s...")
+			time.sleep(60)
+			
+			# setp 2 用户B访问B函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_21(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_20(self):
+		try:
+		process = False
+		try:
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "100", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            time.sleep(60)
-            
-            # setp 4 用户B访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 2 绑定用户A拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 3 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 4 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			print("wait 60s...")
+			time.sleep(60)
+			
+			# setp 2 用户B访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+			
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_22(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_21(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "20", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "30", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            time.sleep(60)
-            
-            # setp 4 用户B访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
-			self.ASSERT(process, "")
-		except:
-			pass
-        
-    def test_23(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
-
-            # setp 1 绑定用户A拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "20", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "30", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            time.sleep(60)
-            
-            # setp 4 用户B访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定用户A拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "100", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			time.sleep(60)
+			
+			# setp 4 用户B访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_24(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_22(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 2 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 4 用户A撤回用户B拥有的roleA角色
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 5 用户B不可以访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定用户A拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "20", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "30", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			time.sleep(60)
+			
+			# setp 4 用户B访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-    '''    
-    def test_abnormal_025_mutiContract(self):
-        try:
+		
+	def test_23(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+
+			# setp 1 绑定用户A拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "20", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "30", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			time.sleep(60)
+			
+			# setp 4 用户B访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
+			self.ASSERT(process, "")
+		except:
+			pass
+
+	def test_24(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+
+			# setp 1 绑定用户A拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 2 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 4 用户A撤回用户B拥有的roleA角色
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_B, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 5 用户B不可以访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_B)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+
+		except Exception as e:
+			print(e.msg)
+			self.ASSERT(process, "")
+		except:
+			pass
+	'''	
+	def test_abnormal_025_mutiContract(self):
+		try:
 			process = False
  
 			
@@ -860,160 +860,160 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-    '''
-    def test_26(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	'''
+	def test_26(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A，用户B拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 2 用户A授权用户C拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户B授权用户C拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 4 用户A撤回用户C拥有的roleA角色
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 5 用户C访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_C)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定用户A，用户B拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 2 用户A授权用户C拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户B授权用户C拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 4 用户A撤回用户C拥有的roleA角色
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 5 用户C访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_C)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_27(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_27(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A，用户B拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 1 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 1 用户B授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "100", "1")
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            time.sleep(60)
-            
-            # setp 2 用户C访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_C)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定用户A，用户B拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 1 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 1 用户B授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "100", "1")
+			if not process:
+				raise Error("bind_user_role error")
+						
+			time.sleep(60)
+			
+			# setp 2 用户C访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_C)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
 
-    def test_28(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	def test_28(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A，用户B拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 1 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 1 用户B授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "20", "1")
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            time.sleep(60)
-            
-            # setp 2 用户C访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_C)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] == "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定用户A，用户B拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 1 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 1 用户B授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "20", "1")
+			if not process:
+				raise Error("bind_user_role error")
+						
+			time.sleep(60)
+			
+			# setp 2 用户C访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_C)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] == "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-        
-    def test_29(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+		
+	def test_29(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A，用户B拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 1 用户A授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 1 用户B授权用户B拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "10", "1")
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            time.sleep(60)
-            
-            # setp 2 用户C访问A函数
-            (process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_C)
-            if not process:
-                raise Error("invoke_function error")
-                
-            process = (response["result"]["Result"] != "00")
-        
-        except Exception as e:
-            print(e.msg)
+			# setp 1 绑定用户A，用户B拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 1 用户A授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 1 用户B授权用户B拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "10", "1")
+			if not process:
+				raise Error("bind_user_role error")
+						
+			time.sleep(60)
+			
+			# setp 2 用户C访问A函数
+			(process, response) = API.contract().invoke_function(contract_address, "A", Config.ontID_C)
+			if not process:
+				raise Error("invoke_function error")
+				
+			process = (response["result"]["Result"] != "00")
+		
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-    '''
-    def test_normal_030_mutiContract(self):
-        try:
+	'''
+	def test_normal_030_mutiContract(self):
+		try:
 			process = False
  
 			
@@ -1056,9 +1056,9 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_abnormal_031_mutiContract(self):
-        try:
+		
+	def test_abnormal_031_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
@@ -1093,56 +1093,56 @@ class test_muti_contract(ParametrizedTestCase):
 			# # setp 2 用户C访问B函数
 			# (process, response) = API.contract().invoke_function(contract_address, "B")
 			# if not process:
-			#     raise Error("invoke_function error")
+			#	 raise Error("invoke_function error")
 			
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-    '''
-    def test_32(self):
-        try:
-        process = False
-        try:
-            
-            contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
+	'''
+	def test_32(self):
+		try:
+		process = False
+		try:
+			
+			contract_address = test_api.set_premise(test_config.testpath + "/resource/1-32/A.neo")
 
-            # setp 1 绑定用户A，用户B拥有roleA角色
-            (process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 2 用户A授权用户C拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-            
-            # setp 3 用户B授权用户C拥有roleA角色
-            (process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "10000", "1")
-            if not process:
-                raise Error("bind_user_role error")
-                        
-            # setp 4 用户A撤回用户C拥有的roleA角色
-            (process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex)
-            if not process:
-                raise Error("bind_user_role error")
+			# setp 1 绑定用户A，用户B拥有roleA角色
+			(process, response) = API.native().bind_user_role(contract_address,Config.ontID_A, Config.roleA_hex, [Config.ontID_A, Config.ontID_B])
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 2 用户A授权用户C拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+			
+			# setp 3 用户B授权用户C拥有roleA角色
+			(process, response) = API.native().delegate_user_role(contract_address, Config.ontID_B, Config.ontID_C, Config.roleA_hex, "10000", "1")
+			if not process:
+				raise Error("bind_user_role error")
+						
+			# setp 4 用户A撤回用户C拥有的roleA角色
+			(process, response) = API.native().withdraw_user_role(contract_address, Config.ontID_A, Config.ontID_C, Config.roleA_hex)
+			if not process:
+				raise Error("bind_user_role error")
 
-            # setp 5 用户C访问B函数
-            (process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_C)
-            if not process:
-                raise Error("invoke_function error")
-            
-            process = (response["result"]["Result"] == "00")
-    
-        except Exception as e:
-            print(e.msg)
+			# setp 5 用户C访问B函数
+			(process, response) = API.contract().invoke_function(contract_address, "B", Config.ontID_C)
+			if not process:
+				raise Error("invoke_function error")
+			
+			process = (response["result"]["Result"] == "00")
+	
+		except Exception as e:
+			print(e.msg)
 			self.ASSERT(process, "")
 		except:
 			pass
-    '''
-    def test_normal_033_mutiContract(self):
-        try:
+	'''
+	def test_normal_033_mutiContract(self):
+		try:
 			process = False
  
 			(contract_address_A, contract_address_B) = test_api.set_premise_a(test_config.testpath + "/resource/33-37/A.neo", test_config.testpath + "/resource/33-37/B.neo")
@@ -1160,8 +1160,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_034_mutiContract(self):
-        try:
+	def test_abnormal_034_mutiContract(self):
+		try:
 			process = False
  
 			(contract_address_A, contract_address_B) = test_api.set_premise_a(test_config.testpath + "/resource/33-37/A.neo", test_config.testpath + "/resource/33-37/B.neo")
@@ -1171,15 +1171,15 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] == "00")        
+			process = (response["result"]["Result"] == "00")		
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_normal_035_mutiContract(self):
-        try:
+		
+	def test_normal_035_mutiContract(self):
+		try:
 			process = False
  
 			(contract_address_A, contract_address_B) = test_api.set_premise_a(test_config.testpath + "/resource/33-37/A.neo", test_config.testpath + "/resource/33-37/B.neo")
@@ -1194,7 +1194,7 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] != "00")        
+			process = (response["result"]["Result"] != "00")		
 		
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1202,8 +1202,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_036_mutiContract(self):
-        try:
+	def test_abnormal_036_mutiContract(self):
+		try:
 			process = False
  
 			(contract_address_A, contract_address_B) = test_api.set_premise_a(test_config.testpath + "/resource/33-37/A.neo", test_config.testpath + "/resource/33-37/B.neo")
@@ -1222,19 +1222,19 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] == "00")        
+			process = (response["result"]["Result"] == "00")		
 		
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_abnormal_037_mutiContract(self):
-        pass
+		
+	def test_abnormal_037_mutiContract(self):
+		pass
 
-    def test_normal_038_mutiContract(self):
-        try:
+	def test_normal_038_mutiContract(self):
+		try:
 			process = False
 
 			(contract_address) = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1255,7 +1255,7 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] != "00")        
+			process = (response["result"]["Result"] != "00")		
 			
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1263,8 +1263,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_039_mutiContract(self):
-        try:
+	def test_normal_039_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1290,7 +1290,7 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] != "00")        
+			process = (response["result"]["Result"] != "00")		
 		
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1298,8 +1298,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_040_mutiContract(self):
-        try:
+	def test_abnormal_040_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1323,16 +1323,16 @@ class test_muti_contract(ParametrizedTestCase):
 																					"value": "10"
 																				}])
 				
-			process = (not process or response["result"]["Result"] == "00")        
+			process = (not process or response["result"]["Result"] == "00")		
 		
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_abnormal_041_mutiContract(self):
-        try:
+		
+	def test_abnormal_041_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1356,16 +1356,16 @@ class test_muti_contract(ParametrizedTestCase):
 																					"value": "10"
 																				}])
 
-			process = (not process or response["result"]["Result"] == "00")        
+			process = (not process or response["result"]["Result"] == "00")		
 					
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-       
-    def test_normal_042_mutiContract(self):
-        try:
+	   
+	def test_normal_042_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1405,16 +1405,16 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 
-			process = (response["result"]["Result"] != "00" and response["result"]["Result"] != "")          
+			process = (response["result"]["Result"] != "00" and response["result"]["Result"] != "")		  
 		
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_normal_043_mutiContract(self):
-        try:
+		
+	def test_normal_043_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1453,7 +1453,7 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 
-			process = (response["result"]["Result"] != "00" and response["result"]["Result"] != "")        
+			process = (response["result"]["Result"] != "00" and response["result"]["Result"] != "")		
 					
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1461,8 +1461,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_044_mutiContract(self):
-        try:
+	def test_normal_044_mutiContract(self):
+		try:
 			process = False
 
 			(contract_addressA, contract_addressB) = test_api.set_premise_c(test_config.testpath + "/resource/44-47/A.neo", test_config.testpath + "/resource/44-47/B.neo")
@@ -1477,7 +1477,7 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] != "00")        
+			process = (response["result"]["Result"] != "00")		
 			
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1485,16 +1485,16 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_045_mutiContract(self):
-        try:
+	def test_abnormal_045_mutiContract(self):
+		try:
 			process = False
 
 			(contract_addressA, contract_addressB) = test_api.set_premise_c(test_config.testpath + "/resource/44-47/A.neo", test_config.testpath + "/resource/44-47/B.neo")
 
 			# 用户A调用智能合约A中的A方法
-			(process, response) = API.contract().invoke_function(contract_addressA, "A", Config.ontID_A)        
+			(process, response) = API.contract().invoke_function(contract_addressA, "A", Config.ontID_A)		
 				
-			process = (not process or response["result"]["Result"] == "00")        
+			process = (not process or response["result"]["Result"] == "00")		
 			
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1502,8 +1502,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_046_mutiContract(self):
-        try:
+	def test_normal_046_mutiContract(self):
+		try:
 			process = False
  
 			(contract_addressA, contract_addressB) = test_api.set_premise_c(test_config.testpath + "/resource/44-47/A.neo", test_config.testpath + "/resource/44-47/B.neo")
@@ -1518,7 +1518,7 @@ class test_muti_contract(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function error")
 				
-			process = (response["result"]["Result"] != "00")        
+			process = (response["result"]["Result"] != "00")		
 		
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1526,8 +1526,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_047_mutiContract(self):
-        try:
+	def test_normal_047_mutiContract(self):
+		try:
 			process = False
  
 			(contract_addressA, contract_addressB) = test_api.set_premise_c(test_config.testpath + "/resource/44-47/A.neo", test_config.testpath + "/resource/44-47/B.neo")
@@ -1535,21 +1535,21 @@ class test_muti_contract(ParametrizedTestCase):
 			# setp 1 用户A授权用户B调用方法A的权限
 			#(process, response) = API.native().delegate_user_role(contract_addressA, Config.ontID_A, Config.ontID_B, Config.roleA_hex, "10000", "1")
 			#if not process:
-			#    raise Error("bind_user_role error")  
+			#	raise Error("bind_user_role error")  
 
 			# 用户B调用智能合约A中的A方法
 			(process, response) = API.contract().invoke_function(contract_addressA, "A2", Config.ontID_B)
 
-			process = (response["result"]["Result"] != "00")        
+			process = (response["result"]["Result"] != "00")		
 			
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_abnormal_048_mutiContract(self):
-        try:
+		
+	def test_abnormal_048_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1573,7 +1573,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"value": "10"
 																				}])
 			if not process:
-				raise Error("invoke_function error")            
+				raise Error("invoke_function error")			
 			
 
 			# 用户B调用智能合约A中的A方法,让用户A使用transferFrom方法获取用户A从用户B的账户上转账来的 10 ONT
@@ -1595,7 +1595,7 @@ class test_muti_contract(ParametrizedTestCase):
 																				}])
 
 																				
-			process = (not process or response["result"]["Result"] == "00")        
+			process = (not process or response["result"]["Result"] == "00")		
 
 			
 			self.ASSERT(process, "")
@@ -1604,8 +1604,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_049_mutiContract(self):
-        try:
+	def test_normal_049_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = test_api.set_premise_b(test_config.testpath + "/resource/38-43_48-59/A.neo")
@@ -1621,16 +1621,16 @@ class test_muti_contract(ParametrizedTestCase):
 																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
 																				}])
 
-			process = (process and response["result"]["Result"] != "00")    
+			process = (process and response["result"]["Result"] != "00")	
 			
 			self.ASSERT(process, "")
 		except Error as e:
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args)
-        
-    def test_abnormal_050_mutiContract(self):
-        try:
+		
+	def test_abnormal_050_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1648,7 +1648,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "int",
 																					"value": "10"
 																				}])
-			process = (not process or response["result"]["Result"] == "00")    
+			process = (not process or response["result"]["Result"] == "00")	
 		
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1656,8 +1656,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_051_mutiContract(self):
-        try:
+	def test_abnormal_051_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1675,7 +1675,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "int",
 																					"value": "10"
 																				}])
-			process = (not process or response["result"]["Result"] == "00")    
+			process = (not process or response["result"]["Result"] == "00")	
 
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1683,8 +1683,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_052_mutiContract(self):
-        try:
+	def test_abnormal_052_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1703,7 +1703,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"value": "10"
 																				}])
 			if not process:
-				raise Error("invoke_function error")            
+				raise Error("invoke_function error")			
 			
 
 			# 用户B调用智能合约A中的A方法提取用户A给用户C的10 ont
@@ -1723,7 +1723,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "int",
 																					"value": "10"
 																				}])
-			process = (not process or response["result"]["Result"] == "00")    
+			process = (not process or response["result"]["Result"] == "00")	
 			
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1731,8 +1731,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_053_mutiContract(self):
-        try:
+	def test_normal_053_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1742,7 +1742,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "bytearray",
 																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
 																				}])
-			process = (process and response["result"]["Result"] != "00")    
+			process = (process and response["result"]["Result"] != "00")	
 		
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1750,8 +1750,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_054_mutiContract(self):
-        try:
+	def test_normal_054_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1765,7 +1765,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "bytearray",
 																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
 																				}])
-			process = (process and response["result"]["Result"] != "00")    
+			process = (process and response["result"]["Result"] != "00")	
 
 			
 			self.ASSERT(process, "")
@@ -1774,8 +1774,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_055_mutiContract(self):
-        try:
+	def test_abnormal_055_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1793,7 +1793,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "int",
 																					"value": "10"
 																				}])
-			process = (not process or response["result"]["Result"] == "00")           
+			process = (not process or response["result"]["Result"] == "00")		   
 			
 			self.ASSERT(process, "")
 		except Error as e:
@@ -1801,8 +1801,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_056_mutiContract(self):
-        try:
+	def test_abnormal_056_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1820,7 +1820,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "int",
 																					"value": "10"
 																				}])
-			process = (not process or response["result"]["Result"] == "00")    
+			process = (not process or response["result"]["Result"] == "00")	
 
 			
 			self.ASSERT(process, "")
@@ -1829,8 +1829,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_abnormal_057_mutiContract(self):
-        try:
+	def test_abnormal_057_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1849,7 +1849,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"value": "10"
 																				}])
 			if not process:
-				raise Error("invoke_function error")            
+				raise Error("invoke_function error")			
 				
 
 			# 用户B调用智能合约A中的A方法提取用户A给用户C的10 ong
@@ -1869,7 +1869,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "int",
 																					"value": "10"
 																				}])
-			process = (not process or response["result"]["Result"] == "00")    
+			process = (not process or response["result"]["Result"] == "00")	
 
 			
 			self.ASSERT(process, "")
@@ -1878,8 +1878,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_058_mutiContract(self):
-        try:
+	def test_normal_058_mutiContract(self):
+		try:
 			process = False
 
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1889,7 +1889,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "bytearray",
 																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_A]["address"]))
 																				}])
-			process = (process and response["result"]["Result"] != "00")    
+			process = (process and response["result"]["Result"] != "00")	
 
 			
 			self.ASSERT(process, "")
@@ -1898,8 +1898,8 @@ class test_muti_contract(ParametrizedTestCase):
 		except Exception as e2:
 			logger.print(e2.args)
 
-    def test_normal_059_mutiContract(self):
-        try:
+	def test_normal_059_mutiContract(self):
+		try:
 			process = False
  
 			contract_address = API.contract().deploy_contract(test_config.testpath + "/resource/38-43_48-59/A2.neo")
@@ -1913,7 +1913,7 @@ class test_muti_contract(ParametrizedTestCase):
 																					"type": "bytearray",
 																					"value": script_hash_bl_reserver(base58_to_address(Config.NODES[Config.node_C]["address"]))
 																				}])
-			process = (process and response["result"]["Result"] != "00")    
+			process = (process and response["result"]["Result"] != "00")	
 
 			
 			self.ASSERT(process, "")
@@ -1924,4 +1924,4 @@ class test_muti_contract(ParametrizedTestCase):
 
 ####################################################
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()
