@@ -64,7 +64,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			#判断是否分润，至少需要等待1个共识时间
 			(process, response) = API.native().commit_dpos(sleep = 0)
-			self.BLOCK(API.node().wait_gen_block(), "can't gen block")
+			self.BLOCK(process, "can't gen block")
 			
 			(process, response) = API.rpc().getbalance(address1)
 			self.BLOCK(process, "get balance error")
