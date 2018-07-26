@@ -21,7 +21,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.taskrunner import TaskRunner
 from api.apimanager import API
 
-from test_api import get_config
+from test_api import test_api
 
 ####################################################
 #test cases
@@ -34,7 +34,7 @@ class test_governance_1(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
+		time.sleep(5)
 
 		API.native().regid_with_publickey(0)
 		API.native().regid_with_publickey(1)
@@ -47,7 +47,6 @@ class test_governance_1(ParametrizedTestCase):
 		API.native().regid_with_publickey(8)
 		
 		API.native().init_ont_ong()
-		time.sleep(5)
 		
 		API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[7]["address"], "1000000", 0)
 		API.native().transfer_ong(Config.NODES[0]["address"], Config.NODES[7]["address"], "1000000000000", 0)
@@ -72,7 +71,7 @@ class test_governance_1(ParametrizedTestCase):
 			(process, response) = API.native().approve_candidate(Config.NODES[7]["pubkey"])
 			if not process:
 				raise Error("approve_candidate error")
-			time.sleep(10)
+			API.node().wait_gen_block()
 			
 		except Exception as e:
 			print(e.args)
@@ -85,7 +84,7 @@ class test_governance_1(ParametrizedTestCase):
 
 		try:
 
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 
 			# step 1 before vote get balance of wallet A B
 			print("*******", API.rpc().getbalance(wallet_A_address))
@@ -96,7 +95,7 @@ class test_governance_1(ParametrizedTestCase):
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "vote_for_peer error")
 
-			time.sleep(10)
+			API.node().wait_gen_block()
 
 			# step 3 after vote get balance of wallet A B
 			balance_of_wallet_A_2 = int(API.rpc().getbalance(wallet_A_address)[1]["result"]["ont"]) 
@@ -115,7 +114,7 @@ class test_governance_1(ParametrizedTestCase):
 		process = False
 		try:
 			
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -125,7 +124,7 @@ class test_governance_1(ParametrizedTestCase):
 			(process, response) = API.native().unvote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "unvote_for_peer error")
 						
-			time.sleep(5)
+			API.node().wait_gen_block()
 			# step 3 wallet A withdraw ont
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
@@ -141,7 +140,7 @@ class test_governance_1(ParametrizedTestCase):
 		process = False
 		try:
 
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -149,14 +148,17 @@ class test_governance_1(ParametrizedTestCase):
 
 			# step 2 wallet A unvote in the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			#API.node().wait_gen_block()
+			time.sleep(10)
 
 			(process, response) = API.native().unvote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "unvote_for_peer error")
+			API.node().wait_gen_block()
 
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			#API.node().wait_gen_block()
+			time.sleep(10)
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
@@ -173,7 +175,7 @@ class test_governance_1(ParametrizedTestCase):
 		process = False
 		try:
 
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			vote_price = "20000"
 
 			# step 1 wallet A vote for node B
@@ -182,20 +184,20 @@ class test_governance_1(ParametrizedTestCase):
 
 			# step 2 wallet A unvote in the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 			(process, response) = API.native().unvote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "unvote_for_peer error")
 
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(not process, "withdraw_ont error")
 
 			# step 4 wallet A withdraw ont in the forth round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
 
@@ -210,7 +212,7 @@ class test_governance_1(ParametrizedTestCase):
 	def test_normal_015_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()		
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()		
 			
 			API.native().update_global_param("2000000000","10000","32","10","50","50","50","50")
 
@@ -232,7 +234,7 @@ class test_governance_1(ParametrizedTestCase):
 		process = False
 
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()		
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()		
 
 			API.native().update_global_param("2000000000","10000","32","10","50","50","50","50")
 
@@ -251,7 +253,7 @@ class test_governance_1(ParametrizedTestCase):
 	def test_normal_017_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()		
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()		
 
 			API.native().update_global_param("2000000000","10000","32","10","50","50","50","50")
 
@@ -263,13 +265,13 @@ class test_governance_1(ParametrizedTestCase):
 			self.ASSERT(process, "unvote_for_peer error")
 
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], ["10001"], 8)
 			self.ASSERT(process, "vote_for_peer error")
 
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(Config.NODES[8]["address"], [node_B_puiblic_key], ["10000"], 0)
 			self.ASSERT(process, "withdraw_ont error")
@@ -289,7 +291,7 @@ class test_governance_2(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
+		time.sleep(5)
 
 		API.native().regid_with_publickey(0)
 		API.native().regid_with_publickey(1)
@@ -302,8 +304,7 @@ class test_governance_2(ParametrizedTestCase):
 		API.native().regid_with_publickey(8)
 		
 		API.native().init_ont_ong()
-		time.sleep(5)
-		
+				
 		API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[7]["address"], "1000000", 0)
 		API.native().transfer_ong(Config.NODES[0]["address"], Config.NODES[7]["address"], "1000000000000", 0)
 		API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[8]["address"], "1000000", 0)
@@ -338,7 +339,7 @@ class test_governance_2(ParametrizedTestCase):
 			if not process:
 				raise Error("invoke_function_aapprove_candidatepprove error")
 				
-			time.sleep(10)
+			API.node().wait_gen_block()
 		except Exception as e:
 			print(e.args)
 			
@@ -348,7 +349,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_005_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 
 			# step 1 before vote get balance of wallet A B
 			balance_of_wallet_A_1 = int(API.rpc().getbalance(wallet_A_address)[1]["result"]["ont"]) 
@@ -375,7 +376,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_006_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "vote_for_peer error")
@@ -399,7 +400,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_007_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -407,14 +408,14 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 2 wallet A unvote in the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().unvote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "unvote_for_peer error")
 
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price])
 			self.ASSERT(process, "withdraw_ont error")
@@ -431,7 +432,7 @@ class test_governance_2(ParametrizedTestCase):
 		process = False
 
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -439,14 +440,14 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 2 wallet A unvote in the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().unvote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "unvote_for_peer error")
 
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
@@ -462,7 +463,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_009_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -474,7 +475,7 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 2 wait until the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(not process, "withdraw_ont error")
@@ -484,7 +485,7 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
@@ -499,7 +500,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_010_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -507,14 +508,14 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 2 wait until the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().quit_node(node_B_puiblic_key, wallet_B_address, 7)
 			self.ASSERT(process, "quit_node error")
 			
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(not process, "withdraw_ont error")
@@ -524,7 +525,7 @@ class test_governance_2(ParametrizedTestCase):
 			
 			# step 3 wallet A withdraw ont in the forth round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 			
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
@@ -538,7 +539,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_011_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			vote_price = "20000"
 
 			# step 1 wallet A vote for node B
@@ -547,14 +548,14 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 2 wait until the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().quit_node(node_B_puiblic_key, wallet_B_address, 7)
 			self.ASSERT(process, "quit_node error")
 			
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(not process, "withdraw_ont error")
@@ -564,10 +565,10 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 3 wallet A withdraw ont in the fifth round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 			
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(process, "withdraw_ont error")
@@ -583,7 +584,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_012_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			
 			# step 1 wallet A vote for node B
 			(process, response) = API.native().vote_for_peer(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -597,7 +598,7 @@ class test_governance_2(ParametrizedTestCase):
 			self.ASSERT(process, "unvote_for_peer error")
 
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			# step 3 withdraw ont
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
@@ -614,7 +615,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_013_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()
 			API.native().update_global_param("2000000000","10000","32","1","50","50","50","50")
 
 			# step 1 wallet A vote for node B
@@ -623,14 +624,14 @@ class test_governance_2(ParametrizedTestCase):
 			
 			# step 2 wait until the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().black_node([node_B_puiblic_key])
 			self.ASSERT(process, "black_node error")
 			
 			# step 3 wallet A withdraw ont in the third round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [vote_price], 8)
 			self.ASSERT(not process, "withdraw_ont error")
@@ -640,7 +641,7 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 4 wallet A withdraw ont in the forth round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [str(int(punish_ratio*3000))], 8)	
 			self.ASSERT(process, "withdraw_ont error")
@@ -656,7 +657,7 @@ class test_governance_2(ParametrizedTestCase):
 	def test_normal_014_gover(self):
 		process = False
 		try:
-			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = get_config()			
+			(wallet_A_address, wallet_B_address, vote_price, node_B_puiblic_key, blocks_per_round, punish_ratio) = test_api.get_config()			
 			API.native().update_global_param("2000000000","10000","32","1","50","50","50","50")
 
 			# step 1 wallet A vote for node B
@@ -665,7 +666,7 @@ class test_governance_2(ParametrizedTestCase):
 			
 			# step 2 wait until the second round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().black_node([node_B_puiblic_key])
 			self.ASSERT(process, "black_node error")
@@ -680,7 +681,7 @@ class test_governance_2(ParametrizedTestCase):
 
 			# step 4 wallet A withdraw ont in the forth round
 			API.native().commit_dpos()
-			time.sleep(5)
+			API.node().wait_gen_block()
 
 			(process, response) = API.native().withdraw_ont(wallet_A_address, [node_B_puiblic_key], [str(int(punish_ratio*3000))], 8)
 			self.ASSERT(process, "withdraw_ont error")
