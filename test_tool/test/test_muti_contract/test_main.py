@@ -69,7 +69,7 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e2.args)
 
 	def test_normal_002_mutiContract(self):
-	   	try:
+		try:
 			process = False
  
 				
