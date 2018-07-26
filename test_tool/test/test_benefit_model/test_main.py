@@ -19,8 +19,8 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-from test_benefit.test_api import test_api
-from test_benefit.test_config import test_config
+from test_benefit_model.test_api import test_api
+from test_benefit_model.test_config import test_config
 
 ####################################################
 # test cases

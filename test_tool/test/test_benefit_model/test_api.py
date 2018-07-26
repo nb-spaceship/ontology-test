@@ -20,7 +20,7 @@ from utils.parametrizedtestcase import ParametrizedTestCase
 
 from api.apimanager import API
 
-from test_benefit.test_config import test_config
+from test_benefit_model.test_config import test_config
 
 class test_api:
     @staticmethod
