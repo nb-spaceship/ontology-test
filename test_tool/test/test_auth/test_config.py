@@ -34,30 +34,30 @@ class test_config():
 	deploy_neo_9=test_path + "/resource/auth_138_B.neo"
 	deploy_neo_10=test_path + "/resource/auth_139_A.neo"
 	
-	contract_addr = API.contract().deploy_contract(deploy_neo_1)
-	contract_addr_1 = API.contract().deploy_contract(deploy_neo_2)
-	contract_addr_2 = API.contract().deploy_contract(deploy_neo_3)
-	contract_addr_3 = API.contract().deploy_contract(deploy_neo_4)
-	contract_addr_10 = API.contract().deploy_contract(deploy_neo_5)
-	contract_addr_11 = API.contract().deploy_contract(deploy_neo_6)
-	contract_addr_12 = API.contract().deploy_contract(deploy_neo_7)
-	contract_addr_138_1 = API.contract().deploy_contract(deploy_neo_8)
-	contract_addr_138_2 = API.contract().deploy_contract(deploy_neo_9)
-	contract_addr_139 = API.contract().deploy_contract(deploy_neo_10)
+	contract_addr = ""
+	contract_addr_1 = ""
+	contract_addr_2 = ""
+	contract_addr_3 = ""
+	contract_addr_10 = ""
+	contract_addr_11 = ""
+	contract_addr_12 = ""
+	contract_addr_138_1 = ""
+	contract_addr_138_2 = ""
+	contract_addr_139 = ""
 	
-	CONTRACT_ADDRESS_CORRECT = contract_addr               # correct
-	CONTRACT_ADDRESS_INCORRECT_1 = contract_addr_1         # wrong ontid
-	CONTRACT_ADDRESS_INCORRECT_2 = contract_addr_2         # null ontid
-	CONTRACT_ADDRESS_INCORRECT_3 = contract_addr_3         # init twice
-	CONTRACT_ADDRESS_INCORRECT_4 = contract_addr + "11"    # not real contract
-	CONTRACT_ADDRESS_INCORRECT_5 = "45445566"              # messy code
+	CONTRACT_ADDRESS_CORRECT = ""               # correct
+	CONTRACT_ADDRESS_INCORRECT_1 = ""          # wrong ontid
+	CONTRACT_ADDRESS_INCORRECT_2 = ""          # null ontid
+	CONTRACT_ADDRESS_INCORRECT_3 = ""          # init twice
+	CONTRACT_ADDRESS_INCORRECT_4 = ""    # not real contract
+	CONTRACT_ADDRESS_INCORRECT_5 = ""             # messy code
 	CONTRACT_ADDRESS_INCORRECT_6 = ""                      # null
-	CONTRACT_ADDRESS_INCORRECT_10 = contract_addr_10       # verifytoken contract with wrong address
-	CONTRACT_ADDRESS_INCORRECT_11 = contract_addr_11       # verifytoken contract with messy code address
-	CONTRACT_ADDRESS_INCORRECT_12 = contract_addr_12       # verifytoken contract with wrong address
+	CONTRACT_ADDRESS_INCORRECT_10 = ""        # verifytoken contract with wrong address
+	CONTRACT_ADDRESS_INCORRECT_11 = ""        # verifytoken contract with messy code address
+	CONTRACT_ADDRESS_INCORRECT_12 = ""        # verifytoken contract with wrong address
 
-	CONTRACT_ADDRESS_138 = contract_addr_138_1             # appcall contract with correct address
-	CONTRACT_ADDRESS_139 = contract_addr_139               # appcall contract with messy code address
+	CONTRACT_ADDRESS_138 = ""              # appcall contract with correct address
+	CONTRACT_ADDRESS_139 = ""                # appcall contract with messy code address
 
 	ontID_A = ByteToHex(bytes(Config.NODES[0]['ontid'], encoding = "utf8"))       # contract ontid
 	ontID_B = ByteToHex(bytes(Config.NODES[2]['ontid'], encoding = "utf8"))     # the first ontid

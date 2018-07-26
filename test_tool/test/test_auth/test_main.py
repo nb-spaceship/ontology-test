@@ -63,6 +63,21 @@ class test_auth_1(ParametrizedTestCase):
 		(test_config.contract_addr_138_2, test_config.contract_tx_hash_138_2) = API.contract().deploy_contract_full(test_config.deploy_neo_9)
 		(test_config.contract_addr_139, test_config.contract_tx_hash_139) = API.contract().deploy_contract_full(test_config.deploy_neo_10)
 		
+		test_config.CONTRACT_ADDRESS_CORRECT = test_config.contract_addr    
+		test_config.CONTRACT_ADDRESS_CORRECT = test_config.contract_addr               # correct
+		test_config.CONTRACT_ADDRESS_INCORRECT_1 = test_config.contract_addr_1         # wrong ontid
+		test_config.CONTRACT_ADDRESS_INCORRECT_2 = test_config.contract_addr_2         # null ontid
+		test_config.CONTRACT_ADDRESS_INCORRECT_3 = test_config.contract_addr_3         # init twice
+		test_config.CONTRACT_ADDRESS_INCORRECT_4 = test_config.contract_addr + "11"    # not real contract
+		test_config.CONTRACT_ADDRESS_INCORRECT_5 = "45445566"              # messy code
+		test_config.CONTRACT_ADDRESS_INCORRECT_6 = ""                      # null
+		test_config.CONTRACT_ADDRESS_INCORRECT_10 = test_config.contract_addr_10       # verifytoken contract with wrong address
+		test_config.CONTRACT_ADDRESS_INCORRECT_11 = test_config.contract_addr_11       # verifytoken contract with messy code address
+		test_config.CONTRACT_ADDRESS_INCORRECT_12 = test_config.contract_addr_12       # verifytoken contract with wrong address
+
+		test_config.CONTRACT_ADDRESS_138 = test_config.contract_addr_138_1             # appcall contract with correct address
+		test_config.CONTRACT_ADDRESS_139 = test_config.contract_addr_139               # appcall contract with messy code address
+
 		API.node().wait_gen_block()
 
 	def tearDown(self):
