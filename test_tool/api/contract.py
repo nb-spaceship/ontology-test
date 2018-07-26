@@ -221,7 +221,6 @@ class ContractApi:
             (result, response) = TaskRunner.run_single_task(task, False, process_log)
             return (result, response)
 
-    #TODO
     def call_multisig_contract(self, task, m, pubkeyArray):
         taskdata = task.data()
 
