@@ -14,14 +14,14 @@ import subprocess
 
 sys.path.append('..')
 
-import utils.base
 from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.contractapi import *
+
+from api.apimanager import API
 
 class test_api:
     @staticmethod

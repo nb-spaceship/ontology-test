@@ -16,7 +16,6 @@ sys.path.append('..')
 sys.path.append('../..')
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
-import utils.base
 from utils.config import Config
 from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
