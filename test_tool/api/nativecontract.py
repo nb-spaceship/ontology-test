@@ -29,8 +29,8 @@ class NativeApi:
     
     ##############################################
     ###0100000000000000000000000000000000000000###
-    @staticmethod
-    def allowance_ont(neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+    
+    def allowance_ont(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
                     "REQUEST":  {
                     "Qid": "t",
@@ -52,6 +52,30 @@ class NativeApi:
         if node_index != None:
             request["NODE_INDEX"] = node_index
         return CONTRACT_API.call_contract(Task(name="allowance_ont", ijson=request), twice = True, sleep=sleep) 
+
+    def approve_ont(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+        request = {
+                "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0100000000000000000000000000000000000000",
+                    "method": "approve",
+                    "version": 1,
+                    "params": [
+                        from_address,
+                        to_address,
+                        amount
+                    ]
+                }
+            },
+            "RESPONSE":{"error" : errorcode}
+        }
+        if node_index != None:
+            request["NODE_INDEX"] = node_index
+        return CONTRACT_API.call_contract(Task(name="approve_ont", ijson=request), twice = True, sleep=5) 
 
     def transfer_ont(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
@@ -107,6 +131,30 @@ class NativeApi:
             request["NODE_INDEX"] = node_index
 
         return CONTRACT_API.call_contract(Task(name="allowance_ong", ijson=request), twice = True, sleep=sleep) 
+
+    def approve_ong(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+        request = {
+                "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0200000000000000000000000000000000000000",
+                    "method": "approve",
+                    "version": 1,
+                    "params": [
+                        from_address,
+                        to_address,
+                        amount
+                    ]
+                }
+            },
+            "RESPONSE":{"error" : errorcode}
+        }
+        if node_index != None:
+            request["NODE_INDEX"] = node_index
+        return CONTRACT_API.call_contract(Task(name="approve_ong", ijson=request), twice = True) 
 
     def transfer_ong(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
