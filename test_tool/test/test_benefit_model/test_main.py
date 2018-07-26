@@ -65,7 +65,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			
 			#判断是否分润，至少需要等待1个共识时间
 			API.native().commit_dpos()
-			time.sleep(10)
+			self.ASSERT(API.node().wait_gen_block(), "can't gen block")
 			
 			(process, response) = API.rpc().getbalance(address1)
 			self.ASSERT(process, "get balance error")
@@ -91,16 +91,16 @@ class test_benefit_model_1(ParametrizedTestCase):
 			API.node().transfer_ont(0, 0 , 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
-			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
+			self.ASSERT(API.node().wait_gen_block(), "can't gen block")
 			API.native().commit_dpos()
-			self.ASSERT(API.node().wait_gen_block(), "can not gen block")
+			self.ASSERT(API.node().wait_gen_block(), "can't gen block")
 
 			(process, response) = API.rpc().getbalance(address1)
 			self.ASSERT(process, "get balance error")
 			ong2=int(response["result"]["ong"])
 			print("before cost[1]: " + str(ong1))
 			print("after cost[1]: " + str(ong2))
-			self.ASSERT((ong2 - ong1) > 0, "error")
+			self.ASSERT(ong2 != ong1, "get balance error")
 			
 		except Exception as e:
 			print(e)
