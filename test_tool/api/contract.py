@@ -218,7 +218,7 @@ class ContractApi:
                 return (result, response)
         else:
             task.set_type("cli")
-            (result, response) = TaskRunner.run_single_task(task, judge, process_log)
+            (result, response) = TaskRunner.run_single_task(task, False, process_log)
             return (result, response)
 
     #TODO
