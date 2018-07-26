@@ -21,6 +21,7 @@ from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
+from utils.common import Common
 from api.apimanager import API
 
 from test_muti_contract.test_api import test_api
