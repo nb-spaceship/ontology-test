@@ -89,6 +89,7 @@
 	}],
 	"ROOT_PATH": "/home/ubuntu/ontology/test",
 	"MULTI_SIGNED_ADDRESS" : "AJroHBLRsfPTPQocSKjpADp4AKybg8GZuz",
-	"INIT_AMOUNT_ONG" : "1000000000000000"
+	"INIT_AMOUNT_ONG" : "1000000000000000",
+	"DEFAULT_NODE_ARGS" : "--ws --rest --loglevel=0 --enableconsensus --networkid=363  --gasprice 0 --gaslimit 20000 "
 	
 }
