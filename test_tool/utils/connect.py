@@ -14,7 +14,7 @@ from utils.config import Config
 from utils.taskthread import TaskThread
 from utils.taskdata import Task
 from utils.logger import LoggerInstance as logger 
-from utils.error import 
+from utils.error import TestError
 
 
 def multithread_run(logger, cfg_request, cfg_response):
@@ -180,7 +180,7 @@ class WebSocket():
 				self.LONG_LIVE_WS.send(json.dumps(Task(Config.BASEAPI_PATH + "/ws/heartbeat.json").data()["REQUEST"]))
 			except Exception as e:
 				logger.print(e.args[0])
-				break
+				return False
 
 	def exec(self, heartbeat_gap = 5, message_cb = None):
 		t1 = threading.Thread(target=self.ws_thread, args=(message_cb,))
@@ -199,4 +199,4 @@ class WebSocket():
 				#ws.send(json.dumps(self.load_cfg(request)))
 			except Exception as e:
 				print(e)
-				break
+				return False
