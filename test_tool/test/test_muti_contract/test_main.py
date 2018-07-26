@@ -1233,9 +1233,11 @@ class test_muti_contract(ParametrizedTestCase):
 			logger.print(e.msg)
 		except Exception as e2:
 			logger.print(e2.args[0])
-		
+			
+	'''
 	def test_abnormal_037_mutiContract(self):
 		pass
+	'''
 
 	def test_normal_038_mutiContract(self):
 		try:
