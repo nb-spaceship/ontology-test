@@ -1158,7 +1158,8 @@ class TestMutiContract(ParametrizedTestCase):
         except Exception as e:
             print(e.msg)
         logger.close(result)
-        
+    
+    
     def test_37(self):
         pass
 
