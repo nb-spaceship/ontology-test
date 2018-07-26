@@ -216,14 +216,19 @@ class ContractApi:
             if result:
                 response = response["result"]
                 return (result, response)
-            else:
-                task.set_type("cli")
-                (result, response) = TaskRunner.run_single_task(task, judge, process_log)
-                return (result, response)
+        else:
+            task.set_type("cli")
+            (result, response) = TaskRunner.run_single_task(task, judge, process_log)
+            return (result, response)
 
     #TODO
     def call_multisig_contract(self, task, m, pubkeyArray):
+        taskdata = task.data()
+
         (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
+        if not result:
+            logger.print("call_multisig_contract.sign_transction error!")
+            return (result, response)
         signed_tx = response["result"]["signed_tx"]
         
         #print(request1)
@@ -247,6 +252,9 @@ class ContractApi:
                     request1["NODE_INDEX"] = node_index 
                     (result, response) = self.sign_multi_transction(Task(name="multi", ijson=request1))
                     signed_raw = response["result"]["signed_tx"]
+                    if not result:
+                        logger.print("call_multisig_contract.sign_multi_transction error!")
+                        return (result, response)
                     print("multi sign tx:" + str(execNum)+pubkey)
                     execNum=execNum+1
                     break
