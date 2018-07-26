@@ -11,6 +11,7 @@ import sys, getopt
 sys.path.append('..')
 sys.path.append('../..')
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+test_path = os.path.dirname(os.path.realpath(__file__))
 
 #from utils.selfig import selfig
 
@@ -21,27 +22,28 @@ from utils.config import Config
 from api.apimanager import API
 
 class test_config():
-	deploy_neo_1="./resource/auth.neo"
-	deploy_neo_2="./resource/auth_2.neo"
-	deploy_neo_3="./resource/auth_3.neo"
-	deploy_neo_4="./resource/auth_4.neo"
-	deploy_neo_5="./resource/auth_10.neo"
-	deploy_neo_6="./resource/auth_11.neo"
-	deploy_neo_7="./resource/auth_12.neo"
-	deploy_neo_8="./resource/auth_138_A.neo"
-	deploy_neo_9="./resource/auth_138_B.neo"
-	deploy_neo_10="./resource/auth_139_A.neo"
+	
+	deploy_neo_1=test_path + "/resource/auth.neo"
+	deploy_neo_2=test_path + "/resource/auth_2.neo"
+	deploy_neo_3=test_path + "/resource/auth_3.neo"
+	deploy_neo_4=test_path + "/resource/auth_4.neo"
+	deploy_neo_5=test_path + "/resource/auth_10.neo"
+	deploy_neo_6=test_path + "/resource/auth_11.neo"
+	deploy_neo_7=test_path + "/resource/auth_12.neo"
+	deploy_neo_8=test_path + "/resource/auth_138_A.neo"
+	deploy_neo_9=test_path + "/resource/auth_138_B.neo"
+	deploy_neo_10=test_path + "/resource/auth_139_A.neo"
 	
 	contract_addr = API.contract().deploy_contract(deploy_neo_1)
-	contract_addr_1 = API.contract().deploy_contract_full(deploy_neo_2)
-	contract_addr_2 = API.contract().deploy_contract_full(deploy_neo_3)
-	contract_addr_3 = API.contract().deploy_contract_full(deploy_neo_4)
-	contract_addr_10 = API.contract().deploy_contract_full(deploy_neo_5)
-	contract_addr_11 = API.contract().deploy_contract_full(deploy_neo_6)
-	contract_addr_12 = API.contract().deploy_contract_full(deploy_neo_7)
-	contract_addr_138_1 = API.contract().deploy_contract_full(deploy_neo_8)
-	contract_addr_138_2 = API.contract().deploy_contract_full(deploy_neo_9)
-	contract_addr_139 = API.contract().deploy_contract_full(deploy_neo_10)
+	contract_addr_1 = API.contract().deploy_contract(deploy_neo_2)
+	contract_addr_2 = API.contract().deploy_contract(deploy_neo_3)
+	contract_addr_3 = API.contract().deploy_contract(deploy_neo_4)
+	contract_addr_10 = API.contract().deploy_contract(deploy_neo_5)
+	contract_addr_11 = API.contract().deploy_contract(deploy_neo_6)
+	contract_addr_12 = API.contract().deploy_contract(deploy_neo_7)
+	contract_addr_138_1 = API.contract().deploy_contract(deploy_neo_8)
+	contract_addr_138_2 = API.contract().deploy_contract(deploy_neo_9)
+	contract_addr_139 = API.contract().deploy_contract(deploy_neo_10)
 	
 	CONTRACT_ADDRESS_CORRECT = contract_addr               # correct
 	CONTRACT_ADDRESS_INCORRECT_1 = contract_addr_1         # wrong ontid

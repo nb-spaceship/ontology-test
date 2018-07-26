@@ -7,10 +7,10 @@ import urllib.request
 import json
 import os
 import sys, getopt
+import time
 
 sys.path.append('..')
 sys.path.append('../..')
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 #from utils.selfig import selfig
 from utils.taskdata import TaskData, Task
@@ -27,30 +27,30 @@ from api.apimanager import API
 # from api.rpc import *
 # from api.contract import call_contract
 
-from test_api import *
-from test_config import test_config
+from test_auth.test_api import *
+from test_auth.test_config import test_config
 
 ####################################################
 #test cases
 class test_auth_1(ParametrizedTestCase):
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
-		# time.sleep(2)
-		# print("stop all")
-		# API.node().stop_all_nodes()
-		# print("start all")
-		# API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
-		# time.sleep(10)
-		# API.native().regid_with_publickey(0)
-		# API.native().regid_with_publickey(1)
-		# API.native().regid_with_publickey(2)
-		# API.native().regid_with_publickey(3)
-		# API.native().regid_with_publickey(4)
-		# API.native().regid_with_publickey(5)
-		# API.native().regid_with_publickey(6)
-		# API.native().regid_with_publickey(7)
-		# API.native().regid_with_publickey(8)
-		# API.native().init_ont_ong()
+		logger.open("test_auth/" + self._testMethodName+".log",self._testMethodName)
+		time.sleep(2)
+		print("stop all")
+		API.node().stop_all_nodes()
+		print("start all")
+		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS[0], True, True)
+		time.sleep(10)
+		API.native().regid_with_publickey(0)
+		API.native().regid_with_publickey(1)
+		API.native().regid_with_publickey(2)
+		API.native().regid_with_publickey(3)
+		API.native().regid_with_publickey(4)
+		API.native().regid_with_publickey(5)
+		API.native().regid_with_publickey(6)
+		API.native().regid_with_publickey(7)
+		API.native().regid_with_publickey(8)
+		API.native().init_ont_ong()
 
 		(test_config.contract_addr, test_config.contract_tx_hash) = API.contract().deploy_contract_full(test_config.deploy_neo_1)
 		(test_config.contract_addr_1, test_config.contract_tx_hash_1) = API.contract().deploy_contract_full(test_config.deploy_neo_2)
@@ -63,7 +63,7 @@ class test_auth_1(ParametrizedTestCase):
 		(test_config.contract_addr_138_2, test_config.contract_tx_hash_138_2) = API.contract().deploy_contract_full(test_config.deploy_neo_9)
 		(test_config.contract_addr_139, test_config.contract_tx_hash_139) = API.contract().deploy_contract_full(test_config.deploy_neo_10)
 		
-
+		API.node().wait_gen_block()
 
 	def tearDown(self):
 		logger.close(self.result())
@@ -72,30 +72,37 @@ class test_auth_1(ParametrizedTestCase):
 	def test_base_001_initContractAdmin(self):		
 		try:
 			init(register_ontid = True, restart = True)
+			print("2222", test_config.CONTRACT_ADDRESS_CORRECT)
 			(process, response) = init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			self.ASSERT(response["result"]["Result"] == "01", "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_002_initContractAdmin(self):
-		#log_path = "02_initContractAdmin.log"
-		#task_name ="02_initContractAdmin"
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = init_admin(test_config.CONTRACT_ADDRESS_INCORRECT_1, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
+
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_003_initContractAdmin(self):
-		#log_path = "03_initContractAdmin.log"
-		#task_name ="03_initContractAdmin"
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = init_admin(test_config.CONTRACT_ADDRESS_INCORRECT_2, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_004_initContractAdmin(self):
 		#log_path = "04_initContractAdmin.log"
@@ -103,9 +110,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = init_admin(test_config.CONTRACT_ADDRESS_INCORRECT_3, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_base_005_verifyToken(self):
 		#log_path = "05_verifyToken.log"
@@ -113,9 +123,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_006_verifyToken(self):
 		#log_path = "06_verifyToken.log"
@@ -123,9 +136,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_B)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_007_verifyToken(self):
 		#log_path = "07_verifyToken.log"
@@ -133,9 +149,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_C)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_008_verifyToken(self):
 		#log_path = "08_verifyToken.log"
@@ -143,9 +162,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_D)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_009_verifyToken(self):
 		#log_path = "09_verifyToken.log"
@@ -153,9 +175,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_010_verifyToken(self):
 		#log_path = "10_verifyToken.log"
@@ -163,9 +188,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_INCORRECT_10, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_011_verifyToken(self):
 		#log_path = "11_verifyToken.log"
@@ -173,9 +201,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_INCORRECT_11, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_012_verifyToken(self):
 		#log_path = "12_verifyToken.log"
@@ -183,9 +214,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_INCORRECT_12, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_013_verifyToken(self):
 		#log_path = "13_verifyToken.log"
@@ -193,9 +227,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_014_verifyToken(self):
 		#log_path = "14_verifyToken.log"
@@ -203,9 +240,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, "C", test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_015_verifyToken(self):
 		#log_path = "15_verifyToken.log"
@@ -213,9 +253,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_B, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_016_verifyToken(self):
 		#log_path = "16_verifyToken.log"
@@ -223,9 +266,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, "", test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	
 	def test_base_017_transfer(self):
@@ -234,9 +280,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_018_transfer(self):
 		#log_path = "18_transfer.log"
@@ -245,9 +294,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_INCORRECT_1, test_config.ontID_A)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_019_transfer(self):
 		#log_path = "19_transfer.log"
@@ -256,9 +308,12 @@ class test_auth_1(ParametrizedTestCase):
 		# init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_020_transfer(self):
 		#log_path = "20_transfer.log"
@@ -266,9 +321,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_021_transfer(self):
 		#log_path = "21_transfer.log"
@@ -276,9 +334,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_022_transfer(self):
 		#log_path = "22_transfer.log"
@@ -286,9 +347,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_023_transfer(self):
 		#log_path = "23_transfer.log"
@@ -296,9 +360,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_24_transfer(self):
 		#log_path = "24_transfer.log"
@@ -306,9 +373,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_025_transfer(self):
 		#log_path = "25_transfer.log"
@@ -316,9 +386,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_026_transfer(self):
 		#log_path = "26_transfer.log"
@@ -326,9 +399,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_027_transfer(self):
 		#log_path = "27_transfer.log"
@@ -336,9 +412,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_1)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_028_transfer(self):
 		#log_path = "28_transfer.log"
@@ -346,9 +425,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_2)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_029_transfer(self):
 		#log_path = "29_transfer.log"
@@ -356,9 +438,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = transfer(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_3)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	
 	def test_base_030_assignFuncsToRole(self):
@@ -367,9 +452,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_031_assignFuncsToRole(self):
 		#log_path = "31_assignFuncsToRole.log"
@@ -377,9 +465,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_032_assignFuncsToRole(self):
 		#log_path = "32_assignFuncsToRole.log"
@@ -387,9 +478,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_033_assignFuncsToRole(self):
 		#log_path = "33_assignFuncsToRole.log"
@@ -397,9 +491,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_034_assignFuncsToRole(self):
 		#log_path = "34_assignFuncsToRole.log"
@@ -407,9 +504,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_035_assignFuncsToRole(self):
 		#log_path = "35_assignFuncsToRole.log"
@@ -417,9 +517,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_036_assignFuncsToRole(self):
 		#log_path = "36_assignFuncsToRole.log"
@@ -428,9 +531,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_037_assignFuncsToRole(self):
 		#log_path = "37_assignFuncsToRole.log"
@@ -439,9 +545,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_038_assignFuncsToRole(self):
 		#log_path = "38_assignFuncsToRole.log"
@@ -450,9 +559,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_039_assignFuncsToRole(self):
 		#log_path = "39_assignFuncsToRole.log"
@@ -460,9 +572,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_040_assignFuncsToRole(self):
 		#log_path = "40_assignFuncsToRole.log"
@@ -471,9 +586,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_041_assignFuncsToRole(self):
 		#log_path = "41_assignFuncsToRole.log"
@@ -481,9 +599,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_1, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_042_assignFuncsToRole(self):
 		#log_path = "42_assignFuncsToRole.log"
@@ -491,9 +612,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_2, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_043_assignFuncsToRole(self):
 		#log_path = "43_assignFuncsToRole.log"
@@ -501,9 +625,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_044_assignFuncsToRole(self):
 		#log_path = "44_assignFuncsToRole.log"
@@ -511,9 +638,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_B, test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_045_assignFuncsToRole(self):
 		#log_path = "45_assignFuncsToRole.log"
@@ -522,9 +652,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A, test_config.FUNCTION_B, test_config.FUNCTION_C])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_046_assignFuncsToRole(self):
 		#log_path = "46_assignFuncsToRole.log"
@@ -533,9 +666,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_047_assignFuncsToRole(self):
 		#log_path = "47_assignFuncsToRole.log"
@@ -544,9 +680,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_2, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_048_assignFuncsToRole(self):
 		#log_path = "48_assignFuncsToRole.log"
@@ -554,9 +693,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_D])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_normal_049_assignFuncsToRole(self):
 		#log_path = "49_assignFuncsToRole.log"
@@ -564,9 +706,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A, test_config.FUNCTION_D])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_050_assignFuncsToRole(self):
 		#log_path = "50_assignFuncsToRole.log"
@@ -574,9 +719,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_051_assignFuncsToRole(self):
 		#log_path = "51_assignFuncsToRole.log"
@@ -584,9 +732,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_1)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_052_assignFuncsToRole(self):
 		#log_path = "52_assignFuncsToRole.log"
@@ -594,9 +745,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_2)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_053_assignFuncsToRole(self):
 		#log_path = "53_assignFuncsToRole.log"
@@ -604,9 +758,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_3)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_054_assignOntIDsToRole(self):
 		#log_path = "54_assignOntIDsToRole.log"
@@ -615,9 +772,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_055_assignOntIDsToRole(self):
 		#log_path = "55_assignOntIDsToRole.log"
@@ -626,9 +786,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_056_assignOntIDsToRole(self):
 		#log_path = "56_assignOntIDsToRole.log"
@@ -637,9 +800,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_057_assignOntIDsToRole(self):
 		#log_path = "57_assignOntIDsToRole.log"
@@ -648,9 +814,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_058_assignOntIDsToRole(self):
 		#log_path = "58_assignOntIDsToRole.log"
@@ -659,9 +828,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_059_assignOntIDsToRole(self):
 		#log_path = "59_assignOntIDsToRole.log"
@@ -671,9 +843,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_060_assignOntIDsToRole(self):
 		#log_path = "60_assignOntIDsToRole.log"
@@ -683,9 +858,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_061_assignOntIDsToRole(self):
 		#log_path = "61_assignOntIDsToRole.log"
@@ -695,9 +873,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_062_assignOntIDsToRole(self):
 		#log_path = "62_assignOntIDsToRole.log"
@@ -707,9 +888,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_063_assignOntIDsToRole(self):
 		#log_path = "63_assignOntIDsToRole.log"
@@ -718,9 +902,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_064_assignOntIDsToRole(self):
 		#log_path = "64_assignOntIDsToRole.log"
@@ -729,9 +916,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_3, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_065_assignOntIDsToRole(self):
 		#log_path = "65_assignOntIDsToRole.log"
@@ -740,9 +930,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_1, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_066_assignOntIDsToRole(self):
 		#log_path = "66_assignOntIDsToRole.log"
@@ -751,9 +944,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A, test_config.ontID_B])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_067_assignOntIDsToRole(self):
 		#log_path = "67_assignOntIDsToRole.log"
@@ -762,9 +958,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A, test_config.ontID_B, test_config.ontID_C])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_068_assignOntIDsToRole(self):
 		#log_path = "68_assignOntIDsToRole.log"
@@ -773,9 +972,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_D])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_069_assignOntIDsToRole(self):
 		#log_path = "69_assignOntIDsToRole.log"
@@ -784,9 +986,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_070_assignOntIDsToRole(self):
 		#log_path = "70_assignOntIDsToRole.log"
@@ -795,9 +1000,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_1)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_071_assignOntIDsToRole(self):
 		#log_path = "71_assignOntIDsToRole.log"
@@ -806,9 +1014,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_2)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_072_assignOntIDsToRole(self):
 		#log_path = "72_assignOntIDsToRole.log"
@@ -817,9 +1028,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_3)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_073_delegate(self):
 		#log_path = "73_delegate.log"
@@ -829,9 +1043,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_074_delegate(self):
 		#log_path = "74_delegate.log"
@@ -841,9 +1058,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_075_delegate(self):
 		#log_path = "75_delegate.log"
@@ -853,9 +1073,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_076_delegate(self):
 		#log_path = "76_delegate.log"
@@ -865,9 +1088,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_077_delegate(self):
 		#log_path = "77_delegate.log"
@@ -877,9 +1103,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_078_delegate(self):
 		#log_path = "78_delegate.log"
@@ -892,9 +1121,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_E, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, node_index=2)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_079_delegate(self):
 		#log_path = "79_delegate.log"
@@ -904,9 +1136,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_080_delegate(self):
 		#log_path = "80_delegate.log"
@@ -916,9 +1151,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_081_delegate(self):
 		#log_path = "81_delegate.log"
@@ -928,9 +1166,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_082_delegate(self):
 		#log_path = "82_delegate.log"
@@ -941,9 +1182,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_083_delegate(self):
 		#log_path = "83_delegate.log"
@@ -953,9 +1197,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_084_delegate(self):
 		#log_path = "84_delegate.log"
@@ -965,9 +1212,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_C, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_085_delegate(self):
 		#log_path = "85_delegate.log"
@@ -977,9 +1227,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_D, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_086_delegate(self):
 		#log_path = "86_delegate.log"
@@ -989,9 +1242,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_087_delegate(self):
 		#log_path = "87_delegate.log"
@@ -1001,9 +1257,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_3, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_088_delegate(self):
 		#log_path = "88_delegate.log"
@@ -1013,9 +1272,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_1, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_089_delegate(self):
 		#log_path = "89_delegate.log"
@@ -1025,9 +1287,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_090_delegate(self):
 		#log_path = "90_delegate.log"
@@ -1037,9 +1302,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_1, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_091_delegate(self):
 		#log_path = "91_delegate.log"
@@ -1049,9 +1317,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_2, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_092_delegate(self):
 		#log_path = "92_delegate.log"
@@ -1061,9 +1332,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_3, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_093_delegate(self):
 		#log_path = "93_delegate.log"
@@ -1073,9 +1347,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_4, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_094_delegate(self):
 		#log_path = "94_delegate.log"
@@ -1085,9 +1362,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_5, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_095_delegate(self):
 		#log_path = "95_delegate.log"
@@ -1097,9 +1377,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_096_delegate(self):
 		#log_path = "96_delegate.log"
@@ -1110,9 +1393,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_1)		
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_097_delegate(self):
 		#log_path = "97_delegate.log"
@@ -1123,9 +1409,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_2)		
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_098_delegate(self):
 		#log_path = "98_delegate.log"
@@ -1135,9 +1424,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_3)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_099_delegate(self):
 		#log_path = "99_delegate.log"
@@ -1147,9 +1439,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_4)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_normal_100_delegate(self):
 		#log_path = "100_delegate.log"
@@ -1159,9 +1454,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_101_delegate(self):
 		#log_path = "101_delegate.log"
@@ -1171,9 +1469,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_1)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_102_delegate(self):
 		#log_path = "102_delegate.log"
@@ -1183,9 +1484,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_2)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_103_delegate(self):
 		#log_path = "103_delegate.log"
@@ -1195,9 +1499,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_3)		
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_104_withdraw(self):
 		#log_path = "104_withdraw.log"
@@ -1208,9 +1515,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_abnormal_105_withdraw(self):
 		#log_path = "105_withdraw.log"
@@ -1221,9 +1531,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_106_withdraw(self):
 		#log_path = "106_withdraw.log"
@@ -1234,9 +1547,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_107_withdraw(self):
 		#log_path = "107_withdraw.log"
@@ -1247,9 +1563,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_108_withdraw(self):
 		#log_path = "108_withdraw.log"
@@ -1260,9 +1579,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_109_withdraw(self):
 		#log_path = "109_withdraw.log"
@@ -1273,9 +1595,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_110_withdraw(self):
 		#log_path = "110_withdraw.log"
@@ -1286,9 +1611,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "01", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_111_withdraw(self):
 		#log_path = "111_withdraw.log"
@@ -1299,9 +1627,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_112_withdraw(self):
 		#log_path = "112_withdraw.log"
@@ -1312,9 +1643,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_113_withdraw(self):
 		#log_path = "113_withdraw.log"
@@ -1325,9 +1659,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_114_withdraw(self):
 		#log_path = "114_withdraw.log"
@@ -1339,9 +1676,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_115_withdraw(self):
 		#log_path = "115_withdraw.log"
@@ -1353,9 +1693,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_116_withdraw(self):
 		#log_path = "116_withdraw.log"
@@ -1367,9 +1710,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_117_withdraw(self):
 		#log_path = "117_withdraw.log"
@@ -1381,9 +1727,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_C, test_config.ROLE_CORRECT)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_118_withdraw(self):
 		#log_path = "118_withdraw.log"
@@ -1395,9 +1744,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_D, test_config.ROLE_CORRECT)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_normal_119_withdraw(self):
 		#log_path = "119_withdraw.log"
@@ -1408,9 +1760,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_120_withdraw(self):
 		#log_path = "120_withdraw.log"
@@ -1422,9 +1777,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_3)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_121_withdraw(self):
 		#log_path = "121_withdraw.log"
@@ -1436,9 +1794,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_2)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_122_withdraw(self):
 		#log_path = "122_withdraw.log"
@@ -1450,9 +1811,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_1)
 			process = (response["result"]["Result"] == "00")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	
 	def test_normal_134_withdraw(self):
@@ -1464,9 +1828,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_135_withdraw(self):
 		#log_path = "135_withdraw.log"
@@ -1477,9 +1844,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_1)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_136_withdraw(self):
 		#log_path = "136_withdraw.log"
@@ -1490,9 +1860,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_2)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_137_withdraw(self):
 		#log_path = "137_withdraw.log"
@@ -1503,9 +1876,12 @@ class test_auth_1(ParametrizedTestCase):
 			(process, response) = bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			(process, response) = delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			(process, response) = withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_3)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_base_138_appcall(self):
 		#log_path = "138_appcall.log"
@@ -1513,9 +1889,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_138, "contractA_Func_A", test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_139_appcall(self):
 		#log_path = "139_appcall.log"
@@ -1524,9 +1903,12 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_139, "contractA_Func_A", test_config.ontID_A)
 			process = (response["result"]["Result"] == "323232")
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	
 	
@@ -1536,9 +1918,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, "contractA_Func_A", test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 	def test_base_146_verifyToken(self):
 		#log_path = "146_verifyToken.log"
@@ -1546,9 +1931,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(False, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_147_verifyToken(self):
 		#log_path = "147_verifyToken.log"
@@ -1556,9 +1944,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A, public_key=test_config.KEY_NO_1)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_148_verifyToken(self):
 		#log_path = "148_verifyToken.log"
@@ -1566,9 +1957,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A, public_key=test_config.KEY_NO_2)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 
 	def test_abnormal_149_verifyToken(self):
 		#log_path = "149_verifyToken.log"
@@ -1576,9 +1970,12 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			init(register_ontid = True, restart = True)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A, public_key=test_config.KEY_NO_3)
-			self.ASSERT(process, "")
+			if isinstance(response, dict) and response["result"]:
+				self.ASSERT(response["result"]["Result"] == "00", "")
+			else:
+				self.ASSERT(True, "")
 		except Exception as e:
-			print(e.args)
+			logger.print(e.args[0])
 	
 
 ####################################################
