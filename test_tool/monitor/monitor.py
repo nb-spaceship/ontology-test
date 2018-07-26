@@ -163,36 +163,38 @@ class TestMonitor:
 					line.rstrip().replace('pass', 'block')
 					line.rstrip().replace('fail', 'block')
 
-	def exec(self, runner, testcases):
+	def exec(self, runner, testcases, monitor = True):
 		self.alltestcase = testcases.copy()
 		self.unittestrunner = runner
 		testcaseremain = testcases.copy()
 
 		for case in testcaseremain:
 			try:
-				#self.run_case(case)
-				#continue
-				if self.run_case(case):
-					if self.case_count >= CHECK_LOOP:
-						if not self.need_retry():
-							self.reset()
+				if not monitor:
+					self.run_case(case)
+					continue
 				else:
-					print("retry single case...")
-					self.recover_env()
-					self.initmap = {}
-					if not self.run_case(case):
-						self.set_retry_block()
+					if self.run_case(case):
+						if self.case_count >= CHECK_LOOP:
+							if not self.need_retry():
+								self.reset()
+					else:
+						print("retry single case...")
+						self.recover_env()
+						self.initmap = {}
+						if not self.run_case(case):
+							self.set_retry_block()
 
-				if self.need_retry():
-					print("need retry...[1]")
-					retry_ret = False
-					for i in range(TRY_RECOVER_TIMES):
-						self.retry()
-						retry_ret = self.need_retry()
-						if retry_ret == True:
-							break
-					if retry_ret == False:
-						print("need retry...[2]")
-						self.set_retry_block()
+					if self.need_retry():
+						print("need retry...[1]")
+						retry_ret = False
+						for i in range(TRY_RECOVER_TIMES):
+							self.retry()
+							retry_ret = self.need_retry()
+							if retry_ret == True:
+								break
+						if retry_ret == False:
+							print("need retry...[2]")
+							self.set_retry_block()
 			except Exception as e:
 				print(e.args)

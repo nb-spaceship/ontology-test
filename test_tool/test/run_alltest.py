@@ -99,7 +99,8 @@ class TestCaseRunner():
 		filtertype = ""
 		filterstr = ""
 		test_suites = None
-		opts, args = getopt.getopt(sys.argv[1:], "c:t:f:", ["config=", "type=","filter="])
+		needmonitor = True
+		opts, args = getopt.getopt(sys.argv[1:], "c:t:f:m:", ["config=", "type=","filter=","monitor"])
 		for op, value in opts:
 			if op in ("-c", "--config"):
 				filterfile = value
@@ -107,6 +108,12 @@ class TestCaseRunner():
 				filtertype = value
 			if op in ("-f", "--filter"):
 				filterstr = value
+			if op in ("-f", "--filter"):
+				needmonitor = str(value)
+				if needmonitor == "0":
+					needmonitor = False
+				elif needmonitor == "1"
+					needmonitor = True
 
 		case_path = os.path.dirname(os.path.realpath(__file__))
 		print("---------" + case_path)
@@ -126,7 +133,7 @@ class TestCaseRunner():
 
 		print(len(cases))
 		runner = unittest.TextTestRunner()
-		monitor.exec(runner, cases)
+		monitor.exec(runner, cases, needmonitor)
 
 if __name__ == "__main__":
 	tmonitor = TestMonitor()
