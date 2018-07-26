@@ -53,7 +53,7 @@ class NativeApi:
             request["NODE_INDEX"] = node_index
         return CONTRACT_API.call_contract(Task(name="allowance_ont", ijson=request), twice = True) 
 
-    def transfer_ont(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+    def transfer_ont(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
             "REQUEST": {
                 "Qid": "t",
@@ -80,7 +80,7 @@ class NativeApi:
         if node_index != None:
             request["NODE_INDEX"] = node_index
 
-        return CONTRACT_API.call_contract(Task(name="transfer", ijson=request), twice=True)
+        return CONTRACT_API.call_contract(Task(name="transfer", ijson=request), twice=True, sleep=5)
 
     ##############################################
     ###0200000000000000000000000000000000000000###
@@ -108,7 +108,7 @@ class NativeApi:
 
         return CONTRACT_API.call_contract(Task(name="allowance_ong", ijson=request), twice = True) 
 
-    def transfer_ong(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+    def transfer_ong(self, pay_address, get_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
             "REQUEST": {
                 "Qid": "t",
@@ -135,7 +135,7 @@ class NativeApi:
         if node_index != None:
             request["NODE_INDEX"] = node_index
 
-        return CONTRACT_API.call_contract(Task(name="transfer", ijson=request), twice=True)
+        return CONTRACT_API.call_contract(Task(name="transfer", ijson=request), twice=True, sleep=5)
 
     ##############################################
     ###0300000000000000000000000000000000000000###
