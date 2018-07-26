@@ -44,20 +44,28 @@
 		"wallet" : "wallet09.dat"
 	},
 	{
-		"ip" : "139.219.131.138",
+		"ip" : "139.219.128.249",
 		"wallet" : "wallet10.dat"
 	},
 	{
-		"ip" : "139.219.142.130",
+		"ip" : "139.219.131.138",
 		"wallet" : "wallet11.dat"
 	},
 	{
-		"ip" : "139.219.129.127",
+		"ip" : "139.219.142.130",
 		"wallet" : "wallet12.dat"
 	},
 	{
-		"ip" : "139.219.141.196",
+		"ip" : "139.219.129.127",
 		"wallet" : "wallet13.dat"
+	},
+	{
+		"ip" : "139.219.141.196",
+		"wallet" : "wallet14.dat"
+	},
+	{
+		"ip" : "139.219.143.101",
+		"wallet" : "wallet15.dat"
 	}],
 	"MULTI_SIGNED_ADDRESS" : "AJroHBLRsfPTPQocSKjpADp4AKybg8GZuz",
 	"INIT_AMOUNT_ONG" : "1000000000000000",
