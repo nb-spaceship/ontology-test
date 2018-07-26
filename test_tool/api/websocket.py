@@ -22,7 +22,7 @@ class WebSocketApi:
 	def heartbeat(self):
 		task = Task(Config.BASEAPI_PATH + "/ws/heartbeat.json")
 		task.set_type("ws")
-		return run_single_task(task)
+		return TaskRunner.run_single_task(task)
 		
 	def subscribe(self, contractaddrlist, sevent = False, sjsonblock = False, srawblock = False, sblocktxhashs = False):
 		task = Task(Config.BASEAPI_PATH + "/ws/subscribe.json")
