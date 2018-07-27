@@ -91,7 +91,7 @@ class TestCaseRunner():
 		except Exception as e:
 			print(e.args)
 
-		result.sort(key=lambda tc:tc._testMethodName.split("_")[2] if tc._testMethodName != "test_init" else "0")
+		result.sort(key=lambda tc:str(tc.__class__).strip('\'>').split('.')[-1]+tc._testMethodName.split("_")[2] if tc._testMethodName != "test_init" else "0")
 		return result
 	
 	def run(self, monitor):
