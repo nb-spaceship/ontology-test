@@ -339,7 +339,7 @@ class test_api():
 
 
     @staticmethod
-    def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None, twice=True):
+    def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None, twice=True, sleep =5):
         request = {
 
             "REQUEST": {
@@ -368,7 +368,7 @@ class test_api():
             "RESPONSE": {}
         }
         
-        return API.contract().call_contract(Task(name=func_name, ijson=request), twice = twice)
+        return API.contract().call_contract(Task(name=func_name, ijson=request), twice = twice, sleep = sleep)
 
     @staticmethod
     def invoke_func_with_0_param(contract_address, func_name, node_index = None):
