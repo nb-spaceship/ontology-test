@@ -104,6 +104,7 @@ class NodeApi:
 	def start_nodes(self, indexs, start_params = Config.DEFAULT_NODE_ARGS, clear_chain = False, clear_log = False, program = "ontology", config = "config.json"):
 		for index in indexs:
 			self.start_node(index, start_params, clear_chain, clear_log, program, config)
+		time.sleep(5)
 
 	def start_node(self, index, start_params = Config.DEFAULT_NODE_ARGS, clear_chain = False, clear_log = False, program = "ontology", config = "config.json"):
 		print("start node: " + str(index) + " start_params:" + start_params + " clear_chain:" + str(clear_chain) + " clear_log:" + str(clear_log))
