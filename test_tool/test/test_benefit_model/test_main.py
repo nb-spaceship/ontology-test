@@ -209,7 +209,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			dbft_ong2 = int(response["result"]["ong"])
 			
 			#第二轮判断
-			except_benifit = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			self.ASSERT((dbft_ong2 != dbft_ong1), "bft node benefit error")
 			self.ASSERT((ong2 != ong1), "normal node benefit error")
 			
@@ -246,7 +246,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			ong3 = int(response["result"]["ong"])
 			
 			#第二轮判断
-			except_benifit = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			self.ASSERT((ong3 - ong2) == except_benifit, "first benefit error")
 			
 		except Exception as e:
@@ -267,7 +267,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			process = API.node().transfer_ont(0, 0, 1, test_config.PRICE_TEST)
 			
 			#判断是否分润，至少需要等待1个共识时间
-			except_benifit = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 1000, [1000, 1000, 1000, 1000, 1000, 1000, 1000]))
+			except_benifit = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 1000, [1000, 1000, 1000, 1000, 1000, 1000, 1000]))
 			logger.print("except_benifit: " + str(except_benifit))
 			(process, response) = API.native().commit_dpos(sleep = 0)
 			self.BLOCK(process, "commit_dpos error")		
@@ -309,10 +309,10 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.BLOCK(process, "commit_dpos error")
 
 			#2.消耗的0.2ong的50%被平均分给七个节点
-			except_benifit = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_benifit2 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_benifit3 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5 *0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_benifit4 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5 *0.5, candidate_pos, [candidate_pos]))
+			except_benifit = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit2 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit3 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5 *0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit4 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5 *0.5, candidate_pos, [candidate_pos]))
 			logger.print("except_benifit: " + str(except_benifit))
 			logger.print("except_benifit[2]: " + str(except_benifit2))
 			logger.print("except_benifit[3]: " + str(except_benifit3))
@@ -406,8 +406,8 @@ class test_benefit_model_1(ParametrizedTestCase):
 			candidate1_ong_2 = int(response["result"]["ong"])
 			
 			#计算分红值
-			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_benifit2 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit1 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit2 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			except_candidate_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5 * 0.5, candidate_pos, [candidate_pos]))
 			
 			#判断分红值
@@ -458,7 +458,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			candidate2_ong_2 = int(response["result"]["ong"])
 			
 			#计算分红值
-			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit1 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			except_candidate_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, candidate_pos, [candidate_pos, candidate_pos]))
 			#判断分红值
 			#消耗的0.2ong的50%被平均分给七个节点，50%被分配给刚加入的候选节点
@@ -511,10 +511,10 @@ class test_benefit_model_1(ParametrizedTestCase):
 			(process, response) = API.native().commit_dpos(sleep = 0)
 			self.BLOCK(process, "commit_dpos error")
 
-			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_benifit3 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000, 10000, 10000, 10000, 10000, 10000, 10000]))
-			except_candidate_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000]))
-			except_candidate_benifit2 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000]))
+			except_benifit1 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit3 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_candidate_benifit1 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 10000, [10000]))
+			except_candidate_benifit2 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000]))
 			print(except_benifit1)
 			print(except_benifit3)
 			print(except_candidate_benifit1)
@@ -605,7 +605,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			candidate_ong2 = int(response["result"]["ong"])
 			
 			except_benifit1 = int(test_api.get_candidate_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 5000, [5000, 5000, 5000, 10000, 10000, 10000]))
-			except_benifit2 = int(get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000, 20000, 20000, 10000, 10000, 10000, 10000]))
+			except_benifit2 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST * 0.5, 20000, [20000, 20000, 20000, 10000, 10000, 10000, 10000]))
 			print("normal_ong2: " + str(normal_ong2))
 			print("except_benifit1: " + str(except_benifit1))
 			
@@ -627,9 +627,10 @@ class test_benefit_model_2(ParametrizedTestCase):
 
 			API.native().update_global_param("0", "1000","32", "10", "100","0", "5", "5")
 			
+			'''
 			for i in range(7, 14):
 				test_api.add_candidate_node(i, init_pos = 5000, from_node = i - 7)
-			
+			'''
 			#先共识一次，确保节点都会在下一次共识分红
 			(process, response) = API.native().commit_dpos(sleep = 0)
 			self.BLOCK(process, "commit_dpos error")
@@ -654,7 +655,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			self.BLOCK(process, "get balance error")
 			candidate_ong2 = int(response["result"]["ong"])
 			
-			except_benifit1 = int(get_benifit_value(20000 * test_config.PRICE_TEST, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
+			except_benifit1 = int(test_api.get_benifit_value(20000 * test_config.PRICE_TEST, 10000, [10000, 10000, 10000, 10000, 10000, 10000, 10000]))
 			except_benifit2 = 0
 			print("normal_ong2: " + str(normal_ong2))
 			print("candidate_ong2: " + str(candidate_ong2))
@@ -671,9 +672,10 @@ class test_benefit_model_2(ParametrizedTestCase):
 			unpeer_node = 10 #未被投票节点
 
 			API.native().update_global_param("0", "1000","32", "10", "0","100", "5", "5")
+			'''
 			for i in range(7, 14):
 				test_api.add_candidate_node(i, init_pos = 5000, from_node = i - 7)
-			
+			'''
 			#先共识一次，确保节点都会在下一次共识分红
 			(process, response) = API.native().commit_dpos(sleep = 0)
 			self.BLOCK(process, "commit_dpos error")
