@@ -200,9 +200,9 @@ def start_node(**kwargs):
     node_args = kwargs["node_args"]
 
   if clear_chain:
-    os.system("rm -rf " + config.NODE_PATH + "/Chain")
+    os.system("mv -f " + config.NODE_PATH + "/Chain" + " " + config.NODE_PATH + "/Chain_bak")
   if clear_log:
-    os.system("rm -rf " + config.NODE_PATH + "/Log")
+    os.system("mv -f " + config.NODE_PATH + "/Log" + " " + config.NODE_PATH + "/Log_bak")
 
   if node_args:
     cmd = "cd " + config.NODE_PATH + "\n";
