@@ -27,8 +27,18 @@ from test_ontid_api.test_config import *
 ####################################################
 #test cases
 
-
 class test_ontid_api_1(ParametrizedTestCase):
+	def test_init(self):
+		API.node().stop_all_nodes()
+		API.node().start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
+		#time.sleep(10)
+		API.native().init_ont_ong()
+		#time.sleep(20)
+		
+		test_config.contract_address = API.contract().deploy_contract(test_path + "/resource/ontid.json")
+		#(process,response) = regIDWithPublicKey(test_config.userOntId6, test_config.public_key,test_config.node_index,0)
+		#API.node().wait_gen_block()
+		
 
 	def setUp(self):
 		logger.open( "test_ontid_api/"+self._testMethodName+".log",self._testMethodName)
@@ -46,7 +56,7 @@ class test_ontid_api_1(ParametrizedTestCase):
 					"value" : "did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab"
 				},{
 					"type" : "bytearray",
-					"value" : node_now_pubkey
+					"value" : test_config.node_now_pubkey
 				}]
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
 			self.ASSERT(process, "")
@@ -67,7 +77,7 @@ class test_ontid_api_1(ParametrizedTestCase):
 					"value" : "0200a7eaadc780320547566c6d9e671638f8fba3a9d929422b245ff432eef9a8f2"
 				},{
 					"type" : "bytearray",
-					"value" : node_now_pubkey
+					"value" : test_config.node_now_pubkey
 				}]
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
 			self.ASSERT(process, "")
@@ -86,7 +96,7 @@ class test_ontid_api_1(ParametrizedTestCase):
 						"value" : "0200a7eaadc780320547566c6d9e671638f8fba3a9d929422b245ff432eef9a8f2"
 					},{
 						"type" : "bytearray",
-						"value" : node_now_pubkey
+						"value" : test_config.node_now_pubkey
 					}]
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
 			self.ASSERT(process, "")
@@ -102,10 +112,10 @@ class test_ontid_api_1(ParametrizedTestCase):
 					"value" : "did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab"
 				},{
 					"type" : "bytearray",
-					"value" : recoveryaddress
+					"value" : test_config.recoveryaddress
 				},{
 					"type" : "bytearray",
-					"value" : node_now_pubkey
+					"value" : test_config.node_now_pubkey
 				}]
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
 			self.ASSERT(process, "")
@@ -121,10 +131,10 @@ class test_ontid_api_1(ParametrizedTestCase):
 					"value" : "did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab"
 				},{
 					"type" : "bytearray",
-					"value" : new_recovery_address
+					"value" : test_config.new_recovery_address
 				},{
 					"type" : "bytearray",
-					"value" : old_recovery_address
+					"value" : test_config.old_recovery_address
 				}]
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index, recovery_address_Array = test_config.recoveryaddress_Array)
 			self.ASSERT(process, "")
@@ -150,7 +160,7 @@ class test_ontid_api_1(ParametrizedTestCase):
 				},
 				{
 					"type" : "bytearray",
-					"value" : node_now_pubkey
+					"value" : test_config.node_now_pubkey
 				},
 				{
 					"type" : "array",
@@ -185,7 +195,7 @@ class test_ontid_api_1(ParametrizedTestCase):
 				},
 				{
 					"type" : "bytearray",
-					"value" : node_now_pubkey
+					"value" : test_config.node_now_pubkey
 				}
 				]
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
@@ -207,10 +217,10 @@ class test_ontid_api_1(ParametrizedTestCase):
 				},
 				{
 					"type" : "bytearray",
-					"value" : node_now_pubkey
+					"value" : test_config.node_now_pubkey
 				}
 				]
-			(process, response) = addAttributes("did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab", addAttributes_74,test_config.public_key,test_config.node_index,0)#先加
+			(process, response) = addAttributes("did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab", test_config.addAttributes_74,test_config.public_key,test_config.node_index,0)#先加
 			
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
 			self.ASSERT(process, "")
@@ -259,7 +269,7 @@ class test_ontid_api_1(ParametrizedTestCase):
 					"value" : "did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab"
 				}
 				]
-			(process, response) = addAttributes("did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab", addAttributes_74,test_config.public_key,test_config.node_index,0)#先加
+			(process, response) = addAttributes("did:ont:AS24hCPUxkbPzrFDeeemiE13cqJviuxuab", test_config.addAttributes_74,test_config.public_key,test_config.node_index,0)#先加
 			(process, response) = forNeo(test_config.contract_address,functionName,params,test_config.public_key, test_config.node_index)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -305,12 +315,13 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_init(self):
 		API.node().stop_all_nodes()
 		API.node().start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
-		time.sleep(10)
+		#time.sleep(10)
 		API.native().init_ont_ong()
 		#time.sleep(20)
 		
 		test_config.contract_address = API.contract().deploy_contract(test_path + "/resource/ontid.json")
-		API.node().wait_gen_block()
+		#(process,response) = regIDWithPublicKey(test_config.userOntId6, test_config.public_key,test_config.node_index,0)
+		#API.node().wait_gen_block()
 		
 	def setUp(self):
 		logger.open( "test_ontid_api/"+self._testMethodName+".log",self._testMethodName)
@@ -383,7 +394,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 			logger.print (e.args[0]) 
 
 
-	def test_abnormal_normal_009_addKey(self):
+	def test_normal_009_addKey(self):
 		try:
 			(process, response) = addKey(test_config.userOntId6, test_config.menualPubKey1, test_config.pubkey_re_address,  test_config.node_index,0)
 			self.ASSERT(process, "")
@@ -433,7 +444,12 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_015_addKey(self):
 		try:
+			(process,response) = regIDWithPublicKey(test_config.menualOntId, test_config.public_key,test_config.node_index,0)
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addKey(test_config.menualOntId, test_config.new_publickey3,test_config.pubkey_re_address,test_config.node_index,0)#先在其他用户处注册完毕该公钥
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addKey(test_config.ontId, test_config.new_publickey3,test_config.pubkey_re_address,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -475,6 +491,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_020_addKey(self):
 		try:
 			(process, response) = addRecovery(test_config.ontId, test_config.recoveryaddress,test_config.public_key,test_config.node_index,0)#需要先设定完毕恢复地址
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addKey(test_config.ontId, test_config.menualPubKey2,test_config.pubkey_reAddress3,test_config.node_index,0,test_config.pubkey_reAddress3_Array)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -499,6 +517,9 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_base_023_removeKey(self):
 		try:
+			(process, response) = addKey(test_config.userOntId6, test_config.menualPubKey1, test_config.pubkey_re_address,  test_config.node_index,0)#准备，加入这个Key
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = removeKey(test_config.userOntId6, test_config.menualPubKey1,test_config.pubkey_re_address,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -532,6 +553,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_027_removeKey(self):
 		try:
 			(process, response) = addKey(test_config.ontId, test_config.del_pubkey1,test_config.pubkey_re_address,test_config.node_index,0)#先把这个key加上�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = removeKey(test_config.ontId, test_config.del_pubkey1,test_config.pubkey_re_address,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -573,6 +596,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_032_removeKey(self):
 		try:
 			(process, response) = addKey(test_config.ontId, test_config.removeKey_32,test_config.pubkey_reAddress1,test_config.node_index,0)#先注册公�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = removeKey(test_config.ontId, test_config.removeKey_32,test_config.pubkey_reAddress1,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -598,6 +623,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_035_removeKey(self):
 		try:
 			(process, response) = addKey(test_config.ontId, test_config.removeKey_35, test_config.pubkey_reAddress1,test_config.node_index,0)#先注册公�?	
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = removeKey(test_config.ontId, test_config.removeKey_35,test_config.pubkey_reAddress3,test_config.node_index,0,test_config.pubkey_reAddress3_Array)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -623,6 +650,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_base_038_addRecovery(self):
 		try:
 			(process, response) = regIDWithPublicKey(test_config.addRecovery_38,test_config.public_key,test_config.node_index,0)#先注册一个账�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addRecovery(test_config.addRecovery_38, test_config.recoveryaddress,test_config.public_key,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -656,6 +685,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_042_addRecovery(self):
 		try:
 			(process, response) = regIDWithPublicKey(test_config.addRecovery_42,test_config.public_key,test_config.node_index,0)#先注册一个账�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addRecovery(test_config.addRecovery_42, test_config.recoveryAddress1,test_config.public_key,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -672,6 +703,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_abnormal_044_addRecovery(self):
 		try:
+			#print( len(test_config.recoveryAddress3))
 			(process, response) = addRecovery(test_config.ontId, test_config.recoveryAddress3,test_config.public_key,test_config.node_index,900,errorkey="error_code")
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -689,6 +721,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_046_addRecovery(self):
 		try:
 			(process, response) = regIDWithPublicKey(test_config.addRecovery_46,test_config.public_key,test_config.node_index,0)#先注册一个账�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addRecovery(test_config.addRecovery_46, test_config.recoveryaddress,test_config.public_key4,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -721,8 +755,13 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_base_050_changeRecovery(self):
 		try:
+			(process, response) = addRecovery(test_config.userOntId6, test_config.recoveryaddress,test_config.public_key,test_config.node_index,0)#以防万一，加一个
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = changeRecovery(test_config.userOntId6, test_config.new_recovery_address,test_config.old_recovery_address,test_config.public_key,test_config.node_index,0,test_config.old_recovery_address_Array)#先把它换成新�?
-			(process, response) = changeRecovery(test_config.userOntId6, test_config.old_recovery_address,test_config.new_recovery_address,test_config.public_key,test_config.node_index,0,test_config.new_recovery_address_Array)#再把它换回来
+			if process:
+				API.node().wait_gen_block()
+			(process1, response) = changeRecovery(test_config.userOntId6, test_config.old_recovery_address,test_config.new_recovery_address,test_config.public_key,test_config.node_index,0,test_config.new_recovery_address_Array)#再把它换回来
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print (e.args[0]) 
@@ -755,6 +794,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_054_changeRecovery(self):
 		try:
 			(process, response) = changeRecovery(test_config.ontId, test_config.new_recoveryAddress1,test_config.old_recovery_address,test_config.public_key,test_config.node_index,0,test_config.old_recovery_address_Array)#换这�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = changeRecovery(test_config.ontId, test_config.old_recovery_address,test_config.new_recoveryAddress1,test_config.public_key,test_config.node_index,0,test_config.new_recoveryAddress1_Array)#再换回来
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -788,6 +829,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_058_changeRecovery(self):
 		try:
 			(process, response) = changeRecovery(test_config.ontId, test_config.new_recovery_address,test_config.old_recoverAddress1,test_config.public_key,test_config.node_index,0,test_config.old_recoverAddress1_Array)#换这�?
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = changeRecovery(test_config.ontId, test_config.old_recoverAddress1,test_config.new_recovery_address,test_config.public_key,test_config.node_index,0,test_config.new_recovery_address_Array)#再换回来
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -949,6 +992,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_078_addAttributes(self):
 		try:
 			(process, response) = addAttributes(test_config.ontId, test_config.attribute1,test_config.public_key,test_config.node_index,0)
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = getAttributes(test_config.ontId,test_config.public_key,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -958,6 +1003,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_079_addAttributes(self):
 		try:
 			(process, response) = addAttributes(test_config.ontId, test_config.attribute2,test_config.public_key,test_config.node_index,0)
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = getAttributes(test_config.ontId,test_config.public_key,test_config.node_index,0)
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -1029,6 +1076,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 		try:
 			process = True
 			(process, response) = addAttributes(test_config.userOntId6, test_config.attributes_array,test_config.public_key,test_config.node_index,0)#先把attribute加进
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = removeAttribute(test_config.userOntId6, test_config.attributePath,test_config.public_key,test_config.node_index,0)#再删了它 
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -1059,8 +1108,13 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_normal_092_removeAttribute(self):
 		try:
-			(process, response) = removeAttribute(test_config.ontId, test_config.delAttriPath1,test_config.public_key,test_config.node_index,0)#先把attribute删了
-			(process, response) = addAttributes(test_config.ontId, test_config.attributes_array,test_config.public_key,test_config.node_index,0)#再加进去
+			(process, response) = addAttributes(test_config.ontId, test_config.attributes_array,test_config.public_key,test_config.node_index,0)#1加进去
+			if process:
+				API.node().wait_gen_block()
+			(process, response) = removeAttribute(test_config.ontId, test_config.delAttriPath1,test_config.public_key,test_config.node_index,0)#2把attribute删了
+			if process:
+				API.node().wait_gen_block()
+			(process, response) = addAttributes(test_config.ontId, test_config.attributes_array,test_config.public_key,test_config.node_index,0)#3再加进去
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print (e.args[0]) 
@@ -1089,6 +1143,8 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	def test_normal_096_removeAttribute(self):
 		try:
 			(process, response) = removeAttribute(test_config.ontId, test_config.attributePath,test_config.public_key4,test_config.node_index,0)
+			if process:
+				API.node().wait_gen_block()
 			(process, response) = addAttributes(test_config.ontId, test_config.attributes_array,test_config.public_key4,test_config.node_index,0)#再加进去
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -1195,7 +1251,7 @@ class test_ontid_api_2(ParametrizedTestCase):##TestContract
 
 	def test_abnormal_111_getKeyState(self):
 		try:
-			(process, response) = getKeyState(test_config.ontId,keyNo4,test_config.public_key,test_config.node_index,900,errorkey="error_code")
+			(process, response) = getKeyState(test_config.ontId,test_config.keyNo4,test_config.public_key,test_config.node_index,900,errorkey="error_code")
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print (e.args[0]) 

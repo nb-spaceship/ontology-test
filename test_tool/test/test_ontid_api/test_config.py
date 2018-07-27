@@ -22,7 +22,8 @@ class test_config():
 			result.append(ByteToHex(test.encode("utf-8")))
 		print(result)
 		return result
-	node_now = 5
+	node_now =  API.node().get_current_node()
+	node_index= API.node().get_current_node()
 	node_6=6
 	node_now_ontid="did:ont:AdVERGmipcx4rGcHJPNwFtQEinEomPbSdu"
 	node_now_pubkey = Config.NODES[node_now]["pubkey"]
@@ -36,7 +37,7 @@ class test_config():
 	public_key=node_now_pubkey
 	ontId=node_now_ontid
 	byteOntId=ByteToHex(b"did:ont:AdVERGmipcx4rGcHJPNwFtQEinEomPbSdu")
-	node_index=5
+	
 	pubkey_re_address=node_now_pubkey
 	new_publickey="025e2166e920de74fdf66da721d8c5b818a3c68296b95e636d5ba946a9fd37057c"#永远不会被注册成功的pubkey
 	remove_publickey="025e2166e920de74fdf66da721d8c5b818a3c68296b95e636d5ba946a9fd37057c"#永远不会被删除成功的pubkey
