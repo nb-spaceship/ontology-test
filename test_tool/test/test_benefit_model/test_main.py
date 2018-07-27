@@ -563,7 +563,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 			peer_node3 = 9 #被投票节点3
 			unpeer_node = 10 #未被投票节点
  
-			
+			'''
 			API.native().update_global_param("0", "1000", "32", "10", "50","50", "5", "5")
 			
 			API.node().start_nodes([vote_node], Config.DEFAULT_NODE_ARGS, True, True)
@@ -575,9 +575,8 @@ class test_benefit_model_2(ParametrizedTestCase):
 			
 			#投票给三个节点成为共识节点
 			(process, response) = API.native().vote_for_peer(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"])
-			if not process:
-				raise Error("vote error")
-			
+			self.BLOCK(process, "vote error")
+			'''
 			#先共识一次，确保节点都会在下一次共识分红
 			(process, response) = API.native().commit_dpos(sleep = 0)
 			self.BLOCK(process, "commit_dpos error")
