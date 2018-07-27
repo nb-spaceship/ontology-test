@@ -108,7 +108,7 @@ class TestCaseRunner():
 				filtertype = value
 			if op in ("-f", "--filter"):
 				filterstr = value
-			if op in ("-f", "--filter"):
+			if op in ("-m", "--monitor"):
 				needmonitor = str(value)
 				if needmonitor == "0":
 					needmonitor = False

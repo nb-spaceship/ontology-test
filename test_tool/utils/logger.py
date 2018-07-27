@@ -28,7 +28,7 @@ class Logger():
 		logdir = self.prefixFul + "/" + os.path.dirname(filepath)
 		if not os.path.exists(logdir):
 			os.makedirs(logdir)
-			
+
 		if not self.init:
 			if not os.path.exists(self.prefixFul):
 				os.makedirs(self.prefixFul)
@@ -45,7 +45,7 @@ class Logger():
 			self.logfile.write(str + "\n")
 
 	def error(self, str):
-		str = "[ ERROR ]  " + str
+		str = "[ ERROR ]  " + str  + "  [" + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())) + "]"
 		print(str)
 		if self.logfile:
 			self.logfile.write(str + "\n")
