@@ -58,7 +58,7 @@ class Logger():
 			elif result == "fail":
 				self.print("[ Failed   ] ")
 				self.append_record(self.logtitle, "fail", self.logpath.replace(self.prefix + "/", ""))
-			elif result == "block":
+			else:
 				self.print("[ Block    ] ")
 				self.append_record(self.logtitle, "block", self.logpath.replace(self.prefix + "/", ""))
 		if self.logfile:

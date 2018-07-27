@@ -9,7 +9,7 @@ class ParametrizedTestCase(unittest.TestCase):
     """  
     def __init__(self, methodName='runTest', param=None):
         self.param = param
-        self.m_result = "block" #pass, fail, block
+        self.m_result = "init" #pass, fail, block
         self.m_assertcount = 0
         try:   
             super(ParametrizedTestCase, self).__init__(methodName)
@@ -21,8 +21,12 @@ class ParametrizedTestCase(unittest.TestCase):
         pass
                 
     def result(self):
-        if self.m_result == "block" and self.m_assertcount > 0:
-            self.m_result = "pass"
+        if self.m_result == "init"
+            if self.m_assertcount > 0:
+                self.m_result = "pass"
+            else:
+                self.m_result = "block"
+
         return self.m_result   
 
     def ASSERT(self, result, info = ""):
@@ -32,7 +36,6 @@ class ParametrizedTestCase(unittest.TestCase):
             raise Error(info)
 
     def BLOCK(self, result, info = ""):
-        self.m_assertcount = self.m_assertcount + 1
         if not result:
             self.m_result = "block"
             raise Error(info)        
