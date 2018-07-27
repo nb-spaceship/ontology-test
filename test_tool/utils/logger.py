@@ -25,15 +25,16 @@ class Logger():
 
 	def open(self, filepath, title = None):
 		self.logpath = self.prefixFul + "/" + filepath
+		logdir = self.prefixFul + "/" + os.path.dirname(filepath)
+		if not os.path.exists(logdir):
+			os.makedirs(logdir)
+			
 		if not self.init:
 			if not os.path.exists(self.prefixFul):
 				os.makedirs(self.prefixFul)
 			self.append_record("NAME", "STATUS", "LOG PATH")
 			self.init = True
 
-		logdir = self.prefixFul + "/" + os.path.dirname(filepath)
-		if not os.path.exists(logdir):
-			os.makedirs(logdir)
 
 		self.logfile = open(self.logpath, "w")  # 打开文件
 		self.logtitle = title if title else os.path.splitext(filepath)[0]
