@@ -132,7 +132,7 @@ class NativeApi:
 
         return CONTRACT_API.call_contract(Task(name="allowance_ong", ijson=request), twice = True, sleep=sleep) 
 
-    def approve_ong(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT):
+    def approve_ong(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
                 "REQUEST": {
                 "Qid": "t",
@@ -607,6 +607,29 @@ class NativeApi:
         }
             
         return CONTRACT_API.call_multisig_contract(Task(name="approve_candidate", ijson=request),Config.AdminNum,Config.AdminPublicKeyList, sleep=sleep)
+    
+    def reject_candidate(self, pubKey, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+        request = {
+            "NODE_INDEX":0,
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0700000000000000000000000000000000000000",
+                    "method": "rejectCandidate",
+                    "version": 0,
+                    "params": [
+                                pubKey
+                              ]
+                        }
+                    },
+            "RESPONSE":{"error" : errorcode}
+        }
+            
+        return CONTRACT_API.call_multisig_contract(Task(name="reject_candidate", ijson=request),Config.AdminNum,Config.AdminPublicKeyList, sleep=sleep)
+
 
     #same to invoke_function_register
     def register_candidate(self, pubKey, walletAddress, ontCount, ontID, user, node_index = None, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
