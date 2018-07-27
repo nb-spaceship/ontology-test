@@ -131,7 +131,6 @@ class NodeApi:
 
 		ip = Config.NODES[index]["ip"]
 		response = utils.connect.con_test_service(ip, request)
-
 		return response
 
 	def stop_all_nodes(self):

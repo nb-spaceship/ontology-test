@@ -35,7 +35,7 @@ class TestMonitor:
 		self.case_count = 0
 		self.retry_cases = []
 		self.retry_logger_path = []
-		self.initmap = {}
+		
 
 	def need_retry(self):
 		print("case_count:", self.case_count, " faild_step_count:", self.faild_step_count, " total_step_count:", self.total_step_count)
@@ -55,8 +55,7 @@ class TestMonitor:
 		print("recover env...")
 		#restart node
 		API.node().stop_all_nodes()
-		for node_index in range(len(Config.NODES)):
-			API.node().start_nodes([node_index], clear_chain = True, clear_log = True)
+		API.node().start_nodes(range(len(Config.NODES)), clear_chain = True, clear_log = True)
 
 		#restart sigserver
 		for node_index in range(len(Config.NODES)):
@@ -69,6 +68,7 @@ class TestMonitor:
 		self.recover_env()
 		testcases = self.retry_cases.copy()
 		self.reset()
+		self.initmap = {}
 		for case in testcases:
 			self.run_case(case)
 
