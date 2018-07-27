@@ -717,7 +717,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "96_storageGet"
 		try:
 			(process, response) = test_api.invoke_storage_get(test_config.CONTRACT_ADDRESS)
-			self.ASSERT(not process or response["result"]["Result"], "")
+			self.ASSERT(not process or response["result"]["Result"] == "", "")
 		except Exception as e:
 			logger.print(e.args[0])
 	
