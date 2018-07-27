@@ -33,7 +33,7 @@ from test_rpc.test_config import test_config
 # test cases
 class test_rpc_1(ParametrizedTestCase):
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open( "test_rpc/" + self._testMethodName+".log",self._testMethodName)
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(5)
@@ -61,10 +61,10 @@ class test_rpc_1(ParametrizedTestCase):
 	
 class test_rpc_2(ParametrizedTestCase):
 	def test_init(self):
-		# API.node().stop_all_nodes()
-		# API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-		# API.node().wait_gen_block()
-		# API.node().wait_gen_block()
+		API.node().stop_all_nodes()
+		API.node().start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
+		API.node().wait_gen_block()
+		API.node().wait_gen_block()
 		
 		(test_config.m_contractaddr_right, test_config.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
 		API.node().wait_gen_block()

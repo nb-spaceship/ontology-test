@@ -39,8 +39,8 @@ class test_auth_1(ParametrizedTestCase):
 		print("stop all")
 		API.node().stop_all_nodes()
 		print("start all")
-		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS[0], True, True)
-		time.sleep(10)
+		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
+		
 		API.native().regid_with_publickey(0)
 		API.native().regid_with_publickey(1)
 		API.native().regid_with_publickey(2)

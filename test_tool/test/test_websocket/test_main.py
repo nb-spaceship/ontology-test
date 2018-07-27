@@ -36,7 +36,7 @@ class test_websocket_1(ParametrizedTestCase):
 		print("stop all")
 		API.node().stop_all_nodes()
 		print("start all")
-		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS[0], True, True)
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		time.sleep(60)
 		print("waiting for 60s......")
 
@@ -278,7 +278,7 @@ class test_websocket_1(ParametrizedTestCase):
 		try:
 			API.node().stop_node(0)
 			(process, response) = API.ws().getconnectioncount()
-			API.node().start_node(0, Config.DEFAULT_NODE_args[0])
+			API.node().start_node(0, Config.DEFAULT_NODE_args)
 			time.sleep(5)
 			self.ASSERT(not process, "")
 		except Exception as e:
@@ -406,7 +406,7 @@ class test_websocket_1(ParametrizedTestCase):
 	def test_normal_048_getblockheight(self):
 		try:
 			API.node().stop_nodes([0, 1, 2, 3, 4, 5, 6])
-			start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_args[0])
+			start_nodes([0, 1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_args)
 			time.sleep(10)
 			(process, response) = API.ws().getblockheight()
 			self.ASSERT(process, "")
@@ -836,7 +836,7 @@ class test_websocket_1(ParametrizedTestCase):
 		try:
 			API.node().stop_node(0)
 			(process, response) = API.ws().getsessioncount()
-			API.node().start_node(0, Config.DEFAULT_NODE_args[0])
+			API.node().start_node(0, Config.DEFAULT_NODE_args)
 			time.sleep(5)
 			self.ASSERT(not process, "")
 		except Exception as e:

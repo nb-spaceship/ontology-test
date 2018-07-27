@@ -32,7 +32,6 @@ class test_ont_native_1(ParametrizedTestCase):
 	def test_init(self):
 		API.node().stop_all_nodes()  
 		API.node().start_nodes(range(0, 7), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
-		time.sleep(10)
 		API.node().wait_gen_block()
 		API.native().init_ont_ong()
 		time.sleep(10)

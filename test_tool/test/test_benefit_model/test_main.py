@@ -34,7 +34,6 @@ class test_benefit_model_1(ParametrizedTestCase):
 
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
 		
 		for i in range(7):
 			API.native().regid_with_publickey(i, sleep = 0)
@@ -548,7 +547,6 @@ class test_benefit_model_2(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
 		for i in range(7):
 			API.native().regid_with_publickey(i)
 		API.native().init_ont_ong()

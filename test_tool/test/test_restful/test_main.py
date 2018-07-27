@@ -110,7 +110,7 @@ class test_restful_3(ParametrizedTestCase):
 		time.sleep(10)
 		while True:
 			if API.rpc().getblockcount()[1]["result"] > 0:
-				break;
+				break
 			time.sleep(1)
 
 		(test_config.m_contractaddr_right, test_config.m_txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
