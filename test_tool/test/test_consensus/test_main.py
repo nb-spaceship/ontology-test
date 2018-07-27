@@ -327,7 +327,7 @@ class test_consensus_1(ParametrizedTestCase):
 
 			(process, response) = API.native().allowance_ont(test_config.ADDRESS_B, test_config.ADDRESS_A, 1)
 			# need to check
-			self.ASSERT(response["result"] == "1000" , "allowance to wallet A is not 1000")
+			self.ASSERT(response["result"]["Result"] == "e803" , "allowance to wallet A is not 1000")
 
 		except Exception as e:
 			logger.print(e.args[0])
