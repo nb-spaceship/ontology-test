@@ -31,7 +31,6 @@ class test_consensus_1(ParametrizedTestCase):
 		
 		API.node().stop_all_nodes()
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(8)
 		for index in range(7):
 			API.native().regid_with_publickey(index)
 		
@@ -159,7 +158,6 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(response["result"]["Result"] == '', "invoke_function get error...")
 			
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
-			time.sleep(3)
 		except Exception as e:
 			logger.print(e.args[0])
 		
@@ -175,7 +173,6 @@ class test_consensus_1(ParametrizedTestCase):
 			self.ASSERT(process, "not a valid block...")
 
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
-			time.sleep(3)
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -198,7 +195,6 @@ class test_consensus_1(ParametrizedTestCase):
 				time.sleep(10)
 				
 			API.node().start_nodes(stopnodes, Config.DEFAULT_NODE_ARGS)
-			time.sleep(3)
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -349,7 +345,6 @@ class test_consensus_2(ParametrizedTestCase):
 		API.node().start_nodes([0,1,2,3,4], Config.DEFAULT_NODE_ARGS, True, True, program = "ontology")
 		print("start bft node: " + "ontology-bft_" + str(bft_index))
 		API.node().start_nodes([5,6], Config.DEFAULT_NODE_ARGS, True, True, program = "ontology-bft_" + str(bft_index))
-		time.sleep(8)
 		
 		for node_index in range(7):			
 			API.native().regid_with_publickey(node_index)
@@ -447,7 +442,6 @@ class test_consensus_3(ParametrizedTestCase):
 			API.node().stop_nodes([node_index])
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
 		#start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(8)
 		for node_index in range(7):
 			API.native().regid_with_publickey(node_index)
 		
@@ -553,7 +547,6 @@ class test_consensus_4(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
 		for i in range(0, 7):
 			API.native().regid_with_publickey(i)
 		API.native().init_ont_ong()

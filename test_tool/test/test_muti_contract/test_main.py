@@ -39,7 +39,6 @@ class test_muti_contract(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(10)
 		for index in range(0, 7):
 			API.native().regid_with_publickey(index, sleep = 0)
 		API.node().wait_gen_block()

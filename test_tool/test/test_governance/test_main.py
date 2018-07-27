@@ -36,7 +36,6 @@ class test_governance_1(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(5)
 
 		API.native().regid_with_publickey(0)
 		API.native().regid_with_publickey(1)
@@ -293,7 +292,6 @@ class test_governance_2(ParametrizedTestCase):
 		API.node().stop_all_nodes()
 		print("start all")
 		API.node().start_nodes([0,1,2,3,4,5,6,7,8], Config.DEFAULT_NODE_ARGS, True, True)
-		time.sleep(5)
 
 		API.native().regid_with_publickey(0)
 		API.native().regid_with_publickey(1)

@@ -34,7 +34,6 @@ def init(node_index=7, candidate=False, register_ontid=False, restart=False, pub
 		API.node().stop_all_nodes()
 		API.node().start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
 		
-		time.sleep(10)
 		API.native().init_ont_ong(node_count=8)
 
 	# register ONTID
