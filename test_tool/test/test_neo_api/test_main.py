@@ -1154,7 +1154,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "169getcontractMigrate"
 		try:
 			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, "", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
