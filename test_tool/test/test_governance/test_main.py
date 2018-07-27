@@ -55,7 +55,6 @@ class test_governance_1(ParametrizedTestCase):
 		API.native().transfer_ong(Config.NODES[0]["address"], Config.NODES[8]["address"], "1000000000000", 0)
 
 		try:
-			print("--------", Config.NODES[0]["ontid"])
 			# create role and bind ONTID with role
 			(process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])
 			if not process:
