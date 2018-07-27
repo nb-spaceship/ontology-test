@@ -440,7 +440,7 @@ class test_consensus_3(ParametrizedTestCase):
 	def test_init(self):
 		for node_index in range(len(Config.NODES)):
 			API.node().stop_nodes([node_index])
-		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft-1.json")
+		API.node().start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True, config="config-dbft.json")
 		#start_nodes([0,1,2,3,4,5,6], Config.DEFAULT_NODE_ARGS, True, True)
 		for node_index in range(7):
 			API.native().regid_with_publickey(node_index)
