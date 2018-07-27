@@ -92,7 +92,7 @@ class test_api:
         API.node().transfer_ont(from_node, new_node, init_ont, price = 0)
         API.node().transfer_ong(from_node, new_node, init_ong, price = 0)
         
-        time.sleep(10)
+        time.sleep(10) 
         
         (process, response) = API.native().register_candidate(Config.NODES[new_node]["pubkey"], Config.NODES[new_node]["address"], str(init_pos), ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8")), "1")
         if not process:
