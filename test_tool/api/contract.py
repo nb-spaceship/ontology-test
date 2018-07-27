@@ -183,8 +183,7 @@ class ContractApi:
             if twice:
                 (result, response) = self.call_signed_contract(signed_tx, True, node_index)
                 (result1, response2) = self.call_signed_contract(signed_tx, False, node_index)
-                response["txhash"] = None
-                if response2 and "result" in response2:
+                if response and response2 and "result" in response2:
                     response["txhash"] = response2["result"]
             else:
                 (result, response) = self.call_signed_contract(signed_tx, pre, node_index)

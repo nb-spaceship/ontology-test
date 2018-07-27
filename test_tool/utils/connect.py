@@ -66,7 +66,7 @@ def con_cli(ip, request):
 		else:
 			url = Config.CLIRPC_URL
 
-		response = requests.post(url, data=json.dumps(request), headers=Config.RPC_HEADERS)
+		response = requests.post(url, data=json.dumps(request), headers=Config.RPC_HEADERS, timeout = 10)
 		return response.json()
 	except Exception as e:
 		print("con_cli:",  e)
@@ -80,7 +80,7 @@ def con_rpc(ip, request):
 		else:
 			con_url = Config.RPC_URL
 		print("send...")
-		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS, timeout = 5)
+		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS, timeout = 10)
 		print("send end")
 		return response.json()
 	except Exception as e:
@@ -141,7 +141,7 @@ def con_test_service(ip, request):
 		else:
 			con_url = "http://127.0.0.1:23635/jsonrpc"
 
-		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS)
+		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS, timeout = 10)
 		return response.json()
 	except Exception as e:
 		print("con_test_service:",  e)
