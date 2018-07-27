@@ -1,6 +1,6 @@
- using Neo.SmartContract.Framework;
-using Neo.SmartContract.Framework.Services.Neo;
-using Neo.SmartContract.Framework.Services.System;
+using Ont.SmartContract.Framework;
+using Ont.SmartContract.Framework.Services.Ont;
+using Ont.SmartContract.Framework.Services.System;
 using System;
 using System.ComponentModel;
 using System.Numerics;
@@ -114,26 +114,27 @@ namespace Example
         }
          public static byte[] nameInvoke()
         {
-            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };           
-			byte[] ret = Native.Invoke(0, address, "name", null);
+            byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+            int[] numbers = new int[1];
+			byte[] ret = Native.Invoke(0, address, "name", numbers);
             return ret;
         }
         public static byte[] symbolInvoke()
         {
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };          
-			byte[] ret = Native.Invoke(0, address, "symbol", null);
+			byte[] ret = Native.Invoke(0, address, "symbol", false);
             return ret;
         }
         public static byte[] decimalsInvoke()
         {
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };          
-			byte[] ret = Native.Invoke(0, address, "decimals", null);
+			byte[] ret = Native.Invoke(0, address, "decimals", false);
             return ret;
         }
          public static byte[] totalSupplyInvoke()
         {
             byte[] address = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };           
-			byte[] ret = Native.Invoke(0, address, "totalSupply", null);
+			byte[] ret = Native.Invoke(0, address, "totalSupply", false);
             return ret;
         }
         public static byte[] balanceInvoke(object[] args)

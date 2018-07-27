@@ -10,19 +10,30 @@ import getopt
 
 sys.path.append('..')
 sys.path.append('../..')
-# testpath = os.path.dirname(os.path.realpath(__file__))
-# sys.path.append(testpath)
 
 from utils.config import Config
 from utils.taskdata import TaskData, Task
+from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
-#from utils.commonapi import *
-from utils.common import *#p
+
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
+from utils.common import Common 
 
 def transfer(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001,errorkey="error"):
+	if len(get_address)!=34 :
+		send_get_address=ByteToHex(bytes(get_address, encoding = "utf8"))
+	else:
+		send_get_address=Common.bl_address(get_address)
+		if send_get_address=="0000000000000000000000000000000000000000":
+			send_get_address=ByteToHex(bytes(get_address, encoding = "utf8"))
+	if len(pay_address)!=34 :
+		send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
+	else:
+		send_pay_address=Common.bl_address(pay_address)
+		if send_pay_address=="0000000000000000000000000000000000000000":
+			send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -44,11 +55,11 @@ def transfer(contract_address,pay_address,get_address,amount, node_index = None,
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
+								"value": send_pay_address
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_reserver(Common.base58_to_address(get_address))
+								"value": send_get_address
 							},
 							{
 								"type": "int",
@@ -64,8 +75,23 @@ def transfer(contract_address,pay_address,get_address,amount, node_index = None,
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="transfer", ijson=request), twice = True)
+	if len(contract_address)<=5:
+		logger.error("contract address error! now is contract address:\"" + contract_address+"\"")
+		return (False,{"error":10000,"desc":"contract address error!"})
+	return API.contract().call_contract(Task(name="transfer", ijson=request), twice = True,sleep=0)
 def approve(contract_address,pay_address,get_address, amount,node_index = None,errorcode=47001,errorkey="error"):
+	if len(get_address)!=34 :
+		send_get_address=ByteToHex(bytes(get_address, encoding = "utf8"))
+	else:
+		send_get_address=Common.bl_address(get_address)
+		if send_get_address=="0000000000000000000000000000000000000000":
+			send_get_address=ByteToHex(bytes(get_address, encoding = "utf8"))
+	if len(pay_address)!=34 :
+		send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
+	else:
+		send_pay_address=Common.bl_address(pay_address)
+		if send_pay_address=="0000000000000000000000000000000000000000":
+			send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -87,11 +113,11 @@ def approve(contract_address,pay_address,get_address, amount,node_index = None,e
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
+								"value": send_pay_address
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_reserver(Common.base58_to_address(get_address))
+								"value": send_get_address
 							},
 							{
 								"type": "int",
@@ -107,10 +133,30 @@ def approve(contract_address,pay_address,get_address, amount,node_index = None,e
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="approve", ijson=request), twice = True)
+	if len(contract_address)<=5:
+		logger.error("contract address error! now is contract address:\"" + contract_address+"\"")
+		return (False,{"error":10000,"desc":"contract address error!"})
+	return API.contract().call_contract(Task(name="approve", ijson=request), twice = True,sleep=0)
 def transferFrom(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001,errorkey="error"):
-	if not senderType:
-		sender=Common.bl_reserver(Common.base58_to_address(sender))
+	if len(pay_address)!=34 :
+		send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
+	else:
+		send_pay_address=Common.bl_address(pay_address)
+		if send_pay_address=="0000000000000000000000000000000000000000":
+			send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
+	#if not senderType:
+	if len(sender)!=34 :
+		sender=ByteToHex(bytes(sender, encoding = "utf8"))
+	else:
+		sender=Common.bl_address(sender)
+		if sender=="0000000000000000000000000000000000000000":
+			sender=ByteToHex(bytes(sender, encoding = "utf8"))
+	if len(get_address)!=34 :
+		getaddress=ByteToHex(bytes(get_address, encoding = "utf8"))
+	else:
+		getaddress=Common.bl_address(get_address)
+		if getaddress=="0000000000000000000000000000000000000000":
+			getaddress=ByteToHex(bytes(get_address, encoding = "utf8"))
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -137,11 +183,11 @@ def transferFrom(contract_address,sender,pay_address,get_address, amount,node_in
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
+								"value": send_pay_address
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_reserver(Common.base58_to_address(get_address))
+								"value": getaddress
 							},
 							{
 								"type": "int",
@@ -157,7 +203,7 @@ def transferFrom(contract_address,sender,pay_address,get_address, amount,node_in
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="transferFrom", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="transferFrom", ijson=request), twice = True,sleep=0)
 def name(contract_address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST": {
@@ -179,7 +225,7 @@ def name(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="name", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="name", ijson=request), twice = True,sleep=0)
 def symbol(contract_address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST": {
@@ -201,7 +247,7 @@ def symbol(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="symbol", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="symbol", ijson=request), twice = True,sleep=0)
 def decimals(contract_address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST": {
@@ -223,7 +269,7 @@ def decimals(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="decimals", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="decimals", ijson=request), twice = True,sleep=0)
 def totalSupply(contract_address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST": {
@@ -245,8 +291,12 @@ def totalSupply(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="totalSupply", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="totalSupply", ijson=request), twice = True,sleep=0)
 def balanceOf(contract_address,address,node_index = None,errorcode=47001):
+	if len(address)!=34 :
+		send_get_address=ByteToHex(bytes(address, encoding = "utf8"))
+	else:
+		send_get_address=Common.bl_address(address)
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -268,7 +318,7 @@ def balanceOf(contract_address,address,node_index = None,errorcode=47001):
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_reserver(Common.base58_to_address(address))
+								"value": send_get_address
 							}
 						]
 					}
@@ -278,8 +328,16 @@ def balanceOf(contract_address,address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="balanceOf", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="balanceOf", ijson=request), twice = True,sleep=0)
 def allowance(contract_address,pay_address,get_address,node_index = None,errorcode=47001,errorkey="error"):
+	if len(get_address)!=34 :
+		send_get_address=ByteToHex(bytes(get_address, encoding = "utf8"))
+	else:
+		send_get_address=Common.bl_address(get_address)
+	if len(pay_address)!=34 :
+		send_pay_address=ByteToHex(bytes(pay_address, encoding = "utf8"))
+	else:
+		send_pay_address=Common.bl_address(pay_address)
 	request = {
 		"REQUEST": {
 			"Qid": "t",
@@ -301,11 +359,11 @@ def allowance(contract_address,pay_address,get_address,node_index = None,errorco
 							{
 								"type": "bytearray",
 								
-								"value": Common.bl_reserver(Common.base58_to_address(pay_address))
+								"value": send_pay_address
 							},
 							{
 								"type": "bytearray",
-								"value": Common.bl_reserver(Common.base58_to_address(get_address))
+								"value": send_get_address
 							}
 						]
 					}
@@ -318,7 +376,7 @@ def allowance(contract_address,pay_address,get_address,node_index = None,errorco
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="allowance", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="allowance", ijson=request), twice = True,sleep=0)
 
 def transfer1(contract_address,pay_address,get_address,amount, node_index = None,errorcode=47001,errorkey="error"):
 	request = {
@@ -343,7 +401,7 @@ def transfer1(contract_address,pay_address,get_address,amount, node_index = None
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="transfer", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="transfer", ijson=request), twice = True,sleep=0)
 def approve1(contract_address,pay_address,get_address, amount,node_index = None,errorcode=47001,errorkey="error"):
 	request =  {
 		"REQUEST": {
@@ -367,7 +425,7 @@ def approve1(contract_address,pay_address,get_address, amount,node_index = None,
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="approve", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="approve", ijson=request), twice = True,sleep=0)
 def transferFrom1(contract_address,sender,pay_address,get_address, amount,node_index = None,senderType=False,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
@@ -392,7 +450,7 @@ def transferFrom1(contract_address,sender,pay_address,get_address, amount,node_i
 	}
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
-	return API.contract().call_contract(Task(name="transferFrom", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="transferFrom", ijson=request), twice = True,sleep=0)
 def name1(contract_address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST": {
@@ -411,7 +469,7 @@ def name1(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="name", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="name", ijson=request), twice = True,sleep=0)
 def symbol1(contract_address,node_index = None,errorcode=47001):
 	request = {
 		"REQUEST":{
@@ -430,7 +488,7 @@ def symbol1(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="symbol", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="symbol", ijson=request), twice = True,sleep=0)
 def decimals1(contract_address,node_index = None,errorcode=47001):
 	request ={
 		"REQUEST":{
@@ -449,7 +507,7 @@ def decimals1(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="decimals", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="decimals", ijson=request), twice = True,sleep=0)
 def totalSupply1(contract_address,node_index = None,errorcode=47001):
 	request =  {
 			"REQUEST":{
@@ -468,7 +526,7 @@ def totalSupply1(contract_address,node_index = None,errorcode=47001):
 		"RESPONSE":{"error" : errorcode},
 		"NODE_INDEX":node_index
 	}
-	return API.contract().call_contract(Task(name="totalSupply", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="totalSupply", ijson=request), twice = True,sleep=0)
 def balanceOf1(contract_address,address,node_index = None,errorcode=47001,errorkey="error"):
 	request ={
 		"REQUEST": {
@@ -491,7 +549,7 @@ def balanceOf1(contract_address,address,node_index = None,errorcode=47001,errork
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
 
-	return API.contract().call_contract(Task(name="balanceOf", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="balanceOf", ijson=request), twice = True,sleep=0)
 def allowance1(contract_address,pay_address,get_address,node_index = None,errorcode=47001,errorkey="error"):
 	request = {
 		"REQUEST": {
@@ -515,4 +573,4 @@ def allowance1(contract_address,pay_address,get_address,node_index = None,errorc
 	if (errorkey =="error_code"):
 		request["SIGN_RESPONSE"]={errorkey : errorcode}
 
-	return API.contract().call_contract(Task(name="allowance", ijson=request), twice = True)
+	return API.contract().call_contract(Task(name="allowance", ijson=request), twice = True,sleep=0)
