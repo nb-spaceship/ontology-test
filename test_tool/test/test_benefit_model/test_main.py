@@ -574,7 +574,7 @@ class test_benefit_model_2(ParametrizedTestCase):
 				test_api.add_candidate_node(i, init_pos = 5000, from_node = i - 7)
 			
 			#投票给三个节点成为共识节点
-			(process, response) = API.native().invoke_function_vote(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"])
+			(process, response) = API.native().vote_for_peer(Config.NODES[vote_node]["address"], [Config.NODES[peer_node1]["pubkey"], Config.NODES[peer_node2]["pubkey"], Config.NODES[peer_node3]["pubkey"]], ["15000", "15000", "15000"])
 			if not process:
 				raise Error("vote error")
 			

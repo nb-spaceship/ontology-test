@@ -80,26 +80,33 @@ class test_api:
         #新加入节点, 并申请候选节点
         API.node().start_nodes([new_node], clear_chain = True, clear_log = True)
         
-        API.native().regid_with_publickey(new_node)
-        (process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"])
+        API.native().regid_with_publickey(new_node, sleep = 0)
+        API.node().wait_gen_block()
+        (process, response) = API.native().bind_role_function("0700000000000000000000000000000000000000", ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),["registerCandidate"], sleep = 0)
         if not process:
             return (process, response)
-            
-        (process, response) = API.native().bind_user_role("0700000000000000000000000000000000000000",ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),[ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8"))])
+        API.node().wait_gen_block()
+
+        (process, response) = API.native().bind_user_role("0700000000000000000000000000000000000000",ByteToHex(bytes(Config.NODES[0]["ontid"], encoding = "utf8")), ByteToHex(b"roleA"),[ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8"))], sleep = 0)
         if not process:
             return (process, response)
+        API.node().wait_gen_block()
             
         API.node().transfer_ont(from_node, new_node, init_ont, price = 0)
         API.node().transfer_ong(from_node, new_node, init_ong, price = 0)
         
-        time.sleep(10) 
+        #time.sleep(10) 
+        API.node().wait_gen_block()
+
         
-        (process, response) = API.native().register_candidate(Config.NODES[new_node]["pubkey"], Config.NODES[new_node]["address"], str(init_pos), ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8")), "1")
+        (process, response) = API.native().register_candidate(Config.NODES[new_node]["pubkey"], Config.NODES[new_node]["address"], str(init_pos), ByteToHex(bytes(Config.NODES[new_node]["ontid"], encoding = "utf8")), "1", sleep = 0)
         if not process:
             return (process, response)  
+        API.node().wait_gen_block()
             
-        (process, response) = API.native().approve_candidate(Config.NODES[new_node]["pubkey"])       
+        (process, response) = API.native().approve_candidate(Config.NODES[new_node]["pubkey"], sleep = 0)       
         return (process, response)
+        API.node().wait_gen_block()
 
     '''
     def init_admin(contract_address, admin_address, node_index = None):
