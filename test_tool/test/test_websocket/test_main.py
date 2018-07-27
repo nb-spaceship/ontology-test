@@ -84,17 +84,16 @@ class test_websocket_1(ParametrizedTestCase):
 			# self.ASSERT(not process, "")
 		# except Exception as e:
 			# logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_003_heartbeat(self):
 		try:
 			API.ws = WebSocket()
-			API.ws.exec(heartbeat_gap=400)
-			process=True
+			process=API.ws.exec(heartbeat_gap=320)
 			# (result, response) = API.ws().heartbeat()
 			self.ASSERT(process, "")
 		except Exception as e:
 			process=False
-	'''
+	
 	def test_base_004_subscribe(self):
 		try:
 			time.sleep(5)
@@ -739,8 +738,10 @@ class test_websocket_1(ParametrizedTestCase):
 
 	def test_normal_094_getblockheightbytxhash(self):
 		try:
-			time.sleep(10)
-			(process, response) = API.ws().getblockheightbytxhash(test_config.TX_HASH_INCORRECT_5)
+			(process, response) = API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[1]["address"], "100000000", 0, pre=False, twice=False)
+			tx_hash_failed = response["result"]
+			API.node().wait_gen_block()
+			(process, response) = API.ws().getblockheightbytxhash(tx_hash_failed)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -787,8 +788,10 @@ class test_websocket_1(ParametrizedTestCase):
 	
 	def test_normal_100_getmerkleproof(self):
 		try:
-			time.sleep(10)
-			(process, response) = API.ws().getmerkleproof(test_config.TX_HASH_INCORRECT_5)
+			(process, response) = API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[1]["address"], "100000000", 0, pre=False, twice=False)
+			tx_hash_failed = response["result"]
+			API.node().wait_gen_block()
+			(process, response) = API.ws().getmerkleproof(tx_hash_failed)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])

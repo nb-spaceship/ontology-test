@@ -150,18 +150,22 @@ def con_test_service(ip, request):
 class WebSocket():
 	def __init__(self):
 		self.LONG_LIVE_WS = None
+		self.terminated = False
 
 	#special test case
 	def ws_thread(self, message_cb = None):
 		def on_message(ws, message):
 			print("message: " + message)
+			if message["Error"] == 41001:
+				raise TestError("Error")
 			if message_cb:
 				message_cb(message)
 
 		def on_error(ws, error):
-			print(error)
+			self.terminated = True
 
 		def on_close(ws):
+			self.terminated = True
 			print("### closed ###")
 
 		def on_open(ws):
@@ -176,8 +180,10 @@ class WebSocket():
 
 	def ws_heartbeat_thread(self, heartbeat_gap = 5):
 		while True:
-			time.sleep(heartbeat_gap)
+			time.sleep(1)
 			try:
+				if self.terminated:
+					raise TestError("Error")
 				self.LONG_LIVE_WS.send(json.dumps(Task(Config.BASEAPI_PATH + "/ws/heartbeat.json").data()["REQUEST"]))
 			except Exception as e:
 				logger.print(e.args[0])
@@ -192,6 +198,9 @@ class WebSocket():
 
 		while True:
 			try:
+				time.sleep(heartbeat_gap+5)
+				if self.terminated:
+					raise TestError("thread t2 closed")
 				command = sys.stdin.readline().strip('\n')
 				if ".json" not in command:
 					command = command + ".json"
