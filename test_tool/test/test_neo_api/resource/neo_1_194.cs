@@ -1,11 +1,12 @@
-using Neo.SmartContract.Framework;
-using Neo.SmartContract.Framework.Services.Neo;
-using Neo.SmartContract.Framework.Services.System;
+using Ont.SmartContract.Framework;
+using Ont.SmartContract.Framework.Services.Ont;
+using Ont.SmartContract.Framework.Services.System;
 using System;
 using System.ComponentModel;
 using System.Numerics;
 
-namespace Neo.SmartContract
+
+namespace Ont.SmartContract
 {
     public class BlockchainTest : Framework.SmartContract
     {
@@ -437,7 +438,7 @@ namespace Neo.SmartContract
 
         public static TransactionAttribute[] GetTransactionAttribute_Usage(byte[] txid,int index)
         {
-            Block block = GetBlockByHeight(1);
+            Block block = GetBlockByHeight(index);
             Transaction tran = block.GetTransactions()[0];
             TransactionAttribute[] attr = tran.GetAttributes(); 
             return attr;

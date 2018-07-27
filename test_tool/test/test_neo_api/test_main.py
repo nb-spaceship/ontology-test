@@ -395,7 +395,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "52Gettransactionattribute_usage.log"
 		# task_name = "52Gettransactionattribute_usage"
 		try:
-			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, "1")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
