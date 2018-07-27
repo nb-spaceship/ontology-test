@@ -30,7 +30,7 @@ class NativeApi:
     ##############################################
     ###0100000000000000000000000000000000000000###
     
-    def allowance_ont(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+    def allowance_ont(self, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
                     "REQUEST":  {
                     "Qid": "t",
@@ -108,7 +108,7 @@ class NativeApi:
 
     ##############################################
     ###0200000000000000000000000000000000000000###
-    def allowance_ong(self, neo_contract_address, from_address, to_address, amount, node_index=None,errorcode=0,gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+    def allowance_ong(self, from_address, to_address, amount, node_index=None,errorcode=0,gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
                     "REQUEST":  {
                     "Qid": "t",
@@ -132,7 +132,7 @@ class NativeApi:
 
         return CONTRACT_API.call_contract(Task(name="allowance_ong", ijson=request), twice = True, sleep=sleep) 
 
-    def approve_ong(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+    def approve_ong(self, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
                 "REQUEST": {
                 "Qid": "t",
