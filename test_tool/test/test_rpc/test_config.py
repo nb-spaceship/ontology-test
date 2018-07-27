@@ -10,7 +10,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.apimanager import API
 
-rpcApi = API.rpc()
+
 
 class test_config():
 	m_getstorage_contract_key = "1234" # ByteToHex(b'key1')

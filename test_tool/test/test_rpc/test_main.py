@@ -259,7 +259,7 @@ class test_rpc_2(ParametrizedTestCase):
 	def test_abnormal_026_getgenerateblocktime(self):
 		try:
 			(process, response) = API.rpc().getgenerateblocktime()
-			self.ASSERT(not response["result"], "")
+			self.ASSERT(process and (not response["result"]), "")
 		except Exception as e:
 			logger.print(e.args[0])
 	
@@ -563,14 +563,14 @@ class test_rpc_2(ParametrizedTestCase):
 	def test_normal_075_getsmartcodeevent(self):
 		try:
 			(process, response) = API.rpc().getsmartcodeevent(height = 99999999)
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
 	def test_abnormal_076_getsmartcodeevent(self):
 		try:
 			(process, response) = API.rpc().getsmartcodeevent(height="abc")
-			self.ASSERT(process, "")
+			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
