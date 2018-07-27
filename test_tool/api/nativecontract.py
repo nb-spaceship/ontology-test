@@ -53,7 +53,7 @@ class NativeApi:
             request["NODE_INDEX"] = node_index
         return CONTRACT_API.call_contract(Task(name="allowance_ont", ijson=request), twice = True, sleep=sleep) 
 
-    def approve_ont(self, neo_contract_address, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+    def approve_ont(self, from_address, to_address, amount, node_index=None, errorcode=0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
                 "REQUEST": {
                 "Qid": "t",
