@@ -685,7 +685,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "87Getcontract_destroy"
 		try:
 			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
-			result = str(API.rpc().getblockheightbytxhash(txHash=test_config.contract_tx_hash)[1]["result"])
+			result = str(API.rpc().getblockheightbytxhash(tx_hash=test_config.contract_tx_hash)[1]["result"])
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
