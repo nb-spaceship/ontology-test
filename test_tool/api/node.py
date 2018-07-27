@@ -37,7 +37,7 @@ class NodeApi:
 
 	def get_current_node(self):
 		currentip = urlopen('http://ip.42.pl/raw').read()
-		for node_index in range(len(Config.NODES))
+		for node_index in range(len(Config.NODES)):
 			node = Config.NODES[node_index] 
 			if node["ip"] == currentip:
 				return node_index
