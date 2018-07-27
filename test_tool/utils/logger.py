@@ -54,13 +54,13 @@ class Logger():
 		if not result is None:
 			if result == "pass":
 				self.print("[ OK       ] ")
-				self.append_record(self.logtitle, "pass", self.logpath.replace(self.prefix, ""))
+				self.append_record(self.logtitle, "pass", self.logpath.replace(self.prefix + "/", ""))
 			elif result == "fail":
 				self.print("[ Failed   ] ")
-				self.append_record(self.logtitle, "fail", self.logpath.replace(self.prefix, ""))
+				self.append_record(self.logtitle, "fail", self.logpath.replace(self.prefix + "/", ""))
 			elif result == "block":
 				self.print("[ Block    ] ")
-				self.append_record(self.logtitle, "block", self.logpath.replace(self.prefix, ""))
+				self.append_record(self.logtitle, "block", self.logpath.replace(self.prefix + "/", ""))
 		if self.logfile:
 			self.logfile.close()
 			self.logfile = None
