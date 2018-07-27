@@ -296,7 +296,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().wait_gen_block()
 
 			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
-			self.ASSERT(balance_of_wallet_A == 0, "wallet A balance changed")
+			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")
 
 			(process, responseb) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, 0)
 			# need to check
