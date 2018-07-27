@@ -104,7 +104,7 @@ class NativeApi:
         if node_index != None:
             request["NODE_INDEX"] = node_index
 
-        return CONTRACT_API.call_contract(Task(name="transfer", ijson=request), twice=True, sleep=sleep)
+        return CONTRACT_API.call_contract(Task(name="transfer_ont", ijson=request), twice=True, sleep=sleep)
 
     ##############################################
     ###0200000000000000000000000000000000000000###
@@ -183,7 +183,7 @@ class NativeApi:
         if node_index != None:
             request["NODE_INDEX"] = node_index
 
-        return CONTRACT_API.call_contract(Task(name="transfer", ijson=request), twice=True, sleep=sleep)
+        return CONTRACT_API.call_contract(Task(name="transfer_ong", ijson=request), twice=True, sleep=sleep)
 
     ##############################################
     ###0300000000000000000000000000000000000000###
