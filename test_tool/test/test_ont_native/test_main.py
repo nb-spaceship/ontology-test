@@ -30,9 +30,9 @@ from api.apimanager import API
 #test cases
 class test_ont_native_1(ParametrizedTestCase):
 	def test_init(self):
-		#API.node().stop_all_nodes()  
-		#API.node().start_nodes(range(0, 7), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
-		#API.native().init_ont_ong()
+		API.node().stop_all_nodes()  
+		API.node().start_nodes(range(0, 7), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
+		API.native().init_ont_ong()
 		test_config.contract_address = API.contract().deploy_contract(test_config.neo1filename)
 		test_config.sender5= API.contract().deploy_contract(test_config.neo2filename) 
 		test_config.sender2 = test_config.contract_address

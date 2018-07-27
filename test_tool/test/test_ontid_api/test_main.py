@@ -313,10 +313,10 @@ class test_ontid_api_1(ParametrizedTestCase):
 class test_ontid_api_2(ParametrizedTestCase):##TestContract
 	#@classmethod
 	def test_init(self):
-		#API.node().stop_all_nodes()
-		#API.node().start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
+		API.node().stop_all_nodes()
+		API.node().start_nodes(range(0, 8), Config.DEFAULT_NODE_ARGS, clear_chain = True, clear_log = True)
 		#time.sleep(10)
-		#API.native().init_ont_ong()
+		API.native().init_ont_ong()
 		#time.sleep(20)
 		
 		test_config.contract_address = API.contract().deploy_contract(test_path + "/resource/ontid.json")
