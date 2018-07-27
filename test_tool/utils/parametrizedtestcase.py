@@ -21,7 +21,7 @@ class ParametrizedTestCase(unittest.TestCase):
         pass
                 
     def result(self):
-        if self.m_result == "init"
+        if self.m_result == "init":
             if self.m_assertcount > 0:
                 self.m_result = "pass"
             else:
