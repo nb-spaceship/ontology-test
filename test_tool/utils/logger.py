@@ -41,6 +41,7 @@ class Logger():
 	#write
 	def print(self, str):
 		print(str)
+		str = str + "  [" + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())) + "]"
 		if self.logfile:
 			self.logfile.write(str + "\n")
 
