@@ -279,14 +279,16 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_026_getblockhashbyheight(self,height=6000):
 		try:
-			(process, response) = API.restful().getblockhashbyheight(height)	
-			self.ASSERT(process, "")
+			(process, response) = API.restful().getblockhashbyheight(height)
+			rs = (response["Result"] == "" or response["Result"] == None)
+			self.ASSERT(process and rs, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
 	def test_normal_027_getblockhashbyheight(self,height=65536):
 		try:
-			(process, response) = API.restful().getblockhashbyheight(height)	
+			(process, response) = API.restful().getblockhashbyheight(height)
+			rs = (response["Result"] == "" or response["Result"] == None)			
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
