@@ -69,7 +69,7 @@ def con_cli(ip, request):
 		response = requests.post(url, data=json.dumps(request), headers=Config.RPC_HEADERS)
 		return response.json()
 	except Exception as e:
-		print(e)
+		print("con_cli:",  e)
 		raise TestError(54004)
 
 def con_rpc(ip, request):
@@ -84,7 +84,7 @@ def con_rpc(ip, request):
 		print("send end")
 		return response.json()
 	except Exception as e:
-		print(e)
+		print("con_rpc:",  e)
 		raise TestError(54001)
 
 def con_restful(ip, api_request):
@@ -113,7 +113,7 @@ def con_restful(ip, api_request):
 			response = urllib.request.urlopen(api_url)
 			return json.loads(response.read().decode("utf-8"))
 	except Exception as e:
-		print(e)
+		print("con_restful:",  e)
 		raise TestError(54002)
 
 def con_ws(ip, request):
@@ -130,7 +130,7 @@ def con_ws(ip, request):
 		ws.close()
 		return json.loads(response)
 	except Exception as e:
-		print(e)
+		print("con_ws:",  e)
 		raise TestError(54003)
 
 def con_test_service(ip, request):
@@ -144,7 +144,7 @@ def con_test_service(ip, request):
 		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS)
 		return response.json()
 	except Exception as e:
-		print(e)
+		print("con_test_service:",  e)
 		raise TestError(54005)
 
 class WebSocket():

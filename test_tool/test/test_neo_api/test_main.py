@@ -40,9 +40,9 @@ class test_neo_api_1(ParametrizedTestCase):
 
 		for i in range(5):
 			test_config.block_with_no_tx = test_api.get_block_with_no_tx(test_config.contract_addr)
-			if block_with_no_tx:
+			if test_config.block_with_no_tx:
 				break
-			time.sleep(30)
+			API.node().wait_gen_block()
 
 
 	def setUp(self):
