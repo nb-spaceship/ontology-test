@@ -96,12 +96,18 @@ class InitConfig():
         self.initconfig["sigsvr_source_path"] = cf["resource"]["root"] + cf["resource"]["sigsvr_source_name"]
         self.initconfig["abi_source_path"] = cf["resource"]["root"] + cf["resource"]["abi_source_name"]
         self.initconfig["test_service_source_path"] = cf["resource"]["root"] + cf["resource"]["test_service_source_name"]
+        self.initconfig["ontology_dbft_1_source_name"] = cf["resource"]["root"] + cf["resource"]["ontology_dbft_1_source_name"]
+        self.initconfig["ontology_dbft_2_source_name"] = cf["resource"]["root"] + cf["resource"]["ontology_dbft_2_source_name"]
+        self.initconfig["ontology_dbft_3_source_name"] = cf["resource"]["root"] + cf["resource"]["ontology_dbft_3_source_name"]
 
         self.initconfig["node_path"] = cf["node"]["root"] + cf["node"]["onto_name"]
         self.initconfig["wallet_path"] = cf["node"]["root"] + cf["node"]["wallet_name"]
         self.initconfig["onto_config_path"] = cf["node"]["root"] + cf["node"]["onto_config_name"]
         self.initconfig["sigsvr_path"] = cf["node"]["root"] + cf["node"]["sigsvr_name"]
         self.initconfig["abi_path"] = cf["node"]["root"] + cf["node"]["abi_name"]
+        self.initconfig["ntology_dbft_1_path"] = cf["node"]["root"] + cf["node"]["ontology_dbft_1_name"]
+        self.initconfig["ntology_dbft_2_path"] = cf["node"]["root"] + cf["node"]["ontology_dbft_2_name"]
+        self.initconfig["ntology_dbft_3_path"] = cf["node"]["root"] + cf["node"]["ontology_dbft_3_name"]
 
         self.initconfig["test_service_path"] = cf["test_service_path"]
         self.initconfig["test_config_path"] = cf["test_config_path"]
@@ -121,6 +127,9 @@ class SelfCheck():
         self.sigsvr_source_path = initconfig["sigsvr_source_path"]
         self.abi_source_path = initconfig["abi_source_path"]
         self.test_service_source_path = initconfig["test_service_source_path"]
+        self.ontology_dft_1_source_path = initconfig["ontology_dbft_1_source_name"]
+        self.ontology_dft_2_source_path = initconfig["ontology_dbft_2_source_name"]
+        self.ontology_dft_3_source_path = initconfig["ontology_dbft_3_source_name"]
 
         self.node_path = initconfig["node_path"]
         self.wallet_path = initconfig["wallet_path"]
@@ -129,6 +138,9 @@ class SelfCheck():
         self.sigsvr_path = initconfig["sigsvr_path"]
         self.abi_path = initconfig["abi_path"]
         self.test_service_path = initconfig["test_service_path"]
+        self.ontology_dft_1_path = initconfig["ntology_dbft_1_path"]
+        self.ontology_dft_2_path = initconfig["ntology_dbft_2_path"]
+        self.ontology_dft_3_path = initconfig["ntology_dbft_3_path"]
 
         self.ontology_correct_md5 = str(calc_md5_for_file(self.ontology_source_path))
         self.wallet_correct_md5 = calc_md5_for_files(self.wallet_source_path)
@@ -169,6 +181,21 @@ class SelfCheck():
             logger.info("checking node " + str(i+1) + " ontology OK\n")
 
         logger.info("checking all nodes ontology OK")
+        logger.info("----------------------------------\n\n")
+
+    def check_ontology_dft(self):
+        logger.info("----------------------------------")
+        logger.info("start checking all nodes ontology_dft\n")
+
+        for i in range(self.nodecounts):
+            logger.info("checking node " + str(i+1) + " ontology_dft......")
+            sftp_transfer(self.ontology_dft_1_source_path, self.ontology_dft_1_path, i, "put")
+            sftp_transfer(self.ontology_dft_2_source_path, self.ontology_dft_2_path, i, "put")
+            sftp_transfer(self.ontology_dft_3_source_path, self.ontology_dft_3_path, i, "put")
+            
+            logger.info("checking node " + str(i+1) + " ontology_dft OK\n")
+
+        logger.info("checking all nodes ontology_dft OK")
         logger.info("----------------------------------\n\n")
 
     def check_wallet(self):
@@ -348,6 +375,9 @@ class SelfCheck():
 
         # check ontology exec mode and md5 value  
         self.check_ontology()
+
+        # check ontology dbft 
+        self.check_ontology_dft()
 
         # check abi md5 value
         self.check_abi()

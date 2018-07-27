@@ -227,8 +227,8 @@ def exec_cmd(**kwargs):
 
 @dispatcher.add_method
 def stop_sigsvr(**kwargs):
-  os.popen("killall -9 sigsvr-linux")
-  os.popen("killall -9 sigsvr")
+  os.popen("killall sigsvr-linux")
+  os.popen("killall sigsvr")
   return True
 
 @dispatcher.add_method
