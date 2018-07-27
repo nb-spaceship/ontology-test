@@ -80,7 +80,7 @@ def con_rpc(ip, request):
 		else:
 			con_url = Config.RPC_URL
 		print("send...")
-		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS)
+		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS, timeout = 5)
 		print("send end")
 		return response.json()
 	except Exception as e:
