@@ -44,7 +44,7 @@ class test_rpc_1(ParametrizedTestCase):
 	# can not test
 	def test_normal_021_getbestblockhash(self):
 		try:
-			self.clear_nodes()
+			# self.clear_nodes()
 			(process, response) = API.rpc().getbestblockhash()
 			self.ASSERT(process, "")
 		except Exception as e:
@@ -53,7 +53,7 @@ class test_rpc_1(ParametrizedTestCase):
 	# can not test
 	def test_normal_023_getblockcount(self):
 		try:
-			self.clear_nodes()
+			# self.clear_nodes()
 			(process, response) = API.rpc().getblockcount()
 			self.ASSERT(process, "")
 		except Exception as e:
