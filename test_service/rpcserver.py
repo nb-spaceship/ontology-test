@@ -199,6 +199,9 @@ def start_node(**kwargs):
   if "node_args" in kwargs:
     node_args = kwargs["node_args"]
 
+  if not os.path.exists(config.NODE_PATH + "/" + program_name):
+      return False
+
   if clear_chain:
     os.system("mv -f " + config.NODE_PATH + "/Chain" + " " + config.NODE_PATH + "/Chain_bak")
   if clear_log:
