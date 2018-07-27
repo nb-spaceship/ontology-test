@@ -41,7 +41,7 @@ class test_config():
 			test_config.PUBLICKEY1 =Config.NODES[7]["pubkey"]
 
 			test_config.BLOCK_HEIGHT_WITH_TX = str(API.rpc().getblockheightbytxhash(tx_hash=test_config.contract_tx_hash)[1]["result"])
-			(result, response) = test_api.invoke_func_with_1_param(test_config.contract_address, "GetBlockTransactionCount", "int", str(test_config.BLOCK_HEIGHT_WITH_TX), sleep = 0)
+			(result, response) = test_api.invoke_func_with_1_param(test_config.contract_addr, "GetBlockTransactionCount", "int", str(test_config.BLOCK_HEIGHT_WITH_TX), sleep = 0)
 	        test_config.BLOCK_TX_COUNT = int(response["result"]["Result"])
 	        print("test_config.BLOCK_TX_COUNT: ", test_config.BLOCK_TX_COUNT)
 
