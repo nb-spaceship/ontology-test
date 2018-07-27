@@ -28,9 +28,10 @@ from test_auth.test_config import test_config
 ####################################################
 #test cases
 class test_auth_1(ParametrizedTestCase):
+
 	def setUp(self):
 		logger.open("test_auth/" + self._testMethodName+".log",self._testMethodName)
-		'''
+		
 		time.sleep(2)
 		print("stop all")
 		API.node().stop_all_nodes()
@@ -48,7 +49,7 @@ class test_auth_1(ParametrizedTestCase):
 		API.native().regid_with_publickey(8)
 		
 		API.native().init_ont_ong()
-		'''
+		
 		(test_config.contract_addr, test_config.contract_tx_hash) = API.contract().deploy_contract_full(test_config.deploy_neo_1)
 		(test_config.contract_addr_1, test_config.contract_tx_hash_1) = API.contract().deploy_contract_full(test_config.deploy_neo_2)
 		(test_config.contract_addr_2, test_config.contract_tx_hash_2) = API.contract().deploy_contract_full(test_config.deploy_neo_3)
@@ -59,7 +60,9 @@ class test_auth_1(ParametrizedTestCase):
 		(test_config.contract_addr_138_1, test_config.contract_tx_hash_138_1) = API.contract().deploy_contract_full(test_config.deploy_neo_8)
 		(test_config.contract_addr_138_2, test_config.contract_tx_hash_138_2) = API.contract().deploy_contract_full(test_config.deploy_neo_9)
 		(test_config.contract_addr_139, test_config.contract_tx_hash_139) = API.contract().deploy_contract_full(test_config.deploy_neo_10)
-		
+		# (test_config.contract_addr_140, test_config.contract_tx_hash_140) = API.contract().deploy_contract_full(test_config.deploy_neo_11)
+
+
 		test_config.CONTRACT_ADDRESS_CORRECT = test_config.contract_addr    
 		test_config.CONTRACT_ADDRESS_CORRECT = test_config.contract_addr               # correct
 		test_config.CONTRACT_ADDRESS_INCORRECT_1 = test_config.contract_addr_1         # wrong ontid
@@ -76,7 +79,8 @@ class test_auth_1(ParametrizedTestCase):
 		test_config.CONTRACT_ADDRESS_139 = test_config.contract_addr_139               # appcall contract with messy code address
 
 		API.node().wait_gen_block()
-
+		
+		
 	def tearDown(self):
 		logger.close(self.result())
 		
@@ -287,7 +291,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="17_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -300,7 +304,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="18_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_INCORRECT_1, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_INCORRECT_1, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -312,7 +316,7 @@ class test_auth_1(ParametrizedTestCase):
 		#log_path = "19_transfer.log"
 		#task_name ="19_transfer"
 		try:
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -325,7 +329,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="20_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -338,7 +342,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="21_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -351,7 +355,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="22_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -364,7 +368,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="23_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -377,7 +381,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="24_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -390,7 +394,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="25_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -403,7 +407,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="26_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -416,7 +420,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="27_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_1)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_1)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -429,7 +433,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="28_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_2)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_2)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -442,7 +446,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="29_transfer"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_3)
+			(process, response) = API.native().transfer_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, public_key=test_config.KEY_NO_3)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -456,7 +460,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="30_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -469,7 +473,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="31_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -482,7 +486,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="32_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -495,7 +499,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="33_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -508,7 +512,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="34_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -521,7 +525,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="35_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -534,8 +538,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="36_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			process = (response["result"]["Result"] == "00")
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -548,8 +551,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="37_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			process = (response["result"]["Result"] == "00")
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -562,13 +564,15 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="38_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			process = (response["result"]["Result"] == "00")
+			print("******")
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			print("--------")
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
 				self.ASSERT(True, "")
 		except Exception as e:
+			print("******")
 			logger.print(e.args[0])
 
 	def test_normal_039_assignFuncsToRole(self):
@@ -576,7 +580,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="39_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -589,8 +593,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="40_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -603,7 +607,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="41_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_1, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_1, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -616,7 +620,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="42_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_2, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_2, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -629,7 +633,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="43_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -642,7 +646,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="44_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_B, test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_B, test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -655,8 +659,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="45_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A, test_config.FUNCTION_B, test_config.FUNCTION_C])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A, test_config.FUNCTION_B, test_config.FUNCTION_C])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -669,8 +673,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="46_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -683,8 +687,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="47_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_2, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_2, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -697,7 +701,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="48_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_D])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_D])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -710,7 +714,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="49_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A, test_config.FUNCTION_D])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A, test_config.FUNCTION_D])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -723,7 +727,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="50_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -736,7 +740,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="51_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_1)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_1)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -749,7 +753,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="52_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_2)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_2)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -762,7 +766,7 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="53_assignFuncsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_3)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A], public_key = test_config.KEY_NO_3)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -775,8 +779,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="54_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -789,8 +793,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="55_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -803,8 +807,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="56_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -817,8 +821,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="57_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -831,8 +835,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="58_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -845,9 +849,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="59_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -860,8 +864,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="60_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			process = (response["result"]["Result"] == "00")
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
@@ -875,8 +879,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="61_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			process = (response["result"]["Result"] == "00")
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
@@ -890,8 +894,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="62_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			process = (response["result"]["Result"] == "00")
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
@@ -905,8 +909,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="63_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -919,8 +923,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="64_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_3, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_3, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -933,8 +937,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="65_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_1, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_INCORRECT_1, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -947,8 +951,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="66_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A, test_config.ontID_B])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A, test_config.ontID_B])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -961,8 +965,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="67_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A, test_config.ontID_B, test_config.ontID_C])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A, test_config.ontID_B, test_config.ontID_C])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -975,8 +979,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="68_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_D])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_D])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -989,8 +993,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="69_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1003,8 +1007,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="70_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_1)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_1)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1017,8 +1021,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="71_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_2)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_2)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1031,8 +1035,8 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="72_assignOntIDsToRole"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_3)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A], public_key=test_config.KEY_NO_3)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1045,9 +1049,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="73_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1060,9 +1064,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="74_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1075,9 +1079,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="75_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1090,9 +1094,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="76_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1105,9 +1109,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="77_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1120,11 +1124,11 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="78_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_E, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, node_index=2)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_E, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, node_index=2)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1137,9 +1141,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="79_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1152,9 +1156,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="80_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1167,9 +1171,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="81_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1182,10 +1186,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="82_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1198,9 +1202,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="83_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1213,9 +1217,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="84_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_C, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_C, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1228,9 +1232,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="85_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_D, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_D, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1243,9 +1247,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="86_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1258,9 +1262,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="87_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_3, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_3, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1273,9 +1277,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="88_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_1, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_1, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1288,9 +1292,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="89_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1303,9 +1307,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="90_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_1, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_1, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1318,9 +1322,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="91_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_2, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_2, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1333,9 +1337,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="92_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_3, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_3, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1348,9 +1352,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="93_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_4, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_4, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1363,9 +1367,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="94_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_5, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_INCORRECT_5, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1378,9 +1382,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="95_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1393,9 +1397,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="96_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_1)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_1)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1408,9 +1412,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="97_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_2)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_2)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1423,9 +1427,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="98_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_3)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_3)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1438,9 +1442,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="99_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_4)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_INCORRECT_4)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1453,9 +1457,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="100_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1468,9 +1472,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="101_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_1)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_1)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1483,9 +1487,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="102_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_2)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_2)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1498,9 +1502,9 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="103_delegate"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_3)		
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT, public_key=test_config.KEY_NO_3)		
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1513,10 +1517,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="104_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1529,10 +1533,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="105_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_4, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1545,10 +1549,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="106_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_5, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1561,10 +1565,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="107_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_INCORRECT_6, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1577,10 +1581,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="108_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1593,10 +1597,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="109_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_B, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1609,10 +1613,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="110_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_E, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_E, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_E, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1625,10 +1629,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="111_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_C, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1641,10 +1645,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="112_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_D, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1657,10 +1661,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="113_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1673,10 +1677,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="114_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1689,10 +1693,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="115_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1705,10 +1709,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="116_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_A, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1721,10 +1725,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="117_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_C, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_C, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1737,10 +1741,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="118_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_D, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_D, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1753,10 +1757,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="119_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1769,10 +1773,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="120_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_3)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_3)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1785,10 +1789,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="121_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_2)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_2)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1801,10 +1805,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="122_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_1)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_INCORRECT_1)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1818,10 +1822,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="134_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "01", "")
 			else:
@@ -1834,10 +1838,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="135_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_1)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_1)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1850,10 +1854,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="136_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_2)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_2)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1866,10 +1870,10 @@ class test_auth_1(ParametrizedTestCase):
 		#task_name ="137_withdraw"
 		try:
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
-			(process, response) = API.nativecontract().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
-			(process, response) = API.nativecontract().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
-			(process, response) = API.nativecontract().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
-			(process, response) = API.nativecontract().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_3)
+			(process, response) = API.native().bind_role_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.FUNCTION_A])
+			(process, response) = API.native().bind_user_role( test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ROLE_CORRECT, [test_config.ontID_A])
+			(process, response) = API.native().delegate_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, test_config.PERIOD_CORRECT, test_config.LEVEL_CORRECT)
+			(process, response) = API.native().withdraw_user_role(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A, test_config.ontID_B, test_config.ROLE_CORRECT, public_key=test_config.KEY_NO_3)
 			if isinstance(response, dict) and response["result"]:
 				self.ASSERT(response["result"]["Result"] == "00", "")
 			else:
@@ -1884,7 +1888,7 @@ class test_auth_1(ParametrizedTestCase):
 			init_admin(test_config.CONTRACT_ADDRESS_CORRECT, test_config.ontID_A)
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_138, "contractA_Func_A", test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
-				self.ASSERT(response["result"]["Result"] == "01", "")
+				self.ASSERT(response["result"]["Result"] == "323232", "")
 			else:
 				self.ASSERT(False, "")
 		except Exception as e:
