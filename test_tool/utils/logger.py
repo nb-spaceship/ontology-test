@@ -40,8 +40,8 @@ class Logger():
 		self.logtitle = title if title else os.path.splitext(filepath)[0]
 	#write
 	def print(self, str):
-		print(str)
 		str = str + "  [" + time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())) + "]"
+		print(str)
 		if self.logfile:
 			self.logfile.write(str + "\n")
 
