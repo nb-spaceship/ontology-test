@@ -66,7 +66,7 @@ class Logger():
 			self.logfile = None
 
 	def append_record(self, name, status, logpath):
-		self.collectionfile = open(os.path.dirname(self.logfile) + "/collection_log.csv", "a+")  # 打开文件
+		self.collectionfile = open(os.path.dirname(self.logpath) + "/collection_log.csv", "a+")  # 打开文件
 		self.collectionfile.write(name + "," + status + "," + logpath + "\n")
 		self.collectionfile.close()
 
