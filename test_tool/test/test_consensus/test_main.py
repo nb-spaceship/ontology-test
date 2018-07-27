@@ -453,7 +453,6 @@ class test_consensus_3(ParametrizedTestCase):
 			API.native().regid_with_publickey(node_index)
 		
 		API.native().init_ont_ong()
-		time.sleep(15)
 		
 		(test_config.m_contract_addr, test_config.m_contract_txhash) = API.contract().deploy_contract_full(test_config.deploy_neo_1, test_config.name1, test_config.desc, test_config.price)
 		(test_config.m_contract_addr2, test_config.m_contract_txhash2) = API.contract().deploy_contract_full(test_config.deploy_neo_2, test_config.name1, test_config.desc, test_config.price)
