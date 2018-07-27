@@ -335,21 +335,21 @@ class test_neo_api_1(ParametrizedTestCase):
 		except Exception as e:
 			logger.print(e.args[0])
 
-	def test_abnormal_043_blockchainGetTransaction(self):
+	def test_normal_043_blockchainGetTransaction(self):
 		# log_path = "43_blockchainGetTransaction.log"
 		# task_name = "43_blockchainGetTransaction"
 		try:
 			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "0")
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
-	def test_abnormal_044_blockchainGetTransaction(self):
+	def test_normal_044_blockchainGetTransaction(self):
 		# log_path = "44_blockchainGetTransaction.log"
 		# task_name = "44_blockchainGetTransaction"
 		try:
-			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "1")
-			self.ASSERT(not process, "")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, str(test_config.BLOCK_TX_COUNT - 1))
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -357,7 +357,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "45_blockchainGetTransaction.log"
 		# task_name = "45_blockchainGetTransaction"
 		try:
-			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_44", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "2")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_45", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, str(test_config.BLOCK_TX_COUNT))
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -395,7 +395,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "52Gettransactionattribute_usage.log"
 		# task_name = "52Gettransactionattribute_usage"
 		try:
-			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, "1")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, test_config.GET_TRANSACTIONS_ATTRIBUTE_USAGE_FUNC_NAME, test_config.PARAM_TYPE_BYTEARRAY, test_config.TX_HASH_CORRECT,test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX)
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
