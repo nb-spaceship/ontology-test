@@ -133,7 +133,7 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
-				self.ASSERT(response["result"]["Result"] == "01", "")
+				self.ASSERT(response["result"]["Result"] == "41", "")
 			else:
 				self.ASSERT(False, "")
 		except Exception as e:
@@ -182,10 +182,9 @@ class test_auth_1(ParametrizedTestCase):
 		#log_path = "09_verifyToken.log"
 		#task_name ="09_verifyToken"
 		try:
-			
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
-				self.ASSERT(response["result"]["Result"] == "01", "")
+				self.ASSERT(response["result"]["Result"] == "41", "")
 			else:
 				self.ASSERT(False, "")
 		except Exception as e:
@@ -237,7 +236,7 @@ class test_auth_1(ParametrizedTestCase):
 			
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
-				self.ASSERT(response["result"]["Result"] == "01", "")
+				self.ASSERT(response["result"]["Result"] == "41", "")
 			else:
 				self.ASSERT(False, "")
 		except Exception as e:
@@ -1925,7 +1924,7 @@ class test_auth_1(ParametrizedTestCase):
 		try:
 			(process, response) = invoke_function(test_config.CONTRACT_ADDRESS_CORRECT, test_config.FUNCTION_A, test_config.ontID_A)
 			if isinstance(response, dict) and response["result"]:
-				self.ASSERT(response["result"]["Result"] == "01", "")
+				self.ASSERT(response["result"]["Result"] == "41", "")
 			else:
 				self.ASSERT(False, "")
 		except Exception as e:
