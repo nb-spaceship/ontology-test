@@ -36,7 +36,7 @@ class NodeApi:
 				return False
 
 	def get_current_node(self):
-		currentip = urlopen('http://ip.42.pl/raw').read()
+		currentip = urllib.request.urlopen('http://ip.42.pl/raw').read()
 		for node_index in range(len(Config.NODES)):
 			node = Config.NODES[node_index] 
 			if node["ip"] == currentip:
