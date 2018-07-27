@@ -312,8 +312,8 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "40_blockchainGetTransaction.log"
 		# task_name = "40_blockchainGetTransaction"
 		try:
-			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, "1", test_config.PARAM_TYPE_INT, "0")
-			self.ASSERT(not process, "")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "0")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
