@@ -71,6 +71,9 @@ class Common:
 	def bl_reserver(input):
 		if input == None:
 			return ""
+		if len(input) % 2 != 0:
+			return input
+			
 		rstrs = input[::-1]
 		output = ""
 		for i in range(0, len(input), 2):

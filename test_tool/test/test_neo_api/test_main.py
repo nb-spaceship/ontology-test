@@ -312,8 +312,8 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "40_blockchainGetTransaction.log"
 		# task_name = "40_blockchainGetTransaction"
 		try:
-			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, "1", test_config.PARAM_TYPE_INT, "0")
-			self.ASSERT(not process, "")
+			(process, response) = test_api.invoke_func_with_2_param(test_config.CONTRACT_ADDRESS, "GetBlockTransaction_40", test_config.PARAM_TYPE_INT, test_config.BLOCK_HEIGHT_WITH_TX, test_config.PARAM_TYPE_INT, "0")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -685,7 +685,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "87Getcontract_destroy"
 		try:
 			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
-			result = str(API.rpc().getblockheightbytxhash(txHash=test_config.contract_tx_hash)[1]["result"])
+			result = str(API.rpc().getblockheightbytxhash(tx_hash=test_config.contract_tx_hash)[1]["result"])
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
@@ -1154,7 +1154,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# task_name = "169getcontractMigrate"
 		try:
 			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, "", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 

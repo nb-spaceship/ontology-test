@@ -294,8 +294,9 @@ class test_benefit_model_1(ParametrizedTestCase):
 			new_node = self.m_new_2_nodes[0] #新加入节点
 			
 
-			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5")
+			(process, response) = API.native().update_global_param("0", "1000", "32", "1", "50", "50", "5", "5", sleep = 0)
 			self.BLOCK(process, "updateGlobalParam error")
+			API.node().wait_gen_block()
 			
 			address4 = Config.NODES[self.m_checknode]["address"]
 			(process, response) = API.rpc().getbalance(address4)

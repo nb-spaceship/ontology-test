@@ -75,7 +75,7 @@ class test_consensus_1(ParametrizedTestCase):
 		
 			(process, response) = API.contract().invoke_function(test_config.m_contract_addr, "get", "", "1", argvs = [{"type": "bytearray","value": storage_key}], node_index = test_config.m_current_node)
 			self.ASSERT(process, "invoke_function get error...")
-			self.ASSERT(response["result"]["Result"] != storage_value, "invoke_function get error...")
+			self.ASSERT(response["result"]["Result"] == storage_value, "invoke_function get error...")
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -168,6 +168,7 @@ class test_consensus_1(ParametrizedTestCase):
 			process = False
 			(process, response) = test_api.transfer(test_config.m_contract_addr, Config.NODES[test_config.m_current_node]["address"], Config.NODES[1]["address"], test_config.AMOUNT, test_config.m_current_node)
 			self.ASSERT(process, "transfer error...")
+			API.node().wait_gen_block()
 
 			(process, response) = API.rpc().getblockheightbytxhash(response["txhash"])
 			self.ASSERT(process, "not a valid block...")
@@ -264,15 +265,22 @@ class test_consensus_1(ParametrizedTestCase):
 	def test_base_030_consensus(self):
 		try:
 			# ensure balance of wallet A is 1000
-			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
-			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, str(balance_of_wallet_A-1000), 0)
-			
+			balance_of_wallet_A1 = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, str(balance_of_wallet_A1-1000), 0)
+
+			balance_of_wallet_A1 = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			balance_of_wallet_B1 = int(API.rpc().getbalance(test_config.ADDRESS_B)[1]["result"]["ont"]) 
+			balance_of_wallet_C1 = int(API.rpc().getbalance(test_config.ADDRESS_C)[1]["result"]["ont"]) 
+
 			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, "1000", 0, sleep=0)
 			(process, response) = API.native().transfer_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, "1000", 0, sleep=0)
 			API.node().wait_gen_block()
 
-			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
-			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")	
+			balance_of_wallet_A2 = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
+			balance_of_wallet_B2 = int(API.rpc().getbalance(test_config.ADDRESS_B)[1]["result"]["ont"]) 
+			balance_of_wallet_C2 = int(API.rpc().getbalance(test_config.ADDRESS_C)[1]["result"]["ont"]) 
+			self.ASSERT(balance_of_wallet_A2 == 0, "wallet A balance changed[1]")	
+			self.ASSERT((balance_of_wallet_A1 + balance_of_wallet_B1 + balance_of_wallet_C1) == (balance_of_wallet_A2 + balance_of_wallet_B2 + balance_of_wallet_C2), "wallet A balance changed[2]")	
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -290,13 +298,12 @@ class test_consensus_1(ParametrizedTestCase):
 			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
 			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")
 
-			(process, response) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, 0)
+			(process, responseb) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_B, 0)
 			# need to check
-			self.ASSERT(response["result"] == "00" , "allowance to wallet B is not 0")
-
-			(process, response) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, 0)
+			#self.ASSERT(response["result"] == "00" , "allowance to wallet B is not 0")
+			(process, responsec) = API.native().allowance_ont(test_config.ADDRESS_A, test_config.ADDRESS_C, 0)
 			# need to checkADDRESS_C
-			self.ASSERT(response["result"] == "00" , "allowance to wallet C is not 0")
+			self.ASSERT(responseb["result"] == "1000" or responsec["result"] == "1000", "allowance to wallet B/C is not 0")
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -315,7 +322,7 @@ class test_consensus_1(ParametrizedTestCase):
 			API.node().wait_gen_block()
 
 			balance_of_wallet_A = int(API.rpc().getbalance(test_config.ADDRESS_A)[1]["result"]["ont"]) 
-			self.ASSERT(balance_of_wallet_A == 1000, "wallet A balance changed")	
+			self.ASSERT(balance_of_wallet_A == 0, "wallet A balance changed")	
 
 			(process, response) = API.native().allowance_ont(test_config.ADDRESS_B, test_config.ADDRESS_A, 1)
 			# need to check
@@ -349,7 +356,6 @@ class test_consensus_2(ParametrizedTestCase):
 		for node_index in range(7):			
 			API.native().regid_with_publickey(node_index)
 		API.native().init_ont_ong()
-		time.sleep(15)
 		
 		(test_config.m_contract_addr, test_config.m_contract_txhash) = API.contract().deploy_contract_full(test_config.deploy_neo_1, test_config.name1, test_config.desc, test_config.price)
 		(test_config.m_contract_addr2, test_config.m_contract_txhash2) = API.contract().deploy_contract_full(test_config.deploy_neo_2, test_config.name1, test_config.desc, test_config.price)
