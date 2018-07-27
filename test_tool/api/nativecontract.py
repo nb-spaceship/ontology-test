@@ -214,6 +214,32 @@ class NativeApi:
 
     ##############################################
     ###0600000000000000000000000000000000000000###
+    def transfer_admin(self, contract_address, new_admin_ontid, public_key="1", node_index = None, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
+        request = {
+            "REQUEST": {
+                "Qid": "t",
+                "Method": "signativeinvoketx",
+                "Params": {
+                    "gas_price": gas_price,
+                    "gas_limit": gas_limit,
+                    "address": "0600000000000000000000000000000000000000",
+                    "method": "transfer",
+                    "version": 0,
+                    "params": [
+                        contract_address,
+                        new_admin_ontid,
+                        public_key
+                    ]
+                }
+            },
+            "RESPONSE":{"error" : errorcode}
+        }
+
+        if node_index != None:
+            request["NODE_INDEX"] = node_index
+                    
+        return CONTRACT_API.call_contract(Task(name="transfer_admin", ijson=request), twice = True, sleep=sleep)
+
     def bind_role_function(self, contract_address, admin_address, role_str, functions, public_key="1", node_index = None, errorcode = 0, gas_price= Config.DEFAULT_GAS_PRICE, gas_limit = Config.DEFAULT_GAS_LIMIT, sleep=5):
         request = {
             "REQUEST": {
