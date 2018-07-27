@@ -30,11 +30,7 @@ class Logger():
 			os.makedirs(logdir)
 
 		if not self.init:
-			if not os.path.exists(self.prefixFul):
-				os.makedirs(self.prefixFul)
-			self.append_record("NAME", "STATUS", "LOG PATH")
 			self.init = True
-
 
 		self.logfile = open(self.logpath, "w")  # 打开文件
 		self.logtitle = title if title else os.path.splitext(filepath)[0]
@@ -67,7 +63,14 @@ class Logger():
 			self.logfile = None
 
 	def append_record(self, name, status, logpath):
+		newfile = False
+		if not os.path.exists(os.path.dirname(self.logpath) + "/collection_log.csv"):
+			os.makedirs(self.prefixFul)
+			newfile = True
 		self.collectionfile = open(os.path.dirname(self.logpath) + "/collection_log.csv", "a+")  # 打开文件
+		
+		if newfile:
+			self.collectionfile.write("NAME,STATUS,LOG PATH\n")
 		self.collectionfile.write(name + "," + status + "," + logpath + "\n")
 		self.collectionfile.close()
 

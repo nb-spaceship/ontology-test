@@ -35,7 +35,7 @@ class TestMonitor:
 		self.case_count = 0
 		self.retry_cases = []
 		self.retry_logger_path = []
-		self.initmap = {}
+		
 
 	def need_retry(self):
 		print("case_count:", self.case_count, " faild_step_count:", self.faild_step_count, " total_step_count:", self.total_step_count)
@@ -69,6 +69,7 @@ class TestMonitor:
 		self.recover_env()
 		testcases = self.retry_cases.copy()
 		self.reset()
+		self.initmap = {}
 		for case in testcases:
 			self.run_case(case)
 
