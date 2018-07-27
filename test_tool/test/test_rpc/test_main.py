@@ -81,7 +81,7 @@ class test_rpc_2(ParametrizedTestCase):
 		API.contract().invoke_function(test_config.m_contractaddr_right, "put", "", "1", argvs = [{"type": "bytearray","value": test_config.m_getstorage_contract_key},{"type": "bytearray","value": test_config.m_getstorage_contract_value}], node_index = 0)
 		
 	def setUp(self):
-		logger.open( self._testMethodName+".log",self._testMethodName)
+		logger.open( "test_rpc/"+self._testMethodName+".log",self._testMethodName)
 		if self._testMethodName == "test_init":
 			return 
 		time.sleep(1)
