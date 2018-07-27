@@ -21,6 +21,8 @@ class Usage(Exception):
 		self.msg = msg
 
 def main(argv = None):
+	print ("current node: ", API.node().get_current_node())
+
 	if argv is None:
 		argv = sys.argv
 	try:

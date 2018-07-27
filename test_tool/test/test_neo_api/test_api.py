@@ -25,7 +25,7 @@ class test_api():
         print("seeking block with no transaction......")
         block_count = API.rpc().getblockcount()[1]["result"]
         for i in range(block_count):
-            (result, response) = test_api.invoke_func_with_1_param(contract_address, "GetBlockTransactionCount", "int", str(i))
+            (result, response) = test_api.invoke_func_with_1_param(contract_address, "GetBlockTransactionCount", "int", str(i), sleep = 0)
             print("---------", response)
             if response["result"]["Result"] == "00":
                 print("block with no transaction :", str(i))
@@ -339,7 +339,7 @@ class test_api():
 
 
     @staticmethod
-    def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None, twice=True):
+    def invoke_func_with_1_param(contract_address, func_name, param_type, param_value, node_index = None, twice=True, sleep =5):
         request = {
 
             "REQUEST": {
@@ -368,7 +368,7 @@ class test_api():
             "RESPONSE": {}
         }
         
-        return API.contract().call_contract(Task(name=func_name, ijson=request), twice = twice)
+        return API.contract().call_contract(Task(name=func_name, ijson=request), twice = twice, sleep = sleep)
 
     @staticmethod
     def invoke_func_with_0_param(contract_address, func_name, node_index = None):
