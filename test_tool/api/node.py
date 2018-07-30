@@ -67,10 +67,10 @@ class NodeApi:
 				ip = Config.NODES[int(index)]["ip"]
 				response = utils.connect.con_test_service(ip, request)
 				if not response or "result" not in response:
-					print("no md5: "+ ip)
+					logger.print("no md5: "+ ip)
 					isSame = False
 				else:
-					print(response["result"] + " [" + ip + "]")
+					logger.print(response["result"] + " [" + ip + "]")
 					if not md5:
 						md5 = response["result"]
 					elif md5 != response["result"]:
@@ -115,7 +115,7 @@ class NodeApi:
 		time.sleep(10)
 
 	def start_node(self, index, start_params = Config.DEFAULT_NODE_ARGS, clear_chain = False, clear_log = False, program = "ontology", config = "config.json"):
-		print("start node: " + str(index) + " start_params:" + start_params + " clear_chain:" + str(clear_chain) + " clear_log:" + str(clear_log))
+		logger.info("start node: " + str(index) + " start_params:" + start_params + " clear_chain:" + str(clear_chain) + " clear_log:" + str(clear_log))
 		request = {
 			"method": "start_node",
 			"jsonrpc": "2.0",
@@ -142,7 +142,7 @@ class NodeApi:
 			self.stop_node(index)
 
 	def stop_node(self, index):
-		print("stop node: " + str(index))
+		logger.info("stop node: " + str(index))
 		request = {
 			"method": "stop_node",
 			"jsonrpc": "2.0",
@@ -301,7 +301,7 @@ class NodeApi:
 		return response
 
 	def stop_sigsvr(self, index):
-		print("stop sig_server: " + str(index))
+		logger.info("stop sig_server: " + str(index))
 		request = {
 			"method": "stop_sigsvr",
 			"jsonrpc": "2.0",
@@ -314,7 +314,7 @@ class NodeApi:
 		return response
 
 	def start_sigsvr(self, wallet, index):
-		print("start sig_server: " + str(index))
+		logger.info("start sig_server: " + str(index))
 		request = {
 			"method": "start_sigsvr",
 			"jsonrpc": "2.0",
