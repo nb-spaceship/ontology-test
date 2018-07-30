@@ -96,7 +96,7 @@ class test_restful_2(ParametrizedTestCase):
 	def test_abnormal_053_getcontract(self):
 		try:
 			(contractaddr_right, txhash_right) = API.contract().deploy_contract_full(testpath+"/resource/A.neo", "name", "desc", 0)
-			time.sleep(10)
+			# time.sleep(10)
 			script_hash=contractaddr_right
 			(process, response) = API.restful().getcontract(script_hash) 
 			self.ASSERT(not process, "")
@@ -320,7 +320,8 @@ class test_restful_3(ParametrizedTestCase):
 	def test_base_033_postrawtx(self):
 		
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = "sendrawtransaction"
 			version = "1.0.0"
 			(process, response) = API.restful().postrawtx(rawtxdata,action,version) 
@@ -330,7 +331,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_034_postrawtx(self):
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = "sendrawtransaction_wrong"
 			version = "1.0.0"
 		
@@ -341,7 +343,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_035_postrawtx(self):
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = ""
 			version = "1.0.0"
 		
@@ -352,7 +355,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_036_postrawtx(self):
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = "sendrawtransaction"
 			version = "1.0.0"
 	
@@ -363,7 +367,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_037_postrawtx(self):
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = "sendrawtransaction"
 			version = "2.0.8"
 		
@@ -374,7 +379,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_038_postrawtx(self):
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = "sendrawtransaction"
 			version = ""
 		
@@ -385,7 +391,8 @@ class test_restful_3(ParametrizedTestCase):
 
 	def test_normal_039_postrawtx(self):
 		try:
-			rawtxdata=test_config.m_signed_txhash_right
+			(result, reponse) = API.contract().sign_transction(Task(testpath+"/resource/cli/siginvoketx.json"), False)
+			rawtxdata=reponse["result"]["signed_tx"]
 			action = "sendrawtransaction"
 			version = "1.0.0"
 	
