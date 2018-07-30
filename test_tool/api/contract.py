@@ -129,6 +129,7 @@ class ContractApi:
     # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
     def call_contract(self, task, judge = True, pre = True, twice = False, sleep = 5):
         try:
+            logger.print("\n")
             logger.print("[-------------------------------]")
             logger.print("[ RUN      ] "+ "contract" + "." + task.name())
             
