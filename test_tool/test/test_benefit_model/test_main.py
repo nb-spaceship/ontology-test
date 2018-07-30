@@ -66,6 +66,7 @@ class test_benefit_model_1(ParametrizedTestCase):
 			self.BLOCK(process, "can't gen block")
 			API.node().wait_gen_block()
 			API.node().wait_gen_block()
+			API.node().wait_gen_block()
 			
 			(process, response) = API.rpc().getbalance(address1)
 			self.BLOCK(process, "get balance error")
