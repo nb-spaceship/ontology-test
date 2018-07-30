@@ -174,6 +174,7 @@ class ContractApi:
                 if not result:
                     raise Error("not except sign result")
 
+
             signed_tx = None
             if not response is None and "result" in response and not response["result"] is None and "signed_tx" in response["result"]:
                 signed_tx = response["result"]["signed_tx"]
@@ -259,7 +260,7 @@ class ContractApi:
                     if not result:
                         logger.error("call_multisig_contract.sign_multi_transction error![1]")
                         return (result, response)
-                    if response["error_code"] != 0:
+                    if "error_code" not in response or response["error_code"] != 0:
                         logger.error("call_multisig_contract.sign_multi_transction error![2]")
                         return (False, response)
                     signed_raw = response["result"]["signed_tx"]
