@@ -70,7 +70,7 @@ class ContractApi:
             tmpfile.close()
             return (deploy_contract_addr, deploy_contract_txhash)
         except Exception as e:
-            logger.error(e)
+            print(e)
             return (None, None)
 
     #部署合约
