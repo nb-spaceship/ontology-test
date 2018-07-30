@@ -146,17 +146,6 @@ class test_restful_3(ParametrizedTestCase):
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-
-	# 无节点
-	def test_abnormal_004_getconnectioncount(self):
-		try:
-			API.node().stop_all_nodes()
-			(process, response) = API.restful().getconnectioncount()
-			API.node().start_nodes([1, 2, 3, 4, 5, 6], Config.DEFAULT_NODE_ARGS, True, True)
-			time.sleep(5)
-			self.ASSERT(process, "")
-		except Exception as e:
-			logger.print(e.args[0])
 		
 	def test_base_005_getblocktxsbyheight(self,height=1):
 		try:
@@ -281,7 +270,7 @@ class test_restful_3(ParametrizedTestCase):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)
 			rs = (response["Result"] == "" or response["Result"] == None)
-			self.ASSERT(process and rs, "")
+			self.ASSERT(not process and rs, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -289,7 +278,7 @@ class test_restful_3(ParametrizedTestCase):
 		try:
 			(process, response) = API.restful().getblockhashbyheight(height)
 			rs = (response["Result"] == "" or response["Result"] == None)			
-			self.ASSERT(process, "")
+			self.ASSERT(not process and rs, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
@@ -483,7 +472,7 @@ class test_restful_3(ParametrizedTestCase):
 			key=""
 		
 			(process, response) = API.restful().getstorage(script_hash, key) 
-			self.ASSERT(process, "")
+			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 		
