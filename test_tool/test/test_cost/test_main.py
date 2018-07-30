@@ -22,14 +22,14 @@ from api.apimanager import API
 from test_cost.test_config import test_config
 
 #test cases
-class test_cost_1(ParametrizedTestCase):
+class test_cost(ParametrizedTestCase):
 	def setUp(self):
 		logger.open("test_auth/" + self._testMethodName+".log",self._testMethodName)
 		
 	def tearDown(self):
 		logger.close(self.result())
 
-	def test_base_001_rpcapiTest(self):
+	def test_base_001(self):
 		priceTest=20000
 		try:
 			(process1, response)= API.rpc().getbalance(test_config.address)
@@ -57,7 +57,7 @@ class test_cost_1(ParametrizedTestCase):
 		except Exception as e:
 			logger.print(e.args[0])
 		
-	def test_normal_004_rpcapiTest(self):
+	def test_normal_004(self):
 		priceTest=366780
 		try:
 			(process1, response)= API.rpc().getbalance(test_config.address)
