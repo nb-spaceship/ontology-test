@@ -79,9 +79,7 @@ def con_rpc(ip, request):
 			con_url = "http://" + ip + ":20336/jsonrpc"
 		else:
 			con_url = Config.RPC_URL
-		print("send...")
 		response = requests.post(con_url, data=json.dumps(request), headers=Config.RPC_HEADERS, timeout = 10)
-		print("send end")
 		return response.json()
 	except Exception as e:
 		print("con_rpc:",  e)

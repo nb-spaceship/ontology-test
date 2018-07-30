@@ -37,7 +37,7 @@ class ContractApi:
             
             logger.print("[ DEPLOY ] ")
             cmd = Config.TOOLS_PATH + "/deploy_contract.sh " + neo_code_path + " \"" + name + "\" \"" + desc + "\" \"" + str(price) +  "\" > tmp"
-            print(cmd)
+            logger.print(cmd)
             p = subprocess.Popen(cmd, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
             begintime = time.time()
             secondpass = 0
@@ -46,7 +46,7 @@ class ContractApi:
                 secondpass = time.time() - begintime
                 if secondpass > timeout:
                     p.terminate()
-                    print("Error: execute " + cmd + " time out!")
+                    logger.error("Error: execute " + cmd + " time out!")
                 time.sleep(0.1)
             p.stdout.close()
 
@@ -70,7 +70,7 @@ class ContractApi:
             tmpfile.close()
             return (deploy_contract_addr, deploy_contract_txhash)
         except Exception as e:
-            print(e)
+            logger.error(e)
             return (None, None)
 
     #部署合约
@@ -82,7 +82,7 @@ class ContractApi:
 
     def sign_transction(self, task, judge = True, process_log = True):
         if task.node_index() != None:
-            print("sign transction with other node: " + str(task.node_index()))
+            logger.info("sign transction with other node: " + str(task.node_index()))
             task.set_type("st")
             request = task.request()
             task.set_request({
@@ -208,7 +208,7 @@ class ContractApi:
 
     def sign_multi_transction(self, task, judge = True, process_log = True):
         if task.node_index() != None:
-            print("sign transction with other node: " + str(task.node_index()))
+            logger.info("sign transction with other node: " + str(task.node_index()))
             task.set_type("st")
             request = task.request()
             task.set_request({
