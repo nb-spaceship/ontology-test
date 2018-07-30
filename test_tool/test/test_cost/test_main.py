@@ -38,22 +38,18 @@ class test_cost(ParametrizedTestCase):
 			ong1=int(response["result"]["ong"])
 			ont1=response["result"]["ont"]
 			
-			ontract_address = API.contract().deploy_contract(test_config.cost1,price=priceTest)
+			ontract_address = API.native().transfer_ont(Config.NODES[0]["address"], Config.NODES[0]["address"], "1", gas_price=priceTest)
 			(process1, response)= API.rpc().getbalance(test_config.address)
 			ong2=int(response["result"]["ong"])
 			ont2=response["result"]["ont"]
 			
-			print(ong1-ong2==(priceTest*1000000000))
-			print(priceTest*1000000000)
+			print(ong1-ong2==(priceTest*20000))
+			print(priceTest*20000)
 			print(ong1-ong2)
 			
-			if(ong1-ong2==(priceTest*1000000000)):
-				process=True
-			else:
-				process=False
 			#print(ong,ont)
 			#self.finish(task_name, log_path, result,  "")\
-			self.ASSERT(process, "")
+			self.ASSERT((ong1-ong2)==(priceTest*20000), "")
 		except Exception as e:
 			logger.print(e.args[0])
 		
@@ -66,7 +62,7 @@ class test_cost(ParametrizedTestCase):
 			print(response["result"])
 			ong1=int(response["result"]["ong"])
 			ont1=response["result"]["ont"]
-			task=Task(test_config.filterfile)
+			task=Task(name = "cost 366780 ong", ijson = test_config.task004)
 			(process, response) = API.contract().call_contract(task,pre=False)
 			
 			(process1, response)= API.rpc().getbalance(test_config.address)
@@ -77,11 +73,7 @@ class test_cost(ParametrizedTestCase):
 			print(priceTest)
 			print(ong1-ong2)
 			
-			if(ong1-ong2==(priceTest)):
-				process=True
-			else:
-				process=False
-			self.ASSERT(process, "")
+			self.ASSERT((ong1-ong2)==(priceTest), "")
 		except Exception as e:
 			logger.print(e.args[0])
 
