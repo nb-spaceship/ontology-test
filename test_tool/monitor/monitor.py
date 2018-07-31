@@ -192,7 +192,7 @@ class TestMonitor:
 						contents += line
 				with open(collectionlogpath, 'w+') as f:
 					f.write(contents)
-
+				return
 
 	def exec(self, runner, testcases, monitor = True):
 		self.alltestcase = testcases.copy()
