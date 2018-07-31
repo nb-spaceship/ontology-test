@@ -129,7 +129,7 @@ def transfer_ont(**kwargs):
 
   cmd = "cd " + config.NODE_PATH + "\n";
   cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --asset=ont --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\""
-  if price > 0:
+  if int(price) >= 0:
     cmd = cmd + " --gasprice=" + str(price)
   cmd = cmd + " > .tmp"
   print(cmd)
@@ -149,9 +149,9 @@ def transfer_ong(**kwargs):
   amount = kwargs["amount"]
   price = kwargs["price"]
 
-  cmd = "cd " + config.NODE_PATH + "\n";
+  cmd = "cd " + config.NODE_PATH + "\n"
   cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset transfer --asset=ong  --from=\"" + str(_from) + "\" " + "--to=\"" + str(to) + "\"" + " --amount=\"" + str(amount) + "\""
-  if price > 0:
+  if int(price) >= 0:
     cmd = cmd + " --gasprice=" + str(price)
   cmd = cmd + " > .tmp"
   print(cmd)
@@ -166,7 +166,7 @@ def withdrawong(**kwargs):
   if os.path.exists(".tmp"):
     os.remove(".tmp")
 
-  cmd = "cd " + config.NODE_PATH + "\n";
+  cmd = "cd " + config.NODE_PATH + "\n"
   cmd = cmd + "echo 123456|" + config.NODE_PATH + "/ontology asset withdrawong 1 > .tmp"
 
   print(cmd)
