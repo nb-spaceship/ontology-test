@@ -92,8 +92,8 @@ class test_api:
         if not process:
             return (process, response)
             
-        API.node().transfer_ont(from_node, new_node, init_ont, price = 0)
-        API.node().transfer_ong(from_node, new_node, init_ong, price = 0)
+        API.native().transfer_ont(Config.NODES[from_node]["address"], Config.NODES[new_node]["address"], str(init_ont), gas_price = 0)
+        API.native().transfer_ong(Config.NODES[from_node]["address"], Config.NODES[new_node]["address"], str(init_ong), gas_price = 0)
         
         #time.sleep(10) 
         
