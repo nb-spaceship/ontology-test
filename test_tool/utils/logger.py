@@ -6,7 +6,7 @@ from utils.config import Config
 class Logger():
 	def __init__(self):
 		self.prefix = Config.LOG_PATH + "/" + time.strftime('%Y-%m-%d_%H-%M-%S',time.localtime(time.time()))
-		self.prefixFul = self.prefix;
+		self.prefixFul = self.prefix
 		self.init = False
 		#self.prefix = "logs/" + time.strftime('%Y-%m-%d',time.localtime(time.time()))
 		self.logfile = None
