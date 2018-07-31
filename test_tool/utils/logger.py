@@ -101,6 +101,7 @@ class Logger():
 			self.collectionfile.write(name + "," + status + "," + logpath + "\n")
 			self.collectionfile.close()
 		except Exception as e:
-			append_record(name, status, logpath, retrytimes = retrytimes + 1)
+			print("append_record:", e)
+			#append_record(name, status, logpath, retrytimes = retrytimes + 1)
 
 LoggerInstance = Logger()
