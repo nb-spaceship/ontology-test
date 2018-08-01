@@ -209,6 +209,7 @@ class test_neo_api_1(ParametrizedTestCase):
 	def test_base_022_blockchainGetVersion(self):
 		# log_path = "22_blockchainGetVersion.log"
 		# task_name = "22_blockchainGetVersion"
+		self.test_init()
 		try:
 			(process, response) = test_api.invoke_func_with_1_param(test_config.CONTRACT_ADDRESS, test_config.GET_HEADER_VERSION_FUNC_NAME, test_config.PARAM_TYPE_INT, test_config.HEIGHT_CORRECT)
 			self.ASSERT(process, "")
@@ -683,6 +684,7 @@ class test_neo_api_1(ParametrizedTestCase):
 	def test_normal_087_getcontractDestroy(self):
 		# log_path = "87Getcontract_destroy.log"
 		# task_name = "87Getcontract_destroy"
+		self.test_init()
 		try:
 			(process, response) = test_api.invoke_func_with_0_param(test_config.CONTRACT_ADDRESS, test_config.GET_CONTRACT_DESTROY_FUNC_NAME)
 			result = str(API.rpc().getblockheightbytxhash(tx_hash=test_config.contract_tx_hash)[1]["result"])
@@ -1153,7 +1155,7 @@ class test_neo_api_1(ParametrizedTestCase):
 		# log_path = "168getcontractMigrate.log"
 		# task_name = "168getcontractMigrate"
 		try:
-			(process, response) = test_api.invoke_contract_create(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_2, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_migrate(test_config.CONTRACT_ADDRESS, test_config.SCRIPT_HASH_INCORRECT_2, test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
