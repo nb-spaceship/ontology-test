@@ -1,11 +1,7 @@
 # -*- coding:utf-8 -*-
-import ddt
 import unittest
-import urllib
-import urllib.request
-import json
 import os
-import sys, getopt
+import sys
 import time
 
 sys.path.append('..')
@@ -13,12 +9,10 @@ sys.path.append('../..')
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from utils.config import Config
-from utils.taskdata import TaskData, Task
 from utils.logger import LoggerInstance as logger
 from utils.hexstring import *
 from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
-from utils.taskrunner import TaskRunner
 from api.apimanager import API
 
 from test_governance.test_api import test_api
