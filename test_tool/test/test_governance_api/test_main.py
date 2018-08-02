@@ -1178,7 +1178,7 @@ class test_governance_api_10(ParametrizedTestCase):
 		except Exception as e:
 			logger.print(e.args[0])
     
-    def test_normal_111_updateConfig(self):
+	def test_normal_111_updateConfig(self):
 		try:
 			(process, response) = invoke_function_update("updateConfig",test_config.updateConfig_param0_1,test_config.updateConfig_param1_1,test_config.updateConfig_param2_1,test_config.updateConfig_param3_3,test_config.updateConfig_param4_1,test_config.updateConfig_param5_1,test_config.updateConfig_param6_1,test_config.updateConfig_param7_1)
 			self.ASSERT(process, "")
