@@ -1177,7 +1177,7 @@ class test_governance_api_10(ParametrizedTestCase):
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-    '''
+    
     def test_normal_111_updateConfig(self):
 		try:
 			(process, response) = invoke_function_update("updateConfig",test_config.updateConfig_param0_1,test_config.updateConfig_param1_1,test_config.updateConfig_param2_1,test_config.updateConfig_param3_3,test_config.updateConfig_param4_1,test_config.updateConfig_param5_1,test_config.updateConfig_param6_1,test_config.updateConfig_param7_1)
@@ -1185,7 +1185,7 @@ class test_governance_api_10(ParametrizedTestCase):
 		except Exception as e:
 			logger.print(e.args[0])
     
-    '''
+    
 
     
 	def test_normal_112_updateConfig(self):
@@ -1375,7 +1375,7 @@ class test_governance_api_11(ParametrizedTestCase):
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_137_updateGlobalParam(self):
 		try:
 			(process, response) = invoke_function_update("updateGlobalParam",test_config.updateGlobalParam_param0_3,test_config.updateGlobalParam_param1_1,test_config.updateGlobalParam_param2_1,test_config.updateGlobalParam_param3_1,test_config.updateGlobalParam_param4_1,test_config.updateGlobalParam_param5_1,test_config.updateGlobalParam_param6_1,test_config.updateGlobalParam_param7_1)
@@ -1390,7 +1390,7 @@ class test_governance_api_11(ParametrizedTestCase):
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_139_updateGlobalParam(self):
 		try:
 			(process, response) = invoke_function_update("updateGlobalParam",test_config.updateGlobalParam_param0_5,test_config.updateGlobalParam_param1_1,test_config.updateGlobalParam_param2_1,test_config.updateGlobalParam_param3_1,test_config.updateGlobalParam_param4_1,test_config.updateGlobalParam_param5_1,test_config.updateGlobalParam_param6_1,test_config.updateGlobalParam_param7_1)
@@ -1418,14 +1418,14 @@ class test_governance_api_11(ParametrizedTestCase):
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_143_updateGlobalParam(self):
 		try:
 			(process, response) = invoke_function_update("updateGlobalParam",test_config.updateGlobalParam_param0_1,test_config.updateGlobalParam_param1_4,test_config.updateGlobalParam_param2_1,test_config.updateGlobalParam_param3_1,test_config.updateGlobalParam_param4_1,test_config.updateGlobalParam_param5_1,test_config.updateGlobalParam_param6_1,test_config.updateGlobalParam_param7_1)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_144_updateGlobalParam(self):
 		try:
 			(process, response) = invoke_function_update("updateGlobalParam",test_config.updateGlobalParam_param0_1,test_config.updateGlobalParam_param1_5,test_config.updateGlobalParam_param2_1,test_config.updateGlobalParam_param3_1,test_config.updateGlobalParam_param4_1,test_config.updateGlobalParam_param5_1,test_config.updateGlobalParam_param6_1,test_config.updateGlobalParam_param7_1)
@@ -1599,14 +1599,14 @@ class test_governance_api_11(ParametrizedTestCase):
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_169_updateGlobalParam(self):
 		try:
 			(process, response) = invoke_function_update("updateGlobalParam",test_config.updateGlobalParam_param0_1,test_config.updateGlobalParam_param1_1,test_config.updateGlobalParam_param2_1,test_config.updateGlobalParam_param3_1,test_config.updateGlobalParam_param4_1,test_config.updateGlobalParam_param5_1,test_config.updateGlobalParam_param6_2,test_config.updateGlobalParam_param7_3)
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_170_updateGlobalParam(self):
 		try:
 			(process, response) = invoke_function_update("updateGlobalParam",test_config.updateGlobalParam_param0_1,test_config.updateGlobalParam_param1_1,test_config.updateGlobalParam_param2_1,test_config.updateGlobalParam_param3_1,test_config.updateGlobalParam_param4_1,test_config.updateGlobalParam_param5_1,test_config.updateGlobalParam_param6_3,test_config.updateGlobalParam_param7_4)
@@ -1686,7 +1686,7 @@ class test_governance_api_13(ParametrizedTestCase):
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_176_transferPenalty(self):
 		try:
 			(process, response) = invoke_function_TransferPenalty("transferPenalty",test_config.transferPenalty_pubKey_2,test_config.transferPenalty_walletAddress_1)
@@ -1704,7 +1704,7 @@ class test_governance_api_13(ParametrizedTestCase):
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_normal_178_transferPenalty(self):
 		try:
 			(process, response) = invoke_function_candidate("whiteNode",test_config.transferPenalty_pubKey_1, 0)
@@ -1716,7 +1716,7 @@ class test_governance_api_13(ParametrizedTestCase):
 			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_abnormal_179_transferPenalty(self):
 		try:
 			(process, response) = invoke_function_TransferPenalty("transferPenalty",test_config.transferPenalty_pubKey_5,test_config.transferPenalty_walletAddress_1)
@@ -1734,7 +1734,7 @@ class test_governance_api_13(ParametrizedTestCase):
 			self.ASSERT(not process, "")
 		except Exception as e:
 			logger.print(e.args[0])
-	'''
+	
 	def test_normal_181_transferPenalty(self):
 		try:
 			(process, response) = invoke_function_TransferPenalty("transferPenalty",test_config.transferPenalty_pubKey_1,test_config.transferPenalty_walletAddress_1)
