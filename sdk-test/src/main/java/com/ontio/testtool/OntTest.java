@@ -2,13 +2,14 @@ package com.ontio.testtool;
 
 import com.github.ontio.OntSdk;
 import com.github.ontio.sdk.exception.SDKException;
-import com.ontio.testtool.controller.OntNodeController;
+import com.ontio.testtool.api.ApiManager;
+import com.ontio.testtool.api.NodeApi;
 import com.ontio.testtool.utils.Config;
 import com.ontio.testtool.utils.Logger;
 
 public class OntTest {
 	private static OntSdk ontSdk = null;
-	private static OntNodeController node = null;
+	private static ApiManager api = null;
 	private static Logger logger = null;
 
 	public static boolean init() {
@@ -49,11 +50,11 @@ public class OntTest {
 		return OntSdk.getInstance();
 	}
 	
-	public static OntNodeController node() {
-		if (node == null) {
-			node = new OntNodeController();
+	public static ApiManager api() {
+		if (api == null) {
+			api = new ApiManager();
 		}
-		return node;
+		return api;
 	}
 	
 	public static Logger logger() {

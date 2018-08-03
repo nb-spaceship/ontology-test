@@ -1,1 +1,0 @@
-[DESCRIPTION]  交易所应用[  ERROR  ]  com.github.ontio.network.exception.RpcException: {"Desc":"connect error:http://139.219.135.168:20336/jsonrpcresponse is null. maybe is connect error","Error":58403}[ Failed  ]  java.lang.AssertionError

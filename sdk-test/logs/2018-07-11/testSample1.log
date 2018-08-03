@@ -1,1 +1,0 @@
-[DESCRIPTION]  合约开发-CLI 部署及调用[  Step  ]-1  开启一个同步节点[  Step  ]-2  在中间开始继续同步区块，并同步到最新区块[  Step  ]-3  开启节点REST服务height: 1[   OK    ]  testSample1(com.ontio.sample.Sample)

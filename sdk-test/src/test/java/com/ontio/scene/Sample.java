@@ -140,7 +140,7 @@ public class Sample {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		OntTest.node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
 		Thread.sleep(5000);
 	}
 	
@@ -164,7 +164,7 @@ public class Sample {
 			OntTest.logger().step("在中间开始继续同步区块，并同步到最新区块");
 			OntTest.logger().step("开启节点REST服务");
 			OntTest.logger().step("开启 --testmode");
-			OntTest.node().restart(7, "ontology", "config.json", "--testmode");
+			OntTest.api().node().restart(7, "ontology", "config.json", "--testmode");
 			Thread.sleep(6000);
 			
 			OntTest.logger().step("分配ONG给默认账户");
@@ -192,7 +192,7 @@ public class Sample {
             OntTest.logger().print("1111111111111: " + obj);
 			
 			OntTest.logger().step("网络切换到主网，并打开rest服务，完成同步");
-			OntTest.node().restart(7, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			OntTest.api().node().restart(7, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
 			Thread.sleep(5000);
 			while(true) {
 				Thread.sleep(1000);
@@ -244,7 +244,7 @@ public class Sample {
 
 		try {
 			OntTest.logger().step("启动交易所节点");
-			OntTest.node().restart(7, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			OntTest.api().node().restart(7, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
 			Thread.sleep(5000);
 			while(true) {
 				Thread.sleep(1000);
