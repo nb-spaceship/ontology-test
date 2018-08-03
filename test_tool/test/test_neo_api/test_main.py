@@ -1162,19 +1162,20 @@ class test_neo_api_1(ParametrizedTestCase):
 		try:
 			API.contract().deploy_contract_full(test_config.deploy_neo)
 			API.node().wait_gen_block()
-			(process, response) = test_api.invoke_contract_migrate(test_config.CONTRACT_ADDRESS, "134e3775b80e6865d36ff34da69d5f5363f8", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
+			(process, response) = test_api.invoke_contract_migrate(test_config.CONTRACT_ADDRESS, "134e3775b80e6865d36ff34da69d5f5363f8", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1, sleep = 0)
 			self.ASSERT(process, "")
+			API.node().wait_gen_block()
 		except Exception as e:
 			logger.print(e.args[0])
 
-	def test_abnormal_169_getcontractMigrate(self):
+	def test_normal_169_getcontractMigrate(self):
 		# log_path = "169getcontractMigrate.log"
 		# task_name = "169getcontractMigrate"
 		try:
 			API.contract().deploy_contract_full(test_config.deploy_neo)
 			API.node().wait_gen_block()
 			(process, response) = test_api.invoke_contract_migrate(test_config.CONTRACT_ADDRESS, "", test_config.NAME_1, test_config.VERSION_1, test_config.AUTHOR_1, test_config.EMAIL_1, test_config.DESC_1)
-			self.ASSERT(not process, "")
+			self.ASSERT(process, "")
 		except Exception as e:
 			logger.print(e.args[0])
 
