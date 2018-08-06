@@ -288,7 +288,7 @@ class ContractApi:
                 
         return (False, {"error_info":"multi times lesss than except!only "+str(execNum)})
 
-    def init_admin(self, contract_address, admin_address, node_index = None, sleep = 0):
+    def init_admin(self, contract_address, admin_address, node_index = None, sleep = 5):
         request = {
             "REQUEST": {
                 "Qid": "t",
