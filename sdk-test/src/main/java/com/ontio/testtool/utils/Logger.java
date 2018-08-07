@@ -10,9 +10,12 @@ public class Logger {
 	private static Logger instance = null;
 	private static FileWriter logfileWriter = null;
 	private static FileWriter collectionfileWriter = null;
-
+	private static String logfilename = null;
+	private static String logname = null;
+	
 	private static String collectionfileName = "collection.csv";
 	private static String prefixpath = "";
+	private static String subFolder = "";
 	private int step = 1;
 	public static synchronized Logger getInstance(){
         if(instance == null) {
@@ -30,6 +33,13 @@ public class Logger {
 		File file = new File(prefixpath);
 		if(!file.exists()) {  
 		    file.mkdirs();  
+		}
+	}
+	
+	public void setSubType(String type) {
+		subFolder = type;
+		if (!subFolder.isEmpty()) {
+			subFolder += "/";
 		}
 	}
 	
@@ -78,38 +88,69 @@ public class Logger {
 	public boolean open(String logfilename, String logname) {
 		try {
 			step = 1;
-			if (collectionfileWriter == null) {
-				collectionfileWriter = new FileWriter(prefixpath + "/" + collectionfileName);
-			}
-			logfileWriter = new FileWriter(prefixpath + "/" + logfilename);
+			logfileWriter = new FileWriter(prefixpath + "/" + subFolder + logfilename);
+			this.logfilename = logfilename;
+			this.logname = logname;
+			write("[---------------------" + logname + "--------------------]");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		System.out.println("[---------------------" + logname + "--------------------]");
 		return true;
 	};
 	
-	public boolean close(boolean ret, String info) {
+	public boolean appendRecord(String name, String status, String logpath) {
+		String filePath = prefixpath + "/" + subFolder + collectionfileName;
+		try {
+			if (collectionfileWriter == null) {
+				File file = new File(filePath);
+				if (!file.exists()) {
+					collectionfileWriter = new FileWriter(filePath, true);
+					collectionfileWriter.write("NAME,STATUS,LOG PATH\n");
+				} else {
+					collectionfileWriter = new FileWriter(filePath, true);
+				}
+				collectionfileWriter.write(name + "," + status + "," + logpath + "\n");
+				collectionfileWriter.close();
+				collectionfileWriter = null;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean close(String ret, String info) {
 		try {
 			if (info == null) {
 				info = "";
 			}
-			if (ret) {
-				write("[   OK    ]  " + info);
+			if (ret.toUpperCase() == "PASS") {
+				write("\n\n[ Pass    ]    (" + info + ")");
+			} else if (ret.toUpperCase() == "FAIL") {
+				write("\n\n[ Fail    ]    (" + info + ")");
 			} else {
-				write("[ Failed  ]  " + info);
+				write("\n\n[ Block   ]    (" + info + ")");
 			}
+			write("[---------------------   END   ---------------------]");
+			
+			appendRecord(logname ,ret, logfilename);
+			
 			if (logfileWriter != null) {
 				logfileWriter.close();
+				logfileWriter = null;
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			if (logfileWriter != null) {
 				try {
 					logfileWriter.close();
+					logfileWriter = null;
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -117,15 +158,25 @@ public class Logger {
 			}
 			return false;
 		}
-		System.out.println("[---------------------   END   --------------------]");
 
 		return true;
 	};
 	
 	public void write(String contents) throws IOException {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String date = df.format(new Date());
+		
+		String[] splitstr = contents.split("\n");
+		
+		contents = "";
+		for(int i = 0; i < splitstr.length; i++) {
+			String splitstrele = splitstr[i];
+			contents = date + ": " + splitstrele + "\n";
+		}
+		
 		System.out.println(contents);
 		if (logfileWriter != null) {
-			logfileWriter.write(contents + "\n");
+			logfileWriter.write(contents);
 		}
 	}
 }

@@ -2,7 +2,6 @@ package com.ontio.scene;
  
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -168,7 +167,7 @@ public class Sample {
 			Thread.sleep(6000);
 			
 			OntTest.logger().step("分配ONG给默认账户");
-			Account defaultAccount = ContractApi.getDefaultAccount();
+			Account defaultAccount = OntTest.api().contract().getDefaultAccount();
             State st = new State(defaultAccount.getAddressU160(),defaultAccount.getAddressU160(),100000L);
             Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(new State[]{st}, defaultAccount.getAddressU160().toBase58(), 30000, 0);
             OntTest.sdk().addSign(tx,defaultAccount);
@@ -180,7 +179,7 @@ public class Sample {
             OntTest.logger().print(event.toString());
 			
 			OntTest.logger().step("部署合约。。。");
-			Map contractState = ContractApi.deployContract("resources/neo/sample.cs", null);
+			Map contractState = OntTest.api().contract().deployContract("resources/neo/sample.cs", null);
 			
 			OntTest.logger().step("调用合约方法。。。");
 			AbiInfo abiinfo = JSON.parseObject((String)contractState.get("abi"), AbiInfo.class);
@@ -188,7 +187,7 @@ public class Sample {
             OntTest.logger().print(func.toString());
             func.name = "Main";
             func.setParamsValue("Hello11", null);
-            Object obj = OntTest.sdk().neovm().sendTransaction((String)contractState.get("address"), ContractApi.getDefaultAccount(), ContractApi.getDefaultAccount(), OntTest.sdk().DEFAULT_GAS_LIMIT, 0, func, true);
+            Object obj = OntTest.sdk().neovm().sendTransaction((String)contractState.get("address"), OntTest.api().contract().getDefaultAccount(), OntTest.api().contract().getDefaultAccount(), OntTest.sdk().DEFAULT_GAS_LIMIT, 0, func, true);
             OntTest.logger().print("1111111111111: " + obj);
 			
 			OntTest.logger().step("网络切换到主网，并打开rest服务，完成同步");
@@ -207,12 +206,12 @@ public class Sample {
 				}
 			}
 			OntTest.bindNode(7);
-			Map contractState2 = ContractApi.deployContract("resources/neo/sample.cs", null);
+			Map contractState2 = OntTest.api().contract().deployContract("resources/neo/sample.cs", null);
 			AbiInfo abiinfo2 = JSON.parseObject((String)contractState2.get("abi"), AbiInfo.class);
             AbiFunction func2 = abiinfo.getFunction("Hello");
             OntTest.logger().print(func.toString());
             func.setParamsValue("hello success");
-            Object obj2 = OntTest.sdk().neovm().sendTransaction((String)contractState2.get("address"), ContractApi.getDefaultAccount(), ContractApi.getDefaultAccount(), 0, 0, func, true);
+            Object obj2 = OntTest.sdk().neovm().sendTransaction((String)contractState2.get("address"), OntTest.api().contract().getDefaultAccount(), OntTest.api().contract().getDefaultAccount(), 0, 0, func, true);
             OntTest.logger().print((String)obj);
 			
 		} catch(Exception e) {
@@ -229,7 +228,7 @@ public class Sample {
 		OntTest.bindNode(6);
         final HashMap<String,UserAcct> database = new HashMap<String,UserAcct>();
         final OntSdk ontSdk = OntTest.sdk();
-        final Account initAccount = ContractApi.getDefaultAccount();
+        final Account initAccount = OntTest.api().contract().getDefaultAccount();
         final Account feeAct = initAccount;
         final String FEE_PROVIDER = feeAct.getAddressU160().toBase58();
 		final String INIT_ACCT_ADDR = initAccount.getAddressU160().toBase58();
@@ -237,7 +236,7 @@ public class Sample {
 		final String ONG_NATIVE_ADDRESS = Helper.reverse(ontSdk.nativevm().ong().getContractAddress());
 		final BigInteger ONT_NUM = BigInteger.valueOf(1000);//充值金额
 		OntTest.bindNode(7);
-		final Account mainAccount = ContractApi.getDefaultAccount();
+		final Account mainAccount = OntTest.api().contract().getDefaultAccount();
 		final Address mainAccountAddr = mainAccount.getAddressU160();
         Account withdrawAcct1 = new Account(ontSdk.defaultSignScheme);
 		final String WITHDRAW_ADDRESS = withdrawAcct1.getAddressU160().toBase58();

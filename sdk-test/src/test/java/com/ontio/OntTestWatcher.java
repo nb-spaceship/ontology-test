@@ -12,11 +12,11 @@ public class OntTestWatcher extends TestName {
     }
     @Override
     protected void failed(Throwable e, Description description) {
-    	OntTest.logger().close(false, e.toString());
+    	OntTest.logger().close("fail", e.toString());
     }
 
 	@Override
 	protected void succeeded(Description description) {
-		OntTest.logger().close(true, description.toString());
+		OntTest.logger().close("pass", description.toString());
 	}
 }

@@ -27,7 +27,7 @@ public class ContractApi {
 	static RpcClient smartxclient = null;
 	static OntSdk ontSdk = OntSdk.getInstance();
 	
-	static public Map deployContract(String codePath, JSONObject options) {
+	public Map deployContract(String codePath, JSONObject options) {
 		try {
 			File codefile = new File(codePath);
 			if (!codefile.exists()) {
@@ -112,7 +112,7 @@ public class ContractApi {
 		}
 	}
 
-	public static com.github.ontio.account.Account getDefaultAccount() {
+	public com.github.ontio.account.Account getDefaultAccount() {
 	    try {
 		    com.github.ontio.sdk.wallet.Account accountInfo = ontSdk.getWalletMgr().getDefaultAccount();
 		    if (accountInfo == null) {

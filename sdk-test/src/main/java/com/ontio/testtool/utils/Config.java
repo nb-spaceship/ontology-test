@@ -58,27 +58,10 @@ public class Config {
 		return "http://" + nodeIp(index) + ":" + TEST_SERVICE_PORT + "/jsonrpc";
 	}
 	
-	static JSONObject json() {
-		if (jobj != null) {
-			return jobj;
+	static public JSONObject json() {
+		if (jobj == null) {
+			jobj = Common.loadJson("test_config.json");
 		}
-		String fileName = "test_config.json";
-		String contents = "";
-		String line = "";
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(fileName));
-			line=in.readLine();
-			while (line!=null) {
-				contents = contents + line;
-				line=in.readLine();
-			}
-			in.close();
-		 } catch (IOException e) {
-			e.printStackTrace();
-		 }
-		
-		jobj = JSON.parseObject(contents);
-
 		return jobj;
 	}
 }

@@ -238,4 +238,8 @@ public class NodeApi {
 	 */
 	public String exec(int nodeindex, String cmd) {return "";}
 
+	public boolean initOntOng() {
+		
+		return false;
+	}
 }
