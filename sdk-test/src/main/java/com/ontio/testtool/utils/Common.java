@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 public class Common {
-	static JSONObject loadJson(String filepath) {
+	public static JSONObject loadJson(String filepath) {
 		String fileName = filepath;
 		String contents = "";
 		String line = "";
