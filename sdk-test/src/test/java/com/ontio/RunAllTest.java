@@ -107,14 +107,14 @@ public class RunAllTest {
 	        	String m_file = typeLen[typeLen.length-1].toString();
 	        	System.out.println(m_file);
 	        	
-	        	if (_types.contains(method.getName().split("_")[1].toString())) {
+	        	if (_types.isEmpty() || _types.contains(method.getName().split("_")[1].toString())) {
 	        		if (_files.isEmpty() || _files.contains(m_file)) {
 	        			mymethods[i++] = method;
 		        		continue;
 	        		}
 	        	}
 	        	
-	        	if (_methods.contains(method.getName())) {
+	        	if (_methods.isEmpty() || _methods.contains(method.getName())) {
 	        		if (_files.isEmpty() || _files.contains(m_file)) {
 	        			mymethods[i++] = method;
 		        		continue;
