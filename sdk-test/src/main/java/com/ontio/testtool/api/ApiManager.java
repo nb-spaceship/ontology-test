@@ -5,7 +5,7 @@ public class ApiManager {
 	static NodeApi node = null;
 
 	public ContractApi contract() {
-		if (contract != null) {
+		if (contract == null) {
 			contract = new ContractApi();
 		}
 		
@@ -13,7 +13,7 @@ public class ApiManager {
 	}
 	
 	public NodeApi node() {
-		if (node != null) {
+		if (node == null) {
 			node = new NodeApi();
 		}
 		

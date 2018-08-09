@@ -19,6 +19,8 @@ import com.github.ontio.core.payload.DeployCode;
 import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.crypto.SignatureScheme;
 import com.github.ontio.network.exception.RpcException;
+import com.github.ontio.sdk.manager.WalletMgr;
+import com.ontio.testtool.utils.Common;
 import com.ontio.testtool.utils.Config;
 import com.ontio.testtool.utils.Logger;
 import com.ontio.testtool.utils.RpcClient;
@@ -83,7 +85,7 @@ public class ContractApi {
 			System.out.println("ContractAddress:" + Address.AddressFromVmCode(avmcode).toHexString());
 	        ontSdk.vm().setCodeAddress(Address.AddressFromVmCode(avmcode).toHexString());
 	
-	        com.github.ontio.account.Account account = getDefaultAccount();
+	        com.github.ontio.account.Account account = Common.getDefaultAccount(ontSdk.getWalletMgr());
 	        
 	        Transaction tx = ontSdk.vm().makeDeployCodeTransaction(avmcode, true, "name",
 	                "v1.0", "author", "email", "desp", account.getAddressU160().toBase58(),ontSdk.DEFAULT_DEPLOY_GAS_LIMIT,0);
@@ -112,21 +114,4 @@ public class ContractApi {
 		}
 	}
 
-	public com.github.ontio.account.Account getDefaultAccount() {
-	    try {
-		    com.github.ontio.sdk.wallet.Account accountInfo = ontSdk.getWalletMgr().getDefaultAccount();
-		    if (accountInfo == null) {
-		    	 System.out.println("no default wallet..");
-		    	 return null;
-		    }
-
-			return ontSdk.getWalletMgr().getAccount(accountInfo.address, Config.PWD, accountInfo.getSalt());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    
-	    return null;
-	}
-	
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.ontio.sdk.manager.WalletMgr;
 
 public class Common {
 	public static JSONObject loadJson(String filepath) {
@@ -27,5 +28,21 @@ public class Common {
 		JSONObject jobj = JSON.parseObject(contents);
 
 		return jobj;
+	}
+	
+	public static com.github.ontio.account.Account getDefaultAccount(WalletMgr walltemgr) {
+	    try {
+		    com.github.ontio.sdk.wallet.Account accountInfo = walltemgr.getDefaultAccount();
+		    if (accountInfo == null) {
+		    	 System.out.println("no default wallet..");
+		    	 return null;
+		    }
+			return walltemgr.getAccount(accountInfo.address, Config.PWD, accountInfo.getSalt());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    return null;
 	}
 }

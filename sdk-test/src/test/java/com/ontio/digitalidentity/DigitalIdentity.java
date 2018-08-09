@@ -13,12 +13,16 @@ import com.github.ontio.sdk.wallet.Account;
 import com.github.ontio.sdk.wallet.Identity;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class DigitalIdentity {
 @Rule public OntTestWatcher watchman= new OntTestWatcher();
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
+		OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+		Thread.sleep(10000);
+		OntTest.api().node().initOntOng();
 	}
 	
 	@Before

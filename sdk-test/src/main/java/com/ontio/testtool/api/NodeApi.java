@@ -3,16 +3,27 @@ package com.ontio.testtool.api;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.ontio.OntSdk;
+import com.github.ontio.account.Account;
+import com.github.ontio.common.Address;
+import com.github.ontio.core.asset.State;
+import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.network.exception.RpcException;
+import com.github.ontio.sdk.manager.WalletMgr;
+import com.ontio.testtool.utils.Common;
 import com.ontio.testtool.utils.Config;
 import com.ontio.testtool.utils.RpcClient;
 
 public class NodeApi {
 	private List<RpcClient> rpcs = new ArrayList<RpcClient>();
+	private OntSdk ontSdk = null;
 	public NodeApi() {
+		ontSdk = OntSdk.getInstance();
+		
 		for(int i = 0; i < Config.NODES.size(); i++) {
 			JSONObject node = (JSONObject) Config.NODES.getJSONObject(i);
 			String ip = node.getString("ip");
@@ -239,7 +250,58 @@ public class NodeApi {
 	public String exec(int nodeindex, String cmd) {return "";}
 
 	public boolean initOntOng() {
+		try {
+			//ontsdk.addMultiSign(tx, M, pubKeys, acct);
+	        //create a multi-sig account as a main account
+			int M = 5;
+			int N = 7;
+            Account[] accounts = new Account[N];
+	        for(int i = 0; i < N; i++) {
+	        	accounts[i] = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(i), ontSdk.defaultSignScheme));
+	        }
+	        byte[][] pubkeylist = new byte[N][];
+	        for(int i = 0; i < N; i++) {
+	        	pubkeylist[i] = accounts[i].serializePublicKey();
+	        }
+	        Address multiAddr = Address.addressFromMultiPubKeys(M, pubkeylist);	        
+	        System.out.println("multi: " + multiAddr.toBase58());
+
+	        //transfer ont
+	        for(int i = 0; i < N; i++) {
+		        Transaction tx = ontSdk.nativevm().ont().makeTransfer(multiAddr.toBase58(), accounts[i].getAddressU160().toBase58(), 10000000, accounts[i].getAddressU160().toBase58(), 30000, 0);
+		        for (int j = 0; j < M; j++) {
+                    ontSdk.addMultiSign(tx, M, pubkeylist, accounts[j]);
+                }
+		        ontSdk.addSign(tx, accounts[i]);	            
+	            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+	        }
+	        
+	        //withdraw ong
+	        {
+		        Transaction tx = ontSdk.nativevm().ong().makeWithdrawOng(multiAddr.toBase58(), multiAddr.toBase58(), 1000000000000000L, accounts[0].getAddressU160().toBase58(), 30000, 0);
+	            for (int j = 0; j < M; j++) {
+	                ontSdk.addMultiSign(tx, M, pubkeylist, accounts[j]);
+	            }
+		        ontSdk.addSign(tx, accounts[0]);	            
+	            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+	        }
+            
+            //transfer ong
+            for(int i = 0; i < N; i++) {
+		        Transaction tx = ontSdk.nativevm().ong().makeTransfer(multiAddr.toBase58(), accounts[i].getAddressU160().toBase58(), 100000000000000L, accounts[i].getAddressU160().toBase58(), 30000, 0);
+		        for (int j = 0; j < M; j++) {
+                    ontSdk.addMultiSign(tx, M, pubkeylist, accounts[j]);
+                }
+		        ontSdk.addSign(tx, accounts[i]);	            
+	            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+		        System.out.println("smart code: " + ontSdk.getConnect().getSmartCodeEvent(tx.hash().toString()));
+	        }
+                        
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 		
-		return false;
+		return true;
 	}
 }
