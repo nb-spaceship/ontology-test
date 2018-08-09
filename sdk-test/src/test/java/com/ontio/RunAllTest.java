@@ -6,12 +6,11 @@ import org.apache.commons.lang.ArrayUtils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.junit.runners.Suite.SuiteClasses;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ontio.scene.Sample;
@@ -38,9 +37,6 @@ public class RunAllTest {
             	prarameter_e = args[++optSetting];  
             }  
         }
-        prarameter_t = "base";
-        prarameter_c = "Sample"; 
-        prarameter_f = "Sample.test_base_002_Sample";
         
         Set<String> _classes = new HashSet<String>();
         Set<String> _methods = new HashSet<String>();
@@ -128,8 +124,6 @@ public class RunAllTest {
         	}
         }
                 
-        //TestSuite suite = new TestSuite()
-        //suite.addTest(new JUnit4TestAdapter(Test1.class));
         
         for (int j = 0; j < i; j++)  {
         	Method method = mymethods[j];
