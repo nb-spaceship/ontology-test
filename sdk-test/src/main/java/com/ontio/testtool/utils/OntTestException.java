@@ -11,3 +11,4 @@ public class OntTestException extends Exception {
 		super(message, ex);
 	}
 }
+ 

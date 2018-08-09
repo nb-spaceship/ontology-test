@@ -11,3 +11,4 @@ public class DataTransfer {
 		return new String(Base64.getEncoder().encode(salt));
 	}
 }
+ 

@@ -11,7 +11,7 @@ public class ApiManager {
 		
 		return contract;
 	}
-	
+	 
 	public NodeApi node() {
 		if (node == null) {
 			node = new NodeApi();

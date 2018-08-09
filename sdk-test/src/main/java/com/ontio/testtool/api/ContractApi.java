@@ -3,25 +3,16 @@ package com.ontio.testtool.api;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.ontio.OntSdk;
 import com.github.ontio.account.Account;
 import com.github.ontio.common.Address;
-import com.github.ontio.common.ErrorCode;
 import com.github.ontio.common.Helper;
-import com.github.ontio.core.payload.DeployCode;
 import com.github.ontio.core.transaction.Transaction;
-import com.github.ontio.crypto.SignatureScheme;
-import com.github.ontio.network.exception.RpcException;
-import com.github.ontio.sdk.manager.WalletMgr;
 import com.ontio.testtool.utils.Common;
-import com.ontio.testtool.utils.Config;
 import com.ontio.testtool.utils.Logger;
 import com.ontio.testtool.utils.RpcClient;
 
@@ -35,7 +26,7 @@ public class ContractApi {
 			if (!codefile.exists()) {
 				System.out.println("deployContract: file not exists(" + codePath + ")");
 				return null;
-			}
+			} 
 			
 			if (smartxclient == null) {
 				smartxclient = new RpcClient("http://139.219.97.24:8080/api/v1.0/compile");

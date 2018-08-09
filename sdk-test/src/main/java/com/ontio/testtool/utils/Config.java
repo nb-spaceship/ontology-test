@@ -1,13 +1,7 @@
 package com.ontio.testtool.utils;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ontio.testtool.OntTest;
 
 public class Config {
 	static JSONObject jobj = null;
@@ -21,11 +15,12 @@ public class Config {
 	static public String DEFAULT_NODE_ARGS = json().getString("DEFAULT_NODE_ARGS");
 	static public String PWD = json().getString("PWD");
 	static public String RESOURCE_PATH = "resources";
+	static public boolean TEST_MODE = json().getBoolean("TEST_MODE");
 	static public String nodeIp(int index) {
 		if (index >= Config.NODES.size()) {
 			Logger.getInstance().error("set node: index out of range (" + index + ")");
 			return "";
-		}
+		} 
 		
 		return Config.NODES.getJSONObject(index).getString("ip");
 	}

@@ -16,7 +16,7 @@ public class OntTest {
 		try {
 			return bindNode(0);
 		} catch (Exception e2) {
-			return false;
+			return false; 
 		}
     }
 

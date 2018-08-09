@@ -19,4 +19,4 @@ public class OntTestWatcher extends TestName {
 	protected void succeeded(Description description) {
 		OntTest.logger().close("pass", description.toString());
 	}
-}
+} 

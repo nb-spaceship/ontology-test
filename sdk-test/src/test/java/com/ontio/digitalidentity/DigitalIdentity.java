@@ -17,7 +17,7 @@ import com.ontio.testtool.utils.Config;
 
 public class DigitalIdentity {
 @Rule public OntTestWatcher watchman= new OntTestWatcher();
-	@BeforeClass
+	@BeforeClass 
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
 		OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);

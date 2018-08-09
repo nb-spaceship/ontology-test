@@ -45,7 +45,7 @@ class Balance{
     @JSONField(name="ong")
     String ong;
 
-    public String getOnt() {
+    public String getOnt() { 
         return ont;
     }
 
@@ -139,8 +139,8 @@ public class Sample {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		Thread.sleep(5000);
+		//OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+		//Thread.sleep(5000);
 	}
 	
 	@Before
@@ -589,6 +589,11 @@ public class Sample {
 		ontSdk.addSign(tx1,acc1);
 		
 		Object obj1 = ontSdk.getConnect().sendRawTransaction(tx1.toHexString());
+	}
+	
+	@Test
+	public void testSample6() throws Exception {
+		OntTest.api().node().initOntOng();
 	}
 }
      
