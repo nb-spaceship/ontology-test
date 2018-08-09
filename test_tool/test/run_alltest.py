@@ -162,13 +162,10 @@ class TestCaseRunner():
 					"total_cost" : int(timecost)}
 
 			reportpath = logger.prefix + "/" + foldername + "/report.json"
-			try:
-				if not os.path.exists(logger.prefix + "/" + foldername):
-					os.makedirs(logger.prefix + "/" + foldername)
-				with open(reportpath, 'w+') as f:
-					f.write(json.dumps(report))
-			except Exception as e:
-				print("asdadasd: " , e)
+			if not os.path.exists(logger.prefix + "/" + foldername):
+				os.makedirs(logger.prefix + "/" + foldername)
+			with open(reportpath, 'w+') as f:
+				f.write(json.dumps(report))
 
 
 if __name__ == "__main__":
