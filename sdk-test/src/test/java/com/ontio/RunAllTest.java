@@ -38,6 +38,11 @@ public class RunAllTest {
             }  
         }
         
+        // prarameter_t = "normal";  
+        // prarameter_f = "Sample.test_base_001_Sample1";  
+        prarameter_c = "C:\\Users\\tpc\\Desktop\\a.json";
+        prarameter_e = "Sample.test_base_001_Sample1";
+        
         Set<String> _classes = new HashSet<String>();
         Set<String> _methods = new HashSet<String>();
         Set<String> _excludes = new HashSet<String>();
@@ -64,9 +69,9 @@ public class RunAllTest {
         }
         
         if (!prarameter_e.equals("")){
-        	String[] cases = prarameter_f.split(",");
+        	String[] cases = prarameter_e.split(",");
         	for (String _case : cases){
-        		_excludes.add(_case.split(".")[1]);
+        		_excludes.add(_case.split("\\.")[1]);
             }
         }
         
@@ -79,7 +84,7 @@ public class RunAllTest {
         		}
         	}
         }
-        
+        // System.out.println(_files.toString());
         
         
         Class<?> testClass = Sample.class;
@@ -92,7 +97,7 @@ public class RunAllTest {
         
         for (Method method : all_methods) {
         	if (method.isAnnotationPresent(org.junit.Test.class)) {
-	        	System.out.println(_types.toString());
+	        	// System.out.println(_types.toString());
 	        	
 	        	if (method.getName().equals("test_init")) {
 	        		mymethods[i++] = method;
@@ -105,16 +110,17 @@ public class RunAllTest {
 	        	
 	        	String[] typeLen = method.getDeclaringClass().getTypeName().split("\\.");
 	        	String m_file = typeLen[typeLen.length-1].toString();
-	        	System.out.println(m_file);
 	        	
-	        	if (_types.isEmpty() || _types.contains(method.getName().split("_")[1].toString())) {
+	        	// System.out.println(method.getName().split("_")[1].toString());
+	        	
+	        	if (_methods.isEmpty() && (_types.isEmpty() || _types.contains(method.getName().split("_")[1].toString()))) {
 	        		if (_files.isEmpty() || _files.contains(m_file)) {
 	        			mymethods[i++] = method;
 		        		continue;
 	        		}
 	        	}
 	        	
-	        	if (_methods.isEmpty() || _methods.contains(method.getName())) {
+	        	if (_types.isEmpty() && (_methods.isEmpty() || _methods.contains(method.getName()))) {
 	        		if (_files.isEmpty() || _files.contains(m_file)) {
 	        			mymethods[i++] = method;
 		        		continue;
@@ -124,10 +130,11 @@ public class RunAllTest {
         	}
         }
                 
-        
+        // Sleep(200000);
         for (int j = 0; j < i; j++)  {
         	Method method = mymethods[j];
-            if (!method.equals(null) && method.isAnnotationPresent(org.junit.Test.class)) {
+            // if (!method.equals(null) && method.isAnnotationPresent(org.junit.Test.class)) 
+            if (true) {
                 Request request = Request.method(testClass, method.getName());
                 System.out.println(method.getName());
                 Result result = junitRunner.run(request);
