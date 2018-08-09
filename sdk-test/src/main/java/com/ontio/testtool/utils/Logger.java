@@ -20,7 +20,7 @@ public class Logger {
 	public static synchronized Logger getInstance(){
         if(instance == null) {
             instance = new Logger();
-        }
+        } 
         return instance;
     }
 	
@@ -128,9 +128,9 @@ public class Logger {
 			if (info == null) {
 				info = "";
 			}
-			if (ret.toUpperCase() == "PASS") {
+			if (ret.toUpperCase().equals("PASS")) {
 				write("\n\n[ Pass    ]    (" + info + ")");
-			} else if (ret.toUpperCase() == "FAIL") {
+			} else if (ret.toUpperCase().equals("FAIL")) {
 				write("\n\n[ Fail    ]    (" + info + ")");
 			} else {
 				write("\n\n[ Block   ]    (" + info + ")");
