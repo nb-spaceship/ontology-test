@@ -18,7 +18,7 @@ public class Config {
 	static public boolean TEST_MODE = json().getBoolean("TEST_MODE");
 	static public String nodeIp(int index) {
 		if (index >= Config.NODES.size()) {
-			Logger.getInstance().error("set node: index out of range (" + index + ")");
+			Logger.getInstance().error("get node ip: index out of range (" + index + ")");
 			return "";
 		} 
 		
@@ -26,7 +26,7 @@ public class Config {
 	}
 	static public String nodeWallet(int index) {
 		if (index >= Config.NODES.size()) {
-			Logger.getInstance().error("set node: index out of range (" + index + ")");
+			Logger.getInstance().error("get node wallet: index out of range (" + index + ")");
 			return "";
 		}
 		

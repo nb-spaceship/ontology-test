@@ -2,6 +2,7 @@ package com.ontio.testtool;
 
 import com.github.ontio.OntSdk;
 import com.github.ontio.sdk.exception.SDKException;
+import com.github.ontio.sdk.manager.WalletMgr;
 import com.ontio.testtool.api.ApiManager;
 import com.ontio.testtool.api.NodeApi;
 import com.ontio.testtool.utils.Config;
@@ -44,7 +45,7 @@ public class OntTest {
 
 			return false;
 		}
-	}
+	}	
 	
 	public static OntSdk sdk() {
 		return OntSdk.getInstance();
