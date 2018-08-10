@@ -5,6 +5,7 @@ import com.github.ontio.sdk.exception.SDKException;
 import com.github.ontio.sdk.manager.WalletMgr;
 import com.ontio.testtool.api.ApiManager;
 import com.ontio.testtool.api.NodeApi;
+import com.ontio.testtool.utils.Common;
 import com.ontio.testtool.utils.Config;
 import com.ontio.testtool.utils.Logger;
 
@@ -12,6 +13,7 @@ public class OntTest {
 	private static OntSdk ontSdk = null;
 	private static ApiManager api = null;
 	private static Logger logger = null;
+	private static Common common = null;
 
 	public static boolean init() {
 		try {
@@ -61,5 +63,12 @@ public class OntTest {
 	public static Logger logger() {
 		logger = Logger.getInstance();
 		return logger;
+	}
+	
+	public static Common common() {
+		if (common == null) {
+			common = new Common();
+		}
+		return common;
 	}
 }
