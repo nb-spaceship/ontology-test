@@ -7,13 +7,85 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.ontio.OntSdk;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.github.ontio.network.exception.ConnectorException;
 import com.github.ontio.sdk.manager.WalletMgr;
 import com.github.ontio.sdk.wallet.Wallet;
 import com.ontio.testtool.OntTest;
 
+class TxStates{
+    @JSONField(name="States")
+    Object[] states;
+
+    @JSONField(name="ContractAddress")
+    String contractAddress;
+
+    public Object[] getStates() {
+        return states;
+    }
+
+    public void setStates(Object[] states) {
+        this.states = states;
+    }
+
+    public String getContractAddress() {
+        return contractAddress;
+    }
+
+    public void setContractAddress(String contractAddress) {
+        this.contractAddress = contractAddress;
+    }
+}
+
+class TxEvent{
+    @JSONField(name="GasConsumed")
+    int gasConsumed;
+
+    @JSONField(name="TxHash")
+    String txHash;
+
+    @JSONField(name="State")
+    int state;
+
+    @JSONField(name="Notify")
+    TxStates[] notify;
+
+    public int getGasConsumed() {
+        return gasConsumed;
+    }
+
+    public void setGasConsumed(int gasConsumed) {
+        this.gasConsumed = gasConsumed;
+    }
+
+
+    public String getTxHash() {
+        return txHash;
+    }
+
+    public void setTxHash(String txHash) {
+        this.txHash = txHash;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public TxStates[] getNotify() {
+        return notify;
+    }
+
+    public void setNotify(TxStates[] notify) {
+        this.notify = notify;
+    }
+}
+
 public class Common {
-	public static JSONObject loadJson(String filepath) {
+	public JSONObject loadJson(String filepath) {
 		String fileName = filepath;
 		String contents = "";
 		String line = "";
@@ -34,7 +106,7 @@ public class Common {
 		return jobj;
 	}
 	
-	public static com.github.ontio.account.Account getDefaultAccount(WalletMgr walltemgr) {
+	public com.github.ontio.account.Account getDefaultAccount(WalletMgr walltemgr) {
 	    try {
 		    com.github.ontio.sdk.wallet.Account accountInfo = walltemgr.getDefaultAccount();
 		    if (accountInfo == null) {
@@ -50,7 +122,7 @@ public class Common {
 	    return null;
 	}
 	
-	public static com.github.ontio.account.Account getAccount(int index) {
+	public com.github.ontio.account.Account getAccount(int index) {
 		try {
 			if (Config.TEST_MODE == true) {
 				WalletMgr wm = new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme);
@@ -72,5 +144,34 @@ public class Common {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public boolean waitTransactionResult(String hash) {
+        Object objEvent = null;
+        for (int i = 0; i < 60; i++) {
+            try {
+                Thread.sleep(1000);
+                try {
+	                objEvent = OntTest.sdk().getConnect().getSmartCodeEvent(hash);
+	                if (objEvent == null || objEvent.equals("")) {
+	                    Thread.sleep(1000);
+	                    continue;
+	                }
+                } catch(ConnectorException e) {
+                	continue;
+                }
+                
+                TxEvent events = JSON.parseObject(objEvent.toString(), TxEvent.class);
+                OntTest.logger().print("...State:" + events.getState());
+                OntTest.logger().print("...TxHash:" + events.getTxHash());
+                OntTest.logger().print("...GasConsumed:" + events.getGasConsumed());
+                if (events.getTxHash().equals(hash)) {
+                	return events.getState() == 1;
+                }      
+            } catch (Exception e) {
+            	e.printStackTrace();
+            }
+        }
+        return false;
 	}
 }

@@ -2,6 +2,7 @@ package com.ontio.testtool.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.ontio.testtool.OntTest;
 
 public class Config {
 	static JSONObject jobj = null;
@@ -55,7 +56,7 @@ public class Config {
 	
 	static public JSONObject json() {
 		if (jobj == null) {
-			jobj = Common.loadJson("test_config.json");
+			jobj = OntTest.common().loadJson("test_config.json");
 		}
 		return jobj;
 	}

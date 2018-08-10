@@ -17,12 +17,16 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.github.ontio.OntSdk;
 import com.github.ontio.account.Account;
 import com.github.ontio.common.Address;
+import com.github.ontio.common.Common;
 import com.github.ontio.common.Helper;
 import com.github.ontio.core.asset.State;
+import com.github.ontio.core.payload.InvokeCode;
 import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.network.exception.RpcException;
+import com.github.ontio.sdk.info.AccountInfo;
 import com.github.ontio.smartcontract.neovm.abi.AbiFunction;
 import com.github.ontio.smartcontract.neovm.abi.AbiInfo;
+import com.github.ontio.smartcontract.neovm.abi.BuildParams;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
 import com.ontio.testtool.api.ContractApi;
@@ -167,7 +171,7 @@ public class Sample {
 			Thread.sleep(6000);
 			
 			OntTest.logger().step("分配ONG给默认账户");
-			Account defaultAccount = Common.getDefaultAccount(OntTest.sdk().getWalletMgr());
+			Account defaultAccount = OntTest.common().getAccount(0);
             State st = new State(defaultAccount.getAddressU160(),defaultAccount.getAddressU160(),100000L);
             Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(new State[]{st}, defaultAccount.getAddressU160().toBase58(), 30000, 0);
             OntTest.sdk().addSign(tx,defaultAccount);
@@ -187,7 +191,7 @@ public class Sample {
             OntTest.logger().print(func.toString());
             func.name = "Main";
             func.setParamsValue("Hello11", null);
-            Object obj = OntTest.sdk().neovm().sendTransaction((String)contractState.get("address"),  Common.getDefaultAccount(OntTest.sdk().getWalletMgr()), Common.getDefaultAccount(OntTest.sdk().getWalletMgr()), OntTest.sdk().DEFAULT_GAS_LIMIT, 0, func, true);
+            Object obj = OntTest.sdk().neovm().sendTransaction((String)contractState.get("address"),OntTest.common().getAccount(0), OntTest.common().getAccount(0), OntTest.sdk().DEFAULT_GAS_LIMIT, 0, func, true);
             OntTest.logger().print("1111111111111: " + obj);
 			
 			OntTest.logger().step("网络切换到主网，并打开rest服务，完成同步");
@@ -211,7 +215,7 @@ public class Sample {
             AbiFunction func2 = abiinfo.getFunction("Hello");
             OntTest.logger().print(func.toString());
             func.setParamsValue("hello success");
-            Object obj2 = OntTest.sdk().neovm().sendTransaction((String)contractState2.get("address"), Common.getDefaultAccount(OntTest.sdk().getWalletMgr()), Common.getDefaultAccount(OntTest.sdk().getWalletMgr()), 0, 0, func, true);
+            Object obj2 = OntTest.sdk().neovm().sendTransaction((String)contractState2.get("address"), OntTest.common().getAccount(0), OntTest.common().getAccount(0), 0, 0, func, true);
             OntTest.logger().print((String)obj);
 			
 		} catch(Exception e) {
@@ -228,7 +232,7 @@ public class Sample {
 		OntTest.bindNode(6);
         final HashMap<String,UserAcct> database = new HashMap<String,UserAcct>();
         final OntSdk ontSdk = OntTest.sdk();
-        final Account initAccount = Common.getDefaultAccount(OntTest.sdk().getWalletMgr());
+        final Account initAccount = OntTest.common().getAccount(0);
         final Account feeAct = initAccount;
         final String FEE_PROVIDER = feeAct.getAddressU160().toBase58();
 		final String INIT_ACCT_ADDR = initAccount.getAddressU160().toBase58();
@@ -236,7 +240,7 @@ public class Sample {
 		final String ONG_NATIVE_ADDRESS = Helper.reverse(ontSdk.nativevm().ong().getContractAddress());
 		final BigInteger ONT_NUM = BigInteger.valueOf(1000);//充值金额
 		OntTest.bindNode(7);
-		final Account mainAccount = Common.getDefaultAccount(OntTest.sdk().getWalletMgr());
+		final Account mainAccount = OntTest.common().getAccount(0);
 		final Address mainAccountAddr = mainAccount.getAddressU160();
         Account withdrawAcct1 = new Account(ontSdk.defaultSignScheme);
 		final String WITHDRAW_ADDRESS = withdrawAcct1.getAddressU160().toBase58();
@@ -594,6 +598,20 @@ public class Sample {
 	@Test
 	public void testSample6() throws Exception {
 		OntTest.api().node().initOntOng();
+		/*String codeaddr = "362cb5608b3eca61d4846591ebb49688900fedd0";
+		codeaddr = Helper.reverse(codeaddr);
+		Account account = OntTest.common().getAccount(0);
+        List list = new ArrayList<Object>();
+        list.add("Hello".getBytes());
+        List tmp = new ArrayList<Object>();
+        tmp.add(Helper.hexToBytes("dde1a09571bf98e04e62b1a8778b2d413747408f4594c946577965fa571de8e5"));
+        list.add(tmp);
+        byte[] params = BuildParams.createCodeParamsScript(list);
+		
+        Transaction tx = OntTest.sdk().vm().makeInvokeCodeTransaction( codeaddr, null, params, account.getAddressU160().toBase58(), 200000000, 0);
+		OntTest.sdk().signTx(tx, new Account[][]{{account}});
+		
+		System.out.println(OntTest.sdk().getConnect().sendRawTransactionPreExec(tx.toHexString()));*/
 	}
 }
      

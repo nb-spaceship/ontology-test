@@ -12,6 +12,7 @@ import com.github.ontio.account.Account;
 import com.github.ontio.common.Address;
 import com.github.ontio.common.Helper;
 import com.github.ontio.core.transaction.Transaction;
+import com.ontio.testtool.OntTest;
 import com.ontio.testtool.utils.Common;
 import com.ontio.testtool.utils.Logger;
 import com.ontio.testtool.utils.RpcClient;
@@ -76,7 +77,7 @@ public class ContractApi {
 			System.out.println("ContractAddress:" + Address.AddressFromVmCode(avmcode).toHexString());
 	        ontSdk.vm().setCodeAddress(Address.AddressFromVmCode(avmcode).toHexString());
 	
-	        com.github.ontio.account.Account account = Common.getDefaultAccount(ontSdk.getWalletMgr());
+	        com.github.ontio.account.Account account = OntTest.common().getDefaultAccount(ontSdk.getWalletMgr());
 	        
 	        Transaction tx = ontSdk.vm().makeDeployCodeTransaction(avmcode, true, "name",
 	                "v1.0", "author", "email", "desp", account.getAddressU160().toBase58(),ontSdk.DEFAULT_DEPLOY_GAS_LIMIT,0);

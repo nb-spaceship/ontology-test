@@ -14,6 +14,7 @@ import java.util.Set;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ontio.scene.Sample;
+import com.ontio.testtool.OntTest;
 import com.ontio.testtool.utils.Common;
 
 @RunWith(Suite.class)
@@ -76,7 +77,7 @@ public class RunAllTest {
         }
         
         if (!prarameter_c.equals("")){	
-        	JSONObject _json = Common.loadJson(prarameter_c);
+        	JSONObject _json = OntTest.common().loadJson(prarameter_c);
         	Set<String> keys = _json.keySet();
         	for (String _key : keys) {
         		if (_json.getString(_key).equals(true)) {

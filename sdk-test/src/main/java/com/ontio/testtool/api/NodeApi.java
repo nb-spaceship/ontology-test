@@ -13,6 +13,7 @@ import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.network.exception.RpcException;
 import com.github.ontio.sdk.manager.WalletMgr;
 import com.github.ontio.sdk.wallet.Wallet;
+import com.ontio.testtool.OntTest;
 import com.ontio.testtool.utils.Common;
 import com.ontio.testtool.utils.Config;
 import com.ontio.testtool.utils.RpcClient;
@@ -257,7 +258,7 @@ public class NodeApi {
 				int N = 7;
 	            Account[] accounts = new Account[N];
 		        for(int i = 0; i < N; i++) {
-		        	accounts[i] = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(i), ontSdk.defaultSignScheme));
+		        	accounts[i] = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(i), ontSdk.defaultSignScheme));
 		        }
 		        byte[][] pubkeylist = new byte[N][];
 		        for(int i = 0; i < N; i++) {
@@ -308,22 +309,30 @@ public class NodeApi {
 				defaultaccount = wm.getAccount(defaultaccountInfo.address, Config.PWD);
 				ontSdk.addSign(tx, defaultaccount);	            
 	            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
-	            
+	            ontSdk.getConnect().sendRawTransactionPreExec(tx.toHexString());
+	            OntTest.common().waitTransactionResult(tx.hash().toHexString());
+
 	            tx = ontSdk.nativevm().ong().makeWithdrawOng(defaultaccountInfo.address, defaultaccountInfo.address, 10000000000000000L, defaultaccountInfo.address, 30000, 0);
-		        ontSdk.addSign(tx, defaultaccount);	            
+		        ontSdk.addSign(tx, defaultaccount);
 	            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+	            ontSdk.getConnect().sendRawTransactionPreExec(tx.toHexString());
+	            OntTest.common().waitTransactionResult(tx.hash().toHexString());
 
 				for(com.github.ontio.sdk.wallet.Account accountInfo : accountinfos) {
 					if (accountInfo.isDefault == false) {
-				        System.out.println("give " + defaultaccountInfo.address + " ont");
+				        System.out.println("give " + accountInfo.address + " ont");
 						tx = ontSdk.nativevm().ont().makeTransfer(defaultaccountInfo.address, accountInfo.address, 10000000, defaultaccountInfo.address, 30000, 0);
 						ontSdk.addSign(tx, defaultaccount);	            
 			            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
-			            
-				        System.out.println("give " + defaultaccountInfo.address + " ong");
+			            ontSdk.getConnect().sendRawTransactionPreExec(tx.toHexString());
+			            OntTest.common().waitTransactionResult(tx.hash().toHexString());
+
+				        System.out.println("give " + accountInfo.address + " ong");
 						tx = ontSdk.nativevm().ong().makeTransfer(defaultaccountInfo.address, accountInfo.address, 1000000000000000L, defaultaccountInfo.address, 30000, 0);
 				        ontSdk.addSign(tx, defaultaccount);	            
 			            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+			            ontSdk.getConnect().sendRawTransactionPreExec(tx.toHexString());
+			            OntTest.common().waitTransactionResult(tx.hash().toHexString());
 					}
 				}
 			}
