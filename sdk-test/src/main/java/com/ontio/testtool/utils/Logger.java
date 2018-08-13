@@ -44,6 +44,10 @@ public class Logger {
 		}
 	}
 	
+	public File logfile() {
+		return logfile;
+	}
+	
 	public void print(String content) {
 		try {
 			write(content);
