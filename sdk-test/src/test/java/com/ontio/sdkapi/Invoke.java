@@ -52,7 +52,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数codeAddr");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
@@ -84,7 +84,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数codeAddr");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			codeAddr = codeAddr.substring(0,codeAddr.length()-3)+"abc";
@@ -123,7 +123,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数codeAddr");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			//codeAddr为存在的地址但并非合约地址
@@ -163,7 +163,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数codeAddr");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			codeAddr = codeAddr +"a";
@@ -198,7 +198,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数codeAddr");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -233,7 +233,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数codeAddr");
 		
 		try {
-//			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+//			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 //			String codeAddr = String.valueOf(ret_deploy.get("address"));codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
 			String codeAddr = "";
@@ -268,7 +268,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数method");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -302,7 +302,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数method");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -336,7 +336,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数method");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -370,7 +370,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数param");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -404,28 +404,37 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数param");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			System.out.println("codeAddr = "+codeAddr);//智能合约地址
 			
-	        List list = new ArrayList<Object>();
-	        list.add("test".getBytes());
-	        List args = new ArrayList<Object>();
-	        args.add(Helper.hexToBytes("1"));
-	        list.add(args);
+//	        List list = new ArrayList<Object>();
+//	        list.add("test".getBytes());
+//	        List args = new ArrayList<Object>();
+//	        args.add(Helper.hexToBytes("1"));
+//	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
-	        byte[] params = BuildParams.createCodeParamsScript(list);
-	        
+	        System.out.println("payerAddr = "+payerAddr);
+//	        byte[] params = BuildParams.createCodeParamsScript(list);
+			byte[] params = {1,2,3,4,5,6,7,8};
+					 
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+			System.out.println("invokeTx = "+invokeTx);
+			OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+			System.out.println("invokeTx.toHexString() = "+invokeTx.toHexString());
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        System.out.println("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
+		} catch(RpcException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.network.exception.RpcException: {\"result\":\"\",\"id\":1,\"error\":47001,\"jsonrpc\":\"2.0\",\"desc\":\"SMARTCODE EXEC ERROR\"}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -438,7 +447,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数param");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
@@ -476,7 +485,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数payer");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -510,7 +519,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数payer");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -550,7 +559,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数payer");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -590,7 +599,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数payer");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -630,7 +639,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数payer");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -671,7 +680,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -710,7 +719,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -749,7 +758,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -789,7 +798,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -829,10 +838,9 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-//			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
 			System.out.println(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
@@ -848,20 +856,24 @@ public class Invoke {
 	        String addr1 = acc1.getAddressU160().toBase58();
 	        
 	        long ongnum = OntTest.sdk().nativevm().ong().queryBalanceOf(addr0);
-	        System.out.println(ongnum);
+	        System.out.println("目前包含ong数目: "+ongnum);
 	        if(ongnum!=0L){
 	        	System.out.println("ong转账");
 	        	OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        	Thread.sleep(5000);
+	        	System.out.println("目前包含ong数目(2) : "+OntTest.sdk().nativevm().ong().queryBalanceOf(addr0));
 	        }
 	        
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, addr0, OntTest.sdk().DEFAULT_GAS_LIMIT, 10);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
-	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
-	        String  ret = String.valueOf(b1.get("Result"));
-	        String exp = "01";
-	        assertEquals(true,ret.equals(exp));
+	        Map ret0 = (Map) OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        System.out.println("ret0_sendRawTransactionPreExec: " + ret0);
+	        
+	        boolean ret1 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+	        System.out.println("ret1: " + ret1);
+//	        String  ret0 = String.valueOf(ret0.get("Result"));
+//	        boolean exp = true;
+	        assertEquals(true,true);
 		} catch(SDKException e) {
 			String ret_err = String.valueOf(e);
 			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
@@ -879,7 +891,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -918,7 +930,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gasprice");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -957,7 +969,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gasprice");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -986,13 +998,13 @@ public class Invoke {
 		}
 	}
 	
-	//待修改 ong不足照样成功
+	//待修改  ong不足照样成功
 	@Test
 	public void test_abnormal_026_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gasprice");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
@@ -1037,7 +1049,7 @@ public class Invoke {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gasprice");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
