@@ -5,10 +5,14 @@ import org.junit.runner.Result;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.runner.JUnitCore;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -176,17 +180,44 @@ public class RunAllTest {
         	System.out.println(m.getName().split("_")[2].toString());
         }
                 
-        // Sleep(200000);
+        // Sleep(200000); 
+        long startTime = System.currentTimeMillis();
+        long endtime = startTime;
+        long costtime = 0;
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String lastClass = "";
         for (int j = 0; j < i; j++)  {
-        	Method method = mymethods[j];
-            // if (!method.equals(null) && method.isAnnotationPresent(org.junit.Test.class)) 
-            if (true) {
-                Request request = Request.method(method.getDeclaringClass(), method.getName());
-                System.out.println(method.getName());
-                Result result = junitRunner.run(request);
-                System.out.println(result.wasSuccessful());
-            }
-            
+        	try {
+	        	Method method = mymethods[j];
+	        	if (j == 0 || !lastClass.equals(method.getDeclaringClass().getName())) {
+	        		startTime = System.currentTimeMillis();
+	        	}
+	        	
+	            // if (!method.equals(null) && method.isAnnotationPresent(org.junit.Test.class)) 
+	            if (true) {
+	                Request request = Request.method(method.getDeclaringClass(), method.getName());
+	                System.out.println(method.getName());
+	                Result result = junitRunner.run(request);
+	                System.out.println(result.wasSuccessful());
+	            }
+	
+	        	lastClass = method.getDeclaringClass().getName();
+	            endtime = System.currentTimeMillis();
+	            costtime = endtime - startTime;
+	            String reportstr ="[time]" + "\n" +
+						"start=" + dateformat.format(startTime) + "\n" +
+						"end=" + dateformat.format(endtime)  + "\n" +
+						"cost=" + (costtime / 1000);
+	            String repotepath = OntTest.logger().logfile().getParentFile().getAbsolutePath() + "/report.ini";
+				FileWriter reportFileWriter = new FileWriter(repotepath, false);
+				reportFileWriter.write(reportstr);
+				reportFileWriter.close();
+        	}
+        	catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     }
 	
