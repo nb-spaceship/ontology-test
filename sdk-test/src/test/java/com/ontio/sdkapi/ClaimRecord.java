@@ -1,4 +1,4 @@
-package com.ontio.claim_record;
+package com.ontio.sdkapi;
 
 import static org.junit.Assert.fail;
 

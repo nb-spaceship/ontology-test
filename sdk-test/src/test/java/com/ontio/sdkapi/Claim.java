@@ -1,4 +1,4 @@
-package com.ontio.claim;
+package com.ontio.sdkapi;
 
 import static org.junit.Assert.fail;
 
@@ -18,7 +18,6 @@ import com.github.ontio.sdk.manager.WalletMgr;
 import com.github.ontio.sdk.wallet.Identity;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
-import com.ontio.testtool.utils.Common;
 import com.ontio.testtool.utils.Config;
 
 public class Claim {
@@ -50,7 +49,7 @@ public class Claim {
 
 		try {
 			
-			Account account = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
+			Account account = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(account.getAddressU160().toBase58(), account.getAddressU160().toBase58(), 1, account.getAddressU160().toBase58(), 30000, 0);
 			OntTest.sdk().addSign(tx, account);
 			
@@ -75,7 +74,7 @@ public class Claim {
 
 		try {
 			
-			Account account = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
+			Account account = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(account.getAddressU160().toBase58(), account.getAddressU160().toBase58(), 1, account.getAddressU160().toBase58(), 30000, 0);
 			OntTest.sdk().addSign(tx, account);
 			
@@ -110,7 +109,7 @@ public class Claim {
 
 		try {
 			
-			Account account = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
+			Account account = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(account.getAddressU160().toBase58(), account.getAddressU160().toBase58(), 1, account.getAddressU160().toBase58(), 30000, 0);
 			OntTest.sdk().addSign(tx, account);
 			
@@ -145,7 +144,7 @@ public class Claim {
 
 		try {
 			
-			Account account = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
+			Account account = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(account.getAddressU160().toBase58(), account.getAddressU160().toBase58(), 1, account.getAddressU160().toBase58(), 30000, 0);
 			OntTest.sdk().addSign(tx, account);
 			
@@ -192,7 +191,7 @@ public class Claim {
 
 		try {
 			OntTest.logger().step("get merkleproof");
-			Account account = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
+			Account account = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(account.getAddressU160().toBase58(), account.getAddressU160().toBase58(), 1, account.getAddressU160().toBase58(), 30000, 0);
 			OntTest.sdk().addSign(tx, account);
 			
@@ -221,7 +220,7 @@ public class Claim {
 
 		try {
 			OntTest.logger().step("get merkleproof");
-			Account account = Common.getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
+			Account account = OntTest.common().getDefaultAccount(new WalletMgr(Config.nodeWallet(0), OntTest.sdk().defaultSignScheme));
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(account.getAddressU160().toBase58(), account.getAddressU160().toBase58(), 1, account.getAddressU160().toBase58(), 30000, 0);
 			OntTest.sdk().addSign(tx, account);
 			
