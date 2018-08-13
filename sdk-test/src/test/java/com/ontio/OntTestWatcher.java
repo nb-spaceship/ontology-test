@@ -5,10 +5,10 @@ import org.junit.runner.Description;
 
 import com.ontio.testtool.OntTest;
 
-public class OntTestWatcher extends TestName {
+public class OntTestWatcher extends TestName {	
     @Override
     protected void starting(Description description) {
-		OntTest.logger().open(description.getMethodName() + ".log", description.getMethodName());
+		OntTest.logger().open(description.getClassName() + "/" + description.getMethodName() + ".log", description.getMethodName());
     }
     @Override
     protected void failed(Throwable e, Description description) {
