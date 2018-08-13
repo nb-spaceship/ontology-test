@@ -8,12 +8,15 @@ import java.util.Map;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.bouncycastle.jcajce.util.JcaJceUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.ontio.common.WalletQR;
 import com.github.ontio.core.block.Block;
 import com.github.ontio.crypto.MnemonicCode;
@@ -75,22 +78,16 @@ public class MnemonicCodesStr {
 		try {
 			OntTest.logger().step("测试参数exportIdentityQRCode");
 			
-			String encryptedPrikey = "ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B";
-			String password = "123456";
-			String salt0 = "By9R6hmWNB9zLh+gqgSHRw==";
-			byte[] salt = Base64.getDecoder().decode(salt0);
-			String address = "Af296avwQTqHV5byLvXdCWCheW3HcpMpcN";
-			Identity identity = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, password, salt, address);
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Identity identity1 = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			OntTest.sdk().getWalletMgr().getWallet().clearIdentity();
+			OntTest.sdk().getWalletMgr().getWallet().clearAccount();
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-//			String addr = OntTest.common().getAccount(0).getAddressU160().toBase58();
-//			String ontid = "did:ont:"+addr;
-//			Identity identity = walletFile.getIdentity(ontid);
-			
 			System.out.println(walletFile);
-			System.out.println(identity);
+			System.out.println(identity1);
 			
-			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
+			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);   
 			System.out.println(QRcode);
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
@@ -100,7 +97,6 @@ public class MnemonicCodesStr {
 		}
 	}	
 	
-	//待修改
 	@Test
 	public void test_abnormal_003_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("助记词  003  exportIdentityQRCode()");
@@ -141,14 +137,22 @@ public class MnemonicCodesStr {
 		}
 	}	
 
-	//待修改
 	@Test
 	public void test_abnormal_005_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("助记词  005  exportIdentityQRCode()");
 
 		try {
-			Identity identity = null;
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Identity identity1 = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			
+			walletFile.removeIdentity(identity1.ontid);
+			System.out.println(walletFile);
+			System.out.println(identity1);
+			System.out.println(identity);
+			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);  
+			System.out.println(walletFile);
+			System.out.println(QRcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -156,7 +160,6 @@ public class MnemonicCodesStr {
 		}
 	}
 
-	//待修改
 	@Test
 	public void test_abnormal_006_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("助记词  006  exportIdentityQRCode()");
@@ -198,14 +201,22 @@ public class MnemonicCodesStr {
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_abnormal_008_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("助记词  008  exportAccountQRCode()");
 
 		try {
-			Account account = OntTest.sdk().getWalletMgr().createAccount("123456");
-			Wallet walletFile = null;
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Identity identity1 = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			OntTest.sdk().getWalletMgr().getWallet().clearIdentity();
+			OntTest.sdk().getWalletMgr().getWallet().clearAccount();
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			
+			System.out.println(walletFile);
+			System.out.println(identity1);
+			
+			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);   
+			System.out.println(QRcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -213,7 +224,6 @@ public class MnemonicCodesStr {
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_abnormal_009_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("助记词  009  exportAccountQRCode()");
@@ -226,7 +236,6 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
 			System.out.println(QRcode);
-//			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -244,10 +253,11 @@ public class MnemonicCodesStr {
 			Account account = OntTest.sdk().getWalletMgr().createAccount("123456");
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
-			System.out.println(QRcode);
-//			assertEquals(true,ret.equals(exp));	
+			System.out.println(account);
+			System.out.println(walletFile);
 			
+			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account);   
+			System.out.println(QRcode);	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -260,12 +270,18 @@ public class MnemonicCodesStr {
 		OntTest.logger().description("助记词  011  exportAccountQRCode()");
 
 		try {
-			Account account = null;
-			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			OntTest.logger().step("测试参数exportAccountQRCode_account");
 			
-			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
-			System.out.println(QRcode);
-//			assertEquals(true,ret.equals(exp));	
+			Account account = OntTest.sdk().getWalletMgr().createAccount("123456");
+			Account account1 = OntTest.sdk().getWalletMgr().createAccount("123456");
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			walletFile.removeAccount(account1.address);
+			
+			System.out.println(account1);
+			System.out.println(walletFile);
+			
+			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account1);   
+			System.out.println(QRcode);	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -282,10 +298,12 @@ public class MnemonicCodesStr {
 			
 			Account account = null;
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+
+			System.out.println(account);
+			System.out.println(walletFile);
 			
-			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
-			System.out.println(QRcode);
-//			assertEquals(true,ret.equals(exp));	
+			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account);   
+			System.out.println(QRcode);	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -293,17 +311,22 @@ public class MnemonicCodesStr {
 		}
 	}
 	
-	//getPriKeyFromQrCode013-019  待修改 待添加
+	//getPriKeyFromQrCode013-019
 	@Test
 	public void test_base_013_getPriKeyFromQrCode() throws Exception {
 		OntTest.logger().description("助记词  013  getPriKeyFromQrCode()");
 
 		try {
-			String qrcode = "qrcode";
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			
+			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
+			String qrcode = JSONObject.toJSONString(QRcode_map);
+			System.out.println("QRcode= "+qrcode);
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println(PriKey);
+			System.out.println("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -317,11 +340,17 @@ public class MnemonicCodesStr {
 		OntTest.logger().description("助记词  014  getPriKeyFromQrCode()");
 
 		try {
-			String qrcode = "qrcode";
+//			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+//			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+//			
+//			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
+//			String qrcode = JSONObject.toJSONString(QRcode_map);
+			String qrcode = "aaaaaaa";
+			System.out.println("QRcode= "+qrcode);
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println(PriKey);
+			System.out.println("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -339,7 +368,7 @@ public class MnemonicCodesStr {
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println(PriKey);
+			System.out.println("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -349,15 +378,20 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_016_getPriKeyFromQrCode() throws Exception {
+	public void test_normal_016_getPriKeyFromQrCode() throws Exception {
 		OntTest.logger().description("助记词  016  getPriKeyFromQrCode()");
 
 		try {
-			String qrcode = "qrcode";
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			
+			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
+			String qrcode = JSONObject.toJSONString(QRcode_map);
+			System.out.println("QRcode= "+qrcode);
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println(PriKey);
+			System.out.println("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -371,12 +405,21 @@ public class MnemonicCodesStr {
 		OntTest.logger().description("助记词  017  getPriKeyFromQrCode()");
 
 		try {
-			String qrcode = "qrcode";
-			String password = "111111";
-			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			System.out.println(PriKey);
-			assertEquals(true,true);
+			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
+			String qrcode = JSONObject.toJSONString(QRcode_map);
+			System.out.println("QRcode= "+qrcode);
+			String password = "111111";
+			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);			
+			System.out.println("PriKey = "+PriKey);
+
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			System.out.println(ret_err);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -389,12 +432,21 @@ public class MnemonicCodesStr {
 		OntTest.logger().description("助记词  018  getPriKeyFromQrCode()");
 
 		try {
-			String qrcode = "qrcode";
-			String password = "@#$%%";
-			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			System.out.println(PriKey);
-			assertEquals(true,true);
+			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
+			String qrcode = JSONObject.toJSONString(QRcode_map);
+			System.out.println("QRcode= "+qrcode);
+			String password = "@#$%^&";
+			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);			
+			System.out.println("PriKey = "+PriKey);
+
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			System.out.println(ret_err);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -407,12 +459,21 @@ public class MnemonicCodesStr {
 		OntTest.logger().description("助记词  019  getPriKeyFromQrCode()");
 
 		try {
-			String qrcode = "qrcode";
+			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
+			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			
+			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
+			String qrcode = JSONObject.toJSONString(QRcode_map);
+			System.out.println("QRcode= "+qrcode);
 			String password = "";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
-			
-			System.out.println(PriKey);
-			assertEquals(true,true);
+			System.out.println("PriKey = "+PriKey);
+
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			System.out.println(ret_err);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1000,27 +1061,22 @@ public class MnemonicCodesStr {
 		}
 	}	
 	
-	//decryptMnemonicCodesStr045-058 待修改 待添加
 	@Test
 	public void test_base_045_decryptMnemonicCodesStr() throws Exception {
 		OntTest.logger().description("助记词  045  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_encryptedMnemonicCodesStr");
+			OntTest.logger().step("测试参数encryptMnemonicCodesStr_decryptMnemonicCodesStr");
 			
+			String password = "123456";
 			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
-			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
-			
-			String encryptStr = MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, address);
-			System.out.println("encryptStr = "+encryptStr);
-			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(true,decryptStr.equals(exp));
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));
 			
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1031,21 +1087,22 @@ public class MnemonicCodesStr {
 	
 
 	@Test
-	public void test_abnormal_046_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  046  encryptMnemonicCodesStr()");
+	public void test_normal_046_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  046  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_encryptedMnemonicCodesStr");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_encryptedMnemonicCodesStr");
 			
-			String encryptedStr = "KVeDuNev5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
-			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
+			String mnemonicCodesStr = "*!@#$ smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
 			System.out.println(decryptStr);
-			String exp = "*!@#$ smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(true,decryptStr.equals(exp));
+			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));
 			
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1055,22 +1112,22 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_047_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  047  encryptMnemonicCodesStr()");
+	public void test_normal_047_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  047  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_encryptedMnemonicCodesStr");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_encryptedMnemonicCodesStr");
 			
-			String encryptedStr = "bBi38pyv5Z6QNXhfg+SZXJA1ZtXE8uNn0HLrFO2/ElrW92aQewdzo2uNjzEAM57f9eTav5QMF0Xm2a8Bz1z9LbpkeCarCgYUOeUAU2sVctyYsbsN4Q==";
 			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "ontio polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "ontio polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(true,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1079,22 +1136,22 @@ public class MnemonicCodesStr {
 	}	
 	
 	@Test
-	public void test_abnormal_048_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  048  encryptMnemonicCodesStr()");
+	public void test_normal_048_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  048  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_encryptedMnemonicCodesStr");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_encryptedMnemonicCodesStr");
 			
-			String encryptedStr = "cBus9IfntYKdOH5fnOyVR5EvI4bR7Pg31G6oF+qiGR2C62iSYREk9HqKiDNGfY/M8//I7ZlEE0Hpl/8S3lzqOrUwNTSvC0kSNA==";
 			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(true,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1103,22 +1160,22 @@ public class MnemonicCodesStr {
 	}	
 	
 	@Test
-	public void test_abnormal_049_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  049  encryptMnemonicCodesStr()");
+	public void test_normal_049_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  049  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_encryptedMnemonicCodesStr");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_encryptedMnemonicCodesStr");
 			
-			String encryptedStr = "";
 			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "";	
-			assertEquals(true,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1127,22 +1184,22 @@ public class MnemonicCodesStr {
 	}	
 	
 	@Test
-	public void test_normal_050_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  050  encryptMnemonicCodesStr()");
+	public void test_normal_050_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  050  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_password");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_password");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(true,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1151,22 +1208,28 @@ public class MnemonicCodesStr {
 	}
 
 	@Test
-	public void test_abnormal_051_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  051  encryptMnemonicCodesStr()");
+	public void test_abnormal_051_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  051  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_password");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_password");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
-			String password = "111111";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String password = "123456";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, "111111", account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1175,22 +1238,27 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_052_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  052  encryptMnemonicCodesStr()");
+	public void test_abnormal_052_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  052  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_password");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_password");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
-			String password = "@#$%%^";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String password = "123456";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, "!@#$%^", account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1199,22 +1267,27 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_053_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  053  encryptMnemonicCodesStr()");
+	public void test_abnormal_053_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  053  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_password");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_password");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
-			String password = "";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String password = "123456";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, "", account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1223,22 +1296,22 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_normal_054_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  054  encryptMnemonicCodesStr()");
+	public void test_normal_054_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  054  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_address");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_address");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(true,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1247,22 +1320,31 @@ public class MnemonicCodesStr {
 	}
 
 	@Test
-	public void test_abnormal_055_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  055  encryptMnemonicCodesStr()");
+	public void test_abnormal_055_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  055  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_address");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_address");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "BWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String address = account.getAddressU160().toBase58();
+	        System.out.println("原地址为"+address);
+	        address = address.substring(0,address.length()-3)+"666";
+	        System.out.println("修改后地址为"+address);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1271,22 +1353,31 @@ public class MnemonicCodesStr {
 	}
 
 	@Test
-	public void test_abnormal_056_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  056  encryptMnemonicCodesStr()");
+	public void test_abnormal_056_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  056  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_address");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_address");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "1AWzypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String address = account.getAddressU160().toBase58();
+	        System.out.println("原地址为"+address);
+	        address = address +"a";
+	        System.out.println("修改后地址为"+address);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1295,22 +1386,31 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_057_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  057  encryptMnemonicCodesStr()");
+	public void test_abnormal_057_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  057  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_address");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_address");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "@#zypEQCfN5iCyqawNMKRnnk3BctA4RTyC";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String address = account.getAddressU160().toBase58();
+	        System.out.println("原地址为"+address);
+	        address = address.substring(0,address.length()-3)+"@#%";
+	        System.out.println("修改后地址为"+address);
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1319,22 +1419,28 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_058_encryptMnemonicCodesStr() throws Exception {
-		OntTest.logger().description("助记词  058  encryptMnemonicCodesStr()");
+	public void test_abnormal_058_decryptMnemonicCodesStr() throws Exception {
+		OntTest.logger().description("助记词  058  decryptMnemonicCodesStr()");
 
 		try {
-			OntTest.logger().step("测试参数encryptMnemonicCodesStr_address");
+			OntTest.logger().step("测试参数decryptMnemonicCodesStr_address");
 			
-			String encryptedStr = "cxmv+oGv5pyTO34X0PqXX5B9KsPG6uI12Tf8Eve9HwOC8nuPfRlzuniQkzlXfZzF7u7Lv4cFClTli7FA1knxMfQ2cDOwAUcSfOIfWWUVOg==";
 			String password = "123456";
-			String address = "";
+			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
+	        System.out.println("encryptedStr = "+encryptedStr);
+	        String address = "";
+	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
+			System.out.println("decryptStr = "+decryptStr);
 			
-			String decryptStr = MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			
-			System.out.println(decryptStr);
-			String exp = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";	
-			assertEquals(false,decryptStr.equals(exp));
-			
+			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
+		} catch(SDKException e) {
+			String ret_err = String.valueOf(e);
+			String exp_err = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,Prikey length error\",\"Error\":51014}";
+			OntTest.logger().error(e.toString());
+			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
