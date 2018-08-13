@@ -727,7 +727,7 @@ public class Claim {
 	}
 	
 	@Test
-	public void test_abnormal_019_createOntIdClaim() throws Exception {
+	public void test_normal_019_createOntIdClaim() throws Exception {
 		OntTest.logger().description("test_api   : createOntIdClaim");
 		OntTest.logger().description("test_param : context - wrong context");
 
@@ -761,7 +761,7 @@ public class Claim {
 			OntTest.logger().step("verify OntIdClaim");
 			boolean b = OntTest.sdk().nativevm().ontId().verifyOntIdClaim(claim);
 			
-			assertEquals(false, b);
+			assertEquals(true, b);
 			
 		} catch(SDKException e) {
 			System.out.println(e);
@@ -1150,7 +1150,7 @@ public class Claim {
 	}
 	
 	@Test
-	public void test_abnormal_028_createOntIdClaim() throws Exception {
+	public void test_normal_028_createOntIdClaim() throws Exception {
 		OntTest.logger().description("test_api   : createOntIdClaim");
 		OntTest.logger().description("test_param : clmRevMap - wrong clmRevMap");
 
@@ -1184,7 +1184,7 @@ public class Claim {
 			OntTest.logger().step("verify OntIdClaim");
 			boolean b = OntTest.sdk().nativevm().ontId().verifyOntIdClaim(claim);
 			
-			assertEquals(false, b);
+			assertEquals(true, b);
 			
 		} catch(SDKException e) {
 			System.out.println(e);
