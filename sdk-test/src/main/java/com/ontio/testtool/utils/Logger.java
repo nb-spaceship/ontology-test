@@ -36,7 +36,7 @@ public class Logger {
 		}
 	}
 	
-	public void setSubType(String type) {
+	public void setType(String type) {
 		subFolder = type;
 		if (!subFolder.isEmpty()) {
 			subFolder += "/";
@@ -53,7 +53,7 @@ public class Logger {
 	};
 	public void error(String content) {
 		try {
-			write("[  ERROR  ]  " + content);
+			write("[ ERROR   ]  " + content);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +69,7 @@ public class Logger {
 	};
 	public void description(String content) {
 		try {
-			write("[DESCRIPTION]  " + content);
+			write("[ DESCRIPTION ]  " + content);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +77,7 @@ public class Logger {
 	};
 	public void step(String content) {
 		try {
-			write("[  Step  ]-" + step + "  " + content);
+			write("[ Step   ]-" + step + "  " + content);
 			step++;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -88,6 +88,12 @@ public class Logger {
 	public boolean open(String logfilename, String logname) {
 		try {
 			step = 1;
+			File file = new File(prefixpath + "/" + subFolder + logfilename);
+			File fileParent = file.getParentFile();  
+			if(!fileParent.exists()){  
+			    fileParent.mkdirs();  
+			}
+			
 			logfileWriter = new FileWriter(prefixpath + "/" + subFolder + logfilename);
 			this.logfilename = logfilename;
 			this.logname = logname;
@@ -102,9 +108,11 @@ public class Logger {
 	
 	public boolean appendRecord(String name, String status, String logpath) {
 		String filePath = prefixpath + "/" + subFolder + collectionfileName;
+		
 		try {
 			if (collectionfileWriter == null) {
 				File file = new File(filePath);
+
 				if (!file.exists()) {
 					collectionfileWriter = new FileWriter(filePath, true);
 					collectionfileWriter.write("NAME,STATUS,LOG PATH\n");
