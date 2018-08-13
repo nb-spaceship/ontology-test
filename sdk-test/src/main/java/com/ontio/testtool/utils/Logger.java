@@ -9,6 +9,7 @@ import java.util.Date;
 public class Logger {
 	private static Logger instance = null;
 	private static FileWriter logfileWriter = null;
+	private static File logfile = null;
 	private static FileWriter collectionfileWriter = null;
 	private static String logfilename = null;
 	private static String logname = null;
@@ -25,8 +26,8 @@ public class Logger {
     }
 	
 	public Logger() {
-		//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		//SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String date = df.format(new Date());
 		
 		prefixpath = "logs/" + date;  
@@ -88,8 +89,8 @@ public class Logger {
 	public boolean open(String logfilename, String logname) {
 		try {
 			step = 1;
-			File file = new File(prefixpath + "/" + subFolder + logfilename);
-			File fileParent = file.getParentFile();  
+			logfile = new File(prefixpath + "/" + subFolder + logfilename);
+			File fileParent = logfile.getParentFile();  
 			if(!fileParent.exists()){  
 			    fileParent.mkdirs();  
 			}
@@ -106,8 +107,8 @@ public class Logger {
 		return true;
 	};
 	
-	public boolean appendRecord(String name, String status, String logpath) {
-		String filePath = prefixpath + "/" + subFolder + collectionfileName;
+	public boolean appendRecord(String name, String status, File logfile) {
+		String filePath = logfile.getParentFile().getAbsolutePath() + "/" + collectionfileName;
 		
 		try {
 			if (collectionfileWriter == null) {
@@ -119,7 +120,7 @@ public class Logger {
 				} else {
 					collectionfileWriter = new FileWriter(filePath, true);
 				}
-				collectionfileWriter.write(name + "," + status + "," + logpath + "\n");
+				collectionfileWriter.write(name + "," + status + "," + logfile.getName() + "\n");
 				collectionfileWriter.close();
 				collectionfileWriter = null;
 			}
@@ -145,7 +146,7 @@ public class Logger {
 			}
 			write("[---------------------   END   ---------------------]");
 			
-			appendRecord(logname ,ret, logfilename);
+			appendRecord(logname ,ret, logfile);
 			
 			if (logfileWriter != null) {
 				logfileWriter.close();
@@ -182,7 +183,7 @@ public class Logger {
 			contents = date + ": " + splitstrele + "\n";
 		}
 		
-		System.out.println(contents);
+		System.out.print(contents);
 		if (logfileWriter != null) {
 			logfileWriter.write(contents);
 		}

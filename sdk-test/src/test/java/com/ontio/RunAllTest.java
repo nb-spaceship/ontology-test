@@ -16,6 +16,7 @@ import java.util.Set;
 import com.alibaba.fastjson.JSONObject;
 import com.ontio.sdkapi.Claim;
 import com.ontio.sdkapi.ClaimRecord;
+import com.ontio.sdkapi.DigitalAccount;
 import com.ontio.sdkapi.DigitalIdentity;
 import com.ontio.sdkapi.Invoke;
 import com.ontio.sdkapi.MnemonicCodesStr;
@@ -25,6 +26,8 @@ import com.ontio.testtool.OntTest;
 
 public class RunAllTest {
     public static void main(String[] args) throws ClassNotFoundException {
+    	OntTest.init();
+    	
     	String prarameter_c = "";  
     	String prarameter_t = "";  
     	String prarameter_f = "";  
@@ -94,6 +97,7 @@ public class RunAllTest {
         List<Class<?>> all_class = new ArrayList<Class<?>>();
         all_class.add(Claim.class);
         all_class.add(ClaimRecord.class);
+        all_class.add(DigitalAccount.class);
         all_class.add(DigitalIdentity.class);
         all_class.add(Invoke.class);
         all_class.add(MnemonicCodesStr.class);
