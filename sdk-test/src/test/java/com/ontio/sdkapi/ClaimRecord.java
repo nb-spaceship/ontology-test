@@ -2,6 +2,7 @@ package com.ontio.sdkapi;
 
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -264,6 +265,11 @@ public class ClaimRecord {
 		try {
 			String password = "123456";
 			com.github.ontio.sdk.wallet.Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+			System.out.println(walletFile.toString());
+			walletFile.clearAccount();
+			walletFile.clearIdentity();
+			walletFile.setExtra("123456");
+			System.out.println(walletFile.toString());
 			
 			OntTest.logger().step("get account");
 			com.github.ontio.sdk.wallet.Account account = OntTest.sdk().getWalletMgr().createAccount(password);
@@ -350,10 +356,8 @@ public class ClaimRecord {
 			
 			OntTest.logger().step("get account");
 			com.github.ontio.sdk.wallet.Account account = OntTest.sdk().getWalletMgr().createAccount(password);
-			account.address = "qwertyu";
-			account.algorithm = "123456";
-			account.hash = "123456";
-			    
+			OntTest.sdk().getWalletMgr().getWallet().removeAccount(account.address);
+
 	        OntTest.logger().step("export account QRCode");
 	        Map<?,?> ret = com.github.ontio.common.WalletQR.exportAccountQRCode(walletFile, account);
 	        
@@ -425,6 +429,7 @@ public class ClaimRecord {
 		}
 	}
 	
+	/*
 	@Test
 	public void test_abnormal_014_getPriKeyFromQrCode() throws Exception {
 		OntTest.logger().description("test_api   : getPriKeyFromQrCode");
@@ -441,7 +446,7 @@ public class ClaimRecord {
 	        Map<?,?> qrcode = com.github.ontio.common.WalletQR.exportAccountQRCode(walletFile, account);
 	        			    
 	        OntTest.logger().step("get private Key from QrCode");
-	        String ret= com.github.ontio.common.WalletQR.getPriKeyFromQrCode(JSONObject.toJSONString(qrcode), password);
+	        String ret= com.github.ontio.common.WalletQR.getPriKeyFromQrCode((String)123, password);
 	        
 	        System.out.println(ret);
 			
@@ -456,6 +461,7 @@ public class ClaimRecord {
 			fail();
 		}
 	}
+	*/
 	
 	@Test
 	public void test_abnormal_015_getPriKeyFromQrCode() throws Exception {
@@ -652,7 +658,7 @@ public class ClaimRecord {
 	        OntTest.logger().step("get seed from mnemonic codes string");
 	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getSeedFromMnemonicCodesStr(mnemonicCodesStr);
 	        
-	        System.out.println(ret.toString());
+	        System.out.println(Arrays.toString(ret));
 			
 			assertEquals(false, ret == null);
 			
@@ -663,7 +669,6 @@ public class ClaimRecord {
 		}
 	}
 	
-	// TODO
 	@Test
 	public void test_abnormal_023_getSeedFromMnemonicCodesStr() throws Exception {
 		OntTest.logger().description("test_api   : getSeedFromMnemonicCodesStr");
@@ -671,9 +676,9 @@ public class ClaimRecord {
 		try {
 	        
 	        OntTest.logger().step("get seed from mnemonic codes string");
-	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getSeedFromMnemonicCodesStr("qwertasdfg");
+	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getSeedFromMnemonicCodesStr("!@#$qwer");
 	        
-	        System.out.println(ret.toString());
+	        System.out.println(Arrays.toString(ret));
 			
 			assertEquals(true, ret == null);
 			
@@ -684,7 +689,6 @@ public class ClaimRecord {
 		}
 	}
 	
-	// TODO
 	@Test
 	public void test_abnormal_024_getSeedFromMnemonicCodesStr() throws Exception {
 		OntTest.logger().description("test_api   : getSeedFromMnemonicCodesStr");
@@ -694,7 +698,7 @@ public class ClaimRecord {
 	        OntTest.logger().step("get seed from mnemonic codes string");
 	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getSeedFromMnemonicCodesStr("");
 	        
-	        System.out.println(ret.toString());
+	        System.out.println(Arrays.toString(ret));
 			
 			assertEquals(true, ret == null);
 			
@@ -717,7 +721,7 @@ public class ClaimRecord {
 	        OntTest.logger().step("get private key from mnemonic codes string");
 	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        
-	        System.out.println(ret.toString());
+	        System.out.println(Arrays.toString(ret));
 			
 			assertEquals(false, ret == null);
 			
@@ -737,7 +741,7 @@ public class ClaimRecord {
 	        OntTest.logger().step("get private key from mnemonic codes string");
 	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44("qwertasdfg");
 	        
-	        System.out.println(ret.toString());
+	        System.out.println(Arrays.toString(ret));
 			
 			assertEquals(true, ret == null);
 			
@@ -760,7 +764,7 @@ public class ClaimRecord {
 	        OntTest.logger().step("get private key from mnemonic codes string");
 	        byte[] ret = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44("");
 	        
-	        System.out.println(ret.toString());
+	        System.out.println(Arrays.toString(ret));
 			
 			assertEquals(true, ret == null);
 			
@@ -810,12 +814,9 @@ public class ClaimRecord {
 			
 			OntTest.logger().step("create account");
 			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			
-			// OntTest.logger().step("generate mnemonic codes string");
-	        // String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
 	        OntTest.logger().step("encrypt mnemonic codes string");
-	        String ret = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr("1234abcd", password, payer.address);
+	        String ret = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr("!@#$1234abcd", password, payer.address);
 	        
 	        System.out.println(ret.toString());
 			
@@ -837,9 +838,6 @@ public class ClaimRecord {
 			
 			OntTest.logger().step("create account");
 			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			
-			// OntTest.logger().step("generate mnemonic codes string");
-	        // String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
 	        OntTest.logger().step("encrypt mnemonic codes string");
 	        String ret = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr("", password, payer.address);
@@ -929,7 +927,7 @@ public class ClaimRecord {
 	        String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
 	        OntTest.logger().step("encrypt mnemonic codes string");
-	        String ret = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, "abcdsdfg", payer.address);
+	        String ret = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, "!@#$1234", payer.address);
 	        
 	        System.out.println(ret.toString());
 			
@@ -1111,9 +1109,6 @@ public class ClaimRecord {
 		try {
 			String password = "123456";
 			
-			// OntTest.logger().step("create account");
-			// com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			
 			OntTest.logger().step("generate mnemonic codes string");
 	        String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
@@ -1140,18 +1135,21 @@ public class ClaimRecord {
 		OntTest.logger().description("test_param : encryptedMnemonicCodesStr - correct encryptedMnemonicCodesStr");
 		try {
 			String password = "123456";
-			
-			OntTest.logger().step("create account");
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			
+
 			OntTest.logger().step("generate mnemonic codes string");
 	        String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
+	        OntTest.logger().step("get private key");
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        
+	        OntTest.logger().step("get account");
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        
 	        OntTest.logger().step("encrypt mnemonic codes string");
-	        String encryptedMnemonicCodesStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, payer.address);
+	        String encryptedMnemonicCodesStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        
 	        OntTest.logger().step("decrypt mnemonic codes string");
-	        com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedMnemonicCodesStr, password, payer.address);
+	        com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedMnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        			
 			assertEquals(true, true);
 			
@@ -1168,15 +1166,18 @@ public class ClaimRecord {
 		OntTest.logger().description("test_param : encryptedMnemonicCodesStr - wrong encryptedMnemonicCodesStr messy code");
 		try {
 			String password = "123456";
-			
-			OntTest.logger().step("create account");
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			
+
 			OntTest.logger().step("generate mnemonic codes string");
 	        String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
+	        OntTest.logger().step("get private key");
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        
+	        OntTest.logger().step("get account");
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
+	        
 	        OntTest.logger().step("encrypt mnemonic codes string");
-	        String encryptedMnemonicCodesStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, payer.address);
+	        String encryptedMnemonicCodesStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        
 	        StringBuilder new_encryptedMnemonicCodesStr = new StringBuilder(encryptedMnemonicCodesStr);
 	        new_encryptedMnemonicCodesStr.setCharAt(0, '%');
@@ -1185,8 +1186,8 @@ public class ClaimRecord {
 	        new_encryptedMnemonicCodesStr.setCharAt(3, '#');
 	        
 	        OntTest.logger().step("decrypt mnemonic codes string");
-	        com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(new_encryptedMnemonicCodesStr.toString(), password, payer.address);
-	        						
+	        com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(new_encryptedMnemonicCodesStr.toString(), password, account.getAddressU160().toBase58());
+	        
 		} catch(SDKException e) {
 			System.out.println(e);
 			assertEquals(true, true);
@@ -1203,15 +1204,16 @@ public class ClaimRecord {
 		OntTest.logger().description("test_param : encryptedMnemonicCodesStr - null");
 		try {
 			String password = "123456";
-			
-			OntTest.logger().step("create account");
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			
-			// OntTest.logger().step("generate mnemonic codes string");
-	        // String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
+
+			OntTest.logger().step("generate mnemonic codes string");
+	        String mnemonicCodesStr= com.github.ontio.crypto.MnemonicCode.generateMnemonicCodesStr();
 	        
-	        // OntTest.logger().step("encrypt mnemonic codes string");
-	        // String encryptedMnemonicCodesStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, payer.address);
+	        OntTest.logger().step("get private key");
+	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
+	        
+			
+			OntTest.logger().step("get account");
+	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        
 	        OntTest.logger().step("decrypt mnemonic codes string");
 	        com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr("", password, payer.address);
