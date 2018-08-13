@@ -15,6 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.ontio.account.Account;
 import com.github.ontio.common.Helper;
 import com.github.ontio.common.UInt256;
@@ -31,7 +32,8 @@ import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
 
 public class RPC_API {
-	@Rule public OntTestWatcher watchman= new OntTestWatcher();
+	@Rule 
+	public OntTestWatcher watchman= new OntTestWatcher();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -41,6 +43,10 @@ public class RPC_API {
 	@Before
 	public void setUp() throws Exception {
 		System.out.println("setUp");
+		String invoke_address = this.getClass().getResource("invoke.cs").toString();
+		String rpcapi_address = this.getClass().getResource("rpcapi.cs").toString();
+		System.out.println(invoke_address);
+		System.out.println(rpcapi_address);
 	}
 	
 	@After
@@ -189,8 +195,6 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试getTransaction()");
 			
-			
-			 
 			Account acc = OntTest.common().getAccount(0);
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 1L, acc, 20000L, 0L);
@@ -215,32 +219,34 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getStorage()");
-			
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
-			String codeAddr = String.valueOf(ret_deploy.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+//			String rpcapi_address = this.getClass().getResource("rpcapi.cs").toString();
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/rpcapi.cs", null);
+			System.out.println("ret_deploy = "+ret_deploy);
+			String codeAddr0 = String.valueOf(ret_deploy.get("address"));
+			String codeAddr1 = Helper.reverse(codeAddr0);
+			System.out.println(codeAddr1);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(Helper.hexToBytes("11"));
+	        args.add(Helper.hexToBytes("6b6579303039")); //为字符串key009的16进制
+	        args.add(Helper.hexToBytes("76616c7565303039")); //为字符串value009的16进制
 	        list.add(args);
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
 	        byte[] params = BuildParams.createCodeParamsScript(list);
 	        
-	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr0, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        System.out.println("invokeTx : "+invokeTx);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
-	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        boolean b1 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
 	        System.out.println("b1 : "+b1);
-	        String hashcode = Integer.toHexString(b1.hashCode());
-	        System.out.println("hashcode : "+hashcode);
+	        Thread.sleep(5000);
 			
-			String key = "";
-			String Storage = OntTest.sdk().getRpc().getStorage(hashcode, key);
+	        String key = "6b6579303039";
+			String Storage = OntTest.sdk().getRpc().getStorage(codeAddr1, key);
 			System.out.println(Storage);
 			
-			assertEquals(true,true);	
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -255,29 +261,32 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getStorage()");
-			
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
-			String codeAddr = String.valueOf(ret_deploy.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+//			String rpcapi_address = this.getClass().getResource("rpcapi.cs").toString();
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/rpcapi.cs", null);
+			System.out.println("ret_deploy = "+ret_deploy);
+			String codeAddr0 = String.valueOf(ret_deploy.get("address"));
+			String codeAddr1 = Helper.reverse(codeAddr0);
+			System.out.println(codeAddr1);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(Helper.hexToBytes("11"));
+	        args.add(Helper.hexToBytes("6b6579303039")); //为字符串key009的16进制
+	        args.add(Helper.hexToBytes("76616c7565303039")); //为字符串value009的16进制
 	        list.add(args);
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
 	        byte[] params = BuildParams.createCodeParamsScript(list);
 	        
-	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr1, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        System.out.println("invokeTx : "+invokeTx);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        System.out.println("b1 : "+b1);
 	        String hashcode = Integer.toHexString(b1.hashCode());
 	        System.out.println("hashcode : "+hashcode);
 			
-			String key = "";
-			String Storage = OntTest.sdk().getRpc().getStorage(hashcode, key);
+	        String key = "6b6579303039";
+			String Storage = OntTest.sdk().getRpc().getStorage(codeAddr1, key);
 			System.out.println(Storage);
 			
 			assertEquals(true,true);		
@@ -313,7 +322,7 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getContractJson()");
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 	        
 			Object Contract = OntTest.sdk().getRpc().getContractJson(codeAddr);
@@ -351,7 +360,7 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getSmartCodeEvent()");
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
@@ -439,7 +448,7 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试sendRawTransaction()");
 
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
@@ -473,7 +482,7 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试sendRawTransaction()");
 
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
@@ -506,7 +515,7 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试sendRawTransactionPreExec()");
 
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
@@ -661,7 +670,7 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试syncSendRawTransaction()");
 			
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/invoke_neo/invoketest.cs", null);
+			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			System.out.println(codeAddr);//智能合约地址
