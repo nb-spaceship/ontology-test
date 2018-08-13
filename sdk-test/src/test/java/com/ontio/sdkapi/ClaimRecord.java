@@ -171,6 +171,7 @@ public class ClaimRecord {
 		}
 	}
 	
+	/*
 	@Test
 	public void test_abnormal_005_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("test_api   : exportIdentityQRCode");
@@ -205,7 +206,7 @@ public class ClaimRecord {
 			fail();
 		}
 	}
-	
+	*/
 	@Test
 	public void test_abnormal_006_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("test_api   : exportIdentityQRCode");
@@ -345,6 +346,7 @@ public class ClaimRecord {
 		}
 	}
 	
+	/*
 	@Test
 	public void test_abnormal_011_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("test_api   : exportAccountQRCode");
@@ -374,7 +376,7 @@ public class ClaimRecord {
 			fail();
 		}
 	}
-	
+	*/
 	@Test
 	public void test_abnormal_012_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("test_api   : exportAccountQRCode");
