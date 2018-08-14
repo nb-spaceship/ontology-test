@@ -172,11 +172,27 @@ public class WebSocket_API {
 		try {
 			String url = this.getClass().getResource("rest.cs").getPath();
 			Map dec = OntTest.api().contract().deployContract(url, null);
-			String codeAddr = String.valueOf(dec.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
+			String codeAddr1 = String.valueOf(dec.get("address"));
+			String codeAddr2 = Helper.reverse(codeAddr1);
 			
-			Thread.sleep(5000);
-			String acc = OntTest.sdk().getWebSocket().getStorage(codeAddr, "");
+			List list = new ArrayList<Object>();
+	        list.add("test".getBytes());
+	        List args = new ArrayList<Object>();
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("06"));
+	        list.add(args);
+	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
+	        byte[] params = BuildParams.createCodeParamsScript(list);
+	        
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr2, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        System.out.println("b1"+b1);
+
+			OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
+			
+			String acc = OntTest.sdk().getWebSocket().getStorage(codeAddr1, "01");
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -192,11 +208,27 @@ public class WebSocket_API {
 		try {
 			String url = this.getClass().getResource("rest.cs").getPath();
 			Map dec = OntTest.api().contract().deployContract(url, null);
-			String codeAddr = String.valueOf(dec.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
-			Thread.sleep(5000);
+			String codeAddr1 = String.valueOf(dec.get("address"));
+			String codeAddr2 = Helper.reverse(codeAddr1);
+			
+			List list = new ArrayList<Object>();
+	        list.add("test".getBytes());
+	        List args = new ArrayList<Object>();
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("06"));
+	        list.add(args);
+	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
+	        byte[] params = BuildParams.createCodeParamsScript(list);
+	        
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr2, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        System.out.println("b1"+b1);
 
-			String acc = OntTest.sdk().getWebSocket().getStorage(codeAddr, "");
+			OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
+
+			String acc = OntTest.sdk().getWebSocket().getStorage(codeAddr1, "01");
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
