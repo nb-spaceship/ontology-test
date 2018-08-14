@@ -28,6 +28,8 @@ import com.ontio.sdkapi.DigitalIdentity;
 import com.ontio.sdkapi.Invoke;
 import com.ontio.sdkapi.MnemonicCodesStr;
 import com.ontio.sdkapi.ONG_Native;
+import com.ontio.sdkapi.ONT_Native;
+import com.ontio.sdkapi.Ontid;
 import com.ontio.sdkapi.RPC_API;
 import com.ontio.testtool.OntTest;
 
@@ -109,7 +111,9 @@ public class RunAllTest {
         all_class.add(Invoke.class);
         all_class.add(MnemonicCodesStr.class);
         all_class.add(ONG_Native.class);
+        all_class.add(ONT_Native.class);
         all_class.add(RPC_API.class);
+        all_class.add(Ontid.class);
         
         JUnitCore junitRunner = new JUnitCore();
         junitRunner.addListener(new TestMonitor());
