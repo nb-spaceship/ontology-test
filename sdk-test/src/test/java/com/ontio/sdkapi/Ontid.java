@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.security.PrivateKey;
 import java.util.Base64;
+import java.util.Map;
 import java.util.jar.Attributes;
 
 import org.junit.After;
@@ -13,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
 import com.github.ontio.account.Account;
 import com.github.ontio.core.ontid.Attribute;
 import com.github.ontio.network.exception.RpcException;
@@ -76,9 +78,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -121,9 +129,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58501".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -140,14 +154,20 @@ public class Ontid {
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "", acc1, 20000, 1, false);
+			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "", acc1, 20000, 0, false);
 			System.out.println(sr);
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -164,15 +184,10 @@ public class Ontid {
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("@#$%^&");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "@#$%^&", acc1, 20000, 1, false);
+			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "@#$%^&", acc1, 20000, 0, false);
 			System.out.println(sr);
 			
 		} 
-		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,e.toString().equals(exp));
-		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -229,9 +244,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58501".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -272,9 +293,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -295,11 +322,6 @@ public class Ontid {
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 40000, 1, false);
 			System.out.println(sr);
 			
-		} 
-		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -321,9 +343,15 @@ public class Ontid {
 			
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.network.exception.RpcException: {\"result\":\"Please input gasLimit >= 20000 and gasPrice >= 0\",\"id\":1,\"error\":43001,\"jsonrpc\":\"2.0\",\"desc\":\"INVALID TRANSACTION\"}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -345,9 +373,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"gas or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -372,8 +406,15 @@ public class Ontid {
 			
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false, false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -435,9 +476,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"gas or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -461,9 +508,15 @@ public class Ontid {
 			
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.network.exception.RpcException: {\"result\":\"transactor 9531af16ab17b053b8b2bd24f19d0d00140c7247 has no balance enough to cover gas cost 200000\",\"id\":1,\"error\":43001,\"jsonrpc\":\"2.0\",\"desc\":\"INVALID TRANSACTION\"}";
-			assertEquals(false,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -573,9 +626,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -602,9 +661,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -631,9 +696,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -660,9 +731,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -689,9 +766,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -718,9 +801,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -747,9 +836,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -775,11 +870,6 @@ public class Ontid {
 			System.out.println(sr);
 			
 		} 
-		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
-		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -805,9 +895,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58501".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -887,10 +983,7 @@ public class Ontid {
 					+ "dCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMp"
 					+ "cNa");
 			String ontid = "did:ont:"+acc.address;
-//			Account acc1 = OntTest.common().getAccount(0);
-//			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
-//			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
-			
+
 			Attribute[] atr = new Attribute[3];
 			atr[0] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
 			atr[1] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
@@ -967,9 +1060,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58501".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -996,9 +1095,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58501".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1102,7 +1207,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_abnoraml_041_sendAddAttributes() throws Exception {
+	public void test_noraml_041_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1113,10 +1218,11 @@ public class Ontid {
 			Attribute[] atr = new Attribute[1];
 			atr[0] = new Attribute("".getBytes(),"".getBytes(),"".getBytes());
 
-			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
+			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 0l);
 			System.out.println(sr);
 			
 		} 
+
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -1167,9 +1273,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1220,9 +1332,15 @@ public class Ontid {
 			
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.network.exception.RpcException: {\"result\":\"Please input gasLimit >= 20000 and gasPrice >= 0\",\"id\":1,\"error\":43001,\"jsonrpc\":\"2.0\",\"desc\":\"INVALID TRANSACTION\"}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1249,9 +1367,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"gas or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1279,8 +1403,15 @@ public class Ontid {
 			
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false,false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1289,7 +1420,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_abnoraml_048_sendAddAttributes() throws Exception {
+	public void test_noraml_048_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1302,7 +1433,7 @@ public class Ontid {
 			atr[1] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
 			atr[2] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
 
-			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 10000000000L, 10l);
+			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 10000000000L, 0);
 			System.out.println(sr);
 			
 		} 
@@ -1355,9 +1486,15 @@ public class Ontid {
 			
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"gas or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1386,8 +1523,15 @@ public class Ontid {
 			
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false, false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1397,7 +1541,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_abnoraml_052_sendAddAttributes() throws Exception {
+	public void test_noraml_052_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1430,8 +1574,10 @@ public class Ontid {
 
 			Thread.sleep(5000);
 			System.out.println(ci);
-			String ontid1 = ci.ontid;
+			String ontid1 = ci.ontid;		
+			System.out.println(ontid1);
 			String sd = OntTest.sdk().nativevm().ontId().sendGetDDO(ontid1);
+			
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
