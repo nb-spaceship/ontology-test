@@ -1,5 +1,7 @@
 package com.ontio.testtool;
 
+import java.io.PrintStream;
+
 import com.github.ontio.OntSdk;
 import com.github.ontio.sdk.exception.SDKException;
 import com.ontio.testtool.api.ApiManager;
@@ -15,6 +17,18 @@ public class OntTest {
 
 	public static boolean init() {
 		try {
+			PrintStream myStream = new PrintStream(System.out) {
+			    @Override
+			    public void println(Object x) {
+			    	OntTest.logger().print(x.toString());
+			    }
+			    @Override
+			    public void println(String x) {
+			    	OntTest.logger().print(x);
+			    }
+			};
+			System.setOut(myStream);
+			
 			return bindNode(0);
 		} catch (Exception e2) {
 			return false; 
