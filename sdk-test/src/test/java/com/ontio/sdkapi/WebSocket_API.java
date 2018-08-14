@@ -20,6 +20,7 @@ import com.github.ontio.common.UInt256;
 import com.github.ontio.core.block.Block;
 import com.github.ontio.core.payload.InvokeCode;
 import com.github.ontio.core.transaction.Transaction;
+import com.github.ontio.network.websocket.Result;
 import com.github.ontio.smartcontract.neovm.abi.BuildParams;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
@@ -33,7 +34,7 @@ public class WebSocket_API {
 		OntTest.init();
 //		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
 //		Thread.sleep(5000);
-		OntTest.sdk().getWebSocket().startWebsocketThread(false);
+		OntTest.sdk().getWebSocket().startWebsocketThread(true);
 		Thread.sleep(3000);
 	}
 	
@@ -53,7 +54,8 @@ public class WebSocket_API {
 		
 		try {
 			int acc = OntTest.sdk().getWebSocket().getNodeCount();
-			System.out.println(acc);
+			Result result = OntTest.common().waitWsResult("getconnectioncount");
+			System.out.println("result:" + result.Result.toString());
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -68,7 +70,8 @@ public class WebSocket_API {
 		
 		try {
 			Block acc = OntTest.sdk().getWebSocket().getBlock(15);
-			System.out.println(acc);
+			Result result = OntTest.common().waitWsResult("getblockbyheight");
+			System.out.println("result:" + result.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -83,7 +86,9 @@ public class WebSocket_API {
 		
 		try {
 			Object acc = OntTest.sdk().getWebSocket().getBlockJson(15);
-			System.out.println(acc);
+			Result result = OntTest.common().waitWsResult("getblockbyheight");
+			System.out.println("result:" + result.Result.toString());
+			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -97,11 +102,13 @@ public class WebSocket_API {
 		
 		try {
 			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getWebSocket().getBlock(15).hash();
-			System.out.println(hash);
+			UInt256 hash = OntTest.sdk().getRpc().getBlock(15).hash();
+			
 			System.out.println("2.getBlockJson");
 			Object acc = OntTest.sdk().getWebSocket().getBlockJson(hash.toHexString());
-			System.out.println(acc);
+			
+			Result result1 = OntTest.common().waitWsResult("getblockbyhash");
+			System.out.println("result:" + result1.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -134,8 +141,10 @@ public class WebSocket_API {
 		OntTest.logger().description("----------getBlockHeight----------");
 		
 		try {
+			
 			int acc = OntTest.sdk().getWebSocket().getBlockHeight();
-			System.out.println(acc);
+			Result result = OntTest.common().waitWsResult("getblockheight");
+			System.out.println(result.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -155,9 +164,12 @@ public class WebSocket_API {
 			String addr2 = acc2.getAddressU160().toBase58();
 			
 			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			OntTest.common().waitTransactionResult(s);
+
 			Transaction trs = OntTest.sdk().getWebSocket().getTransaction(s);
-			System.out.println(trs);
+			Result rs = OntTest.common().waitWsResult("gettransaction");
+			System.out.println(rs.Result.toString());
+//			System.out.println(trs);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -193,7 +205,9 @@ public class WebSocket_API {
 			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
 			
 			String acc = OntTest.sdk().getWebSocket().getStorage(codeAddr1, "01");
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("getstorage");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -229,7 +243,9 @@ public class WebSocket_API {
 			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
 
 			String acc = OntTest.sdk().getWebSocket().getStorage(codeAddr1, "01");
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("getstorage");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -246,7 +262,8 @@ public class WebSocket_API {
 			
 			String addr1 = acc1.getAddressU160().toBase58();
 			Object acc = OntTest.sdk().getWebSocket().getBalance(addr1);
-			System.out.println(acc);
+			Result rs = OntTest.common().waitWsResult("getbalance");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -263,7 +280,9 @@ public class WebSocket_API {
 			Map dec = OntTest.api().contract().deployContract(url, null);
 			String codeAddr = String.valueOf(dec.get("address"));
 			Object acc = OntTest.sdk().getWebSocket().getContractJson(codeAddr);
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("getcontract");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -276,8 +295,28 @@ public class WebSocket_API {
 		OntTest.logger().description("----------getSmartCodeEvent----------");
 		
 		try {
-			Object acc = OntTest.sdk().getWebSocket().getSmartCodeEvent(59);
-			System.out.println(acc);
+			Account acc1=OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), addr2, 10L, acc1.getAddressU160().toBase58(), 20000L, 0);
+	        OntTest.sdk().signTx(tx, new Account[][]{{acc1}});
+	        boolean b = OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
+	        String s = "";
+	        if (b) {
+	            s = tx.hash().toHexString();
+	        }
+			
+			OntTest.common().waitTransactionResult(s);
+			System.out.println(s);
+			int height = OntTest.sdk().getRestful().getBlockHeightByTxHash(s);
+			System.out.println("height:"+height);
+			Object acc = OntTest.sdk().getWebSocket().getSmartCodeEvent(height);
+			Result rs = OntTest.common().waitWsResult("getsmartcodeevent");
+			System.out.println(rs);
+			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -292,11 +331,23 @@ public class WebSocket_API {
 		OntTest.logger().description("----------getSmartCodeEvent----------");
 		
 		try {
-			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getWebSocket().getBlock(59).hash();
-			System.out.println(hash);
-			System.out.println("getSmartCodeEvent");
-			Object acc = OntTest.sdk().getWebSocket().getSmartCodeEvent(hash.toHexString());
+			Account acc1=OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), addr2, 10L, acc1.getAddressU160().toBase58(), 20000L, 0);
+	        OntTest.sdk().signTx(tx, new Account[][]{{acc1}});
+	        boolean b = OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
+	        String s = "";
+	        if (b) {
+	            s = tx.hash().toHexString();
+	        }
+			
+			OntTest.common().waitTransactionResult(s);
+			System.out.println(s);
+			Object acc = OntTest.sdk().getWebSocket().getSmartCodeEvent(s);
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -321,7 +372,9 @@ public class WebSocket_API {
 			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 0L);
 			Thread.sleep(5000);
 			int acc = OntTest.sdk().getWebSocket().getBlockHeightByTxHash(s);
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("getblockheightbytxhash");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -344,6 +397,9 @@ public class WebSocket_API {
 			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 0L);
 			Thread.sleep(5000);
 			Object acc = OntTest.sdk().getWebSocket().getMerkleProof(s);
+			
+			Result rs = OntTest.common().waitWsResult("getmerkleproof");
+			System.out.println(rs.Result.toString());
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -379,7 +435,9 @@ public class WebSocket_API {
 	        Thread.sleep(5000);
 
 			boolean acc = OntTest.sdk().getWebSocket().sendRawTransaction(invokeTx.toHexString());
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("sendrawtransaction");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -413,7 +471,9 @@ public class WebSocket_API {
 	        Transaction A= OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Thread.sleep(5000);
 			boolean acc = OntTest.sdk().getWebSocket().sendRawTransaction(A);
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("sendrawtransaction");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -436,7 +496,8 @@ public class WebSocket_API {
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(1);
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
 	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
@@ -446,7 +507,10 @@ public class WebSocket_API {
 	        Transaction A= OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Thread.sleep(5000);
 			Object acc = OntTest.sdk().getWebSocket().sendRawTransactionPreExec(invokeTx.toHexString());
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("sendrawtransaction");
+			System.out.println(rs.Result.toString());
+//			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -463,10 +527,13 @@ public class WebSocket_API {
 			
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
-			Thread.sleep(5000);
+			String s = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
+			OntTest.common().waitTransactionResult(s);
 			Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
-			System.out.println(acc);
+			
+			Result rs = OntTest.common().waitWsResult("getmerkleproof");
+			System.out.println(rs.Result.toString());
+//			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -485,9 +552,12 @@ public class WebSocket_API {
 		
 		String addr1 = acc1.getAddressU160().toBase58();
 		String addr2 = acc2.getAddressU160().toBase58();
-		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
-		Thread.sleep(5000);
+		String approvetxhash = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
+		OntTest.common().waitTransactionResult(approvetxhash);
+		
 		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
+		Result rs = OntTest.common().waitWsResult("getmerkleproof");
+		System.out.println(rs.Result.toString());
 		System.out.println(acc);
 		} 
 		catch(Exception e) {
@@ -512,6 +582,8 @@ public class WebSocket_API {
 		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
 		Thread.sleep(5000);
 		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
+		Result rs = OntTest.common().waitWsResult("getmerkleproof");
+		System.out.println(rs.Result.toString());
 		System.out.println(acc);
 		} 
 		catch(Exception e) {
@@ -528,7 +600,8 @@ public class WebSocket_API {
 		
 		try {
 			Object acc = OntTest.sdk().getWebSocket().getMemPoolTxCount();
-			System.out.println(acc);
+			Result rs = OntTest.common().waitWsResult("getmempooltxcount");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -548,10 +621,10 @@ public class WebSocket_API {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 100, acc1, 20000, 0);
-			System.out.println(s);
-	        Thread.sleep(5000);
+
 			Object acc = OntTest.sdk().getWebSocket().getMemPoolTxState(s);
-			System.out.println(acc);
+			Result rs = OntTest.common().waitWsResult("getmempooltxstate");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -576,7 +649,8 @@ public class WebSocket_API {
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(1);
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
 	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
@@ -588,7 +662,8 @@ public class WebSocket_API {
 			Object acc = OntTest.sdk().getWebSocket().sendRawTransaction(invokeTx.toHexString());
 			assertEquals(true, OntTest.common().waitTransactionResult(invokeTx.hash().toHexString()));
 			
-			System.out.println(acc);
+			Result rs = OntTest.common().waitWsResult("Notify");
+			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();

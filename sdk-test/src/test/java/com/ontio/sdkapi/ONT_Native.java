@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
 import com.github.ontio.account.Account;
 import com.github.ontio.common.Helper;
 import com.github.ontio.core.payload.InvokeCode;
@@ -55,13 +56,13 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
-			
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
+
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			System.out.println("账户1 的余额为" + before_bala1);
+			System.out.println("账户2 的余额为" + before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 1000L, acc1, 20000L, 10L);
 			System.out.println(ts);
@@ -69,8 +70,8 @@ public class ONT_Native {
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			System.out.println("账户1 的余额为" + after_bala1);
+			System.out.println("账户2 的余额为" + after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("转账成功！");
@@ -79,10 +80,6 @@ public class ONT_Native {
 				System.out.println("转账失败！");
 			}
 		} 
-		catch(SDKException e) {
-			System.out.println(e.toString());
-			assertEquals(true,true);
-		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -101,8 +98,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -126,9 +123,15 @@ public class ONT_Native {
 			}
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -150,9 +153,9 @@ public class ONT_Native {
 			String addr2 = acc2.getAddressU160().toBase58();
 			String addr3 = acc3.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
-			System.out.println(addr3);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
+			System.out.println("账户3 的address" + addr3);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -196,8 +199,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -221,9 +224,15 @@ public class ONT_Native {
 			}
 		} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -243,8 +252,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -268,9 +277,15 @@ public class ONT_Native {
 			}
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		 catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -290,8 +305,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -316,9 +331,15 @@ public class ONT_Native {
 			} 
 		
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -338,8 +359,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -348,8 +369,10 @@ public class ONT_Native {
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10000000000L, acc1, 20000L, 10L);
 			System.out.println(ts);
-			Thread.sleep(5000);
-			
+	
+			Thread.sleep(8000);
+			Object tr = OntTest.sdk().getRestful().getSmartCodeEvent(ts);
+			System.out.println(tr);
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
 			System.out.println("账户1 的余额为"+after_bala1);
@@ -379,8 +402,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -420,8 +443,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -445,9 +468,15 @@ public class ONT_Native {
 				}
 			} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -468,8 +497,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -493,9 +522,15 @@ public class ONT_Native {
 				}
 			} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -517,8 +552,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -559,8 +594,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -584,9 +619,15 @@ public class ONT_Native {
 				}
 			} 
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -606,8 +647,8 @@ public class ONT_Native {
 			
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println(addr1);
-			System.out.println(addr2);
+			System.out.println("账户1 的address" + addr1);
+			System.out.println("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -631,8 +672,15 @@ public class ONT_Native {
 				}
 			} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false ,false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -669,9 +717,15 @@ public class ONT_Native {
 			System.out.println(l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -689,9 +743,15 @@ public class ONT_Native {
 			System.out.println(l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -709,9 +769,15 @@ public class ONT_Native {
 			System.out.println(l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"address should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -797,9 +863,15 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -828,9 +900,15 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -885,9 +963,15 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -896,7 +980,7 @@ public class ONT_Native {
 	}
 	
 	@Test
-	public void test_abnormal_036_queryAllowance() throws Exception {
+	public void test_normal_036_queryAllowance() throws Exception {
 		OntTest.logger().description("----------queryAllowance----------");
 		try {
 			Account acc1 = OntTest.common().getAccount(2);
@@ -938,9 +1022,15 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1018,9 +1108,15 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameter should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1075,9 +1171,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1103,9 +1205,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1130,11 +1238,6 @@ public class ONT_Native {
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			System.out.println(s);
 		}
-		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="";
-			assertEquals(true,e.toString().equals(exp));
-	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -1159,9 +1262,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1218,9 +1327,15 @@ public class ONT_Native {
 			
 		}
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.network.exception.RpcException: {\"result\":\"Please input gasLimit >= 20000 and gasPrice >= 0\",\"id\":1,\"error\":43001,\"jsonrpc\":\"2.0\",\"desc\":\"INVALID TRANSACTION\"}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1247,8 +1362,15 @@ public class ONT_Native {
 			System.out.println("sendApprove:"+s);
 		}
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false, false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1272,9 +1394,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1298,9 +1426,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1325,9 +1459,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1353,8 +1493,15 @@ public class ONT_Native {
 			System.out.println(s);
 		}
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false, false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1431,9 +1578,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1482,6 +1635,54 @@ public class ONT_Native {
 		}
 	}
 	
+	
+	@Test
+	public void test_abnormal_071_sendTransferFrom() throws Exception {
+		OntTest.logger().description("----------sendTransferFrom----------");
+		
+		try {
+			Account acc1 = OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			Account acc3 = OntTest.common().getAccount(2);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			String addr3 = acc3.getAddressU160().toBase58();
+			
+			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			long before_bala3 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr3);
+			System.out.println("账户1 的余额为"+before_bala1);
+			System.out.println("账户2 的余额为"+before_bala2);
+			System.out.println("账户3 的余额为"+before_bala3);
+			
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			Thread.sleep(5000);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr3, addr2, 100L, acc2, 20000L, 10L);
+			Thread.sleep(5000);
+			
+			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			long after_bala3 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr3);
+			System.out.println("账户1 的余额为"+after_bala1);
+			System.out.println("账户2 的余额为"+after_bala2);
+			System.out.println("账户3 的余额为"+after_bala3);
+			
+			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
+				System.out.println("成功！");
+			}
+			else {
+				System.out.println("失败！");
+			}
+			
+		}
+		catch(Exception e) {
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
+	
+	
 	@Test
 	public void test_normal_073_sendTransferFrom() throws Exception {
 		OntTest.logger().description("----------sendTransferFrom----------");
@@ -1522,6 +1723,143 @@ public class ONT_Native {
 		}
 	}
 	
+	
+	@Test
+	public void test_abnormal_074_sendTransferFrom() throws Exception {
+		OntTest.logger().description("----------sendTransferFrom----------");
+		
+		try {
+			com.github.ontio.sdk.wallet.Account temp = OntTest.sdk().getWalletMgr().createAccount("123456");
+			Thread.sleep(5000);
+			String tempaddr = temp.address;
+			
+			Account acc1 = OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			System.out.println("账户1 的余额为"+before_bala1);
+			System.out.println("账户2 的余额为"+before_bala2);
+			
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			Thread.sleep(5000);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, tempaddr, addr2, 100L, acc2, 20000L, 10L);
+			Thread.sleep(5000);
+			
+			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			System.out.println("账户1 的余额为"+after_bala1);
+			System.out.println("账户2 的余额为"+after_bala2);
+			
+			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
+				System.out.println("成功！");
+			}
+			else {
+				System.out.println("失败！");
+			}
+			
+		}
+		catch(Exception e) {
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void test_abnormal_075_sendTransferFrom() throws Exception {
+		OntTest.logger().description("----------sendTransferFrom----------");
+		
+		try {
+			Account acc1 = OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			System.out.println("账户1 的余额为"+before_bala1);
+			System.out.println("账户2 的余额为"+before_bala2);
+			
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			Thread.sleep(5000);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "G"+addr1, addr2, 100L, acc2, 20000L, 10L);
+			Thread.sleep(5000);
+			
+			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			System.out.println("账户1 的余额为"+after_bala1);
+			System.out.println("账户2 的余额为"+after_bala2);
+			
+			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
+				System.out.println("成功！");
+			}
+			else {
+				System.out.println("失败！");
+			}
+			
+		}
+		catch(SDKException e) {
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
+		}
+		catch(Exception e) {
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
+	
+	
+	@Test
+	public void test_abnormal_076_sendTransferFrom() throws Exception {
+		OntTest.logger().description("----------sendTransferFrom----------");
+		
+		try {
+			Account acc1 = OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			System.out.println("账户1 的余额为"+before_bala1);
+			System.out.println("账户2 的余额为"+before_bala2);
+			
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			Thread.sleep(5000);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", addr2, 100L, acc2, 20000L, 10L);
+			Thread.sleep(5000);
+			
+			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			System.out.println("账户1 的余额为"+after_bala1);
+			System.out.println("账户2 的余额为"+after_bala2);
+			
+			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
+				System.out.println("成功！");
+			}
+			else {
+				System.out.println("失败！");
+			}
+			
+		}
+		catch(Exception e) {
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
 	
 	@Test
 	public void test_abnormal_077_sendTransferFrom() throws Exception {
@@ -1598,9 +1936,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 	}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1682,9 +2026,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58004".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1808,9 +2158,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1854,9 +2210,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1899,9 +2261,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1927,7 +2295,7 @@ public class ONT_Native {
 			
 			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
 			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 10000000000000L, acc2, 20000L, 10L);
 			Thread.sleep(5000);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
@@ -2024,9 +2392,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"parameters should not be null\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -2069,9 +2443,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -2154,9 +2534,15 @@ public class ONT_Native {
 			
 		}
 		catch(SDKException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"amount or gasprice or gaslimit should not be less than 0\",\"Error\":58005}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("58005".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -2200,8 +2586,15 @@ public class ONT_Native {
 			
 		}
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			assertEquals(false, false);
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
