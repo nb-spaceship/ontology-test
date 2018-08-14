@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.junit.*;
 
+import com.alibaba.fastjson.JSON;
 import com.github.ontio.core.block.Block;
 import com.github.ontio.core.ontid.Attribute;
 import com.github.ontio.core.payload.DeployCode;
@@ -89,13 +90,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println("123");
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -119,13 +120,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println("123");
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -148,12 +149,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -176,9 +178,9 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
+		} catch(SDKException e) {
+			System.out.println(e);
+			String act_error = String.valueOf(e);
 			System.out.println(act_error);
 			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
 			assertEquals(true,act_error.equals(exp_error));
@@ -204,12 +206,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -255,12 +258,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -284,12 +288,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -312,13 +317,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,false);
-//			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -341,12 +346,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -369,11 +375,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -419,12 +427,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -447,12 +456,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -475,12 +485,13 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -505,12 +516,13 @@ public class DigitalIdentity {
 			Identity ret1 = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret1);
 			
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"wallet Identity exist\",\"Error\":58005}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58005;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -534,12 +546,13 @@ public class DigitalIdentity {
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			System.out.println(ret);
 			
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -822,12 +835,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			System.out.println(e1);
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Other Error,normalize error\",\"Error\":59000}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 59000;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1112,11 +1126,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Other Error,normalize error\",\"Error\":59000}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 59000;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1167,11 +1183,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1188,7 +1206,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			Account acc = OntTest.sdk().getWalletMgr().createAccount(password);
 			String addr = acc.address;
-			addr = addr+"ab";
+			addr = "a"+addr;
 			String ontid = "did:ont:"+addr;
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
@@ -1197,11 +1215,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1227,11 +1247,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1257,11 +1279,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1286,11 +1310,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));	
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1315,11 +1341,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1344,11 +1372,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"param error,\",\"Error\":58004}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58004;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1397,11 +1427,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58501;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1426,11 +1458,13 @@ public class DigitalIdentity {
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58501;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1456,11 +1490,13 @@ public class DigitalIdentity {
 			System.out.println(ret);
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,act_error.equals(exp_error));	
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58501;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1484,11 +1520,13 @@ public class DigitalIdentity {
 			System.out.println(ret);
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
-		} catch(SDKException e1) {
-			String act_error = String.valueOf(e1);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"WalletManager Error,getAccountByAddress err\",\"Error\":58501}";
-			assertEquals(true,act_error.equals(exp_error));
+		} catch(SDKException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58501;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1566,7 +1604,7 @@ public class DigitalIdentity {
 
 		try {
 			OntTest.logger().step("测试接口getIdentity_ontid");
-			String ontid = OntTest.sdk().getWalletMgr().createIdentity("123456").ontid+"a";
+			String ontid = "a"+OntTest.sdk().getWalletMgr().createIdentity("123456").ontid;
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
 			System.out.println(ret);
@@ -2078,7 +2116,7 @@ public class DigitalIdentity {
 	}
 	
 	@Test
-	public void test_abnormal_083_addOntIdController() throws Exception {
+	public void test_normal_083_addOntIdController() throws Exception {
 		OntTest.logger().description("Digital identity  083  addOntIdController()");
 
 		try {
@@ -2102,7 +2140,7 @@ public class DigitalIdentity {
 	}
 	
 	@Test
-	public void test_abnormal_084_addOntIdController() throws Exception {
+	public void test_normal_084_addOntIdController() throws Exception {
 		OntTest.logger().description("Digital identity  084  addOntIdController()");
 
 		try {
