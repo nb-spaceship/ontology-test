@@ -30,7 +30,7 @@ public class ONT_Native {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().initOntOng();
+		OntTest.api().node().initOntOng();
 //		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
 		Thread.sleep(5000);
 	}
