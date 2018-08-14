@@ -3,6 +3,7 @@ package com.ontio.sdkapi;
 import static org.junit.Assert.fail;
 
 import java.net.URL;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -168,11 +169,29 @@ public class Restful_API {
 		try {
 			String url = this.getClass().getResource("rest.cs").getPath();
 			Map dec = OntTest.api().contract().deployContract(url, null);
-			String codeAddr = String.valueOf(dec.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
-			Thread.sleep(8000);
-			String acc = OntTest.sdk().getRestful().getStorage(codeAddr, "");
+			String codeAddr1 = String.valueOf(dec.get("address"));
+			String codeAddr2 = Helper.reverse(codeAddr1);
+			
+			List list = new ArrayList<Object>();
+	        list.add("test".getBytes());
+	        List args = new ArrayList<Object>();
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("06"));
+	        list.add(args);
+	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
+	        byte[] params = BuildParams.createCodeParamsScript(list);
+	        
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr2, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        System.out.println("b1"+b1);
+
+			OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
+			String acc = OntTest.sdk().getRestful().getStorage(codeAddr1, "01");
+			System.out.println("**********");
 			System.out.println(acc);
+			System.out.println("**********");
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -187,11 +206,30 @@ public class Restful_API {
 		try {
 			String url = this.getClass().getResource("rest.cs").getPath();
 			Map dec = OntTest.api().contract().deployContract(url, null);
-			String codeAddr = String.valueOf(dec.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
-			Thread.sleep(8000);
-			String acc = OntTest.sdk().getRestful().getStorage(codeAddr, "");
+			String codeAddr1 = String.valueOf(dec.get("address"));
+			String codeAddr2 = Helper.reverse(codeAddr1);
+			
+			List list = new ArrayList<Object>();
+	        list.add("test".getBytes());
+	        List args = new ArrayList<Object>();
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("06"));
+	        list.add(args);
+	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
+	        byte[] params = BuildParams.createCodeParamsScript(list);
+	        
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr2, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        System.out.println("b1"+b1);
+
+			OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
+			String acc = OntTest.sdk().getRestful().getStorage(codeAddr1, "01");
+			System.out.println("**********");
 			System.out.println(acc);
+			System.out.println("**********");
+
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -241,7 +279,17 @@ public class Restful_API {
 		OntTest.logger().description("----------getSmartCodeEvent----------");
 		
 		try {
-			Object acc = OntTest.sdk().getRestful().getSmartCodeEvent(50);
+			Account acc1=OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(s);
+			int height = OntTest.sdk().getRestful().getBlockHeightByTxHash(s);
+			System.out.println("height:"+height);
+			Object acc = OntTest.sdk().getRestful().getSmartCodeEvent(height);
 			System.out.println(acc);
 			
 		} catch(Exception e) {
@@ -258,11 +306,16 @@ public class Restful_API {
 		OntTest.logger().description("----------getSmartCodeEvent----------");
 		
 		try {
-			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getRestful().getBlock(59).hash();
-			System.out.println(hash);
-			System.out.println("getSmartCodeEvent");
-			Object acc = OntTest.sdk().getRestful().getSmartCodeEvent(hash.toHexString());
+			Account acc1=OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			
+			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 0L);
+			
+			Thread.sleep(7000);
+			Object acc = OntTest.sdk().getRestful().getSmartCodeEvent(s);
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -402,14 +455,15 @@ public class Restful_API {
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(1);
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
 	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
 	        byte[] params = BuildParams.createCodeParamsScript(list);
 	        
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        Transaction A= OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+//	        Transaction A= OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Thread.sleep(8000);
 			Object acc = OntTest.sdk().getRestful().sendRawTransactionPreExec(invokeTx.toHexString());
 			System.out.println(acc);
