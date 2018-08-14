@@ -808,7 +808,7 @@ public class ClaimRecord {
 	}
 	
 	@Test
-	public void test_normal_029_encryptMnemonicCodesStr() throws Exception {
+	public void test_abnormal_029_encryptMnemonicCodesStr() throws Exception {
 		OntTest.logger().description("test_api   : encryptMnemonicCodesStr");
 		OntTest.logger().description("test_param : mnemonicCodesStr - wrong mnemonicCodesStr");
 		try {
@@ -822,8 +822,11 @@ public class ClaimRecord {
 	        
 	        System.out.println(ret.toString());
 			
-			assertEquals(false, ret == null);
-			
+	        assertEquals(true, false);
+	        
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1182,10 +1185,10 @@ public class ClaimRecord {
 	        String encryptedMnemonicCodesStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        
 	        StringBuilder new_encryptedMnemonicCodesStr = new StringBuilder(encryptedMnemonicCodesStr);
-	        new_encryptedMnemonicCodesStr.setCharAt(0, '%');
-	        new_encryptedMnemonicCodesStr.setCharAt(1, '$');
-	        new_encryptedMnemonicCodesStr.setCharAt(2, '@');
-	        new_encryptedMnemonicCodesStr.setCharAt(3, '#');
+	        new_encryptedMnemonicCodesStr.setCharAt(0, '!');
+	        new_encryptedMnemonicCodesStr.setCharAt(1, '@');
+	        new_encryptedMnemonicCodesStr.setCharAt(2, '#');
+	        new_encryptedMnemonicCodesStr.setCharAt(3, '$');
 	        
 	        OntTest.logger().step("decrypt mnemonic codes string");
 	        com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(new_encryptedMnemonicCodesStr.toString(), password, account.getAddressU160().toBase58());

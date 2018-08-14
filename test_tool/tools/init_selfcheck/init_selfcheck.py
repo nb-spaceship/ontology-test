@@ -69,8 +69,11 @@ def sftp_transfer_dir(_from, _to, _node_index, _op="get"):
     transport.connect(username="ubuntu", pkey=private_key)
 
     sftp = paramiko.SFTPClient.from_transport(transport)
-
-    sftp.mkdir(_to)
+    
+    try:
+        sftp.mkdir(_to)
+    except:
+        pass
 
     for item in os.listdir(_from):
         if _op == "put":

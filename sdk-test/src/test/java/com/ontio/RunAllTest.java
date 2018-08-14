@@ -2,7 +2,10 @@ package com.ontio;
 
 import org.junit.runner.Request;
 import org.junit.runner.Result;
+import org.junit.runner.manipulation.Filter;
+import org.junit.runner.notification.RunNotifier;
 import org.apache.commons.lang.ArrayUtils;
+import org.junit.runner.Description;
 import org.junit.runner.JUnitCore;
 
 import java.io.FileWriter;
@@ -12,10 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.ontio.MethodNameFilter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ontio.sdkapi.Claim;
@@ -25,6 +28,8 @@ import com.ontio.sdkapi.DigitalIdentity;
 import com.ontio.sdkapi.Invoke;
 import com.ontio.sdkapi.MnemonicCodesStr;
 import com.ontio.sdkapi.ONG_Native;
+import com.ontio.sdkapi.ONT_Native;
+import com.ontio.sdkapi.Ontid;
 import com.ontio.sdkapi.RPC_API;
 import com.ontio.testtool.OntTest;
 
@@ -51,7 +56,7 @@ public class RunAllTest {
         }
         
         // prarameter_t = "base";  
-        // prarameter_f = "Sample.test_base_001_Sample1";  
+        // prarameter_f = "ClaimRecord.test_abnormal_002_exportIdentityQRCode";  
         // prarameter_c = "C:\\Users\\tpc\\Desktop\\a.json";
         // prarameter_e = "Sample.test_base_001_Sample1";
         
@@ -106,8 +111,30 @@ public class RunAllTest {
         all_class.add(Invoke.class);
         all_class.add(MnemonicCodesStr.class);
         all_class.add(ONG_Native.class);
+        all_class.add(ONT_Native.class);
         all_class.add(RPC_API.class);
+        all_class.add(Ontid.class);
         
+        JUnitCore junitRunner = new JUnitCore();
+        junitRunner.addListener(new TestMonitor());
+        for (Class<?> _class : all_class) {
+	        Request request = Request.aClass(_class);
+	        request = request.filterWith(new MethodNameFilter(_files, _types, _methods,_excludes));
+	        request = request.sortWith(new Comparator<Description>(){
+				@Override
+				public int compare(Description d1, Description d2) {
+					if (d1.getClassName().equals(d2.getClassName())) {
+						return d1.getMethodName().split("_")[2].toString().compareTo(d2.getMethodName().split("_")[2].toString());
+					} else {
+						return d1.getClassName().compareTo(d1.getClassName());
+					}
+				}
+	        });
+	        
+	        Result result = junitRunner.run(request);
+	        System.out.println(result.wasSuccessful());
+        }
+        /*
         Method[] all_methods = null;
         for (Class<?> testClass : all_class) {
         	all_methods = (Method[]) ArrayUtils.addAll(all_methods, testClass.getMethods());
@@ -196,7 +223,9 @@ public class RunAllTest {
 	        	
 	            // if (!method.equals(null) && method.isAnnotationPresent(org.junit.Test.class)) 
 	            if (true) {
-	                Request request = Request.method(method.getDeclaringClass(), method.getName());
+	                // Request request = Request.method(method.getDeclaringClass(), method.getName());
+	            	Request request = Request.aClass(all_class.get(0));
+	            	request.filterWith(new MethodNameFilter(_methods,_excludes,_types, _files));
 	                System.out.println(method.getName());
 	                Result result = junitRunner.run(request);
 	                System.out.println(result.wasSuccessful());
@@ -218,8 +247,9 @@ public class RunAllTest {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
+        }*/
     }
 	
 }
+
 

@@ -34,7 +34,9 @@ import com.ontio.testtool.OntTest;
 public class RPC_API {
 	@Rule 
 	public OntTestWatcher watchman= new OntTestWatcher();
-	
+	String invoke_address = this.getClass().getResource("invoke.cs").getPath();
+	String rpcapi_address = this.getClass().getResource("rpcapi.cs").getPath();
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
@@ -42,16 +44,12 @@ public class RPC_API {
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("setUp");
-		String invoke_address = this.getClass().getResource("invoke.cs").toString();
-		String rpcapi_address = this.getClass().getResource("rpcapi.cs").toString();
-		System.out.println(invoke_address);
-		System.out.println(rpcapi_address);
+		OntTest.logger().step("setUp");
 	}
 	
 	@After
 	public void TearDown() throws Exception {
-		System.out.println("TearDown");
+		OntTest.logger().step("TearDown");
 	}
 	
 	@Test
@@ -62,13 +60,12 @@ public class RPC_API {
 			OntTest.logger().step("测试getNodeCount()");
 			
 			int num = OntTest.sdk().getRpc().getNodeCount();
-			System.out.println("actual_nodenum = "+num);
+			OntTest.logger().description("actual_nodenum = "+num);
 			int exp = 16;
-			System.out.println("expect_nodenum = "+exp);
+			OntTest.logger().description("expect_nodenum = "+exp);
 			
 			assertEquals(true,exp==num);
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -82,14 +79,13 @@ public class RPC_API {
 			OntTest.logger().step("测试getBlock()");
 			
 			Block Block = OntTest.sdk().getRpc().getBlock(15);
-			System.out.println("Block : "+Block);
+			OntTest.logger().description("Block : "+Block);
 			int ret = Block.height;
-			System.out.println("Block_height = "+ret);
+			OntTest.logger().description("Block_height = "+ret);
 			int exp = 15;
 			
 			assertEquals(true,ret==exp);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -104,21 +100,19 @@ public class RPC_API {
 			
 			int block_height = 15;
 			Object ret_block = OntTest.sdk().getRpc().getBlockJson(block_height);
-			System.out.println("ret_blockJson : "+ret_block);
-			
+			OntTest.logger().description("ret_blockJson : "+ret_block);
 			String hash = String.valueOf(OntTest.sdk().getRpc().getBlock(block_height).hash());
 			Object exp_block = OntTest.sdk().getRpc().getBlockJson(hash);
-			System.out.println("exp_blockJson : "+exp_block);
+			OntTest.logger().description("exp_blockJson : "+exp_block);
 			
 			assertEquals(true,ret_block.equals(exp_block));	
 		} catch(RpcException e) {
 			int block_height = 15;
 			String ret_err = String.valueOf(e);
-			System.out.println("The current block was not found ! (block_height = "+block_height+")");
+			OntTest.logger().description("The current block was not found ! (block_height = "+block_height+")");
 			String exp_err = "com.github.ontio.network.exception.RpcException: {\"result\":\"\",\"id\":1,\"error\":42002,\"jsonrpc\":\"2.0\",\"desc\":\"INVALID PARAMS\"}";
 			assertEquals(true,ret_err.equals(exp_err));
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -131,18 +125,17 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试getBlockJson()");
 			Block block = OntTest.sdk().getRpc().getBlock(15);
-			System.out.println("block : "+block);
+			OntTest.logger().description("block : "+block);
 			String hash = String.valueOf(block.hash());
-			System.out.println("block_hash : "+hash);
+			OntTest.logger().description("block_hash : "+hash);
 			
 			Object hash_blockJson = OntTest.sdk().getRpc().getBlockJson(hash);
-			System.out.println("ret_blockJson : "+hash_blockJson);
+			OntTest.logger().description("ret_blockJson : "+hash_blockJson);
 			Object height_blockJson = OntTest.sdk().getRpc().getBlockJson(15);
-			System.out.println("exp_blockJson : "+height_blockJson);			
+			OntTest.logger().description("exp_blockJson : "+height_blockJson);			
 			
 			assertEquals(true,hash_blockJson.equals(height_blockJson));	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -155,16 +148,15 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试getBlock()");
 			Block height_block = OntTest.sdk().getRpc().getBlock(15);
-			System.out.println("height_block : "+height_block);
+			OntTest.logger().description("height_block : "+height_block);
 			String hash = String.valueOf(height_block.hash());
-			System.out.println("block_hash : "+hash);
+			OntTest.logger().description("block_hash : "+hash);
 			
 			Block hash_block = OntTest.sdk().getRpc().getBlock(hash);
-			System.out.println(hash_block);
+			OntTest.logger().description(hash_block.toString());
 
 			assertEquals(true,hash_block.equals(height_block));	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -178,11 +170,10 @@ public class RPC_API {
 			OntTest.logger().step("测试getBlockHeight()");
 			
 			int h = OntTest.sdk().getRpc().getBlockHeight();
-			System.out.println(h);
+			OntTest.logger().description("heigth = "+String.valueOf(h));
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -194,19 +185,18 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getTransaction()");
-			
+
 			Account acc = OntTest.common().getAccount(0);
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 1L, acc, 20000L, 0L);
-			System.out.println("txhash : "+txhash);
-			Thread.sleep(5000);
+			OntTest.logger().description("txhash : "+txhash);
+			Thread.sleep(6000);//5秒有概率报错
 			//交易哈希
 			Transaction Transaction = OntTest.sdk().getRpc().getTransaction(txhash);
-			System.out.println("Transaction : "+Transaction);
-			
+			OntTest.logger().description("Transaction : "+Transaction);	
+
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -219,12 +209,12 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getStorage()");
-//			String rpcapi_address = this.getClass().getResource("rpcapi.cs").toString();
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/rpcapi.cs", null);
-			System.out.println("ret_deploy = "+ret_deploy);
+			OntTest.logger().description("contract_address = "+rpcapi_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(rpcapi_address, null);
+			OntTest.logger().description("ret_deploy = "+ret_deploy);
 			String codeAddr0 = String.valueOf(ret_deploy.get("address"));
 			String codeAddr1 = Helper.reverse(codeAddr0);
-			System.out.println(codeAddr1);//智能合约地址
+			OntTest.logger().description(codeAddr1);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -235,20 +225,21 @@ public class RPC_API {
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
 	        byte[] params = BuildParams.createCodeParamsScript(list);
 	        
-	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr0, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        System.out.println("invokeTx : "+invokeTx);
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr1, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        OntTest.logger().description("invokeTx : "+invokeTx);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
-	        boolean b1 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
-	        System.out.println("b1 : "+b1);
-	        Thread.sleep(5000);
+	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
+	        OntTest.logger().description("b1 : "+b1);
+	        boolean b2 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+	        OntTest.logger().description("b2 : "+b2);
+	        OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
 			
 	        String key = "6b6579303039";
-			String Storage = OntTest.sdk().getRpc().getStorage(codeAddr1, key);
-			System.out.println(Storage);
+			String Storage = OntTest.sdk().getRpc().getStorage(codeAddr0, key);
+			OntTest.logger().description(Storage);
 			
-			assertEquals(true,true);
+			assertEquals(true,Storage.equals("76616c7565303039"));		
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -261,12 +252,12 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getStorage()");
-//			String rpcapi_address = this.getClass().getResource("rpcapi.cs").toString();
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/rpcapi.cs", null);
-			System.out.println("ret_deploy = "+ret_deploy);
+			OntTest.logger().description("contract_address = "+rpcapi_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(rpcapi_address, null);
+			OntTest.logger().description("ret_deploy = "+ret_deploy);
 			String codeAddr0 = String.valueOf(ret_deploy.get("address"));
 			String codeAddr1 = Helper.reverse(codeAddr0);
-			System.out.println(codeAddr1);//智能合约地址
+			OntTest.logger().description(codeAddr1);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -278,20 +269,20 @@ public class RPC_API {
 	        byte[] params = BuildParams.createCodeParamsScript(list);
 	        
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr1, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        System.out.println("invokeTx : "+invokeTx);
+	        OntTest.logger().description("invokeTx : "+invokeTx);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1 : "+b1);
-	        String hashcode = Integer.toHexString(b1.hashCode());
-	        System.out.println("hashcode : "+hashcode);
+	        OntTest.logger().description("b1 : "+b1);
+	        boolean b2 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+	        OntTest.logger().description("b2 : "+b2);
+	        OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
 			
 	        String key = "6b6579303039";
-			String Storage = OntTest.sdk().getRpc().getStorage(codeAddr1, key);
-			System.out.println(Storage);
+			String Storage = OntTest.sdk().getRpc().getStorage(codeAddr0, key);
+			OntTest.logger().description(Storage);
 			
-			assertEquals(true,true);		
+			assertEquals(true,Storage.equals("76616c7565303039"));		
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -306,11 +297,10 @@ public class RPC_API {
 			OntTest.logger().step("测试getBalance()");
 			String addr = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			Object Balance = OntTest.sdk().getRpc().getBalance(addr);
-			System.out.println(Balance);
+			OntTest.logger().description(Balance.toString());
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -322,15 +312,15 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getContractJson()");
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
+			OntTest.logger().description("contract_address = "+invoke_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 	        
 			Object Contract = OntTest.sdk().getRpc().getContractJson(codeAddr);
-			System.out.println(Contract);
+			OntTest.logger().description(Contract.toString());
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -342,13 +332,20 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getSmartCodeEvent()");
-
-			Object SmartCodeEvent = OntTest.sdk().getRpc().getSmartCodeEvent(1);
-			System.out.println(SmartCodeEvent);
+			
+			Account acc = OntTest.common().getAccount(0);
+			String addr = acc.getAddressU160().toBase58();
+			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 100L, acc, 20000L, 0L);
+			OntTest.logger().description("txhash = "+txhash);
+			OntTest.common().waitTransactionResult(txhash);
+			int height = OntTest.sdk().getRpc().getBlockHeightByTxHash(txhash);
+			OntTest.logger().description("height = "+height);
+			Object SmartCodeEvent = OntTest.sdk().getRpc().getSmartCodeEvent(height);
+			
+			OntTest.logger().description(SmartCodeEvent.toString());
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -360,31 +357,16 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getSmartCodeEvent()");
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
-			String codeAddr = String.valueOf(ret_deploy.get("address"));
-			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
-			
-	        List list = new ArrayList<Object>();
-	        list.add("test".getBytes());
-	        List args = new ArrayList<Object>();
-	        args.add(Helper.hexToBytes("01"));
-	        list.add(args);
-	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
-	        byte[] params = BuildParams.createCodeParamsScript(list);
-	        
-	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
-	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-
-//			String hash = "b94747e8fffcc4c619ca702becf04301e277d7c5e3048c01dc1f27844dad65c7";
-	        String hash = toString().valueOf(invokeTx.hash());
-			Object SmartCodeEvent = OntTest.sdk().getRpc().getSmartCodeEvent(hash);
-			System.out.println(SmartCodeEvent);
+			Account acc = OntTest.common().getAccount(0);
+			String addr = acc.getAddressU160().toBase58();
+			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 100L, acc, 20000L, 0L);
+			OntTest.logger().description(txhash);
+			OntTest.common().waitTransactionResult(txhash);
+			Object SmartCodeEvent = OntTest.sdk().getRpc().getSmartCodeEvent(txhash);
+			OntTest.logger().description(SmartCodeEvent.toString());
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -401,16 +383,15 @@ public class RPC_API {
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 100L, acc, 20000L, 0L);
 			int height0 = OntTest.sdk().getRpc().getBlockHeight();
-			System.out.println("height0 = "+height0);
-			System.out.println(txhash);
+			OntTest.logger().description("height0 = "+height0);
+			OntTest.logger().description(txhash);
 			Thread.sleep(8000);
 			
 			int height = OntTest.sdk().getRpc().getBlockHeightByTxHash(txhash);
-			System.out.println(height);
+			OntTest.logger().description(String.valueOf(height));
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -426,32 +407,31 @@ public class RPC_API {
 			Account acc = OntTest.common().getAccount(0);
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 100L, acc, 20000L, 0L);
-			System.out.println(txhash);
+			OntTest.logger().description(txhash);
 			Thread.sleep(8000);
 			
 			Object MerkleProof = OntTest.sdk().getRpc().getMerkleProof(txhash);
-			System.out.println(MerkleProof);
+			OntTest.logger().description(MerkleProof.toString());
 			
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_base_016_sendRawTransaction() throws Exception {
 		OntTest.logger().description("RPC_API 016 sendRawTransaction");
 
 		try {
 			OntTest.logger().step("测试sendRawTransaction()");
-
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
+			
+			OntTest.logger().description("contract_address = "+invoke_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -464,17 +444,15 @@ public class RPC_API {
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        boolean RawTransaction = OntTest.sdk().getRpc().sendRawTransaction(invokeTx.toHexString());
-			System.out.println(RawTransaction);
+			OntTest.logger().description("RawTransactionResult = "+String.valueOf(RawTransaction));
 			
 			assertEquals(true,RawTransaction);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_base_017_sendRawTransaction() throws Exception {
 		OntTest.logger().description("RPC_API 017 sendRawTransaction");
@@ -482,10 +460,11 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试sendRawTransaction()");
 
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
+			OntTest.logger().description("contract_address = "+invoke_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -498,11 +477,10 @@ public class RPC_API {
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        Transaction transaction = OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        boolean RawTransaction = OntTest.sdk().getRpc().sendRawTransaction(transaction);
-			System.out.println(RawTransaction);
+			OntTest.logger().description("RawTransactionResult = "+String.valueOf(RawTransaction));
 			
 			assertEquals(true,RawTransaction);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -514,11 +492,12 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试sendRawTransactionPreExec()");
-
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
+			
+			OntTest.logger().description("contract_address = "+invoke_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -531,12 +510,11 @@ public class RPC_API {
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map rawTransaction = (Map)OntTest.sdk().getRpc().sendRawTransactionPreExec(invokeTx.toHexString());
-			System.out.println(rawTransaction);
+			OntTest.logger().description("RawTransactionResult = "+String.valueOf(rawTransaction));
 			String ret = (String) rawTransaction.get("Result");
 			
 			assertEquals(true,ret.equals("01"));
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -557,14 +535,13 @@ public class RPC_API {
 			String ret0 = OntTest.sdk().nativevm().ont().sendApprove(acc1,addr2, 1L, acc1, 20000L,0L);
 			Thread.sleep(5000);
 			long ret1 = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(ret1);
+			OntTest.logger().description(String.valueOf(ret1));
 			String exp = String.valueOf(ret1);
 			
 			String Allowance = OntTest.sdk().getRpc().getAllowance("ont",addr1,addr2);
-			System.out.println(Allowance);
+			OntTest.logger().description(Allowance);
 			assertEquals(true,Allowance.equals(exp));	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -585,14 +562,13 @@ public class RPC_API {
 			String ret0 = OntTest.sdk().nativevm().ont().sendApprove(acc1,addr2, 1L, acc1, 20000L,0L);
 			Thread.sleep(5000);
 			long ret1 = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(ret1);
+			OntTest.logger().description(String.valueOf(ret1));
 			String exp = String.valueOf(ret1);
 			
 			String Allowance = OntTest.sdk().getRpc().getAllowance("ont",addr1,addr2);
-			System.out.println(Allowance);
+			OntTest.logger().description(Allowance);
 			assertEquals(true,Allowance.equals(exp));	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -613,14 +589,13 @@ public class RPC_API {
 			String ret0 = OntTest.sdk().nativevm().ont().sendApprove(acc1,addr2, 1L, acc1, 20000L,0L);
 			Thread.sleep(5000);
 			long ret1 = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(ret1);
+			OntTest.logger().description(String.valueOf(ret1));
 			String exp = String.valueOf(ret1);
 			
 			String Allowance = OntTest.sdk().getRpc().getAllowance("ont",addr1,addr2);
-			System.out.println(Allowance);
+			OntTest.logger().description(Allowance);
 			assertEquals(true,Allowance.equals(exp));	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -633,11 +608,14 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试getMemPoolTxCount()");
 			
+			Account acc = OntTest.common().getAccount(0);
+			String addr = acc.getAddressU160().toBase58();
+			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 1L, acc, 20000L, 0L);
+			OntTest.logger().description(txhash);
 			Object MemPoolTxCount = OntTest.sdk().getRpc().getMemPoolTxCount();
-			System.out.println(MemPoolTxCount);
+			OntTest.logger().description(MemPoolTxCount.toString());
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -654,10 +632,9 @@ public class RPC_API {
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 100L, acc, 20000L, 0L);
 			Object MemPoolTxState = OntTest.sdk().getRpc().getMemPoolTxState(txhash);
-			System.out.println(MemPoolTxState);
+			OntTest.logger().description(MemPoolTxState.toString());
 			assertEquals(true,true);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -670,10 +647,11 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试syncSendRawTransaction()");
 			
-			Map ret_deploy = OntTest.api().contract().deployContract("src/test/resources/com/ontio/sdkapi/invoke.cs", null);
+			OntTest.logger().description("contract_address = "+invoke_address);
+			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -687,12 +665,11 @@ public class RPC_API {
 	        Transaction transaction = OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 			
 			Map sync = (Map) OntTest.sdk().getRestful().syncSendRawTransaction(invokeTx.toHexString());
-			System.out.println("sync = "+sync);
+			OntTest.logger().description("sync = "+sync);
 			int state = (int) sync.get("State");
 			
 			assertEquals(true,state==1);	
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
