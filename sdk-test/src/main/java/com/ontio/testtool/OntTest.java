@@ -14,6 +14,7 @@ public class OntTest {
 	private static ApiManager api = null;
 	private static Logger logger = null;
 	private static Common common = null;
+	private static Object wsLock = null;
 
 	public static boolean init() {
 		try {
@@ -35,6 +36,13 @@ public class OntTest {
 		}
     }
 
+	public static Object wsLock() {
+		if (wsLock == null) {
+			wsLock = new Object();
+		}
+		return wsLock;
+	}
+	
 	public static boolean bindNode(int index) {
 		try {
 			if (index >= Config.NODES.size()) {
@@ -44,7 +52,7 @@ public class OntTest {
  			ontSdk = OntSdk.getInstance();
 		    ontSdk.setRpc(Config.rpcUrl(index));
 		    ontSdk.setRestful(Config.restfulUrl(index));
-		    ontSdk.setWesocket(Config.wsUrl(index), new Object());
+		    ontSdk.setWesocket(Config.wsUrl(index), wsLock());
 		    ontSdk.setSignServer(Config.cliUrl(index));
 		    ontSdk.setDefaultConnect(ontSdk.getRpc());
 		    ontSdk.openWalletFile(Config.nodeWallet(index));

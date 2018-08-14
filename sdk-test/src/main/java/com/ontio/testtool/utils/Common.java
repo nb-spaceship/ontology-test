@@ -181,10 +181,11 @@ public class Common {
 	}
 	
 	public static Result waitWsResult(String action) {
+		Object lock = OntTest.wsLock();
         try {
-            //synchronized (lock) {
+            synchronized (lock) {
                 for (int i = 0; i < 5; i++) {
-                    //lock.wait();
+                    lock.wait();
                     for (String e : MsgQueue.getResultSet()) {
                         Result rt = JSON.parseObject(e, Result.class);
                         MsgQueue.removeResult(e);
@@ -197,7 +198,7 @@ public class Common {
                 }
                 
                 return null;
-           // }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
