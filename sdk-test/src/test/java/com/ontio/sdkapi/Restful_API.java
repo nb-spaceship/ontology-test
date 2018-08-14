@@ -166,7 +166,12 @@ public class Restful_API {
 		OntTest.logger().description("----------getStorage----------");
 		
 		try {
-			String acc = OntTest.sdk().getRestful().getStorage("/resources/neo/sample.neo", "ThC9odmp3QMjNizTw0v2PSCjIgdoxtWLX16GXT9JjvBnfdXp/l0m1a1Q24WFNCWT");
+			String url = this.getClass().getResource("rest.cs").getPath();
+			Map dec = OntTest.api().contract().deployContract(url, null);
+			String codeAddr = String.valueOf(dec.get("address"));
+			codeAddr = Helper.reverse(codeAddr);
+			Thread.sleep(8000);
+			String acc = OntTest.sdk().getRestful().getStorage(codeAddr, "");
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -180,7 +185,12 @@ public class Restful_API {
 		OntTest.logger().description("----------getStorage----------");
 		
 		try {
-			String acc = OntTest.sdk().getRestful().getStorage("/resources/neo/sample.neo", "gCnmUHREyICwECp8enA52m1YptS1skHEUFTVOqsEOylPTCKPcXBtul6nf/CMUZJe");
+			String url = this.getClass().getResource("rest.cs").getPath();
+			Map dec = OntTest.api().contract().deployContract(url, null);
+			String codeAddr = String.valueOf(dec.get("address"));
+			codeAddr = Helper.reverse(codeAddr);
+			Thread.sleep(8000);
+			String acc = OntTest.sdk().getRestful().getStorage(codeAddr, "");
 			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
