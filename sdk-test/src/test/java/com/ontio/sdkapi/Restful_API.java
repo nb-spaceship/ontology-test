@@ -154,7 +154,7 @@ public class Restful_API {
 			String s = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 0L);
 			Thread.sleep(8000);
 			Transaction trs = OntTest.sdk().getRestful().getTransaction(s);
-			System.out.println(trs);
+			System.out.println(trs.toHexString());
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -387,7 +387,8 @@ public class Restful_API {
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(1);
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
 	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
@@ -422,7 +423,8 @@ public class Restful_API {
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(1);
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
 	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
@@ -592,7 +594,8 @@ public class Restful_API {
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(1);
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
 	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
