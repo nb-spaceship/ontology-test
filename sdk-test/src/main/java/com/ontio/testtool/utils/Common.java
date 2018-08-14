@@ -8,7 +8,12 @@ import java.util.List;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.github.ontio.common.Helper;
+import com.github.ontio.core.block.Block;
+import com.github.ontio.io.Serializable;
 import com.github.ontio.network.exception.ConnectorException;
+import com.github.ontio.network.websocket.MsgQueue;
+import com.github.ontio.network.websocket.Result;
 import com.github.ontio.sdk.manager.WalletMgr;
 import com.github.ontio.sdk.wallet.Wallet;
 import com.ontio.testtool.OntTest;
@@ -174,4 +179,28 @@ public class Common {
         }
         return false;
 	}
+	
+	public static Result waitWsResult(Object lock, String action) {
+        try {
+            synchronized (lock) {
+                for (int i = 0; i < 5; i++) {
+                    lock.wait();
+                    for (String e : MsgQueue.getResultSet()) {
+                        Result rt = JSON.parseObject(e, Result.class);
+                        MsgQueue.removeResult(e);
+                        if (rt.Action.equals(action)) {
+                        	return rt;
+                        }
+                    }
+                    
+                    Thread.sleep(1000);
+                }
+                
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
