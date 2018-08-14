@@ -37,6 +37,10 @@ public class Logger {
 		}
 	}
 	
+	public String getPrefixPath() {
+		return prefixpath;
+	}
+	
 	public void setType(String type) {
 		subFolder = type;
 		if (!subFolder.isEmpty()) {
@@ -50,7 +54,7 @@ public class Logger {
 	
 	public void print(String content) {
 		try {
-			write(content);
+			write("[ INFO    ]  " + content);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,7 +86,7 @@ public class Logger {
 	};
 	public void step(String content) {
 		try {
-			write("[ Step   ]-" + step + "  " + content);
+			write("[ Step    ]-" + step + "  " + content);
 			step++;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -100,8 +104,8 @@ public class Logger {
 			}
 			
 			logfileWriter = new FileWriter(prefixpath + "/" + subFolder + logfilename);
-			this.logfilename = logfilename;
-			this.logname = logname;
+			Logger.logfilename = logfilename;
+			Logger.logname = logname;
 			write("[---------------------" + logname + "--------------------]");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
