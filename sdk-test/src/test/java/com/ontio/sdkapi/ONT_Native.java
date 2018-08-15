@@ -30,7 +30,7 @@ public class ONT_Native {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		OntTest.api().node().initOntOng();
+//		OntTest.api().node().initOntOng();
 //		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
 		Thread.sleep(5000);
 	}
@@ -75,9 +75,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("转账成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("转账失败！");
+				assertEquals(true, false);
 			}
 		} 
 		catch(Exception e) {
@@ -177,9 +179,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0 && before_bala3 - after_bala3 > 0) {
 				System.out.println("转账成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("转账失败！");
+				assertEquals(true, false);
 			}
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -370,7 +374,8 @@ public class ONT_Native {
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10000000000L, acc1, 20000L, 10L);
 			System.out.println(ts);
 	
-			Thread.sleep(8000);
+			boolean flag = OntTest.common().waitTransactionResult(ts);
+			
 			Object tr = OntTest.sdk().getRestful().getSmartCodeEvent(ts);
 			System.out.println(tr);
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
@@ -384,7 +389,16 @@ public class ONT_Native {
 			else {
 				System.out.println("转账失败！");
 				}
+			if(flag == false) {
+				System.out.println("交易失败！");
+				assertEquals(true,flag == false);
+			}
+			
+			else {
+				assertEquals(true,flag == true);
+			}
 			} 
+		
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -421,9 +435,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("转账成功！");
+				assertEquals(true, true);
 				}
 			else {
 				System.out.println("转账失败！");
+				assertEquals(true, false);
 				}
 			} 
 		catch(Exception e) {
@@ -571,9 +587,11 @@ public class ONT_Native {
 		
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("转账成功！");
+				assertEquals(true, true);
 				}
 			else {
 				System.out.println("转账失败！");
+				assertEquals(true, false);
 				}
 			} 
 		catch(Exception e) {
@@ -700,6 +718,7 @@ public class ONT_Native {
 			
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			System.out.println(l);
+			assertEquals(true, l >= 0);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -804,9 +823,11 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 			if(l == 10) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else{
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 			
 		}
@@ -832,9 +853,11 @@ public class ONT_Native {
 			
 			if(l == 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else{
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 		}
 		catch(Exception e) {
@@ -934,9 +957,11 @@ public class ONT_Native {
 			System.out.println("queryAllowance:"+l);
 			if(l == 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else{
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 		}
 		catch(Exception e) {
@@ -994,9 +1019,11 @@ public class ONT_Native {
 			
 			if(l == 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else{
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 		}
 		catch(Exception e) {
@@ -1080,9 +1107,11 @@ public class ONT_Native {
 			
 			if(l == 0) {
 			System.out.println("成功！");
+			assertEquals(true, true);
 		}
 		else{
 			System.out.println("失败！");
+			assertEquals(true, false);
 			}
 		}
 		catch(Exception e) {
@@ -1140,11 +1169,13 @@ public class ONT_Native {
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			System.out.println("sendApprove:"+l);
 			
-			if(l == 10) {
+			if(l >= 10) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else{
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 		}
 		catch(Exception e) {
@@ -1296,7 +1327,7 @@ public class ONT_Native {
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			System.out.println("sendApprove:"+l);
 			
-			if(l == 10) {
+			if(l >= 10000) {
 				System.out.println("成功！");
 			}
 			else{
@@ -1310,7 +1341,7 @@ public class ONT_Native {
 	}
 	
 	@Test
-	public void test_normal_051_sendApprove() throws Exception {
+	public void test_abnormal_051_sendApprove() throws Exception {
 		OntTest.logger().description("----------sendApprove----------");
 		
 		try {
@@ -1356,22 +1387,20 @@ public class ONT_Native {
 			
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 50000L, acc1, 20000L, 1L);
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 5000000000L, acc1, 20000L, 0L);
 			Thread.sleep(5000);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			System.out.println("sendApprove:"+s);
-		}
-		catch(RpcException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("error").toString();
-			if("43001".equals(er_code)) {
-				assertEquals(true,true);
+			
+			if(s == 0) {
+				System.out.println("失败！");
+				assertEquals(true, s == 0);
 			}
 			else {
-				assertEquals(true,false);
+				assertEquals(true, false);
 			}
 		}
+		
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -1537,9 +1566,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 			
 		}
@@ -1600,6 +1631,7 @@ public class ONT_Native {
 		OntTest.logger().description("----------sendTransferFrom----------");
 		
 		try {
+			Thread.sleep(5000);
 			Account acc1 = OntTest.common().getAccount(0);
 			Account acc2 = OntTest.common().getAccount(1);
 			
@@ -1611,7 +1643,7 @@ public class ONT_Native {
 			System.out.println("账户1 的余额为"+before_bala1);
 			System.out.println("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10L);
 			Thread.sleep(5000);
 			OntTest.sdk().nativevm().ont().sendTransferFrom(acc1, addr1, addr2, 100L, acc2, 20000L, 10L);
 			Thread.sleep(5000);
@@ -1623,9 +1655,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, false);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 			
 		}
@@ -1658,8 +1692,8 @@ public class ONT_Native {
 			
 			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
 			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr3, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String s = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr3, addr2, 100L, acc2, 20000L, 10L);
+			boolean flag = OntTest.common().waitTransactionResult(s);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
@@ -1673,6 +1707,13 @@ public class ONT_Native {
 			}
 			else {
 				System.out.println("失败！");
+			}
+			if(flag == false) {
+				System.out.println("交易失败！");
+				assertEquals(true, flag == false);
+			}
+			else {
+				assertEquals(true, false);
 			}
 			
 		}
@@ -1711,9 +1752,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 			
 		}
@@ -1756,9 +1799,12 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, false);
+				
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 			
 		}
@@ -1889,9 +1935,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, false);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 			
 		}
@@ -1953,7 +2001,7 @@ public class ONT_Native {
 	}
 	
 	@Test
-	public void test_normal_080_sendTransferFrom() throws Exception {
+	public void test_abnormal_080_sendTransferFrom() throws Exception {
 		OntTest.logger().description("----------sendTransferFrom----------");
 		
 		try {
@@ -1978,9 +2026,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, false);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 			
 		}
@@ -2009,7 +2059,7 @@ public class ONT_Native {
 			
 			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
 			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2+"F", 100L, acc2, 20000L, 10L);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "F"+addr2, 100L, acc2, 20000L, 10L);
 			Thread.sleep(5000);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
@@ -2111,9 +2161,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, false);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 			
 		}
@@ -2278,7 +2330,7 @@ public class ONT_Native {
 	}
 	
 	@Test
-	public void test_normal_090_sendTransferFrom() throws Exception {
+	public void test_abnormal_090_sendTransferFrom() throws Exception {
 		OntTest.logger().description("----------sendTransferFrom----------");
 		
 		try {
@@ -2305,9 +2357,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, true);
 			}
 			
 		}
@@ -2345,9 +2399,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 			
 		}
@@ -2487,9 +2543,11 @@ public class ONT_Native {
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
 				System.out.println("成功！");
+				assertEquals(true, true);
 			}
 			else {
 				System.out.println("失败！");
+				assertEquals(true, false);
 			}
 			
 		}
@@ -2610,6 +2668,7 @@ public class ONT_Native {
 		try {
 			String acc = OntTest.sdk().nativevm().ont().queryName();
 			System.out.println(acc);
+			assertEquals(true, true);
 			} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -2625,6 +2684,7 @@ public class ONT_Native {
 		try {
 			String acc = OntTest.sdk().nativevm().ont().querySymbol();
 			System.out.println(acc);
+			assertEquals(true, true);
 			} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -2641,6 +2701,7 @@ public class ONT_Native {
 		try {
 			long acc = OntTest.sdk().nativevm().ont().queryDecimals();
 			System.out.println(acc);
+			assertEquals(true, true);
 			} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -2657,6 +2718,7 @@ public class ONT_Native {
 		try {
 			long acc = OntTest.sdk().nativevm().ont().queryTotalSupply();
 			System.out.println(acc);
+			assertEquals(true, true);
 			} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
