@@ -105,14 +105,19 @@ public class NodeApi {
 		return startAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
 	}
 	public boolean startAll(String program, String config, String nodeargs) {
-		int[] nodeindexs = new int[Config.NODES.size()];
-		for(int i = 0; i < Config.NODES.size(); i++) {
-			nodeindexs[i] = i;
+		try {
+			int[] nodeindexs = new int[Config.NODES.size()];
+			for(int i = 0; i < Config.NODES.size(); i++) {
+				nodeindexs[i] = i;
+			}
+			
+			boolean ret = start(nodeindexs, program, config, nodeargs);
+			Thread.sleep(10000);
+			return ret;
+		} catch (Exception e) {
+			return false;
 		}
-		
-		return start(nodeindexs, program, config, nodeargs);	
 	}
-	
 	
 	public boolean start(int[] nodeindexs, String program, String config, String nodeargs) {
 		boolean ret = true;
@@ -141,16 +146,23 @@ public class NodeApi {
 	}
 	
 	public boolean restart(int[] nodeindexs, String program, String config, String nodeargs) {
-		stop(nodeindexs);
-		boolean ret = true;
-		for(int i = 0; i < nodeindexs.length; i++) {
-			boolean ret1 = _start(nodeindexs[i], program, config, nodeargs, true, true);
-			if (!ret1) {
-				ret = ret1;
-			}
-        }
+		try {
+			stop(nodeindexs);
+			boolean ret = true;
+			for(int i = 0; i < nodeindexs.length; i++) {
+				boolean ret1 = _start(nodeindexs[i], program, config, nodeargs, true, true);
+				if (!ret1) {
+					ret = ret1;
+				}
+	        }
 
-		return ret;
+			Thread.sleep(10000);
+			return ret;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();	
+			return false;
+		}
 	}
 	
 	public boolean restart(int nodeindex, String program, String config, String nodeargs) {
