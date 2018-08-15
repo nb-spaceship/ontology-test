@@ -21,7 +21,7 @@ import java.util.Set;
 import com.ontio.MethodNameFilter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ontio.sdkapi.Claim;
+import com.ontio.sdkapi.ClaimBase;
 import com.ontio.sdkapi.ClaimRecord;
 import com.ontio.sdkapi.DigitalAccount;
 import com.ontio.sdkapi.DigitalIdentity;
@@ -32,6 +32,7 @@ import com.ontio.sdkapi.ONT_Native;
 import com.ontio.sdkapi.Ontid;
 import com.ontio.sdkapi.RPC_API;
 import com.ontio.testtool.OntTest;
+import com.ontio.TestMonitor;
 
 public class RunAllTest {
     public static void main(String[] args) throws ClassNotFoundException {
@@ -97,14 +98,14 @@ public class RunAllTest {
         	Set<String> keys = _json.keySet();
         	for (String _key : keys) {
         		if (_json.getString(_key).equals(true)) {
-        			_files.add(prarameter_c);
+        			_files.add(_key);
         		}
         	}
         }
         // System.out.println(_files.toString());
         
         List<Class<?>> all_class = new ArrayList<Class<?>>();
-        all_class.add(Claim.class);
+        all_class.add(ClaimBase.class);
         all_class.add(ClaimRecord.class);
         all_class.add(DigitalAccount.class);
         all_class.add(DigitalIdentity.class);
@@ -114,7 +115,7 @@ public class RunAllTest {
         all_class.add(ONT_Native.class);
         all_class.add(RPC_API.class);
         all_class.add(Ontid.class);
-        
+
         JUnitCore junitRunner = new JUnitCore();
         junitRunner.addListener(new TestMonitor());
         for (Class<?> _class : all_class) {
@@ -130,9 +131,38 @@ public class RunAllTest {
 					}
 				}
 	        });
+	        try{
+		        long startTime = System.currentTimeMillis();
+		        long endtime = startTime;
+		        long costtime = 0;
+		        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		        
+		        Result result = junitRunner.run(request);
+		        
+	            endtime = System.currentTimeMillis();
+	            costtime = endtime - startTime;
+	            String reportstr ="[time]" + "\n" +
+						"start=" + dateformat.format(startTime) + "\n" +
+						"end=" + dateformat.format(endtime)  + "\n" +
+						"cost=" + (costtime / 1000);
+	            String repotepath = OntTest.logger().logfile().getParentFile().getAbsolutePath() + "/report.ini";
+				FileWriter reportFileWriter = new FileWriter(repotepath, false);
+				reportFileWriter.write(reportstr);
+				reportFileWriter.close();
+				
+				System.out.println(result.wasSuccessful());
+	        } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        
-	        Result result = junitRunner.run(request);
-	        System.out.println(result.wasSuccessful());
+	        if (!TestMonitor.failedDescription.isEmpty()) {
+	        	for (Description failedDescription : TestMonitor.failedDescription){
+	        		Request retryRequest = Request.method(failedDescription.getClass(), failedDescription.getMethodName());
+	        		Result result = junitRunner.run(retryRequest);
+	        		System.out.println(result.wasSuccessful());
+	        	}
+	        }
         }
         /*
         Method[] all_methods = null;
