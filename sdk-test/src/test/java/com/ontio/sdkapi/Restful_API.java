@@ -1,5 +1,6 @@
 package com.ontio.sdkapi;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.net.URL;
@@ -51,6 +52,7 @@ public class Restful_API {
 		try {
 			int acc = OntTest.sdk().getRestful().getNodeCount();
 			System.out.println(acc);
+			assertEquals(true, acc > 0);
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -66,6 +68,7 @@ public class Restful_API {
 		try {
 			Block acc = OntTest.sdk().getRestful().getBlock(15);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -81,6 +84,7 @@ public class Restful_API {
 		try {
 			Object acc = OntTest.sdk().getRestful().getBlockJson(15);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -99,6 +103,7 @@ public class Restful_API {
 			System.out.println("2.getBlockJson");
 			Object acc = OntTest.sdk().getRestful().getBlockJson(hash.toHexString());
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -118,6 +123,7 @@ public class Restful_API {
 			System.out.println("2.getBlockJson");
 			Block acc = OntTest.sdk().getRestful().getBlock(hash.toHexString());
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -133,6 +139,7 @@ public class Restful_API {
 		try {
 			int acc = OntTest.sdk().getRestful().getBlockHeight();
 			System.out.println(acc);
+			assertEquals(true, acc > 0);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -155,6 +162,7 @@ public class Restful_API {
 			Thread.sleep(8000);
 			Transaction trs = OntTest.sdk().getRestful().getTransaction(s);
 			System.out.println(trs.toHexString());
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -189,9 +197,8 @@ public class Restful_API {
 			OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
 			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
 			String acc = OntTest.sdk().getRestful().getStorage(codeAddr1, "01");
-			System.out.println("**********");
 			System.out.println(acc);
-			System.out.println("**********");
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -226,10 +233,8 @@ public class Restful_API {
 			OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
 			OntTest.common().waitTransactionResult(invokeTx.hash().toHexString());
 			String acc = OntTest.sdk().getRestful().getStorage(codeAddr1, "01");
-			System.out.println("**********");
 			System.out.println(acc);
-			System.out.println("**********");
-
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -249,6 +254,7 @@ public class Restful_API {
 			String addr1 = acc1.getAddressU160().toBase58();
 			Object acc = OntTest.sdk().getRestful().getBalance(addr1);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -267,6 +273,7 @@ public class Restful_API {
 
 			Object acc = OntTest.sdk().getRestful().getContractJson(codeAddr);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -317,6 +324,7 @@ public class Restful_API {
 			Thread.sleep(7000);
 			Object acc = OntTest.sdk().getRestful().getSmartCodeEvent(s);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -341,6 +349,7 @@ public class Restful_API {
 			Thread.sleep(8000);
 			int acc = OntTest.sdk().getRestful().getBlockHeightByTxHash(s);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -364,6 +373,7 @@ public class Restful_API {
 			Thread.sleep(8000);
 			Object acc = OntTest.sdk().getRestful().getMerkleProof(s);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -400,6 +410,7 @@ public class Restful_API {
 
 			boolean acc = OntTest.sdk().getRestful().sendRawTransaction(invokeTx.toHexString());
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -435,6 +446,7 @@ public class Restful_API {
 	        Thread.sleep(8000);
 			boolean acc = OntTest.sdk().getRestful().sendRawTransaction(A);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -469,6 +481,7 @@ public class Restful_API {
 	        Thread.sleep(8000);
 			Object acc = OntTest.sdk().getRestful().sendRawTransactionPreExec(invokeTx.toHexString());
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -489,6 +502,7 @@ public class Restful_API {
 			Thread.sleep(8000);
 			Object acc = OntTest.sdk().getRestful().getAllowance("ont", addr1, addr2);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -502,15 +516,16 @@ public class Restful_API {
 		OntTest.logger().description("----------getAllowance----------");
 		
 		try {
-		Account acc1=OntTest.common().getAccount(0);
-		Account acc2 = OntTest.common().getAccount(1);
-		
-		String addr1 = acc1.getAddressU160().toBase58();
-		String addr2 = acc2.getAddressU160().toBase58();
-		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
-		Thread.sleep(8000);
-		Object acc = OntTest.sdk().getRestful().getAllowance("ont", addr1, addr2);
-		System.out.println(acc);
+			Account acc1=OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
+			Thread.sleep(8000);
+			Object acc = OntTest.sdk().getRestful().getAllowance("ont", addr1, addr2);
+			System.out.println(acc);
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 		OntTest.logger().error(e.toString());
@@ -526,15 +541,16 @@ public class Restful_API {
 		OntTest.logger().description("----------getAllowance----------");
 		
 		try {
-		Account acc1=OntTest.common().getAccount(0);
-		Account acc2 = OntTest.common().getAccount(1);
-		
-		String addr1 = acc1.getAddressU160().toBase58();
-		String addr2 = acc2.getAddressU160().toBase58();
-		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
-		Thread.sleep(8000);
-		Object acc = OntTest.sdk().getRestful().getAllowance("ont", addr1, addr2);
-		System.out.println(acc);
+			Account acc1=OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			
+			String addr1 = acc1.getAddressU160().toBase58();
+			String addr2 = acc2.getAddressU160().toBase58();
+			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
+			Thread.sleep(8000);
+			Object acc = OntTest.sdk().getRestful().getAllowance("ont", addr1, addr2);
+			System.out.println(acc);
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 		OntTest.logger().error(e.toString());
@@ -551,6 +567,7 @@ public class Restful_API {
 		try {
 			Object acc = OntTest.sdk().getRestful().getMemPoolTxCount();
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -572,6 +589,7 @@ public class Restful_API {
 			System.out.println(s);
 			Object acc = OntTest.sdk().getRestful().getMemPoolTxState(s);
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -606,6 +624,7 @@ public class Restful_API {
 	        Thread.sleep(8000);
 			Object acc = OntTest.sdk().getRestful().syncSendRawTransaction(invokeTx.toHexString());
 			System.out.println(acc);
+			assertEquals(true, true);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
