@@ -179,6 +179,17 @@ public class Logger {
 		return true;
 	};
 	
+	public void setBlock() {
+		try {
+			if (collectionfileWriter != null) {
+				collectionfileWriter.write("[ Block    ]");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void write(String contents) throws IOException {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String date = df.format(new Date());
