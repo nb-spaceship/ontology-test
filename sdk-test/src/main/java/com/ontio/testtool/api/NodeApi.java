@@ -275,6 +275,7 @@ public class NodeApi {
 	                }
 			        ontSdk.addSign(tx, accounts[i]);	            
 		            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+		            OntTest.common().waitTransactionResult(tx.hash().toHexString());
 		        }
 		        
 		        //withdraw ong
@@ -285,6 +286,7 @@ public class NodeApi {
 		            }
 			        ontSdk.addSign(tx, accounts[0]);	            
 		            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
+		            OntTest.common().waitTransactionResult(tx.hash().toHexString());
 		        }
 	            
 	            //transfer ong
@@ -296,6 +298,7 @@ public class NodeApi {
 			        ontSdk.addSign(tx, accounts[i]);	            
 		            ontSdk.getConnect().sendRawTransaction(tx.toHexString());
 			        System.out.println("smart code: " + ontSdk.getConnect().getSmartCodeEvent(tx.hash().toString()));
+			        OntTest.common().waitTransactionResult(tx.hash().toHexString());
 		        }
 			} else {
 				WalletMgr wm = new WalletMgr(Config.nodeWallet(0), ontSdk.defaultSignScheme);
