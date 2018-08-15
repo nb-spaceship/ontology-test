@@ -17,6 +17,7 @@ public class Logger {
 	private static String collectionfileName = "collection.csv";
 	private static String prefixpath = "";
 	private static String subFolder = "";
+	private static String casestate = "";
 	private int step = 1;
 	public static synchronized Logger getInstance(){
         if(instance == null) {
@@ -147,10 +148,13 @@ public class Logger {
 			}
 			if (ret.toUpperCase().equals("PASS")) {
 				write("\n\n[ Pass    ]    (" + info + ")");
+				casestate = "pass";
 			} else if (ret.toUpperCase().equals("FAIL")) {
 				write("\n\n[ Fail    ]    (" + info + ")");
+				casestate = "fail";
 			} else {
 				write("\n\n[ Block   ]    (" + info + ")");
+				casestate = "block";
 			}
 			write("[---------------------   END   ---------------------]");
 			
@@ -178,6 +182,10 @@ public class Logger {
 
 		return true;
 	};
+	
+	public String state() {
+		return casestate;
+	}
 	
 	public void setBlock() {
 		try {
