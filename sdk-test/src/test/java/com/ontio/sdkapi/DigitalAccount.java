@@ -38,7 +38,7 @@ public class DigitalAccount {
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		OntTest.init();
 	}
 	
 	@After
@@ -225,6 +225,7 @@ public class DigitalAccount {
 		OntTest.logger().description("----------importAccount----------");
 		
 		try {
+			OntTest.sdk().getWalletMgr().createAccountInfo("123456");
 			OntTest.logger().step("1.生成账户");
 			String key = "QrxoFSIRPhjdNK1oVRimKVhGJOJZU/iQJE4NjmU+IEK2/5EYjZYjJu89VfympHTr";
 			String password = "123456";

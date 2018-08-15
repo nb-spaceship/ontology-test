@@ -22,6 +22,7 @@ import com.github.ontio.sdk.exception.SDKException;
 import com.github.ontio.sdk.wallet.Identity;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class Ontid {
 
@@ -30,8 +31,8 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
-//		Thread.sleep(5000);
+		OntTest.api().node().restartAll();
+		OntTest.api().node().initOntOng();
 	}
 	
 	@Before
@@ -52,6 +53,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -71,6 +76,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -101,6 +110,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -121,6 +134,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -152,6 +169,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -182,6 +203,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("@#$%^&");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -202,6 +227,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("Af296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3"
 					+ "HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpc"
 					+ "NaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296"
@@ -268,6 +297,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -287,6 +320,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -318,6 +355,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -337,6 +378,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -367,6 +412,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -396,9 +445,11 @@ public class Ontid {
 		OntTest.logger().description("----------sendRegister----------");
 		
 		try {
-//			Account acc1 = OntTest.common().getAccount(0);
 			com.github.ontio.sdk.wallet.Account acc = OntTest.sdk().getWalletMgr().createAccount("123456");
 			String addr1 = acc.address;
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
@@ -430,6 +481,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -450,6 +505,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -470,6 +529,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -501,6 +564,9 @@ public class Ontid {
 		try {
 			com.github.ontio.sdk.wallet.Account acc = OntTest.sdk().getWalletMgr().createAccount("123456");
 			String addr1 = acc.address;
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
@@ -532,6 +598,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -551,6 +621,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -571,6 +645,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
@@ -591,6 +669,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -615,6 +697,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -650,6 +736,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -685,6 +775,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -720,6 +814,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -755,6 +853,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -790,6 +892,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -825,6 +931,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -860,6 +970,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -884,6 +998,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -920,6 +1038,9 @@ public class Ontid {
 		try {
 			com.github.ontio.sdk.wallet.Account acc = OntTest.sdk().getWalletMgr().createAccount("!@#$%^");
 			String addr1 = acc.address;
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = acc.getSalt();
 			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "!@#$%^");
 			String ontid = "did:ont:"+acc.address;
@@ -1084,6 +1205,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = Base64.getDecoder().decode("");
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1119,6 +1244,9 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1142,6 +1270,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1166,6 +1298,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1189,6 +1325,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1214,6 +1354,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1238,6 +1382,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1262,6 +1410,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1297,6 +1449,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1321,6 +1477,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1356,6 +1516,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1384,42 +1548,43 @@ public class Ontid {
 			fail();
 		}
 	}	
-	@Test
-	public void test_abnoraml_047_sendAddAttributes() throws Exception {
-		OntTest.logger().description("----------sendAddAttributes----------");
-		
-		try {
-			com.github.ontio.sdk.wallet.Account acc = OntTest.sdk().getWalletMgr().createAccount("123456");
-			String addr1 = acc.address;
-			byte[] salt = acc.getSalt();
-			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
-			String ontid = "did:ont:"+acc.address;
-			
-			Attribute[] atr = new Attribute[3];
-			atr[0] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
-			atr[1] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
-			atr[2] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
-
-			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
-			System.out.println(sr);
-			
-		} 
-		catch(RpcException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("error").toString();
-			if("43001".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
-		}
-		catch(Exception e) {
-			OntTest.logger().error(e.toString());
-			fail();
-		}
-	}	
+	
+//	@Test
+//	public void test_abnoraml_047_sendAddAttributes() throws Exception {
+//		OntTest.logger().description("----------sendAddAttributes----------");
+//		
+//		try {
+//			com.github.ontio.sdk.wallet.Account acc = OntTest.sdk().getWalletMgr().createAccount("123456");
+//			String addr1 = acc.address;
+//			byte[] salt = acc.getSalt();
+//			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
+//			String ontid = "did:ont:"+acc.address;
+//			
+//			Attribute[] atr = new Attribute[3];
+//			atr[0] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
+//			atr[1] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
+//			atr[2] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
+//
+//			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
+//			System.out.println(sr);
+//			
+//		} 
+//		catch(RpcException e) {
+//			Map er = (Map)JSON.parse(e.getMessage());
+//			OntTest.logger().error(er.toString());
+//			String er_code = er.get("error").toString();
+//			if("43001".equals(er_code)) {
+//				assertEquals(true,true);
+//			}
+//			else {
+//				assertEquals(true,false);
+//			}
+//		}
+//		catch(Exception e) {
+//			OntTest.logger().error(e.toString());
+//			fail();
+//		}
+//	}	
 	
 	@Test
 	public void test_noraml_048_sendAddAttributes() throws Exception {
@@ -1427,6 +1592,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1451,6 +1620,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1475,6 +1648,10 @@ public class Ontid {
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1511,6 +1688,9 @@ public class Ontid {
 		try {
 			com.github.ontio.sdk.wallet.Account acc = OntTest.sdk().getWalletMgr().createAccount("123456");
 			String addr1 = acc.address;
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = acc.getSalt();
 			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
 			String ontid = "did:ont:"+acc.address;
@@ -1543,11 +1723,15 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_noraml_052_sendAddAttributes() throws Exception {
+	public void test_abnoraml_052_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
 			Account acc1 = OntTest.common().getAccount(0);
+			String addr1 = acc1.getAddressU160().toBase58();
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			System.out.println("账户1 的余额为： "+bala1);
+			
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
@@ -1556,10 +1740,21 @@ public class Ontid {
 			atr[1] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
 			atr[2] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
 
-			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10000000000l);
+			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 1000000000l);
 			System.out.println(sr);
 			assertEquals(true, true);
 		} 
+		catch(RpcException e) {
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
+		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();

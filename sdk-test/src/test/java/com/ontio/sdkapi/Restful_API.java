@@ -24,6 +24,7 @@ import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.smartcontract.neovm.abi.BuildParams;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class Restful_API {
 	@Rule public OntTestWatcher watchman= new OntTestWatcher();
@@ -50,9 +51,11 @@ public class Restful_API {
 		OntTest.logger().description("----------getNodeCount----------");
 		
 		try {
+			int nodes = Config.NODES.size();
+			System.out.println(nodes);
 			int acc = OntTest.sdk().getRestful().getNodeCount();
 			System.out.println(acc);
-			assertEquals(true, acc > 0);
+			assertEquals(true, nodes -1 == acc);
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -66,7 +69,9 @@ public class Restful_API {
 		OntTest.logger().description("----------getBlock----------");
 		
 		try {
-			Block acc = OntTest.sdk().getRestful().getBlock(15);
+			int height = OntTest.sdk().getRestful().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			Block acc = OntTest.sdk().getRestful().getBlock(height);
 			System.out.println(acc);
 			assertEquals(true, true);
 		} catch(Exception e) {
@@ -82,7 +87,9 @@ public class Restful_API {
 		OntTest.logger().description("----------getBlockJson----------");
 		
 		try {
-			Object acc = OntTest.sdk().getRestful().getBlockJson(15);
+			int height = OntTest.sdk().getRestful().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			Object acc = OntTest.sdk().getRestful().getBlockJson(height);
 			System.out.println(acc);
 			assertEquals(true, true);
 		} catch(Exception e) {
@@ -98,7 +105,9 @@ public class Restful_API {
 		
 		try {
 			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getRestful().getBlock(15).hash();
+			int height = OntTest.sdk().getRestful().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			UInt256 hash = OntTest.sdk().getRestful().getBlock(height).hash();
 			System.out.println(hash);
 			System.out.println("2.getBlockJson");
 			Object acc = OntTest.sdk().getRestful().getBlockJson(hash.toHexString());
@@ -118,7 +127,9 @@ public class Restful_API {
 		
 		try {
 			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getRestful().getBlock(15).hash();
+			int height = OntTest.sdk().getRestful().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			UInt256 hash = OntTest.sdk().getRestful().getBlock(height).hash();
 			System.out.println(hash);
 			System.out.println("2.getBlockJson");
 			Block acc = OntTest.sdk().getRestful().getBlock(hash.toHexString());

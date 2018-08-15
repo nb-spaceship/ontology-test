@@ -32,8 +32,7 @@ public class WebSocket_API {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
-//		Thread.sleep(5000);
+		OntTest.api().node().restartAll();
 		OntTest.sdk().getWebSocket().startWebsocketThread(true);
 		Thread.sleep(3000);
 	}
@@ -53,11 +52,13 @@ public class WebSocket_API {
 		OntTest.logger().description("----------getNodeCount----------");
 		
 		try {
+			int nodes = Config.NODES.size();
+			System.out.println(nodes);
 			int acc = OntTest.sdk().getWebSocket().getNodeCount();
 			Result result = OntTest.common().waitWsResult("getconnectioncount");
 			System.out.println("result:" + result.Result.toString());
 			
-			assertEquals(true, true);
+			assertEquals(true, nodes - 1 == acc);
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());

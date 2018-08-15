@@ -23,6 +23,7 @@ import com.github.ontio.sdk.exception.SDKException;
 import com.github.ontio.smartcontract.neovm.abi.BuildParams;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class ONT_Native {
 	@Rule public OntTestWatcher watchman= new OntTestWatcher();
@@ -30,8 +31,11 @@ public class ONT_Native {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().initOntOng();
-//		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
+		
+		Thread.sleep(5000);
+		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
+		Thread.sleep(5000);
+		OntTest.api().node().initOntOng();
 		Thread.sleep(5000);
 	}
 	
@@ -2005,8 +2009,8 @@ public class ONT_Native {
 		OntTest.logger().description("----------sendTransferFrom----------");
 		
 		try {
-			Account acc1 = OntTest.common().getAccount(0);
-			Account acc2 = OntTest.common().getAccount(1);
+			Account acc1 = OntTest.common().getAccount(2);
+			Account acc2 = OntTest.common().getAccount(3);
 			
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
