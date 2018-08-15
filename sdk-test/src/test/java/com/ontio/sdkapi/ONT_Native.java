@@ -33,7 +33,7 @@ public class ONT_Native {
 		OntTest.init();
 		
 		Thread.sleep(5000);
-		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
+		OntTest.api().node().restartAll();
 		Thread.sleep(5000);
 		OntTest.api().node().initOntOng();
 		Thread.sleep(5000);

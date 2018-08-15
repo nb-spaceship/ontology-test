@@ -32,8 +32,9 @@ public class Restful_API {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
-//		Thread.sleep(8000);
+		OntTest.api().node().restartAll();
+		OntTest.sdk().getWebSocket().startWebsocketThread(true);
+		Thread.sleep(3000);
 	}
 	
 	@Before

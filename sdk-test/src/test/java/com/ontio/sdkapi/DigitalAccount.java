@@ -32,8 +32,10 @@ public class DigitalAccount {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll("ontology", "test_config.json", Config.DEFAULT_NODE_ARGS);
-//		Thread.sleep(5000);
+		OntTest.api().node().restartAll();
+		Thread.sleep(5000);
+		OntTest.api().node().initOntOng();
+		Thread.sleep(5000);
 	}
 	
 	@Before
