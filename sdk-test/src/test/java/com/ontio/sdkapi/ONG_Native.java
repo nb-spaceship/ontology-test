@@ -17,6 +17,7 @@ import com.github.ontio.network.exception.RpcException;
 import com.github.ontio.sdk.exception.SDKException;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class ONG_Native {
 	@Rule public OntTestWatcher watchman= new OntTestWatcher();
@@ -24,16 +25,16 @@ public class ONG_Native {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		//OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		//Thread.sleep(5000);
+		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+		Thread.sleep(5000);
+		OntTest.api().node().initOntOng();
+		Thread.sleep(5000);
+		OntTest.logger().step("*******************init_ONGONT_Finish*******************");
 	}
 	
 	@Before
 	public void setUp() throws Exception {
 		OntTest.logger().step("setUp");
-		OntTest.api().node().initOntOng();
-		Thread.sleep(5000);
-		OntTest.logger().step("setUp over");
 	}
 	
 	@After
@@ -350,6 +351,7 @@ public class ONG_Native {
 			OntTest.logger().description("ongnum2 = "+String.valueOf(ongnum2));
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc2, gaslimit, gasprice);
+			//gasacc为接受ongacc
 			OntTest.logger().description(Transfer);
 			Thread.sleep(8000);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
@@ -580,6 +582,7 @@ public class ONG_Native {
 			OntTest.logger().description("ongnum2 = "+String.valueOf(ongnum2));
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, payer, gaslimit, gasprice);
+			//payer为第三方
 			OntTest.logger().description(Transfer);
 			Thread.sleep(5000);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
@@ -818,7 +821,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertEquals(true,inc==0);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -923,7 +926,36 @@ public class ONG_Native {
 	}
 
 	@Test
-	public void test_base_035_queryAllowance() throws Exception {
+	public void test_abnormal_035_queryAllowance() throws Exception {
+		OntTest.logger().description("测试queryAllowance参数fromAddr");
+		
+		try {
+			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
+			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
+			 
+			Account acc1 = OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			long amount = 1000000000;
+			long gaslimit = 20000;
+			long gasprice = 0;
+			
+			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
+			//fromAddr存在，但并没有前提sendApprove
+			String add2 = OntTest.common().getAccount(1).getAddressU160().toBase58();			
+			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
+			OntTest.logger().description(String.valueOf(Allowance));
+			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
+			OntTest.logger().description(String.valueOf(Allowance1));
+			assertEquals(true,Allowance==Allowance1);
+		} catch(Exception e) {
+			System.out.println(e);
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
+	
+	@Test
+	public void test_base_036_queryAllowance() throws Exception {
 		OntTest.logger().description("测试queryAllowance参数fromAddr");
 		
 		try {
@@ -947,34 +979,6 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(Allowance));
 
 			assertEquals(true,Allowance==1000000000);
-		} catch(Exception e) {
-			System.out.println(e);
-			OntTest.logger().error(e.toString());
-			fail();
-		}
-	}
-	
-	@Test
-	public void test_abnormal_036_queryAllowance() throws Exception {
-		OntTest.logger().description("测试queryAllowance参数fromAddr");
-		
-		try {
-			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
-			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
-			 
-			Account acc1 = OntTest.common().getAccount(0);
-			Account acc2 = OntTest.common().getAccount(1);
-			long amount = 1000000000;
-			long gaslimit = 20000;
-			long gasprice = 0;
-			
-			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
-			//fromAddr存在，但并没有前提sendApprove
-			String add2 = OntTest.common().getAccount(1).getAddressU160().toBase58();			
-			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
-			OntTest.logger().description(String.valueOf(Allowance));
-
-			assertEquals(false,Allowance==1000000000);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1139,6 +1143,12 @@ public class ONG_Native {
 		OntTest.logger().description("测试queryAllowance参数toAddr");
 		
 		try {
+			OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			Thread.sleep(5000);
+			OntTest.api().node().initOntOng();
+			Thread.sleep(5000);
+			OntTest.logger().step("*******************init_ONGONT_Finish*******************");
+			
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
 			 
@@ -1618,7 +1628,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_abnormal_059_sendApprove() throws Exception {
+	public void test_normal_059_sendApprove() throws Exception {
 		OntTest.logger().description("测试sendApprove参数sendAcct");
 		
 		try {
@@ -1642,7 +1652,7 @@ public class ONG_Native {
 			long Allowance2 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance2:"+Allowance2);
 
-			assertEquals(true,Allowance1==Allowance2);
+			assertEquals(true,Allowance2==amount);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2353,7 +2363,7 @@ public class ONG_Native {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
 			int err_code = (int) err.get("Error");
-			int exp_errcode = 58004;
+			int exp_errcode = 58005;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
@@ -2653,6 +2663,7 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(Allowance0));
 			if(Allowance0==1000000000) {
 				long ongnum_addr2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
+				OntTest.logger().description("before ong : "+ongnum_addr2);
 				OntTest.sdk().nativevm().ong().sendTransfer(acc2, addr1, ongnum_addr2, acc2, 20000L, 0L);
 				Thread.sleep(5000);
 				long ongnum_addr_should0 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
@@ -2687,6 +2698,15 @@ public class ONG_Native {
 		OntTest.logger().description("测试sendTransferFrom参数sendAcct");
 		
 		try {
+			OntTest.logger().step("***************************restart all nodes***************************");
+			OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			OntTest.logger().step("***************************restart finish***************************");
+			OntTest.logger().step("***************************init_ONT_ONG***************************");
+			OntTest.api().node().initOntOng();
+			OntTest.logger().step("***************************init finish***************************");
+			Thread.sleep(5000);
+			
+			
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
 			 
@@ -2908,8 +2928,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -2949,8 +2969,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -2998,8 +3018,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3047,8 +3067,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3097,8 +3117,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3145,8 +3165,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3194,8 +3214,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3243,8 +3263,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3281,13 +3301,13 @@ public class ONG_Native {
 			 
 			Account acc1 = OntTest.common().getAccount(0);
 			Account acc2 = OntTest.common().getAccount(1);
-
+			long amount0 = 1;
 			//错误的数量（超出未提取的ONG数量）
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount0, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3324,7 +3344,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_abnormal_121_claimOng() throws Exception {
+	public void test_normal_121_claimOng() throws Exception {
 		OntTest.logger().description("测试claimOng参数sendAcct");
 		
 		try {
@@ -3337,8 +3357,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			OntTest.logger().description(String.valueOf(OntTest.sdk().nativevm().ong().queryBalanceOf(addr1)));
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3353,7 +3374,7 @@ public class ONG_Native {
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==0);
+				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3380,7 +3401,7 @@ public class ONG_Native {
 			long gasprice = 0;
 
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3421,8 +3442,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3470,8 +3491,8 @@ public class ONG_Native {
 			long gaslimit = -20000;
 			long gasprice = 0;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3519,8 +3540,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 100000L;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3572,8 +3593,8 @@ public class ONG_Native {
 			long gasprice = -100000L;
 			//正确的数量（负数）
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3614,8 +3635,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 100000L;
 
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);

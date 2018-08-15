@@ -26,19 +26,19 @@ public class DigitalIdentity {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		OntTest.init();
 //		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
 //		Thread.sleep(5000);
 	}
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("setUp");//logger放到这边
+		OntTest.logger().step("setUp");//logger放到这边
+		OntTest.init();
 	}
 	
 	@After
 	public void TearDown() throws Exception {
-		System.out.println("TearDown");
+		OntTest.logger().step("TearDown");
 	}
 	
 //	//读取config文件信息需要改到框架中
@@ -66,7 +66,7 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 			assertEquals(true,true);	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -89,10 +89,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -119,10 +119,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -148,10 +148,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -177,9 +177,9 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
-			System.out.println(e);
+			OntTest.logger().description(e.toString());
 			String act_error = String.valueOf(e);
 			System.out.println(act_error);
 			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
@@ -205,10 +205,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -234,7 +234,7 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -257,10 +257,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -287,10 +287,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -316,10 +316,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -345,10 +345,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -374,10 +374,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -403,7 +403,7 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -426,10 +426,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -455,10 +455,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -484,10 +484,10 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -514,11 +514,11 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret0 = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			Identity ret1 = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret1);
+			OntTest.logger().description(ret1.toString());
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58005;
 			OntTest.logger().error(e.toString());
@@ -544,11 +544,11 @@ public class DigitalIdentity {
 			
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 51015;
 			OntTest.logger().error(e.toString());
@@ -571,7 +571,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentity(password);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -592,7 +592,7 @@ public class DigitalIdentity {
 			String password = "";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentity(password);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -613,7 +613,7 @@ public class DigitalIdentity {
 			String password = "!@#$%^&*()_+:;,.<>?/";  //password为非法字符
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentity(password);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -635,7 +635,7 @@ public class DigitalIdentity {
 			//长度为2001的字符串
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentity(password);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -658,7 +658,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 			assertEquals(true,true);
 			
 		} catch(Exception e) {
@@ -678,7 +678,7 @@ public class DigitalIdentity {
 			String password = "";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -700,7 +700,7 @@ public class DigitalIdentity {
 			String password = "!@#$%^";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -722,7 +722,7 @@ public class DigitalIdentity {
 			String password = "h3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56ga";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -744,7 +744,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -766,7 +766,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -787,7 +787,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -809,7 +809,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -830,14 +830,14 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().createIdentityFromPriKey(password,prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 59000;
 			OntTest.logger().error(e.toString());
@@ -859,7 +859,7 @@ public class DigitalIdentity {
 			String password = "123456";
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfo(password);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -880,7 +880,7 @@ public class DigitalIdentity {
 			String password = "";
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfo(password);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
@@ -946,7 +946,7 @@ public class DigitalIdentity {
 			String prikey = "1111111111111111111111111111111111111111111111111111111111111111";
 
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -968,7 +968,7 @@ public class DigitalIdentity {
 			String prikey = "1111111111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -990,7 +990,7 @@ public class DigitalIdentity {
 			String prikey = "1111111111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1012,7 +1012,7 @@ public class DigitalIdentity {
 			String prikey = "1111111111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1034,7 +1034,7 @@ public class DigitalIdentity {
 			String prikey = "1111111111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1056,7 +1056,7 @@ public class DigitalIdentity {
 			String prikey = "edfabc1111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1078,7 +1078,7 @@ public class DigitalIdentity {
 			String prikey = "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1100,7 +1100,7 @@ public class DigitalIdentity {
 			String prikey = "@#$abc1111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1122,13 +1122,13 @@ public class DigitalIdentity {
 			String prikey = "";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
-			System.out.println(ret);	
+			OntTest.logger().description(ret.toString());	
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 59000;
 			OntTest.logger().error(e.toString());
@@ -1154,7 +1154,7 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1179,13 +1179,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1211,13 +1211,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1243,13 +1243,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1275,13 +1275,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1306,13 +1306,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1337,13 +1337,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1368,13 +1368,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58004;
 			OntTest.logger().error(e.toString());
@@ -1399,7 +1399,7 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
@@ -1423,13 +1423,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, "111111", salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58501;
 			OntTest.logger().error(e.toString());
@@ -1454,13 +1454,13 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, "@#$%^&", salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58501;
 			OntTest.logger().error(e.toString());
@@ -1487,12 +1487,12 @@ public class DigitalIdentity {
 			
 			String password1 = "h3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56gh3g24fc54hg46hv3h6vj3h463g4j63jh46b3jfj455jv6jh56ga";
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, password1, salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58501;
 			OntTest.logger().error(e.toString());
@@ -1517,12 +1517,12 @@ public class DigitalIdentity {
 			byte[] salt = Base64.getDecoder().decode(acc.salt);
 			
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().getIdentityInfo(ontid, "", salt);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
+			OntTest.logger().description("err = "+err);
 			int err_code = (int) err.get("Error");
 			int exp_errcode = 58501;
 			OntTest.logger().error(e.toString());
@@ -1546,7 +1546,7 @@ public class DigitalIdentity {
 			
 			List<Identity> ret0 = OntTest.sdk().getWalletMgr().getWallet().getIdentities();
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 //			String exp = "[]";
 			assertEquals(true,true);	
 		} catch(Exception e) {
@@ -1565,7 +1565,7 @@ public class DigitalIdentity {
 			String ontid = OntTest.sdk().getWalletMgr().createIdentity("123456").ontid;
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			OntTest.logger().description(ret.toString());
 			
 //			assertEquals(true,ret.equals(exp));
 			assertEquals(true,true);	
@@ -1582,11 +1582,16 @@ public class DigitalIdentity {
 
 		try {
 			OntTest.logger().step("测试接口getIdentity_ontid");
-			String ontid = "did:ont:A2jqYK9Yfa93vDjDXSgA8QqgkEed9ppd8Y";
+			String ontid = OntTest.sdk().getWalletMgr().createIdentity("123456").ontid;
+			ontid = ontid.substring(0,ontid.length()-3)+"abc";
 			//ontid不存在
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1607,7 +1612,11 @@ public class DigitalIdentity {
 			String ontid = "a"+OntTest.sdk().getWalletMgr().createIdentity("123456").ontid;
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1629,7 +1638,12 @@ public class DigitalIdentity {
 			ontid = ontid.substring(0,ontid.length()-1);
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			System.out.println("ret = "+ret);
+			
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1651,7 +1665,12 @@ public class DigitalIdentity {
 			ontid = ontid.substring(0,ontid.length()-1)+"#";
 
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1672,10 +1691,15 @@ public class DigitalIdentity {
 			String str = "ont:"; 
 			String ontid = OntTest.sdk().getWalletMgr().createIdentity("123456").ontid;
 			ontid = ontid.replace(str, "");
-			System.out.println(ontid);
+			OntTest.logger().description(ontid);
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1696,10 +1720,14 @@ public class DigitalIdentity {
 			String str = "did:"; 
 			String ontid = OntTest.sdk().getWalletMgr().createIdentity("123456").ontid;
 			ontid = ontid.replace(str, "");
-			System.out.println(ontid);
+			OntTest.logger().description(ontid);
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1721,7 +1749,11 @@ public class DigitalIdentity {
 			String ontid = "";
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid);
-			System.out.println(ret);
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1742,7 +1774,11 @@ public class DigitalIdentity {
 			OntTest.sdk().getWalletMgr().createIdentity("123456");
 			
 			Identity ret = OntTest.sdk().getWalletMgr().getDefaultIdentity();
-			System.out.println(ret);
+			System.out.println("ret = "+ret);
+			String rettmp=null;
+			if (ret!=null) 
+				rettmp=ret.toString();
+			OntTest.logger().description("ret = "+rettmp);
 			
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
@@ -1754,7 +1790,7 @@ public class DigitalIdentity {
 		}
 	}
 	
-	//getIdentity068-090 //待修改
+	//getIdentity068-090
 	@Test
 	public void test_base_068_addOntIdController() throws Exception {
 		OntTest.logger().description("Digital identity  068  addOntIdController()");
@@ -1768,9 +1804,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(true,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1792,7 +1828,7 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
 			System.out.println(exp);
 			assertEquals(false,ret.equals(exp));
@@ -1816,9 +1852,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1840,9 +1876,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1864,9 +1900,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1888,9 +1924,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1912,9 +1948,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1936,9 +1972,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1960,9 +1996,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(true,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1984,9 +2020,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2008,9 +2044,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2032,9 +2068,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2056,9 +2092,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2080,9 +2116,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2104,9 +2140,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(true,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2128,9 +2164,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2152,9 +2188,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2176,9 +2212,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(true,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2200,9 +2236,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2224,9 +2260,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2248,9 +2284,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2272,9 +2308,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2296,9 +2332,9 @@ public class DigitalIdentity {
 			
 			Identity ret0 = OntTest.sdk().getWalletMgr().getWallet().addOntIdController(ontid, key, id, pubkey);
 			String ret = String.valueOf(ret0);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			String exp = "{\"controls\":[{\"address\":\"\",\"algorithm\":\"ECDSA\",\"enc-alg\":\"aes-256-gcm\",\"hash\":\"sha256\",\"id\":\"1\",\"key\":\"ShZUA3U4vPQHnzIKX1FSiICzMsoYPBJ5+H13OR2dZx/hhmhIA5e8eLEFnJinFn9B\",\"parameters\":{\"curve\":\"secp256r1\"},\"publicKey\":\"03e27f37a66986cce26efdaa13fac216b033b87bd1032f70899c8e5132f2158442\",\"salt\":\"\"}],\"isDefault\":false,\"label\":\"\",\"lock\":false,\"ontid\":\"did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN\"}";
-			System.out.println(exp);
+			OntTest.logger().description(exp);
 			assertEquals(false,ret.equals(exp));
 		} catch(Exception e) {
 			System.out.println(e);

@@ -3,9 +3,7 @@ package com.ontio.sdkapi;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,21 +13,17 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import com.github.ontio.account.Account;
 import com.github.ontio.common.Helper;
-import com.github.ontio.common.UInt256;
-import com.github.ontio.common.WalletQR;
 import com.github.ontio.core.block.Block;
-import com.github.ontio.core.payload.DeployCode;
 import com.github.ontio.core.payload.InvokeCode;
 import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.network.exception.RpcException;
-import com.github.ontio.sdk.wallet.Identity;
-import com.github.ontio.sdk.wallet.Wallet;
 import com.github.ontio.smartcontract.neovm.abi.BuildParams;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class RPC_API {
 	@Rule 
@@ -40,6 +34,9 @@ public class RPC_API {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
+		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+		OntTest.api().node().initOntOng();
+		Thread.sleep(6000);
 	}
 	
 	@Before
@@ -61,10 +58,10 @@ public class RPC_API {
 			
 			int num = OntTest.sdk().getRpc().getNodeCount();
 			OntTest.logger().description("actual_nodenum = "+num);
-			int exp = 16;
+			int exp = Config.NODES.size();
 			OntTest.logger().description("expect_nodenum = "+exp);
 			
-			assertEquals(true,exp==num);
+			assertEquals(true,exp==(num+1));
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -78,11 +75,12 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试getBlock()");
 			
-			Block Block = OntTest.sdk().getRpc().getBlock(15);
+			int height = OntTest.sdk().getRpc().getBlockHeight();
+			Block Block = OntTest.sdk().getRpc().getBlock(height-1);
 			OntTest.logger().description("Block : "+Block);
 			int ret = Block.height;
 			OntTest.logger().description("Block_height = "+ret);
-			int exp = 15;
+			int exp = height-1;
 			
 			assertEquals(true,ret==exp);	
 		} catch(Exception e) {
@@ -98,20 +96,21 @@ public class RPC_API {
 		try {
 			OntTest.logger().step("测试getBlock()");
 			
-			int block_height = 15;
-			Object ret_block = OntTest.sdk().getRpc().getBlockJson(block_height);
+			int block_height = OntTest.sdk().getRpc().getBlockHeight();
+			Object ret_block = OntTest.sdk().getRpc().getBlockJson(block_height-1);
 			OntTest.logger().description("ret_blockJson : "+ret_block);
-			String hash = String.valueOf(OntTest.sdk().getRpc().getBlock(block_height).hash());
+			String hash = String.valueOf(OntTest.sdk().getRpc().getBlock(block_height-1).hash());
 			Object exp_block = OntTest.sdk().getRpc().getBlockJson(hash);
 			OntTest.logger().description("exp_blockJson : "+exp_block);
 			
 			assertEquals(true,ret_block.equals(exp_block));	
 		} catch(RpcException e) {
-			int block_height = 15;
-			String ret_err = String.valueOf(e);
-			OntTest.logger().description("The current block was not found ! (block_height = "+block_height+")");
-			String exp_err = "com.github.ontio.network.exception.RpcException: {\"result\":\"\",\"id\":1,\"error\":42002,\"jsonrpc\":\"2.0\",\"desc\":\"INVALID PARAMS\"}";
-			assertEquals(true,ret_err.equals(exp_err));
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("error");
+			int exp_errcode = 42002;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -124,14 +123,16 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getBlockJson()");
-			Block block = OntTest.sdk().getRpc().getBlock(15);
+			
+			int block_height = OntTest.sdk().getRpc().getBlockHeight();
+			Block block = OntTest.sdk().getRpc().getBlock(block_height-1);
 			OntTest.logger().description("block : "+block);
 			String hash = String.valueOf(block.hash());
 			OntTest.logger().description("block_hash : "+hash);
 			
 			Object hash_blockJson = OntTest.sdk().getRpc().getBlockJson(hash);
 			OntTest.logger().description("ret_blockJson : "+hash_blockJson);
-			Object height_blockJson = OntTest.sdk().getRpc().getBlockJson(15);
+			Object height_blockJson = OntTest.sdk().getRpc().getBlockJson(block_height-1);
 			OntTest.logger().description("exp_blockJson : "+height_blockJson);			
 			
 			assertEquals(true,hash_blockJson.equals(height_blockJson));	
@@ -147,7 +148,9 @@ public class RPC_API {
 
 		try {
 			OntTest.logger().step("测试getBlock()");
-			Block height_block = OntTest.sdk().getRpc().getBlock(15);
+			
+			int block_height = OntTest.sdk().getRpc().getBlockHeight();
+			Block height_block = OntTest.sdk().getRpc().getBlock(block_height-1);
 			OntTest.logger().description("height_block : "+height_block);
 			String hash = String.valueOf(height_block.hash());
 			OntTest.logger().description("block_hash : "+hash);

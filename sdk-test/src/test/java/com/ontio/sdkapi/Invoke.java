@@ -41,6 +41,7 @@ public class Invoke {
 	
 	@Before
 	public void setUp() throws Exception {
+		System.out.println("setUp");
 	}
 	
 	@After
@@ -111,7 +112,7 @@ public class Invoke {
 		} catch(RpcException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
+			int err_code = (int) err.get("error");
 			int exp_errcode = 47001;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
