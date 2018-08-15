@@ -57,6 +57,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
 			System.out.println(sr);
+			assertEquals(true, true);
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -105,7 +106,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -186,6 +187,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "@#$%^&", acc1, 20000, 0, false);
 			System.out.println(sr);
+			assertEquals(true, true);
 			
 		} 
 		catch(Exception e) {
@@ -271,7 +273,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -321,7 +323,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 40000, 1, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -433,7 +435,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 1000000000, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -453,7 +455,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -535,7 +537,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 10, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -554,7 +556,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -574,7 +576,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, true);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -599,7 +601,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -868,7 +870,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -929,7 +931,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "!@#$%^", salt, atr, acc1, 20000L, 0l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1009,7 +1011,7 @@ public class Ontid {
 					+ "TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXd"
 					+ "CWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNa", salt, atr, acc1, 20000L, 0l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1033,7 +1035,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1125,7 +1127,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1150,7 +1152,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1172,7 +1174,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1197,7 +1199,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1220,7 +1222,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 0l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 
 		catch(Exception e) {
@@ -1246,7 +1248,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1305,7 +1307,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 40000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1435,7 +1437,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 10000000000L, 0);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1459,7 +1461,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1556,7 +1558,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10000000000l);
 			System.out.println(sr);
-			
+			assertEquals(true, true);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1599,6 +1601,7 @@ public class Ontid {
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1617,6 +1620,7 @@ public class Ontid {
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1635,6 +1639,7 @@ public class Ontid {
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1653,6 +1658,7 @@ public class Ontid {
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1671,6 +1677,7 @@ public class Ontid {
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1689,6 +1696,7 @@ public class Ontid {
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1710,9 +1718,15 @@ public class Ontid {
 			}
 		} 
 		catch(RpcException e) {
-			System.out.println(e.toString());
-			String exp="com.github.ontio.network.exception.RpcException: {\"result\":\"\",\"id\":1,\"error\":47001,\"jsonrpc\":\"2.0\",\"desc\":\"SMARTCODE EXEC ERROR\"}";
-			assertEquals(true,e.toString().equals(exp));
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("Error").toString();
+			if("47001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
