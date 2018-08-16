@@ -242,7 +242,7 @@ class SelfCheck():
             if "doesnot exists" in response["result"] or (response["result"] != self.wallet_correct_md5[i]):
                 logger.error("node " + str(i+1) + " wallet version error or not exists")
                 logger.info("start transfer wallet from node 1 to node " + str(i+1))
-                wallet_index = "0" + str(i+1) if i < 10 else str(i)
+                wallet_index = "0" + str(i) if i < 10 else str(i)
                 sftp_transfer(self.wallet_source_path+"/wallet"+wallet_index+".dat", self.wallet_path, i, "put")
                 logger.info("transfer wallet OK ")
 
