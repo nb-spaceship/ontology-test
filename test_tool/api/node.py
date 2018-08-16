@@ -45,7 +45,7 @@ class NodeApi:
 					if state == 1:
 						return True
 				except Exception as e:
-					print(e)
+					print("wait_tx_result error: ", e)
 					
 				continue
 			else:

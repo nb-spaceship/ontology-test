@@ -23,6 +23,7 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from utils.common import Common
 from node import NodeApi
+from rpc import RPCApi
 
 nodeapi = NodeApi()
 rpcapi = RPCApi()
