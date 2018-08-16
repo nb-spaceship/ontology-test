@@ -70,6 +70,10 @@ class ContractApi:
                 if deploy_contract_addr and deploy_contract_txhash:
                     break
             tmpfile.close()
+
+            #TODO REMOVE LATER
+            nodeapi.wait_gen_block(True)
+
             return (deploy_contract_addr, deploy_contract_txhash)
         except Exception as e:
             print(e)
@@ -79,7 +83,6 @@ class ContractApi:
     #返回值： 部署的合约地址
     def deploy_contract(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
         (deploy_contract_addr, deploy_contract_txhash) = self.deploy_contract_full(neo_code_path, name, desc, price)
-        nodeapi.wait_gen_block()
         return deploy_contract_addr
 
     def sign_transction(self, task, judge = True, process_log = True):
@@ -206,7 +209,7 @@ class ContractApi:
             
             #判断交易state是否成功，代替等待区块
             if check_state and response and ("txhash" in response) and (twice or pre == False):
-                result = nodeapi.wait_tx_result(response["txhash"]);
+                result = nodeapi.wait_tx_result(response["txhash"])
 
             #time.sleep(sleep)
             return (result, response)
@@ -288,7 +291,13 @@ class ContractApi:
                     
             if execNum >= m:
                 (result,response)=self.call_signed_contract(signed_raw, True)
-                self.call_signed_contract(signed_raw, False, check_state = check_state)
+                (result2,response2) = self.call_signed_contract(signed_raw, False)
+                #判断交易state是否成功，代替等待区块
+                if response and response2 and "result" in response2:
+                    response["txhash"] = response2["result"]
+
+                if check_state and response and ("txhash" in response):
+                    result = nodeapi.wait_tx_result(response["txhash"])
                 time.sleep(sleep)
                 return (result,response)
                 

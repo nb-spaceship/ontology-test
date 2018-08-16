@@ -590,7 +590,8 @@ class NativeApi:
         (result, response) = CONTRACT_API.call_multisig_contract(Task(name="commit_dpos", ijson=request),Config.AdminNum,Config.AdminPublicKeyList, sleep=sleep, check_state = False)
 
         if result:
-            result = NODE_API.wait_gen_block()
+            result = NODE_API.wait_gen_block(True)
+            result = NODE_API.wait_gen_block(True)
 
         return (result, response)
 

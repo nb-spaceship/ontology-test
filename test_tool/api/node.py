@@ -23,7 +23,10 @@ from api.rpc import RPCApi
 RPC_API = RPCApi()
 
 class NodeApi:
-	def wait_gen_block(self):
+	def wait_gen_block(self, work = False):
+		if not work:
+			return True
+			
 		lastheight = RPC_API.getblockcount()
 		times = 0
 		while True:
