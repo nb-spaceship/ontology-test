@@ -8,7 +8,6 @@ import org.junit.runner.manipulation.Filter;
 
 public class MethodNameFilter extends Filter {
     private final Set<String> excludedMethods = new HashSet<String>();
-    private final Set<String> includeSheets = new HashSet<String>();
     private final Set<String> includeTypes = new HashSet<String>();
     private final Set<String> filterCases = new HashSet<String>();
     
@@ -16,12 +15,6 @@ public class MethodNameFilter extends Filter {
         if (excludedMethods != null && excludedMethods.size() != 0){
         	for(String method : excludedMethods) {
                 this.excludedMethods.add(method);
-            }
-        }
-        
-        if (includeSheets != null && includeSheets.size() != 0){
-        	for(String includeSheet : includeSheets) {
-                this.includeSheets.add(includeSheet);
             }
         }
         
@@ -51,20 +44,13 @@ public class MethodNameFilter extends Filter {
         if (!excludedMethods.isEmpty() && excludedMethods.contains(methodName)){
         	return false;
     	}
-        
-        String[] typeLen = description.getClassName().split("\\.");
-    	String m_file = typeLen[typeLen.length-1].toString();
-    	
+            	
     	if (filterCases.isEmpty() && (includeTypes.isEmpty() || includeTypes.contains(methodName.split("_")[1].toString()))) {
-    		if (includeSheets.isEmpty() || includeSheets.contains(m_file)) {
-    			return true;
-    		}
+    		return true;
     	}
     	
     	if (includeTypes.isEmpty() && (filterCases.isEmpty() || filterCases.contains(methodName))) {
-    		if (includeSheets.isEmpty() || includeSheets.contains(m_file)) {
-    			return true;
-    		}
+			return true;
     	}
         return false;
         
