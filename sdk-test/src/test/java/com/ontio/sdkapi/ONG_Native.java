@@ -26,7 +26,7 @@ public class ONG_Native {
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
 		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		Thread.sleep(5000);
+		Thread.sleep(8000);
 		OntTest.api().node().initOntOng();
 		Thread.sleep(5000);
 		OntTest.logger().step("*******************init_ONGONT_Finish*******************");
@@ -1667,13 +1667,18 @@ public class ONG_Native {
 		try {
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
-			 
+			String addr3 = OntTest.common().getAccount(2).getAddressU160().toBase58();
+			
 			Account acc1 = OntTest.common().getAccount(0);
 			Account acc2 = OntTest.common().getAccount(1);
 			Account acc3 = OntTest.common().getAccount(2);
 			long amount = 1000000;
 			long gaslimit = 20000;
 			long gasprice = 0;
+			
+			String Approve0 = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, 1, acc1, gaslimit, gasprice);
+			OntTest.logger().description(Approve0);
+			Thread.sleep(5000);
 			
 			long Allowance1 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance1:"+Allowance1);
@@ -1684,8 +1689,16 @@ public class ONG_Native {
 			
 			long Allowance2 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance2:"+Allowance2);
+			
+			
+			long ong1 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr3);
+			OntTest.logger().description("ong1:"+ong1);
+			OntTest.sdk().nativevm().ong().sendTransferFrom(acc3, addr1, addr3, amount, acc3, gaslimit, gasprice);
+			Thread.sleep(8000);
+			long ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr3);
+			OntTest.logger().description("ong2:"+ong2);
 
-			assertEquals(true,Allowance2==1000000);
+			assertEquals(false,Allowance2==1000000);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2415,7 +2428,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_normal_094_sendTransferFrom() throws Exception {
+	public void test_abnormal_094_sendTransferFrom() throws Exception {
 		OntTest.logger().description("测试sendTransferFrom参数sendAcct");
 		
 		try {
@@ -2444,7 +2457,7 @@ public class ONG_Native {
 				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(false,(ongnum_addr3-ongnum_addr2)==amount);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);

@@ -757,7 +757,7 @@ public class DigitalIdentity {
 	}	
 	
 	@Test
-	public void test_abnormal_028_createIdentityFromPriKey() throws Exception {
+	public void test_normal_028_createIdentityFromPriKey() throws Exception {
 		OntTest.logger().description("Digital identity  028  createIdentityFromPriKey()");
 
 		try {

@@ -31,6 +31,7 @@ import com.ontio.testtool.OntTest;
 public class Invoke {
 	@Rule public OntTestWatcher watchman= new OntTestWatcher();
 	String invoke_address = this.getClass().getResource("invoke.cs").getPath();
+	String two_address = this.getClass().getResource("20000.cs").getPath();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -41,12 +42,12 @@ public class Invoke {
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("setUp");
+		OntTest.logger().step("setUp");
 	}
 	
 	@After
 	public void TearDown() throws Exception {
-		System.out.println("TearDown");
+		OntTest.logger().step("TearDown");
 	}
 	
 	/************************************************************************/
@@ -58,7 +59,7 @@ public class Invoke {
 			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -71,7 +72,7 @@ public class Invoke {
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -91,7 +92,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			codeAddr = codeAddr.substring(0,codeAddr.length()-3)+"abc";
-			System.out.println("codeAddr = "+codeAddr);//智能合约地址
+			OntTest.logger().description("codeAddr = "+codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -105,7 +106,7 @@ public class Invoke {
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -171,9 +172,9 @@ public class Invoke {
 			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			codeAddr = "a"+ codeAddr;
+			codeAddr = "ab"+ codeAddr;
 			//codeAddr长度为35及以上
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -187,7 +188,7 @@ public class Invoke {
 	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -208,7 +209,7 @@ public class Invoke {
 			codeAddr = Helper.reverse(codeAddr);
 			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
 			//34个字符的codeAddr中包含非法符号（%￥#）
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -222,7 +223,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -243,7 +244,7 @@ public class Invoke {
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
 			String codeAddr = "";
 			//留空
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -257,7 +258,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -277,7 +278,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -291,7 +292,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -311,7 +312,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -325,7 +326,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -345,7 +346,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -359,7 +360,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -379,7 +380,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -393,7 +394,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -413,7 +414,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println("codeAddr = "+codeAddr);//智能合约地址
+			OntTest.logger().description("codeAddr = "+codeAddr);//智能合约地址
 			
 //	        List list = new ArrayList<Object>();
 //	        list.add("test".getBytes());
@@ -422,16 +423,16 @@ public class Invoke {
 //	        list.add(args);
 	        
 	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
-	        System.out.println("payerAddr = "+payerAddr);
+	        OntTest.logger().description("payerAddr = "+payerAddr);
 //	        byte[] params = BuildParams.createCodeParamsScript(list);
 			byte[] params = {1,2,3,4,5,6,7,8};
 					 
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-			System.out.println("invokeTx = "+invokeTx);
+			OntTest.logger().description("invokeTx = "+invokeTx);
 			OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
-			System.out.println("invokeTx.toHexString() = "+invokeTx.toHexString());
+			OntTest.logger().description("invokeTx.toHexString() = "+invokeTx.toHexString());
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -457,7 +458,7 @@ public class Invoke {
 			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 //	        List list = new ArrayList<Object>();
 //	        list.add("test".getBytes());
 //	        List args = new ArrayList<Object>();
@@ -471,7 +472,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -498,7 +499,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -512,7 +513,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -532,7 +533,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -547,7 +548,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -574,7 +575,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -589,7 +590,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -616,7 +617,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -631,7 +632,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -658,7 +659,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -674,7 +675,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -701,7 +702,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -715,7 +716,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -742,7 +743,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -756,7 +757,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, 0, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -783,7 +784,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -797,7 +798,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr,-20000, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -815,22 +816,21 @@ public class Invoke {
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_abnormal_021_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
+			Map ret_deploy = OntTest.api().contract().deployContract(two_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
-	        list.add("test".getBytes());
+	        list.add("Test".getBytes());
 	        List args = new ArrayList<Object>();
-	        args.add(Helper.hexToBytes("01"));
+	        args.add("20000000000");
 	        list.add(args);
 	        byte[] params = BuildParams.createCodeParamsScript(list);
 	        
@@ -838,17 +838,18 @@ public class Invoke {
 	        
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 			//错误的数量gaslimit为20000（实际步数大于20000但ONG足够）
-	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+			OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
-	        String  ret = String.valueOf(b1.get("Result"));
-	        String exp = "01";
-	        assertEquals(true,ret.equals(exp));
-		} catch(SDKException e) {
+	        OntTest.logger().description("b1: " + b1);
+	        int ret = (int) b1.get("State");
+	        int exp = 1;
+	        assertEquals(false,ret==exp);
+	        
+		} catch(RpcException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58004;
+			int err_code = (int) err.get("error");
+			int exp_errcode = 47001;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
@@ -866,7 +867,7 @@ public class Invoke {
 			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -881,21 +882,21 @@ public class Invoke {
 	        String addr1 = acc1.getAddressU160().toBase58();
 	        
 	        long ongnum = OntTest.sdk().nativevm().ong().queryBalanceOf(addr0);
-	        System.out.println("目前包含ong数目: "+ongnum);
+	        OntTest.logger().description("目前包含ong数目: "+ongnum);
 	        if(ongnum!=0L){
-	        	System.out.println("ong转账");
+	        	OntTest.logger().description("ong转账");
 	        	OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        	Thread.sleep(5000);
-	        	System.out.println("目前包含ong数目(2) : "+OntTest.sdk().nativevm().ong().queryBalanceOf(addr0));
+	        	OntTest.logger().description("目前包含ong数目(2) : "+OntTest.sdk().nativevm().ong().queryBalanceOf(addr0));
 	        }
 	        
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, addr0, OntTest.sdk().DEFAULT_GAS_LIMIT, 10);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map ret0 = (Map) OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("ret0_sendRawTransactionPreExec: " + ret0);
+	        OntTest.logger().description("ret0_sendRawTransactionPreExec: " + ret0);
 	        
 	        boolean ret1 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
-	        System.out.println("ret1: " + ret1);
+	        OntTest.logger().description("ret1: " + ret1);
 //	        String  ret0 = String.valueOf(ret0.get("Result"));
 //	        boolean exp = true;
 	        assertEquals(true,true);
@@ -922,7 +923,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -936,7 +937,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, 1000000000L, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -963,7 +964,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -977,7 +978,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -1004,7 +1005,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -1018,7 +1019,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, -10);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -1039,7 +1040,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -1054,9 +1055,9 @@ public class Invoke {
 	        String addr1 = acc1.getAddressU160().toBase58();
 	        
 	        long ongnum = OntTest.sdk().nativevm().ong().queryBalanceOf(addr0);
-	        System.out.println(ongnum);
+	        OntTest.logger().description(String.valueOf(ongnum));
 	        if(ongnum!=0L){
-	        	System.out.println("ong转账");
+	        	OntTest.logger().description("ong转账");
 	        	OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
 	        	Thread.sleep(5000);
 	        }
@@ -1064,7 +1065,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, addr0, OntTest.sdk().DEFAULT_GAS_LIMIT, 10);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));
@@ -1084,7 +1085,7 @@ public class Invoke {
 			String codeAddr = String.valueOf(ret_deploy.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
-			System.out.println(codeAddr);//智能合约地址
+			OntTest.logger().description(codeAddr);//智能合约地址
 			
 	        List list = new ArrayList<Object>();
 	        list.add("test".getBytes());
@@ -1098,7 +1099,7 @@ public class Invoke {
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 1000000000L);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
-	        System.out.println("b1: " + b1);
+	        OntTest.logger().description("b1: " + b1);
 	        String  ret = String.valueOf(b1.get("Result"));
 	        String exp = "01";
 	        assertEquals(true,ret.equals(exp));

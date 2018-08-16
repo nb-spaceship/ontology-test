@@ -40,12 +40,12 @@ public class MnemonicCodesStr {
 	
 	@Before
 	public void setUp() throws Exception {
-		System.out.println("setUp");
+		OntTest.logger().step("setUp");
 	}
 	
 	@After
 	public void TearDown() throws Exception {
-		System.out.println("TearDown");
+		OntTest.logger().step("TearDown");
 	}
 	
 	//generateMnemonicCodesStr001-006
@@ -59,11 +59,11 @@ public class MnemonicCodesStr {
 			Identity identity = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			System.out.println(walletFile);
-			System.out.println(identity);
+			OntTest.logger().description(walletFile.toString());
+			OntTest.logger().description(identity.toString());
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -85,11 +85,11 @@ public class MnemonicCodesStr {
 			OntTest.sdk().getWalletMgr().getWallet().clearAccount();
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			System.out.println(walletFile);
-			System.out.println(identity1);
+			OntTest.logger().description(walletFile.toString());
+			OntTest.logger().description(identity1.toString());
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);   
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -109,7 +109,7 @@ public class MnemonicCodesStr {
 			Wallet walletFile = null;
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -129,7 +129,7 @@ public class MnemonicCodesStr {
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -148,12 +148,15 @@ public class MnemonicCodesStr {
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
 			walletFile.removeIdentity(identity1.ontid);
-			System.out.println(walletFile);
-			System.out.println(identity1);
-			System.out.println(identity);
+			OntTest.logger().description(walletFile.toString());
+			OntTest.logger().description(identity1.toString());
+			OntTest.logger().description(identity.toString());
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);  
-			System.out.println(walletFile);
-			System.out.println(QRcode);
+			OntTest.logger().description(walletFile.toString());
+			OntTest.logger().description(QRcode.toString());
+			
+			assertEquals(true,false);
+			
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -172,7 +175,7 @@ public class MnemonicCodesStr {
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -193,7 +196,7 @@ public class MnemonicCodesStr {
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 //			assertEquals(true,ret.equals(exp));	
 		} catch(Exception e) {
 			System.out.println(e);
@@ -213,11 +216,11 @@ public class MnemonicCodesStr {
 			OntTest.sdk().getWalletMgr().getWallet().clearAccount();
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			System.out.println(walletFile);
-			System.out.println(identity1);
+			OntTest.logger().description(walletFile.toString());
+			OntTest.logger().description(identity1.toString());
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);   
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -236,7 +239,7 @@ public class MnemonicCodesStr {
 			Wallet walletFile = null;
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
-			System.out.println(QRcode);
+			OntTest.logger().description(QRcode.toString());
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -254,11 +257,11 @@ public class MnemonicCodesStr {
 			Account account = OntTest.sdk().getWalletMgr().createAccount("123456");
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			System.out.println(account);
-			System.out.println(walletFile);
+			OntTest.logger().description(account.toString());
+			OntTest.logger().description(walletFile.toString());
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account);   
-			System.out.println(QRcode);	
+			OntTest.logger().description(QRcode.toString());	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -278,11 +281,13 @@ public class MnemonicCodesStr {
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			walletFile.removeAccount(account1.address);
 			
-			System.out.println(account1);
-			System.out.println(walletFile);
+			OntTest.logger().description(account1.toString());
+			OntTest.logger().description(walletFile.toString());
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account1);   
-			System.out.println(QRcode);	
+			OntTest.logger().description(QRcode.toString());	
+			
+			assertEquals(true,false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -300,11 +305,11 @@ public class MnemonicCodesStr {
 			Account account = null;
 			Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 
-			System.out.println(account);
-			System.out.println(walletFile);
+			OntTest.logger().description(account.toString());
+			OntTest.logger().description(walletFile.toString());
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account);   
-			System.out.println(QRcode);	
+			OntTest.logger().description(QRcode.toString());	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -323,11 +328,11 @@ public class MnemonicCodesStr {
 			
 			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
 			String qrcode = JSONObject.toJSONString(QRcode_map);
-			System.out.println("QRcode= "+qrcode);
+			OntTest.logger().description("QRcode= "+qrcode);
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -347,11 +352,11 @@ public class MnemonicCodesStr {
 //			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
 //			String qrcode = JSONObject.toJSONString(QRcode_map);
 			String qrcode = "aaaaaaa";
-			System.out.println("QRcode= "+qrcode);
+			OntTest.logger().description("QRcode= "+qrcode);
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -369,7 +374,7 @@ public class MnemonicCodesStr {
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -388,11 +393,11 @@ public class MnemonicCodesStr {
 			
 			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
 			String qrcode = JSONObject.toJSONString(QRcode_map);
-			System.out.println("QRcode= "+qrcode);
+			OntTest.logger().description("QRcode= "+qrcode);
 			String password = "123456";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
@@ -411,10 +416,10 @@ public class MnemonicCodesStr {
 			
 			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
 			String qrcode = JSONObject.toJSONString(QRcode_map);
-			System.out.println("QRcode= "+qrcode);
+			OntTest.logger().description("QRcode= "+qrcode);
 			String password = "111111";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);			
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
@@ -440,10 +445,10 @@ public class MnemonicCodesStr {
 			
 			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
 			String qrcode = JSONObject.toJSONString(QRcode_map);
-			System.out.println("QRcode= "+qrcode);
+			OntTest.logger().description("QRcode= "+qrcode);
 			String password = "@#$%^&";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);			
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
@@ -469,10 +474,10 @@ public class MnemonicCodesStr {
 			
 			Map QRcode_map = WalletQR.exportIdentityQRCode(walletFile,identity); 
 			String qrcode = JSONObject.toJSONString(QRcode_map);
-			System.out.println("QRcode= "+qrcode);
+			OntTest.logger().description("QRcode= "+qrcode);
 			String password = "";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
-			System.out.println("PriKey = "+PriKey);
+			OntTest.logger().description("PriKey = "+PriKey);
 
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
@@ -497,7 +502,7 @@ public class MnemonicCodesStr {
 			OntTest.logger().step("测试参数generateMnemonicCodesStr");
 			
 			String codesStr = MnemonicCode.generateMnemonicCodesStr();
-			System.out.println(codesStr);
+			OntTest.logger().description(codesStr);
 //			assertEquals(true,ret.equals(exp));
 			
 		} catch(Exception e) {
@@ -517,9 +522,9 @@ public class MnemonicCodesStr {
 			String mnemonicCodesStr = "polar smooth salt lecture trophy wrong narrow chief pattern main retreat smooth";
 			
 			byte[] byte_seed = MnemonicCode.getSeedFromMnemonicCodesStr(mnemonicCodesStr);
-			System.out.println("length = "+byte_seed.length);
+			OntTest.logger().description("length = "+byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,true);
 			
@@ -542,7 +547,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getSeedFromMnemonicCodesStr(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -565,7 +570,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getSeedFromMnemonicCodesStr(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -588,7 +593,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getSeedFromMnemonicCodesStr(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -611,7 +616,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getSeedFromMnemonicCodesStr(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -634,7 +639,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,true);
 			
@@ -656,7 +661,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -678,7 +683,7 @@ public class MnemonicCodesStr {
 			byte[] byte_Prikey = MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 			System.out.println(byte_Prikey.length);
 			String ret = DatatypeConverter.printHexBinary(byte_Prikey);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -700,7 +705,7 @@ public class MnemonicCodesStr {
 			byte[] byte_seed = MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 			System.out.println(byte_seed.length);
 			String ret = DatatypeConverter.printHexBinary(byte_seed);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			
 			assertEquals(true,false);
 			
@@ -722,7 +727,7 @@ public class MnemonicCodesStr {
 			byte[] byte_Prikey = MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 			System.out.println(byte_Prikey.length);
 			String ret = DatatypeConverter.printHexBinary(byte_Prikey);
-			System.out.println(ret);
+			OntTest.logger().description(ret);
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -745,7 +750,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 
 			assertEquals(true,true);
 		} catch(Exception e) {
@@ -766,7 +771,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			
 	        assertEquals(true,false);
 			
@@ -788,7 +793,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);	
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);	
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -809,7 +814,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -830,7 +835,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 
 			assertEquals(true,false);
 			
@@ -852,7 +857,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,true);
 			
 		} catch(Exception e) {
@@ -873,7 +878,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,true);
 			
 		} catch(Exception e) {
@@ -894,7 +899,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,true);
 			
 		} catch(Exception e) {
@@ -915,7 +920,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,true);
 			
 		} catch(Exception e) {
@@ -936,7 +941,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,true);
 			
 		} catch(Exception e) {
@@ -959,7 +964,7 @@ public class MnemonicCodesStr {
 	        String address = account.getAddressU160().toBase58();
 	        address = address.substring(0,address.length()-3)+"abc";
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, address);
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -982,7 +987,7 @@ public class MnemonicCodesStr {
 	        String address = account.getAddressU160().toBase58();
 	        address = "a"+address;
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, address);
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -1005,7 +1010,7 @@ public class MnemonicCodesStr {
 	        String address = account.getAddressU160().toBase58();
 	        address = address.substring(0,address.length()-3)+"@#$";
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, address);
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -1026,7 +1031,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, "");
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 			assertEquals(true,false);
 			
 		} catch(Exception e) {
@@ -1048,9 +1053,9 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));
 			
 		} catch(Exception e) {
@@ -1074,9 +1079,9 @@ public class MnemonicCodesStr {
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        encryptedStr = encryptedStr.substring(0,encryptedStr.length()-3)+"@#$";
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(false,decryptStr.equals(mnemonicCodesStr));
 			
@@ -1100,9 +1105,9 @@ public class MnemonicCodesStr {
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        encryptedStr = "a" + encryptedStr;
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(false,decryptStr.equals(mnemonicCodesStr));
 		} catch(Exception e) {
@@ -1125,9 +1130,9 @@ public class MnemonicCodesStr {
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
 	        encryptedStr = encryptedStr.substring(0,encryptedStr.length()-1);
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(false,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
@@ -1149,9 +1154,9 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = "";
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(SDKException e) {
@@ -1180,9 +1185,9 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
@@ -1204,9 +1209,9 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, "111111", account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 			
@@ -1234,7 +1239,7 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, "!@#$%^", account.getAddressU160().toBase58());
 			System.out.println("decryptStr = "+decryptStr);
 			
@@ -1265,9 +1270,9 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, "", account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(SDKException e) {
@@ -1296,9 +1301,9 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, account.getAddressU160().toBase58());
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(Exception e) {
@@ -1320,13 +1325,13 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String address = account.getAddressU160().toBase58();
-	        System.out.println("原地址为"+address);
+	        OntTest.logger().description("原地址为"+address);
 	        address = address.substring(0,address.length()-3)+"666";
-	        System.out.println("修改后地址为"+address);
+	        OntTest.logger().description("修改后地址为"+address);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(SDKException e) {
@@ -1355,13 +1360,13 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String address = account.getAddressU160().toBase58();
-	        System.out.println("原地址为"+address);
+	        OntTest.logger().description("原地址为"+address);
 	        address = "a"+address;
-	        System.out.println("修改后地址为"+address);
+	        OntTest.logger().description("修改后地址为"+address);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(SDKException e) {
@@ -1390,13 +1395,13 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String address = account.getAddressU160().toBase58();
-	        System.out.println("原地址为"+address);
+	        OntTest.logger().description("原地址为"+address);
 	        address = address.substring(0,address.length()-3)+"@#%";
-	        System.out.println("修改后地址为"+address);
+	        OntTest.logger().description("修改后地址为"+address);
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(SDKException e) {
@@ -1425,10 +1430,10 @@ public class MnemonicCodesStr {
 	        byte[] privatekey = com.github.ontio.crypto.MnemonicCode.getPrikeyFromMnemonicCodesStrBip44(mnemonicCodesStr);
 	        com.github.ontio.account.Account account = new com.github.ontio.account.Account(privatekey,com.github.ontio.crypto.SignatureScheme.SHA256WITHECDSA);
 	        String encryptedStr = com.github.ontio.crypto.MnemonicCode.encryptMnemonicCodesStr(mnemonicCodesStr, password, account.getAddressU160().toBase58());
-	        System.out.println("encryptedStr = "+encryptedStr);
+	        OntTest.logger().description("encryptedStr = "+encryptedStr);
 	        String address = "";
 	        String decryptStr = com.github.ontio.crypto.MnemonicCode.decryptMnemonicCodesStr(encryptedStr, password, address);
-			System.out.println("decryptStr = "+decryptStr);
+			OntTest.logger().description("decryptStr = "+decryptStr);
 			
 			assertEquals(true,decryptStr.equals(mnemonicCodesStr));	
 		} catch(SDKException e) {
