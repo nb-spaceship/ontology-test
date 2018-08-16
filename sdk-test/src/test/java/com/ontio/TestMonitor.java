@@ -12,14 +12,15 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
 
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class TestMonitor extends RunListener {
 	
-	public static List<Description> failedDescription = new ArrayList<Description>();
+	public static List<Description> blockDescription = new ArrayList<Description>();
 	
 	@Override
     public void testRunStarted(Description description) throws Exception {
-		failedDescription.clear();
+		blockDescription.clear();
 		
         System.out.println("Number of tests to execute: " + description.testCount());
     }
@@ -51,9 +52,12 @@ public class TestMonitor extends RunListener {
 		} catch (IOException e) {
 			e.printStackTrace(); 
 		}
-		// TODO
-		if (false) {
-			failedDescription.add(description);
+		
+		if (contents.toLowerCase().contains("connect error:") && OntTest.logger().state().toLowerCase().equals("fail")) {
+			blockDescription.add(description);
+			// recover
+			OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			description.getTestClass().getMethod("setUpBeforeClass", (Class<?>[])null).invoke(null, (Object[])null);
 		}
     	
         System.out.println("Finished: " + description.getMethodName());

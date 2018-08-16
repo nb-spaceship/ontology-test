@@ -87,7 +87,7 @@ public class Logger {
 	};
 	public void step(String content) {
 		try {
-			write("[ Step    ]-" + step + "  " + content);
+			write("[ STEP    ]-" + step + "  " + content);
 			step++;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -189,9 +189,16 @@ public class Logger {
 	
 	public void setBlock() {
 		try {
-			if (collectionfileWriter != null) {
-				collectionfileWriter.write("[ Block    ]");
+			if (logfileWriter != null) {
+				logfileWriter.write("[ Block    ]");
+			} else {
+				FileWriter fw = new FileWriter(prefixpath + "/" + subFolder + logfilename, true);
+				fw.write("[ Block    ]");
+				fw.close();
 			}
+
+			appendRecord(logname ,"block", logfile);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,6 +1,13 @@
 package com.ontio.testtool;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import com.github.ontio.OntSdk;
 import com.github.ontio.sdk.exception.SDKException;
@@ -30,8 +37,24 @@ public class OntTest {
 			};
 			System.setOut(myStream);
 			
+			//copy wallte tmp files
+			for(int i = 0; i < Config.NODES.size(); i++) {
+				String walletorg = Config.nodeWallet(i);
+				BufferedReader br = new BufferedReader(new FileReader(walletorg.replace(".tmp", "")));
+				BufferedWriter bw = new BufferedWriter(new FileWriter(walletorg));
+				String line;
+				while((line = br.readLine()) != null) {
+					bw.write(line);
+					bw.newLine();
+					bw.flush();
+				}
+				bw.close();
+				br.close();
+			}
+			
 			return bindNode(0);
 		} catch (Exception e2) {
+			e2.printStackTrace();
 			return false; 
 		}
     }
