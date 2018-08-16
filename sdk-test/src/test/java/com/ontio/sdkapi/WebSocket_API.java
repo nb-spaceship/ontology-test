@@ -32,9 +32,11 @@ public class WebSocket_API {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
+		Thread.sleep(5000);
 		OntTest.api().node().restartAll();
-		OntTest.sdk().getWebSocket().startWebsocketThread(true);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
+		OntTest.api().node().initOntOng();
+		Thread.sleep(5000);
 	}
 	
 	@Before
@@ -72,7 +74,9 @@ public class WebSocket_API {
 		OntTest.logger().description("----------getBlock----------");
 		
 		try {
-			Block acc = OntTest.sdk().getWebSocket().getBlock(15);
+			int height = OntTest.sdk().getWebSocket().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			Block acc = OntTest.sdk().getWebSocket().getBlock(height);
 			Result result = OntTest.common().waitWsResult("getblockbyheight");
 			System.out.println("result:" + result.Result.toString());
 			
@@ -90,7 +94,9 @@ public class WebSocket_API {
 		OntTest.logger().description("----------getBlockJson----------");
 		
 		try {
-			Object acc = OntTest.sdk().getWebSocket().getBlockJson(15);
+			int height = OntTest.sdk().getWebSocket().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			Object acc = OntTest.sdk().getWebSocket().getBlockJson(height);
 			Result result = OntTest.common().waitWsResult("getblockbyheight");
 			System.out.println("result:" + result.Result.toString());
 			
@@ -108,7 +114,9 @@ public class WebSocket_API {
 		
 		try {
 			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getRpc().getBlock(15).hash();
+			int height = OntTest.sdk().getWebSocket().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			UInt256 hash = OntTest.sdk().getRpc().getBlock(height).hash();
 			
 			System.out.println("2.getBlockJson");
 			Object acc = OntTest.sdk().getWebSocket().getBlockJson(hash.toHexString());
@@ -131,7 +139,9 @@ public class WebSocket_API {
 		
 		try {
 			System.out.println("1.获取hash");
-			UInt256 hash = OntTest.sdk().getRpc().getBlock(15).hash();
+			int height = OntTest.sdk().getWebSocket().getBlockHeight() - 1;
+			System.out.println("blockheight: "+height);
+			UInt256 hash = OntTest.sdk().getRpc().getBlock(height).hash();
 			System.out.println(hash);
 			System.out.println("2.getBlockJson");
 			Block acc = OntTest.sdk().getWebSocket().getBlock(hash.toHexString());
@@ -324,6 +334,12 @@ public class WebSocket_API {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			
+			System.out.println("账户1 的余额为： "+bala1);
+			System.out.println("账户2 的余额为： "+bala2);
+			
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(addr1, addr2, 10L,addr1, 20000L, 0);
 	        OntTest.sdk().signTx(tx, new Account[][]{{acc1}});
 	        boolean b = OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
@@ -333,11 +349,13 @@ public class WebSocket_API {
 	        }
 			
 			OntTest.common().waitTransactionResult(s);
-			System.out.println(s);
-			int height = OntTest.sdk().getRestful().getBlockHeightByTxHash(s);
-			System.out.println("height:"+height);
+//			System.out.println("hash: "+s);
+			int height = OntTest.sdk().getWebSocket().getBlockHeightByTxHash(s);
+			Result rs = OntTest.common().waitWsResult("getsmartcodeeventtxs");
+			System.out.println("结果值： "+rs.Result.toString());
+//			System.out.println("height:"+height);
 			Object acc = OntTest.sdk().getWebSocket().getSmartCodeEvent(height);
-			Result rs = OntTest.common().waitWsResult("getsmartcodeevent");
+			
 			System.out.println(acc);
 			System.out.println(rs.Result.toString());
 		} catch(Exception e) {
@@ -360,6 +378,12 @@ public class WebSocket_API {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
+			long bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
+			long bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
+			
+			System.out.println("账户1 的余额为： "+bala1);
+			System.out.println("账户2 的余额为： "+bala2);
+			
 			Transaction tx = OntTest.sdk().nativevm().ont().makeTransfer(acc1.getAddressU160().toBase58(), addr2, 10L, acc1.getAddressU160().toBase58(), 20000L, 0);
 	        OntTest.sdk().signTx(tx, new Account[][]{{acc1}});
 	        boolean b = OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
@@ -373,7 +397,7 @@ public class WebSocket_API {
 			Object acc = OntTest.sdk().getWebSocket().getSmartCodeEvent(s);
 			Result rs = OntTest.common().waitWsResult("getsmartcodeevent");
 			System.out.println(rs.Result.toString());
-			System.out.println(acc);
+//			System.out.println(acc);
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -565,7 +589,7 @@ public class WebSocket_API {
 			OntTest.common().waitTransactionResult(s);
 			Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
 			
-			Result rs = OntTest.common().waitWsResult("getmerkleproof");
+			Result rs = OntTest.common().waitWsResult("getallowance");
 			System.out.println(rs.Result.toString());
 
 		} catch(Exception e) {
@@ -590,7 +614,7 @@ public class WebSocket_API {
 		OntTest.common().waitTransactionResult(approvetxhash);
 		
 		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
-		Result rs = OntTest.common().waitWsResult("getmerkleproof");
+		Result rs = OntTest.common().waitWsResult("getallowance");
 		System.out.println(rs.Result.toString());
 		System.out.println(acc);
 		} 
@@ -616,7 +640,7 @@ public class WebSocket_API {
 		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
 		Thread.sleep(5000);
 		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
-		Result rs = OntTest.common().waitWsResult("getmerkleproof");
+		Result rs = OntTest.common().waitWsResult("getallowance");
 		System.out.println(rs.Result.toString());
 		System.out.println(acc);
 		} 

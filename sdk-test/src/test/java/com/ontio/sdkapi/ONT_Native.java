@@ -34,9 +34,7 @@ public class ONT_Native {
 		
 		Thread.sleep(5000);
 		OntTest.api().node().restartAll();
-		Thread.sleep(5000);
 		OntTest.api().node().initOntOng();
-		Thread.sleep(5000);
 	}
 	
 	@Before

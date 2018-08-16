@@ -32,10 +32,10 @@ public class DigitalAccount {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll();
-//		Thread.sleep(5000);
-//		OntTest.api().node().initOntOng();
-//		Thread.sleep(5000);
+		OntTest.api().node().restartAll();
+		Thread.sleep(5000);
+		OntTest.api().node().initOntOng();
+		Thread.sleep(5000);
 	}
 	
 	@Before
@@ -63,7 +63,8 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("001",key, password, address, salt);
 			
-			System.out.println(act);
+			System.out.println("aaa:"+act);
+			OntTest.logger().write("aaa:"+act.toString());
 			assertEquals(true,true);
 		} 
 		catch(Exception e) {

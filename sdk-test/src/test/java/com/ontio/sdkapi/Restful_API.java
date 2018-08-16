@@ -34,6 +34,7 @@ public class Restful_API {
 		OntTest.init();
 		OntTest.api().node().restartAll();
 		OntTest.sdk().getWebSocket().startWebsocketThread(true);
+		OntTest.api().node().initOntOng();
 		Thread.sleep(3000);
 	}
 	
