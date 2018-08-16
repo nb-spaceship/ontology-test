@@ -204,4 +204,22 @@ public class Common {
             return null;
         }
     }
+	
+	public static boolean waitGenBlock() {
+		try {
+			int oldheight = OntTest.sdk().getConnect().getBlockHeight();
+			for (int i = 0; i < 30; i ++) {
+				Thread.sleep(10000);
+				int newheight = OntTest.sdk().getConnect().getBlockHeight();
+				if (oldheight != newheight) {
+					return true;
+				}
+			}
+			
+			return false;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

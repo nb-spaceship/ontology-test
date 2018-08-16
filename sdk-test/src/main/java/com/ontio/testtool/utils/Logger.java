@@ -107,6 +107,8 @@ public class Logger {
 			logfileWriter = new FileWriter(prefixpath + "/" + subFolder + logfilename);
 			Logger.logfilename = logfilename;
 			Logger.logname = logname;
+			System.out.print("\n");
+			System.out.print("\n");
 			write("[---------------------" + logname + "--------------------]");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
