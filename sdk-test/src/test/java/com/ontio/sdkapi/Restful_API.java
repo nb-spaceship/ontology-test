@@ -615,8 +615,10 @@ public class Restful_API {
 		OntTest.logger().description("----------syncSendRawTransaction----------");
 		
 		try {
-			Map ret_deploy = OntTest.api().contract().deployContract("resources/neo/neo_ont/ont.cs", null);
-			String codeAddr = String.valueOf(ret_deploy.get("address"));
+			String url = this.getClass().getResource("rest.cs").getPath();
+			System.out.println(url);
+			Map dec = OntTest.api().contract().deployContract(url, null);
+			String codeAddr = String.valueOf(dec.get("address"));
 			codeAddr = Helper.reverse(codeAddr);
 			//codeAddr为存在的地址但并非合约地址
 			System.out.println(codeAddr);//智能合约地址

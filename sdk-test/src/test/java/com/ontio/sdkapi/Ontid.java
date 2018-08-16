@@ -15,8 +15,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.ontio.account.Account;
+import com.github.ontio.common.Address;
+import com.github.ontio.common.Helper;
 import com.github.ontio.core.ontid.Attribute;
+import com.github.ontio.core.transaction.Transaction;
 import com.github.ontio.network.exception.RpcException;
 import com.github.ontio.sdk.exception.SDKException;
 import com.github.ontio.sdk.wallet.Identity;
@@ -1774,10 +1778,14 @@ public class Ontid {
 			String ontid1 = ci.ontid;		
 			System.out.println(ontid1);
 			String sd = OntTest.sdk().nativevm().ontId().sendGetDDO(ontid1);
-			
+
 			System.out.println(sd);
 			if(sd.equals("")) {
 				System.out.println("ontid为空");
+				assertEquals(true, false);
+			}
+			else {
+				assertEquals(true, true);
 			}
 		} 
 		catch(Exception e) {
@@ -1915,7 +1923,7 @@ public class Ontid {
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
 			OntTest.logger().error(er.toString());
-			String er_code = er.get("Error").toString();
+			String er_code = er.get("error").toString();
 			if("47001".equals(er_code)) {
 				assertEquals(true,true);
 			}

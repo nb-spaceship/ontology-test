@@ -1889,7 +1889,7 @@ public class ONT_Native {
 			
 			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
 			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", addr2, 100L, acc2, 20000L, 10L);
+			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", addr2, 100L, acc2, 200000L, 1L);
 			Thread.sleep(5000);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
