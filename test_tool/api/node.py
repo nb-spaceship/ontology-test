@@ -43,17 +43,17 @@ class NodeApi:
 				try:
 					state = response["result"]["State"]
 					if state == 1:
-						logger.info("tx hash: " + tx_hash +" state = 1")
+						logger.info("tx hash: " + txhash +" state = 1")
 						return True
 				except Exception as e:
 					print("wait_tx_result error: ", e)
 					
 				continue
 			else:
-				logger.info("tx hash: " + tx_hash +" getsmartcodeevent error")
+				logger.info("tx hash: " + txhash +" getsmartcodeevent error")
 				return False
 
-		logger.error("tx hash: " + tx_hash + " state timeout!")
+		logger.error("tx hash: " + txhash + " state timeout!")
 		return False
 
 	def get_current_node(self):
