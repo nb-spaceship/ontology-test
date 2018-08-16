@@ -8,13 +8,21 @@ import org.junit.runner.manipulation.Filter;
 
 public class MethodNameFilter extends Filter {
     private final Set<String> excludedMethods = new HashSet<String>();
+    private final Set<String> includeSheets = new HashSet<String>();
     private final Set<String> includeTypes = new HashSet<String>();
     private final Set<String> filterCases = new HashSet<String>();
+    private final Set<String> includeClasses = new HashSet<String>();
     
-    public MethodNameFilter(Set<String> includeSheets, Set<String> includeTypes, Set<String> filterCases, Set<String> excludedMethods) {
+    public MethodNameFilter(Set<String> includeSheets, Set<String> includeTypes, Set<String> filterCases, Set<String> excludedMethods, Set<String> includeClasses) {
         if (excludedMethods != null && excludedMethods.size() != 0){
         	for(String method : excludedMethods) {
                 this.excludedMethods.add(method);
+            }
+        }
+        
+        if (includeSheets != null && includeSheets.size() != 0){
+        	for(String includeSheet : includeSheets) {
+                this.includeSheets.add(includeSheet);
             }
         }
         
@@ -29,6 +37,12 @@ public class MethodNameFilter extends Filter {
                 this.filterCases.add(filterCase);
             }
         }
+        
+        if (includeClasses != null && includeClasses.size() != 0){
+        	for(String includeClass : includeClasses) {
+                this.includeClasses.add(includeClass);
+            }
+        }
     	
     }
     
@@ -36,7 +50,7 @@ public class MethodNameFilter extends Filter {
     public boolean shouldRun(Description description) {
     	
         String methodName = description.getMethodName();
-        
+                
         if (methodName.equals("test_init")) {
         	return true;
     	}
@@ -44,13 +58,20 @@ public class MethodNameFilter extends Filter {
         if (!excludedMethods.isEmpty() && excludedMethods.contains(methodName)){
         	return false;
     	}
-            	
+        
+        String[] typeLen = description.getClassName().split("\\.");
+    	String m_file = typeLen[typeLen.length-1].toString();
+    	
     	if (filterCases.isEmpty() && (includeTypes.isEmpty() || includeTypes.contains(methodName.split("_")[1].toString()))) {
-    		return true;
+    		if (includeSheets.isEmpty() || includeSheets.contains(m_file)) {
+    			return true;
+    		}
     	}
     	
-    	if (includeTypes.isEmpty() && (filterCases.isEmpty() || filterCases.contains(methodName))) {
-			return true;
+    	if (includeTypes.isEmpty() && (filterCases.isEmpty() || (filterCases.contains(methodName) && includeClasses.contains(m_file)))) {
+    		if (includeSheets.isEmpty() || includeSheets.contains(m_file)) {
+    			return true;
+    		}
     	}
         return false;
         

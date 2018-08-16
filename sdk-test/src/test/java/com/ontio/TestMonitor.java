@@ -12,7 +12,6 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
 
 import com.ontio.testtool.OntTest;
-import com.ontio.testtool.utils.Config;
 
 public class TestMonitor extends RunListener {
 	
@@ -56,7 +55,9 @@ public class TestMonitor extends RunListener {
 		if (contents.toLowerCase().contains("connect error:") && OntTest.logger().state().toLowerCase().equals("fail")) {
 			blockDescription.add(description);
 			// recover
-			OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			OntTest.api().node().restartAll();
+			
+			// have to set up class
 			description.getTestClass().getMethod("setUpBeforeClass", (Class<?>[])null).invoke(null, (Object[])null);
 		}
     	

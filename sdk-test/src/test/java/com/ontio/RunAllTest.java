@@ -30,7 +30,6 @@ import com.ontio.sdkapi.RPC_API;
 import com.ontio.sdkapi.Restful_API;
 import com.ontio.sdkapi.WebSocket_API;
 import com.ontio.testtool.OntTest;
-import com.ontio.testtool.utils.Config;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -59,10 +58,10 @@ public class RunAllTest {
         }
         
         // prarameter_t = "base";  
-        // prarameter_f = "ClaimRecord.test_abnormal_002_exportIdentityQRCode";  
+        // prarameter_f = "ClaimRecord.test_normal_002_exportIdentityQRCode";  
         
         // prarameter_c = "C:\\Users\\tpc\\Desktop\\a.json";
-        // prarameter_e = "Sample.test_base_001_Sample1";
+        // prarameter_e = "ClaimRecord.test_base_001_exportIdentityQRCode";
         
         Set<String> _classes = new HashSet<String>();
         Set<String> _methods = new HashSet<String>();
@@ -131,13 +130,8 @@ public class RunAllTest {
             int failed_cases = 0;
             Result result = null;
         	
-        	// filter sheets
-        	if (!_files.isEmpty() && !_files.contains(_class.getSimpleName())){
-        		continue;
-        	}
-        	
 	        Request request = Request.aClass(_class);
-	        request = request.filterWith(new MethodNameFilter(_files, _types, _methods,_excludes));
+	        request = request.filterWith(new MethodNameFilter(_files, _types, _methods, _excludes, _classes));
 	        
 	        // if request is empty, continue
 	        if (request.getRunner().getClass().getMethods()[0].getDeclaringClass().toString().toLowerCase().contains("error")) {
@@ -188,7 +182,7 @@ public class RunAllTest {
 	        
 	        if (!TestMonitor.blockDescription.isEmpty()) {
 	        	List<Description> tmpBlockDescription = new ArrayList<Description>();
-	        	Collections.copy(TestMonitor.blockDescription, tmpBlockDescription); ;
+	        	Collections.copy(TestMonitor.blockDescription, tmpBlockDescription);
 	        	
 	        	for (Description blockDescription : tmpBlockDescription){
 	        		Request retryRequest = Request.method(blockDescription.getTestClass(), blockDescription.getMethodName());
@@ -196,7 +190,7 @@ public class RunAllTest {
 	        		if (!result.wasSuccessful()) {
 	        			OntTest.logger().setBlock();
 	        		}
-	        		System.out.println(result.wasSuccessful());
+	        		// System.out.println(result.wasSuccessful());
 	        	}
 	        }
 	        
@@ -204,7 +198,7 @@ public class RunAllTest {
 	        
 	        if (failed_cases / (double)total_cases > faultTolerance) {
 	        	// recover
-	    		OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+	    		OntTest.api().node().restartAll();
 	        	
 	        	for (Failure failedCase : failedCases){
 	        		System.out.println(failedCase.getClass().toString());
@@ -214,11 +208,13 @@ public class RunAllTest {
 	        		if (!result.wasSuccessful()) {
 	        			OntTest.logger().setBlock();
 	        		}
-	        		System.out.println(result.wasSuccessful());
+	        		// System.out.println(result.wasSuccessful());
 	        	}
 	        }
 	        
         }
+        
+        System.exit(0);
     }
 	
 }

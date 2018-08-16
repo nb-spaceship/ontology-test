@@ -21,14 +21,35 @@ import com.ontio.testtool.OntTest;
 import com.ontio.testtool.utils.Config;
 
 public class ClaimBase {
+	
+	public static Identity identity = null;
+	public static Identity identity2 = null;
+	
 @Rule public OntTestWatcher watchman= new OntTestWatcher();
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
+		OntTest.api().node().restartAll();
+		OntTest.api().node().initOntOng();
 		
-		// OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		// Thread.sleep(10000);
-		// OntTest.api().node().initOntOng();
+		try {
+			String password = "123456";
+			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
+			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
+			
+			OntTest.logger().step("create identity1");
+			identity = OntTest.sdk().getWalletMgr().createIdentity(password);
+			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
+			Thread.sleep(6000);
+			
+			OntTest.logger().step("create identity2");
+			identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
+			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
+			Thread.sleep(6000);
+		} catch(Exception e) {
+			System.out.println(e);
+			OntTest.logger().error(e.toString());
+		}
 		
 	}
 	
@@ -273,19 +294,9 @@ public class ClaimBase {
 
 		try {
 			String password = "123456";
-			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -318,18 +329,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -365,18 +366,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -410,20 +401,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : pwd - correct password");
 
 		try {
-			String password = "1234567";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -454,22 +435,11 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : pwd - wrong password");
 
 		try {
-			String password = "123456";
 			String wrong_password = "1234567";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
-
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
 	        map.put("Subject", identity2.ontid);
@@ -501,21 +471,9 @@ public class ClaimBase {
 		OntTest.logger().description("test_api   : createOntIdClaim");
 		OntTest.logger().description("test_param : pwd - null");
 
-		try {
-			String password = "123456";
-			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+		try {			
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -549,20 +507,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : salt - correct salt");
 
 		try {
-			String password = "1234568";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -595,18 +543,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -643,18 +581,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -688,20 +616,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : context - correct context");
 
 		try {
-			String password = "1234569";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -734,18 +652,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -781,18 +689,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -826,20 +724,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : claimMap - correct claimMap");
 
 		try {
-			String password = "1234560";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -872,18 +760,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("123456", "!@#$");
@@ -924,18 +802,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 			
 	        Map<String, Object> meta_map = new HashMap<String, Object>();
 	        meta_map.put("Issuer", identity.ontid);
@@ -969,20 +837,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : metaData - correct metaData");
 
 		try {
-			String password = "1234561";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1015,18 +873,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1066,18 +914,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1111,20 +949,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : clmRevMap - correct clmRevMap");
 
 		try {
-			String password = "1234562";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1157,18 +985,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1204,18 +1022,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1245,20 +1053,10 @@ public class ClaimBase {
 		OntTest.logger().description("test_param : expire - correct expire");
 
 		try {
-			String password = "1234563";
+			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1291,18 +1089,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1338,18 +1126,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);
@@ -1386,18 +1164,8 @@ public class ClaimBase {
 		try {
 			String password = "123456";
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity1");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
-	        OntTest.logger().step("create identity2");
-			Identity identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			Identity identity = ClaimBase.identity;
+			Identity identity2 = ClaimBase.identity2;
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("Issuer", identity.ontid);

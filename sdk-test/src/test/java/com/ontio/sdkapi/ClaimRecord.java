@@ -17,14 +17,27 @@ import com.ontio.testtool.OntTest;
 
 public class ClaimRecord {
 @Rule public OntTestWatcher watchman= new OntTestWatcher();
+    public static Identity identity = null;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		/*
-		OntTest.api().node().restart(new int[]{0,1,2,3,4,5,6}, "ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		Thread.sleep(10000);
+		OntTest.api().node().restartAll();
 		OntTest.api().node().initOntOng();
-		*/
+		
+		try {
+			String password = "123456";
+			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
+			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
+			
+			OntTest.logger().step("create identity");
+			ClaimRecord.identity = OntTest.sdk().getWalletMgr().createIdentity(password);
+			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
+	        Thread.sleep(6000);
+		} catch(Exception e) {
+			System.out.println(e);
+			OntTest.logger().error(e.toString());
+		}
+		
 	}
 	
 	@Before
@@ -43,17 +56,10 @@ public class ClaimRecord {
 		OntTest.logger().description("test_param : walletFile - correct walletFiles");
 
 		try {
-			String password = "123456";
 			com.github.ontio.sdk.wallet.Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
+	
+			Identity identity = ClaimRecord.identity;
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
-	        
 	        OntTest.logger().step("export identity QRCode");
 	        Map<?,?> ret = com.github.ontio.common.WalletQR.exportIdentityQRCode(walletFile, identity);
 	        
@@ -74,7 +80,6 @@ public class ClaimRecord {
 		OntTest.logger().description("test_param : walletFile - wrong walletFiles");
 
 		try {
-			String password = "123456";
 			com.github.ontio.sdk.wallet.Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			System.out.println(walletFile.toString());
 			walletFile.clearAccount();
@@ -82,13 +87,7 @@ public class ClaimRecord {
 			walletFile.setExtra("123456");
 			System.out.println(walletFile.toString());
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
+			Identity identity = ClaimRecord.identity;
 	        
 	        OntTest.logger().step("export identity QRCode");
 	        Map<?,?> ret = com.github.ontio.common.WalletQR.exportIdentityQRCode(walletFile, identity);
@@ -112,16 +111,8 @@ public class ClaimRecord {
 		OntTest.logger().description("test_api   : exportIdentityQRCode");
 		OntTest.logger().description("test_param : walletFile - null");
 
-		try {
-			String password = "123456";
-			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
+		try {			
+			Identity identity = ClaimRecord.identity;
 	        
 	        OntTest.logger().step("export identity QRCode");
 	        Map<?,?> ret = com.github.ontio.common.WalletQR.exportIdentityQRCode((com.github.ontio.sdk.wallet.Wallet)null, identity);
@@ -146,16 +137,9 @@ public class ClaimRecord {
 		OntTest.logger().description("test_param : identity - correct identity");
 
 		try {
-			String password = "1234567";
 			com.github.ontio.sdk.wallet.Wallet walletFile = OntTest.sdk().getWalletMgr().getWallet();
 			
-			com.github.ontio.sdk.wallet.Account payer = OntTest.sdk().getWalletMgr().createAccount(password);
-			com.github.ontio.account.Account payerAcct = OntTest.sdk().getWalletMgr().getAccount(payer.address,password,payer.getSalt());
-			
-			OntTest.logger().step("create identity");
-			Identity identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
+			Identity identity = ClaimRecord.identity;
 	        
 	        OntTest.logger().step("export identity QRCode");
 	        Map<?,?> ret = com.github.ontio.common.WalletQR.exportIdentityQRCode(walletFile, identity);
