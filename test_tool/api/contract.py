@@ -233,7 +233,7 @@ class ContractApi:
             (result, response) = TaskRunner.run_single_task(task, False, process_log)
             return (result, response)
 
-    def call_multisig_contract(self, task, m, pubkeyArray, sleep = 5):
+    def call_multisig_contract(self, task, m, pubkeyArray, sleep = 5, check_state = True):
         taskdata = task.data()
         expect_signresponse = None
         if "SIGN_RESPONSE" in taskdata:
@@ -287,7 +287,7 @@ class ContractApi:
                     
             if execNum >= m:
                 (result,response)=self.call_signed_contract(signed_raw, True)
-                self.call_signed_contract(signed_raw, False)
+                self.call_signed_contract(signed_raw, False, check_state = check_state)
                 time.sleep(sleep)
                 return (result,response)
                 
