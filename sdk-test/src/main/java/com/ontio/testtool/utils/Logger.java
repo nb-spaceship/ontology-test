@@ -191,11 +191,14 @@ public class Logger {
 		try {
 			if (logfileWriter != null) {
 				logfileWriter.write("[ Block    ]");
+			} else {
+				FileWriter fw = new FileWriter(prefixpath + "/" + subFolder + logfilename, true);
+				fw.write("[ Block    ]");
+				fw.close();
 			}
+
+			appendRecord(logname ,"block", logfile);
 			
-			if (collectionfileWriter != null) {
-				appendRecord(logname ,"block", logfile);
-			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
