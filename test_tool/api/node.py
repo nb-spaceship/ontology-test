@@ -20,10 +20,10 @@ from utils.error import Error
 from utils.parametrizedtestcase import ParametrizedTestCase
 from api.rpc import RPCApi
 
+RPC_API = RPCApi()
 
 class NodeApi:
 	def wait_gen_block(self):
-		RPC_API = RPCApi()
 		lastheight = RPC_API.getblockcount()
 		times = 0
 		while True:
@@ -34,6 +34,24 @@ class NodeApi:
 				return True
 			if (times > 40):
 				return False
+
+	def wait_tx_result(self, txhash):
+		for i in range(40):
+			time.sleep(1)
+			(ret, response) = RPC_API.getsmartcodeevent(tx_hash=txhash)
+			if ret:
+				try:
+					state = response["result"]["State"]
+					if state == 1:
+						return True
+				except Exception as e:
+					print(e)
+					
+				continue
+			else:
+				return False
+
+		return False
 
 	def get_current_node(self):
 		currentip = urllib.request.urlopen('http://ip.42.pl/raw').read()

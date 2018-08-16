@@ -25,6 +25,7 @@ from utils.common import Common
 from node import NodeApi
 
 nodeapi = NodeApi()
+rpcapi = RPCApi()
 
 class ContractApi:
     def deploy_contract_full(self, neo_code_path, name = "name", desc = "this is desc", price = 0):
@@ -127,7 +128,7 @@ class ContractApi:
     #judge: 是否需要比较结果
     #pre: 是否需要预执行
     # 返回值: (result: True or False, response: 网络请求， 如果result为False, 返回的是字符串)
-    def call_contract(self, task, judge = True, pre = True, twice = False, sleep = 5):
+    def call_contract(self, task, judge = True, pre = True, twice = False, sleep = 5, check_state = True):
         try:
             logger.print("\n")
             logger.print("[-------------------------------]")
@@ -202,7 +203,11 @@ class ContractApi:
             if deploy_contract_addr:
                 response["address"] = taskdata["REQUEST"]["Params"]["address"]
             
-            time.sleep(sleep)
+            #判断交易state是否成功，代替等待区块
+            if check_state and response and ("txhash" in response) and (twice or pre == False):
+                result = nodeapi.wait_tx_result(response["txhash"]);
+
+            #time.sleep(sleep)
             return (result, response)
 
         except Error as err:
