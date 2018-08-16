@@ -379,7 +379,7 @@ public class WebSocket_API {
 			fail();
 		}
 	}
-//	
+	
 	
 	
 	
@@ -573,58 +573,58 @@ public class WebSocket_API {
 			fail();
 		}
 	}
-//	
-//	
-//	
-//	@Test
-//	public void test_normal_020_getAllowance() throws Exception {
-//		OntTest.logger().description("----------getAllowance----------");
-//		
-//		try {
-//		Account acc1=OntTest.common().getAccount(0);
-//		Account acc2 = OntTest.common().getAccount(1);
-//		
-//		String addr1 = acc1.getAddressU160().toBase58();
-//		String addr2 = acc2.getAddressU160().toBase58();
-//		String approvetxhash = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
-//		OntTest.common().waitTransactionResult(approvetxhash);
-//		
-//		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
-//		Result rs = OntTest.common().waitWsResult("getmerkleproof");
-//		System.out.println(rs.Result.toString());
-//		System.out.println(acc);
-//		} 
-//		catch(Exception e) {
-//		OntTest.logger().error(e.toString());
-//		fail();
-//		}
-//	}
-//	
-//	
-//	
-//	
-//	@Test
-//	public void test_normal_021_getAllowance() throws Exception {
-//		OntTest.logger().description("----------getAllowance----------");
-//		
-//		try {
-//		Account acc1=OntTest.common().getAccount(0);
-//		Account acc2 = OntTest.common().getAccount(1);
-//		
-//		String addr1 = acc1.getAddressU160().toBase58();
-//		String addr2 = acc2.getAddressU160().toBase58();
-//		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
-//		Thread.sleep(5000);
-//		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
-//		Result rs = OntTest.common().waitWsResult("getmerkleproof");
-//		System.out.println(rs.Result.toString());
-//		System.out.println(acc);
-//		} 
-//		catch(Exception e) {
-//		OntTest.logger().error(e.toString());
-//		fail();
-//		}
-//	}
+	
+	
+	
+	@Test
+	public void test_normal_020_getAllowance() throws Exception {
+		OntTest.logger().description("----------getAllowance----------");
+		
+		try {
+		Account acc1=OntTest.common().getAccount(0);
+		Account acc2 = OntTest.common().getAccount(1);
+		
+		String addr1 = acc1.getAddressU160().toBase58();
+		String addr2 = acc2.getAddressU160().toBase58();
+		String approvetxhash = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
+		OntTest.common().waitTransactionResult(approvetxhash);
+		
+		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
+		Result rs = OntTest.common().waitWsResult("getmerkleproof");
+		System.out.println(rs.Result.toString());
+		System.out.println(acc);
+		} 
+		catch(Exception e) {
+		OntTest.logger().error(e.toString());
+		fail();
+		}
+	}
+	
+	
+	
+	
+	@Test
+	public void test_normal_021_getAllowance() throws Exception {
+		OntTest.logger().description("----------getAllowance----------");
+		
+		try {
+		Account acc1=OntTest.common().getAccount(0);
+		Account acc2 = OntTest.common().getAccount(1);
+		
+		String addr1 = acc1.getAddressU160().toBase58();
+		String addr2 = acc2.getAddressU160().toBase58();
+		OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100, acc1, 20000, 0);
+		Thread.sleep(5000);
+		Object acc = OntTest.sdk().getWebSocket().getAllowance("ont", addr1, addr2);
+		Result rs = OntTest.common().waitWsResult("getmerkleproof");
+		System.out.println(rs.Result.toString());
+		System.out.println(acc);
+		} 
+		catch(Exception e) {
+		OntTest.logger().error(e.toString());
+		fail();
+		}
+	}
 	
 	
 	
@@ -671,44 +671,44 @@ public class WebSocket_API {
 	
 
 	
-//	@Test
-//	public void test_base_024_syncSendRawTransaction() throws Exception {
-//		OntTest.logger().description("----------syncSendRawTransaction----------");
-//		
-//		try {
-//			String url = this.getClass().getResource("rest.cs").getPath();
-//			System.out.println(url);
-//			Map dec = OntTest.api().contract().deployContract(url, null);
-//			String codeAddr = String.valueOf(dec.get("address"));
-//			codeAddr = Helper.reverse(codeAddr);
-//			//codeAddr为存在的地址但并非合约地址
-//			System.out.println(codeAddr);//智能合约地址
-//			Thread.sleep(5000);
-//	        List list = new ArrayList<Object>();
-//	        list.add("test".getBytes());
-//	        List args = new ArrayList<Object>();
-//	        args.add(Helper.hexToBytes("01"));
-//	        args.add(Helper.hexToBytes("01"));
-//	        list.add(args);
-//	        
-//	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
-//	        byte[] params = BuildParams.createCodeParamsScript(list);
-//	        
-//	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-//	        Transaction A= OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
-//	        Thread.sleep(5000);
-//			Object acc = OntTest.sdk().getWebSocket().sendRawTransaction(invokeTx.toHexString());
-//			assertEquals(true, OntTest.common().waitTransactionResult(invokeTx.hash().toHexString()));
-//			
-//			Result rs = OntTest.common().waitWsResult("Notify");
-//			System.out.println(rs.Result.toString());
-//			
-//			assertEquals(true, true);
-//		} catch(Exception e) {
-//			OntTest.logger().error(e.toString());
-//			fail();
-//		}
-//	}
+	@Test(timeout=60000)
+	public void test_base_024_syncSendRawTransaction() throws Exception {
+		OntTest.logger().description("----------syncSendRawTransaction----------");
+		
+		try {
+			String url = this.getClass().getResource("rest.cs").getPath();
+			System.out.println(url);
+			Map dec = OntTest.api().contract().deployContract(url, null);
+			String codeAddr = String.valueOf(dec.get("address"));
+			codeAddr = Helper.reverse(codeAddr);
+			//codeAddr为存在的地址但并非合约地址
+			System.out.println(codeAddr);//智能合约地址
+			Thread.sleep(5000);
+	        List list = new ArrayList<Object>();
+	        list.add("test".getBytes());
+	        List args = new ArrayList<Object>();
+	        args.add(Helper.hexToBytes("01"));
+	        args.add(Helper.hexToBytes("01"));
+	        list.add(args);
+	        
+	        String payerAddr = OntTest.common().getAccount(0).getAddressU160().toBase58();
+	        byte[] params = BuildParams.createCodeParamsScript(list);
+	        
+	        InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, payerAddr, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        Transaction A= OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
+	        Thread.sleep(5000);
+			Object acc = OntTest.sdk().getWebSocket().sendRawTransaction(invokeTx.toHexString());
+			assertEquals(true, OntTest.common().waitTransactionResult(invokeTx.hash().toHexString()));
+			
+			Result rs = OntTest.common().waitWsResult("Notify");
+			System.out.println(rs.Result.toString());
+			
+			assertEquals(true, true);
+		} catch(Exception e) {
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
 	
 	
 }
