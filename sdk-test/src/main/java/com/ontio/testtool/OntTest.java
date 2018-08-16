@@ -1,6 +1,8 @@
 package com.ontio.testtool;
 
+import java.io.File;
 import java.io.PrintStream;
+import java.nio.file.Files;
 
 import com.github.ontio.OntSdk;
 import com.github.ontio.sdk.exception.SDKException;
@@ -29,6 +31,12 @@ public class OntTest {
 			    }
 			};
 			System.setOut(myStream);
+			
+			//copy wallte tmp files
+			for(int i = 0; i < Config.NODES.size(); i++) {
+				String walletorg = Config.nodeWallet(i);
+				Files.copy(new File(walletorg).toPath(), new File(walletorg + ".tmp").toPath());
+			}
 			
 			return bindNode(0);
 		} catch (Exception e2) {

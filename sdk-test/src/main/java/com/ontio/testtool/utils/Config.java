@@ -31,7 +31,7 @@ public class Config {
 			return "";
 		}
 		
-		return Config.RESOURCE_PATH + "/wallets/" + Config.NODES.getJSONObject(index).getString("wallet");
+		return Config.RESOURCE_PATH + "/wallets/" + Config.NODES.getJSONObject(index).getString("wallet") + ".tmp";
 	}
 	
 	static public String rpcUrl(int index) {
