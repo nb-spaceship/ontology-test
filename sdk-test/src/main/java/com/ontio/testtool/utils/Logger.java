@@ -189,8 +189,12 @@ public class Logger {
 	
 	public void setBlock() {
 		try {
+			if (logfileWriter != null) {
+				logfileWriter.write("[ Block    ]");
+			}
+			
 			if (collectionfileWriter != null) {
-				collectionfileWriter.write("[ Block    ]");
+				appendRecord(logname ,"block", logfile);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
