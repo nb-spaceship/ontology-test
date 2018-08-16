@@ -87,7 +87,7 @@ public class Logger {
 	};
 	public void step(String content) {
 		try {
-			write("[ Step    ]-" + step + "  " + content);
+			write("[ STEP    ]-" + step + "  " + content);
 			step++;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
