@@ -58,7 +58,7 @@ public class RunAllTest {
         // prarameter_t = "base";  
         // prarameter_f = "ClaimRecord.test_normal_002_exportIdentityQRCode";  
         
-        prarameter_c = "C:\\Users\\tpc\\Desktop\\a.json";
+        // prarameter_c = "C:\\Users\\tpc\\Desktop\\a.json";
         // prarameter_e = "ClaimRecord.test_base_001_exportIdentityQRCode";
         
         Set<String> _classes = new HashSet<String>();
