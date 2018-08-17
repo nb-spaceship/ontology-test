@@ -27,6 +27,7 @@ import com.github.ontio.sdk.exception.SDKException;
 import com.github.ontio.smartcontract.neovm.abi.BuildParams;
 import com.ontio.OntTestWatcher;
 import com.ontio.testtool.OntTest;
+import com.ontio.testtool.utils.Config;
 
 public class Invoke {
 	@Rule public OntTestWatcher watchman= new OntTestWatcher();
@@ -36,8 +37,9 @@ public class Invoke {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		//OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		//Thread.sleep(5000);
+		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+		OntTest.api().node().initOntOng();
+		OntTest.logger().step("*******************init_ONGONT_Finish*******************");
 	}
 	
 	@Before
@@ -304,7 +306,7 @@ public class Invoke {
 	}
 	
 	@Test
-	public void test_abnormal_008_makeInvokeCodeTransaction() throws Exception {
+	public void test_normal_008_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数method");
 		
 		try {
@@ -338,7 +340,7 @@ public class Invoke {
 	}
 	
 	@Test
-	public void test_abnormal_009_makeInvokeCodeTransaction() throws Exception {
+	public void test_normal_009_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数method");
 		
 		try {
@@ -758,16 +760,16 @@ public class Invoke {
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        OntTest.logger().description("b1: " + b1);
-	        String  ret = String.valueOf(b1.get("Result"));
-	        String exp = "01";
-	        assertEquals(true,ret.equals(exp));
-		} catch(SDKException e) {
-	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58004;
-			OntTest.logger().error(e.toString());
-			assertEquals(true,err_code==exp_errcode);
+	        int ret = (int) b1.get("State");
+	        int exp = 1;
+	        assertEquals(true,ret!=exp);
+//		} catch(SDKException e) {
+//	        Map err = (Map) JSON.parse(e.getMessage()); 
+//			System.out.println("err = "+err);
+//			int err_code = (int) err.get("Error");
+//			int exp_errcode = 58004;
+//			OntTest.logger().error(e.toString());
+//			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -799,16 +801,26 @@ public class Invoke {
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        OntTest.logger().description("b1: " + b1);
-	        String  ret = String.valueOf(b1.get("Result"));
-	        String exp = "01";
-	        assertEquals(true,ret.equals(exp));
-		} catch(SDKException e) {
-	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58004;
-			OntTest.logger().error(e.toString());
-			assertEquals(true,err_code==exp_errcode);
+	        boolean b2 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+	        System.out.println("b2 = "+b2);
+	        OntTest.logger().description("b1: " + b1);
+	        int ret = (int) b1.get("State");
+	        int exp = 1;
+	        assertEquals(true,ret!=exp);
+//		} catch(SDKException e) {
+//	        Map err = (Map) JSON.parse(e.getMessage()); 
+//			System.out.println("err = "+err);
+//			int err_code = (int) err.get("Error");
+//			int exp_errcode = 58004;
+//			OntTest.logger().error(e.toString());
+//			assertEquals(true,err_code==exp_errcode);
+//		} catch(RpcException e) {
+//	        Map err = (Map) JSON.parse(e.getMessage()); 
+//			System.out.println("err = "+err);
+//			int err_code = (int) err.get("error");
+//			int exp_errcode = 43001;
+//			OntTest.logger().error(e.toString());
+//			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -885,26 +897,28 @@ public class Invoke {
 	        OntTest.logger().description("目前包含ong数目: "+ongnum);
 	        if(ongnum!=0L){
 	        	OntTest.logger().description("ong转账");
-	        	OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        	Thread.sleep(5000);
-	        	OntTest.logger().description("目前包含ong数目(2) : "+OntTest.sdk().nativevm().ong().queryBalanceOf(addr0));
+	        	String txhash = OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        	OntTest.common().waitTransactionResult(txhash);
+	        	assertEquals(true,false);
+	        	OntTest.logger().description("目前包含ong数目(应该为0) : "+OntTest.sdk().nativevm().ong().queryBalanceOf(addr0));
 	        }
 	        
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, addr0, OntTest.sdk().DEFAULT_GAS_LIMIT, 10);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map ret0 = (Map) OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        OntTest.logger().description("ret0_sendRawTransactionPreExec: " + ret0);
-	        
-	        boolean ret1 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
-	        OntTest.logger().description("ret1: " + ret1);
-//	        String  ret0 = String.valueOf(ret0.get("Result"));
-//	        boolean exp = true;
-	        assertEquals(true,true);
-		} catch(SDKException e) {
+	        int ret = (int) ret0.get("State");
+	        int exp = 1;
+//	        boolean ret1 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+//	        OntTest.logger().description("ret1: " + ret1);
+////	        String  ret0 = String.valueOf(ret0.get("Result"));
+////	        boolean exp = true;
+	        assertEquals(true,ret!=exp);
+		} catch(RpcException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58004;
+			int err_code = (int) err.get("error");
+			int exp_errcode = 43001;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
@@ -915,7 +929,7 @@ public class Invoke {
 	}
 	
 	@Test
-	public void test_abnormal_023_makeInvokeCodeTransaction() throws Exception {
+	public void test_normal_023_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gaslimit");
 		
 		try {
@@ -1020,9 +1034,19 @@ public class Invoke {
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        OntTest.logger().description("b1: " + b1);
-	        String  ret = String.valueOf(b1.get("Result"));
-	        String exp = "01";
-	        assertEquals(true,ret.equals(exp));
+	        boolean b2 = OntTest.sdk().getConnect().sendRawTransaction(invokeTx.toHexString());
+	        System.out.println("b2 = "+b2);
+	        OntTest.logger().description("b1: " + b1);
+	        int ret = (int) b1.get("State");
+	        int exp = 1;
+	        assertEquals(true,ret!=exp);
+//		} catch(RpcException e) {
+//	        Map err = (Map) JSON.parse(e.getMessage()); 
+//			System.out.println("err = "+err);
+//			int err_code = (int) err.get("error");
+//			int exp_errcode = 43001;
+//			OntTest.logger().error(e.toString());
+//			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1030,7 +1054,6 @@ public class Invoke {
 		}
 	}
 	
-	//待修改  ong不足照样成功
 	@Test
 	public void test_abnormal_026_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gasprice");
@@ -1058,17 +1081,25 @@ public class Invoke {
 	        OntTest.logger().description(String.valueOf(ongnum));
 	        if(ongnum!=0L){
 	        	OntTest.logger().description("ong转账");
-	        	OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
-	        	Thread.sleep(5000);
+	        	String txhash = OntTest.sdk().nativevm().ong().sendTransfer(acc0, addr1, ongnum, acc0, OntTest.sdk().DEFAULT_GAS_LIMIT, 0);
+	        	OntTest.common().waitTransactionResult(txhash);
+	        	assertEquals(true,false);;
 	        }
 	        
 			InvokeCode invokeTx = OntTest.sdk().vm().makeInvokeCodeTransaction(codeAddr, null, params, addr0, OntTest.sdk().DEFAULT_GAS_LIMIT, 10);
 	        OntTest.sdk().signTx(invokeTx, new Account[][]{{OntTest.common().getAccount(0)}});
 	        Map b1 = (Map)OntTest.sdk().getConnect().sendRawTransactionPreExec(invokeTx.toHexString());
 	        OntTest.logger().description("b1: " + b1);
-	        String  ret = String.valueOf(b1.get("Result"));
-	        String exp = "01";
-	        assertEquals(true,ret.equals(exp));
+	        int ret = (int) b1.get("State");
+	        int exp = 1;
+	        assertEquals(true,ret!=exp);
+		} catch(RpcException e) {
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			System.out.println("err = "+err);
+			int err_code = (int) err.get("error");
+			int exp_errcode = 43001;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1077,7 +1108,7 @@ public class Invoke {
 	}
 
 	@Test
-	public void test_abnormal_027_makeInvokeCodeTransaction() throws Exception {
+	public void test_normal_027_makeInvokeCodeTransaction() throws Exception {
 		OntTest.logger().description("测试makeInvokeCodeTransaction参数gasprice");
 		
 		try {

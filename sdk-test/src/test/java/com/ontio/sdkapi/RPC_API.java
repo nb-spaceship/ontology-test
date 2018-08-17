@@ -36,7 +36,6 @@ public class RPC_API {
 		OntTest.init();
 		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
 		OntTest.api().node().initOntOng();
-		Thread.sleep(6000);
 	}
 	
 	@Before
@@ -193,7 +192,8 @@ public class RPC_API {
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 1L, acc, 20000L, 0L);
 			OntTest.logger().description("txhash : "+txhash);
-			Thread.sleep(6000);//5秒有概率报错
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			//交易哈希
 			Transaction Transaction = OntTest.sdk().getRpc().getTransaction(txhash);
 			OntTest.logger().description("Transaction : "+Transaction);	
@@ -205,7 +205,6 @@ public class RPC_API {
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_base_008_getStorage() throws Exception {
 		OntTest.logger().description("RPC_API 008 getStorage");
@@ -248,7 +247,6 @@ public class RPC_API {
 		}
 	}
 	
-	//待修改
 	@Test
 	public void test_normal_009_getStorage() throws Exception {
 		OntTest.logger().description("RPC_API 009 getStorage");
@@ -388,7 +386,8 @@ public class RPC_API {
 			int height0 = OntTest.sdk().getRpc().getBlockHeight();
 			OntTest.logger().description("height0 = "+height0);
 			OntTest.logger().description(txhash);
-			Thread.sleep(8000);
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			
 			int height = OntTest.sdk().getRpc().getBlockHeightByTxHash(txhash);
 			OntTest.logger().description(String.valueOf(height));
@@ -411,7 +410,8 @@ public class RPC_API {
 			String addr = acc.getAddressU160().toBase58();
 			String txhash = OntTest.sdk().nativevm().ont().sendTransfer(acc, addr, 100L, acc, 20000L, 0L);
 			OntTest.logger().description(txhash);
-			Thread.sleep(8000);
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			
 			Object MerkleProof = OntTest.sdk().getRpc().getMerkleProof(txhash);
 			OntTest.logger().description(MerkleProof.toString());
@@ -536,7 +536,8 @@ public class RPC_API {
 			String addr2 = acc2.getAddressU160().toBase58();
 
 			String ret0 = OntTest.sdk().nativevm().ont().sendApprove(acc1,addr2, 1L, acc1, 20000L,0L);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(ret0);
+			assertEquals(true,r);
 			long ret1 = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(ret1));
 			String exp = String.valueOf(ret1);
@@ -563,7 +564,8 @@ public class RPC_API {
 			String addr2 = acc2.getAddressU160().toBase58();
 
 			String ret0 = OntTest.sdk().nativevm().ont().sendApprove(acc1,addr2, 1L, acc1, 20000L,0L);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(ret0);
+			assertEquals(true,r);
 			long ret1 = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(ret1));
 			String exp = String.valueOf(ret1);
@@ -590,7 +592,8 @@ public class RPC_API {
 			String addr2 = acc2.getAddressU160().toBase58();
 
 			String ret0 = OntTest.sdk().nativevm().ont().sendApprove(acc1,addr2, 1L, acc1, 20000L,0L);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(ret0);
+			assertEquals(true,r);
 			long ret1 = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(ret1));
 			String exp = String.valueOf(ret1);
