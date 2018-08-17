@@ -185,7 +185,7 @@ public class Common {
         try {
             synchronized (lock) {
                 for (int i = 0; i < 5; i++) {
-                    lock.wait();
+                    //lock.wait();
                     for (String e : MsgQueue.getResultSet()) {
                         Result rt = JSON.parseObject(e, Result.class);
                         MsgQueue.removeResult(e);
