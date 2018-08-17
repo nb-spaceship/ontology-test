@@ -180,7 +180,7 @@ public class Common {
         return false;
 	}
 	
-	public static Result waitWsResult(String action) {
+	public Result waitWsResult(String action) {
 		Object lock = OntTest.wsLock();
         try {
             synchronized (lock) {
@@ -205,7 +205,7 @@ public class Common {
         }
     }
 	
-	public static boolean waitGenBlock() {
+	public boolean waitGenBlock() {
 		try {
 			int oldheight = OntTest.sdk().getConnect().getBlockHeight();
 			for (int i = 0; i < 30; i ++) {
