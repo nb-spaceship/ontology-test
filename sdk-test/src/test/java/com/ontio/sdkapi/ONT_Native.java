@@ -32,7 +32,6 @@ public class ONT_Native {
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
 		
-		Thread.sleep(5000);
 		OntTest.api().node().restartAll();
 		OntTest.api().node().initOntOng();
 	}
@@ -56,31 +55,32 @@ public class ONT_Native {
 			Account acc2 = OntTest.common().getAccount(1);
 			
 			String addr1 = acc1.getAddressU160().toBase58();
+			
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为" + before_bala1);
-			System.out.println("账户2 的余额为" + before_bala2);
+			OntTest.logger().write("账户1 的余额为" + before_bala1);
+			OntTest.logger().write("账户2 的余额为" + before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 1000L, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为" + after_bala1);
-			System.out.println("账户2 的余额为" + after_bala2);
+			OntTest.logger().write("账户1 的余额为" + after_bala1);
+			OntTest.logger().write("账户2 的余额为" + after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
-				assertEquals(true, true);
+				OntTest.logger().write("转账成功！");
+				assertEquals(true, before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0);
 			}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				assertEquals(true, false);
 			}
 		} 
@@ -102,28 +102,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(null, addr2, 1000L, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 			}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 			}
 		} 
 		catch(SDKException e) {
@@ -157,34 +157,34 @@ public class ONT_Native {
 			String addr2 = acc2.getAddressU160().toBase58();
 			String addr3 = acc3.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
-			System.out.println("账户3 的address" + addr3);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
+			OntTest.logger().write("账户3 的address" + addr3);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
 			long before_bala3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr3);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
-			System.out.println("账户3 的ong余额为"+before_bala3);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户3 的ong余额为"+before_bala3);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 1000L, acc3, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
 			long after_bala3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr3);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
-			System.out.println("账户3 的ong余额为"+after_bala3);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户3 的ong余额为"+after_bala3);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0 && before_bala3 - after_bala3 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				assertEquals(true, true);
 			}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				assertEquals(true, false);
 			}
 		} catch(Exception e) {
@@ -205,28 +205,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, "", 1000L, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 			}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 			}
 		} 
 		catch(SDKException e) {
@@ -258,28 +258,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 0, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 			}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 			}
 		}
 		catch(SDKException e) {
@@ -311,28 +311,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, -2000L, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				}
 			} 
 		
@@ -365,34 +365,34 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10000000000L, acc1, 20000L, 10L);
-			System.out.println(ts);
+			OntTest.logger().write(ts);
 	
 			boolean flag = OntTest.common().waitTransactionResult(ts);
 			
 			Object tr = OntTest.sdk().getRestful().getSmartCodeEvent(ts);
-			System.out.println(tr);
+			OntTest.logger().write(tr.toString());
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				}
 			if(flag == false) {
-				System.out.println("交易失败！");
+				OntTest.logger().write("交易失败！");
 				assertEquals(true,flag == false);
 			}
 			
@@ -418,29 +418,29 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 100L, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				assertEquals(true, true);
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				assertEquals(true, false);
 				}
 			} 
@@ -461,28 +461,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 100L, null, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				}
 			} 
 		catch(SDKException e) {
@@ -515,28 +515,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 100L, acc1, -2000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				}
 			} 
 		catch(SDKException e) {
@@ -570,29 +570,29 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 100L, acc1, 20000L, 10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 		
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				assertEquals(true, true);
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				assertEquals(true, false);
 				}
 			} 
@@ -614,28 +614,28 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 100L, acc1, 20000L, -10L);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				}
 			} 
 		catch(SDKException e) {
@@ -667,28 +667,28 @@ public class ONT_Native {
 			
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			System.out.println("账户1 的address" + addr1);
-			System.out.println("账户2 的address" + addr2);
+			OntTest.logger().write("账户1 的address" + addr1);
+			OntTest.logger().write("账户2 的address" + addr2);
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
 			String ts = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, 10L, acc1, 20000L, 1);
-			System.out.println(ts);
-			Thread.sleep(5000);
+			OntTest.logger().write(ts);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("转账成功！");
+				OntTest.logger().write("转账成功！");
 				}
 			else {
-				System.out.println("转账失败！");
+				OntTest.logger().write("转账失败！");
 				}
 			} 
 		catch(RpcException e) {
@@ -719,7 +719,8 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
-			System.out.println(l);
+			String bal1 = String.valueOf(l);
+			OntTest.logger().write(bal1);
 			assertEquals(true, l >= 0);
 		} 
 		catch(Exception e) {
@@ -735,7 +736,8 @@ public class ONT_Native {
 		try {
 			
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf("AbwJsJYQPBSw67SVP7hctkWsfzgikwNkvh");
-			System.out.println(l);
+			String bal = String.valueOf(l);
+			OntTest.logger().write(bal);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -761,7 +763,8 @@ public class ONT_Native {
 		
 		try {
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf("AbwJsJYQPBSw%&#SVP7hctkWsfzgikwNkv");
-			System.out.println(l);
+			String bal = String.valueOf(l);
+			OntTest.logger().write(bal);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -787,7 +790,8 @@ public class ONT_Native {
 		try {
 			
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf("");
-			System.out.println(l);
+			String bal = String.valueOf(l);
+			OntTest.logger().write(bal);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -818,17 +822,17 @@ public class ONT_Native {
 			String addr2 = acc2.getAddressU160().toBase58();
 			
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 			if(l == 10) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else{
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 			
@@ -851,14 +855,14 @@ public class ONT_Native {
 			String addr2 = acc2.getAddressU160().toBase58();
 			
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1,addr2 );
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 			
 			if(l == 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else{
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 		}
@@ -880,12 +884,12 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 	
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1+"G", addr2);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -917,12 +921,12 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance("Af296@#$TqHV5byLvXdCWCheW3HcpMpcNa", addr2);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -951,18 +955,18 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 	
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr2, addr1);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 			if(l == 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else{
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 		}
@@ -982,12 +986,12 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance("" , addr2);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1017,14 +1021,14 @@ public class ONT_Native {
 			String addr2 = acc2.getAddressU160().toBase58();
 			
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1,addr2);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 			
 			if(l == 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else{
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 		}
@@ -1044,11 +1048,11 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1 , addr2+"G");
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1078,11 +1082,11 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			OntTest.logger().step("1.调用sendapprove");
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1 , "AKv$%^sbk3ucmTHHg9hPK3kehoQHG5g9CG");
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1101,18 +1105,18 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			OntTest.logger().step("2.调用queryAllowance");
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr2 , addr1);
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 			
 			if(l == 0) {
-			System.out.println("成功！");
+			OntTest.logger().write("成功！");
 			assertEquals(true, true);
 		}
 		else{
-			System.out.println("失败！");
+			OntTest.logger().write("失败！");
 			assertEquals(true, false);
 			}
 		}
@@ -1133,10 +1137,10 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1 , "");
-			System.out.println("queryAllowance:"+l);
+			OntTest.logger().write("queryAllowance:"+l);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1166,17 +1170,17 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println("sendApprove:"+l);
+			OntTest.logger().write("sendApprove:"+l);
 			
 			if(l >= 10) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else{
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 		}
@@ -1198,10 +1202,11 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(null, addr2, 10L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(null, addr2, 10L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1232,10 +1237,11 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2+"G", 10L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2+"G", 10L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1266,10 +1272,11 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", 10L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", 10L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1289,10 +1296,11 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, "", 10L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, "", 10L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1324,16 +1332,16 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts);
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println("sendApprove:"+l);
+			OntTest.logger().write("sendApprove:"+l);
 			
 			if(l >= 10000) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else{
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 		}
 		catch(Exception e) {
@@ -1353,10 +1361,10 @@ public class ONT_Native {
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 0, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 0, 10L);
+			OntTest.common().waitTransactionResult(ts);
 			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println("sendApprove:"+l);
+			OntTest.logger().write("sendApprove:"+l);
 			
 		}
 		catch(RpcException e) {
@@ -1389,13 +1397,13 @@ public class ONT_Native {
 			
 			String addr2 = acc2.getAddressU160().toBase58();
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 5000000000L, acc1, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 5000000000L, acc1, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println("sendApprove:"+s);
+			OntTest.logger().write("sendApprove:"+s);
 			
 			if(s == 0) {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, s == 0);
 			}
 			else {
@@ -1419,10 +1427,11 @@ public class ONT_Native {
 			
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, null, 20000L, 0L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, null, 20000L, 0L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1451,10 +1460,11 @@ public class ONT_Native {
 			
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, -20000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, -20000L, 1L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1484,10 +1494,11 @@ public class ONT_Native {
 			
 			String addr1 = acc1.getAddressU160().toBase58();
 			String addr2 = acc2.getAddressU160().toBase58();
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 20000L, -1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 20000L, -1L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1518,10 +1529,11 @@ public class ONT_Native {
 			Account acc2 = OntTest.common().getAccount(1);
 			
 			String addr2 = acc2.getAddressU160().toBase58();
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 200000L, 1000L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10000L, acc1, 200000L, 1000L);
+			OntTest.common().waitTransactionResult(ts);
 			long s = OntTest.sdk().nativevm().ont().queryAllowance(addr1, addr2);
-			System.out.println(s);
+			String al = String.valueOf(s);
+			OntTest.logger().write(al);
 		}
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1553,25 +1565,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 			
@@ -1596,18 +1608,18 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(null, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(null, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 		}
 		catch(SDKException e) {
@@ -1633,7 +1645,6 @@ public class ONT_Native {
 		OntTest.logger().description("----------sendTransferFrom----------");
 		
 		try {
-			Thread.sleep(5000);
 			Account acc1 = OntTest.common().getAccount(0);
 			Account acc2 = OntTest.common().getAccount(1);
 			
@@ -1642,25 +1653,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10L);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc1, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10L);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc1, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, false);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 			
@@ -1688,30 +1699,30 @@ public class ONT_Native {
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
 			long before_bala3 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr3);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
-			System.out.println("账户3 的余额为"+before_bala3);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户3 的余额为"+before_bala3);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
 			String s = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr3, addr2, 100L, acc2, 20000L, 10L);
 			boolean flag = OntTest.common().waitTransactionResult(s);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
 			long after_bala3 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr3);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
-			System.out.println("账户3 的余额为"+after_bala3);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户3 的余额为"+after_bala3);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			if(flag == false) {
-				System.out.println("交易失败！");
+				OntTest.logger().write("交易失败！");
 				assertEquals(true, flag == false);
 			}
 			else {
@@ -1739,25 +1750,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 			
@@ -1775,7 +1786,7 @@ public class ONT_Native {
 		
 		try {
 			com.github.ontio.sdk.wallet.Account temp = OntTest.sdk().getWalletMgr().createAccount("123456");
-			Thread.sleep(5000);
+
 			String tempaddr = temp.address;
 			
 			Account acc1 = OntTest.common().getAccount(0);
@@ -1786,26 +1797,26 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, tempaddr, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, tempaddr, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, false);
 				
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 			
@@ -1830,24 +1841,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "G"+addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "G"+addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -1882,24 +1893,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", addr2, 100L, acc2, 200000L, 1L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "AKvRbmbk3ucmTHHg9hPK3kehoQHG5g%^&", addr2, 100L, acc2, 200000L, 1L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -1922,25 +1933,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr2, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr2, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, false);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 			
@@ -1964,24 +1975,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "", addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, "", addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2015,23 +2026,23 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, false);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 			
@@ -2056,24 +2067,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "F"+addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "F"+addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2107,24 +2118,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "AKv#$%sbk3ucmTHHg9hPK3kehoQHG5g9CG", 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "AKv#$%sbk3ucmTHHg9hPK3kehoQHG5g9CG", 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2148,25 +2159,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr1, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr1, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, false);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 			
@@ -2190,24 +2201,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "", 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, "", 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2242,24 +2253,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 0, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 0, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 >= 0 && after_bala2 - before_bala2 >= 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2293,24 +2304,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, -100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, -100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2344,25 +2355,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 10000000000000L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 10000000000000L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, true);
 			}
 			
@@ -2386,25 +2397,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 			
@@ -2428,24 +2439,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, null, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, null, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2479,24 +2490,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, -20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, -20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2530,25 +2541,25 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 				assertEquals(true, true);
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 				assertEquals(true, false);
 			}
 			
@@ -2572,24 +2583,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, -10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, -10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2624,24 +2635,24 @@ public class ONT_Native {
 			
 			long before_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long before_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+before_bala1);
-			System.out.println("账户2 的余额为"+before_bala2);
+			OntTest.logger().write("账户1 的余额为"+before_bala1);
+			OntTest.logger().write("账户2 的余额为"+before_bala2);
 			
-			OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
-			Thread.sleep(5000);
-			OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
-			Thread.sleep(5000);
+			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 100L, acc1, 20000, 10);
+			OntTest.common().waitTransactionResult(ts);
+			String ts1 = OntTest.sdk().nativevm().ont().sendTransferFrom(acc2, addr1, addr2, 100L, acc2, 20000L, 10L);
+			OntTest.common().waitTransactionResult(ts1);
 			
 			long after_bala1 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr1);
 			long after_bala2 = OntTest.sdk().nativevm().ont().queryBalanceOf(addr2);
-			System.out.println("账户1 的余额为"+after_bala1);
-			System.out.println("账户2 的余额为"+after_bala2);
+			OntTest.logger().write("账户1 的余额为"+after_bala1);
+			OntTest.logger().write("账户2 的余额为"+after_bala2);
 			
 			if(before_bala1 - after_bala1 > 0 && after_bala2 - before_bala2 > 0) {
-				System.out.println("成功！");
+				OntTest.logger().write("成功！");
 			}
 			else {
-				System.out.println("失败！");
+				OntTest.logger().write("失败！");
 			}
 			
 		}
@@ -2669,7 +2680,7 @@ public class ONT_Native {
 			
 		try {
 			String acc = OntTest.sdk().nativevm().ont().queryName();
-			System.out.println(acc);
+			OntTest.logger().write(acc);
 			assertEquals(true, true);
 			} 
 		catch(Exception e) {
@@ -2685,7 +2696,7 @@ public class ONT_Native {
 			
 		try {
 			String acc = OntTest.sdk().nativevm().ont().querySymbol();
-			System.out.println(acc);
+			OntTest.logger().write(acc);
 			assertEquals(true, true);
 			} 
 		catch(Exception e) {
@@ -2702,7 +2713,8 @@ public class ONT_Native {
 			
 		try {
 			long acc = OntTest.sdk().nativevm().ont().queryDecimals();
-			System.out.println(acc);
+			String acc1 = String.valueOf(acc);
+			OntTest.logger().write(acc1);
 			assertEquals(true, true);
 			} 
 		catch(Exception e) {
@@ -2719,7 +2731,8 @@ public class ONT_Native {
 			
 		try {
 			long acc = OntTest.sdk().nativevm().ont().queryTotalSupply();
-			System.out.println(acc);
+			String acc1 = String.valueOf(acc);
+			OntTest.logger().write(acc1);
 			assertEquals(true, true);
 			} 
 		catch(Exception e) {
