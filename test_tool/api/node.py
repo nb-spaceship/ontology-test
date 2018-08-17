@@ -48,6 +48,8 @@ class NodeApi:
 					if state == 1:
 						logger.info("tx hash: " + txhash +" state = 1")
 						return True
+					else:
+						return False
 				except Exception as e:
 					logger.print("no tx state info, may be block not generate yet...")
 				continue

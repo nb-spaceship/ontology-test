@@ -71,8 +71,7 @@ class ContractApi:
                     break
             tmpfile.close()
 
-            #TODO REMOVE LATER
-            nodeapi.wait_gen_block(True)
+            nodeapi.wait_tx_result(deploy_contract_txhash)
 
             return (deploy_contract_addr, deploy_contract_txhash)
         except Exception as e:
@@ -189,7 +188,7 @@ class ContractApi:
 
             if twice:
                 (result, response) = self.call_signed_contract(signed_tx, True, node_index)
-                (result1, response2) = self.call_signed_contract(signed_tx, False, node_index)
+                (result2, response2) = self.call_signed_contract(signed_tx, False, node_index)
                 if response and response2 and "result" in response2:
                     response["txhash"] = response2["result"]
             else:
@@ -198,18 +197,20 @@ class ContractApi:
             if response is None or "error" not in response:# or str(response["error"]) != '0':
                 raise Error("call contract error")
 
-            if judge and expect_response:
-                result = Common.cmp(expect_response, response)
-                if not result:
-                    raise Error("not except result")
-
             response["signed_tx"] = signed_tx
             if deploy_contract_addr:
                 response["address"] = taskdata["REQUEST"]["Params"]["address"]
             
             #判断交易state是否成功，代替等待区块
             if check_state and response and ("txhash" in response) and (twice or pre == False):
-                result = nodeapi.wait_tx_result(response["txhash"])
+                result = result and nodeapi.wait_tx_result(response["txhash"])
+            if not result:
+                raise Error("tx state not match")
+
+            if judge and expect_response:
+                result = Common.cmp(expect_response, response)
+                if not result:
+                    raise Error("not except result")
 
             #time.sleep(sleep)
             return (result, response)
@@ -297,7 +298,7 @@ class ContractApi:
                     response["txhash"] = response2["result"]
 
                 if check_state and response and ("txhash" in response):
-                    result = nodeapi.wait_tx_result(response["txhash"])
+                    result = result and nodeapi.wait_tx_result(response["txhash"])
                 time.sleep(sleep)
                 return (result,response)
                 
