@@ -36,8 +36,8 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll();
-//		OntTest.api().node().initOntOng();
+		OntTest.api().node().restartAll();
+		OntTest.api().node().initOntOng();
 	}
 	
 	@Before

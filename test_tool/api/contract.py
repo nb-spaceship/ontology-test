@@ -193,6 +193,8 @@ class ContractApi:
                     response["txhash"] = response2["result"]
             else:
                 (result, response) = self.call_signed_contract(signed_tx, pre, node_index)
+                if not pre:
+                    response["txhash"] = response["result"]
         
             if response is None or "error" not in response:# or str(response["error"]) != '0':
                 raise Error("call contract error")
