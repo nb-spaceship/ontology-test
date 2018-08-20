@@ -204,7 +204,12 @@ class ContractApi:
             #判断交易state是否成功，代替等待区块
             if check_state and response and ("txhash" in response) and (twice or pre == False):
                 result2 = nodeapi.wait_tx_result(response["txhash"])
-                result = (result and result2) or (not result and not result2)
+                if expect_response and expect_response["error"] != 0:
+                    result = result and not result2
+                else:
+                    result = result and result2
+                # result = (result and result2) or (not result and not result2)  
+                
             if not result:
                 raise Error("tx state not match")
 
