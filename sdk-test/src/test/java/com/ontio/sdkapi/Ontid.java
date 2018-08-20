@@ -36,8 +36,8 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll();
-//		OntTest.api().node().initOntOng();
+		OntTest.api().node().restartAll();
+		OntTest.api().node().initOntOng();
 	}
 	
 	@Before
@@ -1831,6 +1831,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
 			
+			OntTest.common().waitTransactionResult(sr);
 			OntTest.logger().write(ontid1);
 			String sd = OntTest.sdk().nativevm().ontId().sendGetDDO(ontid1);
 
