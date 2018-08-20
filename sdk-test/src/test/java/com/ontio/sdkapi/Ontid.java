@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.security.PrivateKey;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
 
@@ -35,13 +36,13 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		OntTest.api().node().restartAll();
-		OntTest.api().node().initOntOng();
+//		OntTest.api().node().restartAll();
+//		OntTest.api().node().initOntOng();
 	}
 	
 	@Before
 	public void setUp() throws Exception {
-		
+		OntTest.init();
 	}
 	
 	@After
@@ -63,12 +64,17 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
-			OntTest.logger().write(ontid1);
+			OntTest.logger().write("createIdentity: "+ontid1);
 			
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 0, false);
+			
+
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -88,9 +94,9 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(null, "123456", acc1, 20000, 1, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(null, "123456", acc1, 20000, 1, false);
 			
 		} 
 		catch(SDKException e) {
@@ -122,10 +128,14 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -146,10 +156,10 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "654321", acc1, 20000, 1, false);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "654321", acc1, 20000, 1, false);
 
-			OntTest.logger().write(sr);
 			
 		} 
 		catch(SDKException e) {
@@ -181,9 +191,9 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "", acc1, 20000, 0, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "", acc1, 20000, 0, false);
 			
 		} 
 		catch(SDKException e) {
@@ -215,10 +225,14 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("@#$%^&");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "@#$%^&", acc1, 20000, 0, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "@#$%^&", acc1, 20000, 0, false);
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 			
 		} 
 		catch(Exception e) {
@@ -257,8 +271,9 @@ public class Ontid {
 					+ "6@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV"
 					+ "5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNa");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "Af296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdC"
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "Af296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdC"
 					+ "WCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3"
 					+ "HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpc"
 					+ "NaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf29"
@@ -277,20 +292,14 @@ public class Ontid {
 					+ "pMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf2"
 					+ "96@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV"
 					+ "5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNa", acc1, 20000, 1, false);
-			OntTest.logger().write(sr);
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 			
 		} 
-		catch(SDKException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("Error").toString();
-			if("58501".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
-		}
+
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -309,10 +318,15 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
+
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -332,9 +346,9 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", null, 20000, 1, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", null, 20000, 1, false);
 			
 		} 
 		catch(SDKException e) {
@@ -367,10 +381,14 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 40000, 1, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 40000, 1, false);
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -390,9 +408,9 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 0, 1, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 0, 1, false);
 			
 		} 
 		catch(RpcException e) {
@@ -424,9 +442,9 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, -20000, 1, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, -20000, 1, false);
 			
 		} 
 		catch(SDKException e) {
@@ -459,9 +477,9 @@ public class Ontid {
 			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
 			
 		} 
 		catch(RpcException e) {
@@ -482,7 +500,7 @@ public class Ontid {
 	}
 	
 	@Test
-	public void test_normal_014_sendRegister() throws Exception {
+	public void test_abnormal_014_sendRegister() throws Exception {
 		OntTest.logger().description("----------sendRegister----------");
 		
 		try {
@@ -493,11 +511,22 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 1000000000, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 1000000000, false);
 			assertEquals(true, true);
 		} 
+		catch(RpcException e) {
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
+		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -517,10 +546,16 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
+
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
+			
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -541,9 +576,9 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, -10, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, -10, false);
 			
 		} 
 		catch(SDKException e) {
@@ -576,9 +611,9 @@ public class Ontid {
 			Account acc1 = OntTest.sdk().getWalletMgr().getAccount(addr1, "123456");
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
-			OntTest.logger().write(sr);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
 			
 		} 
 		catch(RpcException e) {
@@ -610,10 +645,15 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 10, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 10, false);
+
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -633,10 +673,14 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -657,10 +701,14 @@ public class Ontid {
 			
 			Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
 			String ontid1 = ci.ontid;
+			OntTest.logger().write("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
-			String sr = OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, true);
-			OntTest.logger().write(sr);
-			assertEquals(true, true);
+			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, true);
+			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
+
+			OntTest.logger().write("getDefaultOntid: "+getid);
+
+			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1813,6 +1861,9 @@ public class Ontid {
 				OntTest.logger().write("ontid为空");
 				assertEquals(true, true);
 			}
+			else {
+				assertEquals(true, false);
+			}
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1831,6 +1882,9 @@ public class Ontid {
 			if(sd.equals("")) {
 				OntTest.logger().write("ontid为空");
 				assertEquals(true, true);
+			}
+			else {
+				assertEquals(true, false);
 			}
 		} 
 		catch(Exception e) {
@@ -1851,6 +1905,9 @@ public class Ontid {
 				OntTest.logger().write("ontid为空");
 				assertEquals(true, true);
 			}
+			else {
+				assertEquals(true, false);
+			}
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1869,6 +1926,9 @@ public class Ontid {
 			if(sd.equals("")) {
 				OntTest.logger().write("ontid为空");
 				assertEquals(true, true);
+			}
+			else {
+				assertEquals(true, false);
 			}
 		} 
 		catch(Exception e) {
@@ -1889,6 +1949,9 @@ public class Ontid {
 				OntTest.logger().write("ontid为空");
 				assertEquals(true, true);
 			}
+			else {
+				assertEquals(true, false);
+			}
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1907,6 +1970,9 @@ public class Ontid {
 			if(sd.equals("")) {
 				OntTest.logger().write("ontid为空");
 				assertEquals(true, true);
+			}
+			else {
+				assertEquals(true, false);
 			}
 		} 
 		catch(Exception e) {

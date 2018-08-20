@@ -1,0 +1,1 @@
+{"accounts":[{"address":"","algorithm":"","enc-alg":"","hash":"sha256","isDefault":true,"key":"","label":"","lock":false,"parameters":{"curve":"P-256"},"publicKey":"","salt":"","signatureScheme":""}],"createTime":"","defaultAccountAddress":"","defaultOntid":"","identities":[],"name":"MyWallet","scrypt":{"dkLen":64,"n":16384,"p":8,"r":8},"version":"1.1"}

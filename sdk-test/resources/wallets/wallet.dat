@@ -1,0 +1,1 @@
+{"name":"MyWallet","version":"1.1","scrypt":{"p":8,"n":16384,"r":8,"dkLen":64},"accounts":[{"address":"","enc-alg":"","key":"","algorithm":"","salt":"","parameters":{"curve":"P-256"},"label":"","publicKey":"","signatureScheme":"","isDefault":true,"lock":false}]}
