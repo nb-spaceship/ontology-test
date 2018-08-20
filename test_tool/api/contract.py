@@ -206,7 +206,7 @@ class ContractApi:
                 result2 = nodeapi.wait_tx_result(response["txhash"])
                 print ("+++++result2", result2)
                 print (expect_response["error"])
-                if expect_response and expect_response.has_key("error") and expect_response["error"] != 0:
+                if expect_response and "error" in expect_response and expect_response["error"] != 0:
                     result = result and not result2
                 else:
                     result = result and result2
