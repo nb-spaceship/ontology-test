@@ -197,6 +197,7 @@ class ContractApi:
             if response is None or "error" not in response:# or str(response["error"]) != '0':
                 raise Error("call contract error")
 
+
             response["signed_tx"] = signed_tx
             if deploy_contract_addr:
                 response["address"] = taskdata["REQUEST"]["Params"]["address"]
@@ -204,9 +205,8 @@ class ContractApi:
             #判断交易state是否成功，代替等待区块
             if check_state and response and ("txhash" in response) and (twice or pre == False):
                 result2 = nodeapi.wait_tx_result(response["txhash"])
-                print ("+++++result2", result2)
-                print (expect_response["error"])
                 if expect_response and "error" in expect_response and expect_response["error"] != 0:
+                    result = Common.cmp(expect_response, response)
                     result = result and not result2
                 else:
                     result = result and result2
@@ -369,7 +369,7 @@ class ContractApi:
     	
         return self.call_contract(Task(name="init_admin", ijson=request), twice = True, sleep = sleep)
 
-    def invoke_function(self, contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None, sleep = 5):
+    def invoke_function(self, contract_address, function_str, callerOntID, public_key="1", argvs = [{"type": "string","value": ""}], node_index = None, sleep = 5, check_state = True):
         request = {
             "REQUEST": {
                 "Qid": "t",
@@ -413,7 +413,7 @@ class ContractApi:
             node_index = Config.ontid_map[callerOntID]
             request["NODE_INDEX"] = node_index
     		
-        return self.call_contract(Task(name="invoke_function", ijson=request), twice = True, sleep = sleep)
+        return self.call_contract(Task(name="invoke_function", ijson=request), twice = True, sleep = sleep, check_state = check_state)
 
     def invoke_function_test(self, contract_address, function_str, argvs = [{"type": "string","value": ""}], node_index = None):
         request = {
