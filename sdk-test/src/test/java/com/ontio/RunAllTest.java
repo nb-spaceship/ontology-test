@@ -31,8 +31,6 @@ import com.ontio.sdkapi.Restful_API;
 import com.ontio.sdkapi.WebSocket_API;
 import com.ontio.testtool.OntTest;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 import com.ontio.TestMonitor;
 
 public class RunAllTest {
@@ -180,18 +178,19 @@ public class RunAllTest {
 	        failed_cases = result.getFailureCount();
 	        System.out.println(result.getFailureCount());
 	        
+	        System.out.println(TestMonitor.blockDescription.isEmpty());
 	        if (!TestMonitor.blockDescription.isEmpty()) {
-	        	List<Description> tmpBlockDescription = new ArrayList<Description>();
-	        	Collections.copy(TestMonitor.blockDescription, tmpBlockDescription);
 	        	
-	        	for (Description blockDescription : tmpBlockDescription){
+	        	for (Description blockDescription : TestMonitor.blockDescription){
 	        		Request retryRequest = Request.method(blockDescription.getTestClass(), blockDescription.getMethodName());
 	        		result = junitRunner.run(retryRequest);
 	        		if (!result.wasSuccessful()) {
 	        			OntTest.logger().setBlock();
 	        		}
+	        		
 	        		// System.out.println(result.wasSuccessful());
 	        	}
+	        	TestMonitor.blockDescription.clear();
 	        }
 	        
 	        System.out.println(failed_cases / (double)total_cases);

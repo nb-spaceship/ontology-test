@@ -39,13 +39,13 @@ public class ClaimBase {
 			
 			OntTest.logger().step("create identity1");
 			identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			String tx1 = OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
+			OntTest.common().waitTransactionResult(tx1);
 			
 			OntTest.logger().step("create identity2");
 			identity2 = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-			Thread.sleep(6000);
+			String tx2 = OntTest.sdk().nativevm().ontId().sendRegister(identity2,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
+			OntTest.common().waitTransactionResult(tx2);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -75,12 +75,12 @@ public class ClaimBase {
 			OntTest.sdk().addSign(tx, account);
 			
 			OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());	
-			Thread.sleep(10000);
+			OntTest.common().waitTransactionResult(tx.hash().toHexString());
 			
-			OntTest.sdk().nativevm().ontId().getMerkleProof(tx.hash().toHexString());
+			Object rs1 = OntTest.sdk().nativevm().ontId().getMerkleProof(tx.hash().toHexString());
 			
-			assertEquals(true, true);
-			
+			assertEquals(false, rs1 == null);
+
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -100,7 +100,7 @@ public class ClaimBase {
 			OntTest.sdk().addSign(tx, account);
 			
 			OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
-			Thread.sleep(10000);
+			OntTest.common().waitTransactionResult(tx.hash().toHexString());
 			
 			StringBuilder new_hash = new StringBuilder(tx.toHexString());
 			new_hash.setCharAt(0, 'f');
@@ -135,7 +135,7 @@ public class ClaimBase {
 			OntTest.sdk().addSign(tx, account);
 			
 			OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
-			Thread.sleep(10000);
+			OntTest.common().waitTransactionResult(tx.hash().toHexString());
 			
 			StringBuilder new_hash = new StringBuilder(tx.toHexString());
 			new_hash.setCharAt(0, 'Z');
@@ -170,7 +170,7 @@ public class ClaimBase {
 			OntTest.sdk().addSign(tx, account);
 			
 			OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
-			Thread.sleep(10000);
+			OntTest.common().waitTransactionResult(tx.hash().toHexString());
 									
 			OntTest.sdk().nativevm().ontId().getMerkleProof(tx.hash().toString()+"ffff");
 			assertEquals(false, true);
@@ -217,7 +217,7 @@ public class ClaimBase {
 			OntTest.sdk().addSign(tx, account);
 			
 			OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
-			Thread.sleep(10000);
+			OntTest.common().waitTransactionResult(tx.hash().toHexString());
 			
 			Object merkleproof = OntTest.sdk().nativevm().ontId().getMerkleProof(tx.hash().toHexString()); //getConnect().getMerkleProof(tx.hash().toHexString());
 			
@@ -246,7 +246,7 @@ public class ClaimBase {
 			OntTest.sdk().addSign(tx, account);
 			
 			OntTest.sdk().getConnect().sendRawTransaction(tx.toHexString());
-			Thread.sleep(10000);
+			OntTest.common().waitTransactionResult(tx.hash().toHexString());
 			
 			Object merkleproof = OntTest.sdk().nativevm().ontId().getMerkleProof(tx.hash().toHexString());
 			

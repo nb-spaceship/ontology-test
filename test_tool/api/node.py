@@ -48,12 +48,13 @@ class NodeApi:
 					if state == 1:
 						logger.info("tx hash: " + txhash +" state = 1")
 						return True
+					else:
+						return False
 				except Exception as e:
-					print("wait_tx_result error: ", e)
-					
+					logger.print("no tx state info, may be block not generate yet...")
 				continue
 			else:
-				logger.info("tx hash: " + txhash +" getsmartcodeevent error")
+				logger.error("tx hash: " + txhash +" getsmartcodeevent error")
 				return False
 
 		logger.error("tx hash: " + txhash + " state timeout!")

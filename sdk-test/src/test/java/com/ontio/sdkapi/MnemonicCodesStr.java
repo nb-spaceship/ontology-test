@@ -64,7 +64,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
 			OntTest.logger().description(QRcode.toString());
-//			assertEquals(true,ret.equals(exp));	
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -73,7 +73,7 @@ public class MnemonicCodesStr {
 	}
 
 	@Test
-	public void test_abnormal_002_exportIdentityQRCode() throws Exception {
+	public void test_normal_002_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("助记词  002  exportIdentityQRCode()");
 
 		try {
@@ -90,7 +90,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);   
 			OntTest.logger().description(QRcode.toString());
-//			assertEquals(true,ret.equals(exp));	
+			assertEquals(true,true);	
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -110,7 +110,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);
 			OntTest.logger().description(QRcode.toString());
-//			assertEquals(true,ret.equals(exp));	
+			assertEquals(true,false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -130,7 +130,8 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
 			OntTest.logger().description(QRcode.toString());
-//			assertEquals(true,ret.equals(exp));	
+
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -139,7 +140,7 @@ public class MnemonicCodesStr {
 	}	
 
 	@Test
-	public void test_abnormal_005_exportIdentityQRCode() throws Exception {
+	public void test_normal_005_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("助记词  005  exportIdentityQRCode()");
 
 		try {
@@ -155,7 +156,7 @@ public class MnemonicCodesStr {
 			OntTest.logger().description(walletFile.toString());
 			OntTest.logger().description(QRcode.toString());
 			
-			assertEquals(true,false);
+			assertEquals(true,true);
 			
 		} catch(Exception e) {
 			System.out.println(e);
@@ -176,7 +177,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity);   
 			OntTest.logger().description(QRcode.toString());
-//			assertEquals(true,ret.equals(exp));	
+			assertEquals(true,false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -197,7 +198,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
 			OntTest.logger().description(QRcode.toString());
-//			assertEquals(true,ret.equals(exp));	
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -206,7 +207,7 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_008_exportAccountQRCode() throws Exception {
+	public void test_normal_008_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("助记词  008  exportAccountQRCode()");
 
 		try {
@@ -221,6 +222,8 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportIdentityQRCode(walletFile,identity1);   
 			OntTest.logger().description(QRcode.toString());
+			
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -240,6 +243,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile, account);
 			OntTest.logger().description(QRcode.toString());
+			assertEquals(true,false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -262,6 +266,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account);   
 			OntTest.logger().description(QRcode.toString());	
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -270,7 +275,7 @@ public class MnemonicCodesStr {
 	}
 	
 	@Test
-	public void test_abnormal_011_exportAccountQRCode() throws Exception {
+	public void test_normal_011_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("助记词  011  exportAccountQRCode()");
 
 		try {
@@ -287,7 +292,7 @@ public class MnemonicCodesStr {
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account1);   
 			OntTest.logger().description(QRcode.toString());	
 			
-			assertEquals(true,false);
+			assertEquals(true,true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -310,6 +315,7 @@ public class MnemonicCodesStr {
 			
 			Map QRcode = WalletQR.exportAccountQRCode(walletFile,account);   
 			OntTest.logger().description(QRcode.toString());	
+			assertEquals(true,false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());

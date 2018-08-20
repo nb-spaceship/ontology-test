@@ -180,12 +180,13 @@ public class Common {
         return false;
 	}
 	
-	public static Result waitWsResult(String action) {
+	public Result waitWsResult(String action) {
 		Object lock = OntTest.wsLock();
         try {
-            synchronized (lock) {
-                for (int i = 0; i < 5; i++) {
-                    lock.wait();
+            
+            for (int i = 0; i < 5; i++) {
+                //lock.wait();
+            	synchronized (lock) {
                     for (String e : MsgQueue.getResultSet()) {
                         Result rt = JSON.parseObject(e, Result.class);
                         MsgQueue.removeResult(e);
@@ -193,19 +194,20 @@ public class Common {
                         	return rt;
                         }
                     }
-                    
-                    Thread.sleep(1000);
-                }
+            	}
                 
-                return null;
+                Thread.sleep(1000);
             }
+            
+            return null;
+            
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 	
-	public static boolean waitGenBlock() {
+	public boolean waitGenBlock() {
 		try {
 			int oldheight = OntTest.sdk().getConnect().getBlockHeight();
 			for (int i = 0; i < 30; i ++) {

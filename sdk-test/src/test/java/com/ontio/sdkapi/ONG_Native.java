@@ -26,9 +26,7 @@ public class ONG_Native {
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
 		OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-		Thread.sleep(8000);
 		OntTest.api().node().initOntOng();
-		Thread.sleep(5000);
 		OntTest.logger().step("*******************init_ONGONT_Finish*******************");
 	}
 	
@@ -66,7 +64,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -108,7 +107,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -157,7 +157,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -206,7 +207,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -255,7 +257,8 @@ public class ONG_Native {
 			System.out.println("11132");
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -265,7 +268,7 @@ public class ONG_Native {
 //			long dec = ongnum1-ongnum3;
 //			long inc = ongnum4-ongnum2;
 //			OntTest.logger().description(String.valueOf(inc));
-//			assertEquals(true,inc==1000000000);
+			assertEquals(true,false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -304,7 +307,8 @@ public class ONG_Native {
 //			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -353,7 +357,8 @@ public class ONG_Native {
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc2, gaslimit, gasprice);
 			//gasacc为接受ongacc
 			OntTest.logger().description(Transfer);
-			Thread.sleep(8000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -363,7 +368,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==0);
+			assertEquals(true,inc==amount);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -372,7 +377,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_normal_010_sendTransfer() throws Exception {
+	public void test_abnormal_010_sendTransfer() throws Exception {
 		OntTest.logger().description("测试sendTransfer参数sendAcct");
 		
 		try {
@@ -394,7 +399,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -442,7 +448,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -491,7 +498,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -541,7 +549,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -561,7 +570,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_abnormal_017_sendTransfer() throws Exception {
+	public void test_normal_017_sendTransfer() throws Exception {
 		OntTest.logger().description("测试sendTransfer参数sendAcct");
 		
 		try {
@@ -584,7 +593,8 @@ public class ONG_Native {
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, payer, gaslimit, gasprice);
 			//payer为第三方
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -594,7 +604,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==0);
+			assertEquals(true,inc==amount);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -626,7 +636,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, payer, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -674,7 +685,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -722,7 +734,7 @@ public class ONG_Native {
 //			
 //			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 //			System.out.println(Transfer);
-//			Thread.sleep(5000);
+//			boolean r = OntTest.common().waitTransactionResult(Transfer);
 //			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 //			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 //			System.out.println("final:");
@@ -763,7 +775,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -811,7 +824,8 @@ public class ONG_Native {
 			
 			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Transfer);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitGenBlock();
+			assertEquals(true,r);
 			long ongnum3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
@@ -970,7 +984,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			//正确的fromAddr值
@@ -1002,7 +1017,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			add1 = add1.substring(0,add1.length()-3)+"abc";
@@ -1042,7 +1058,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			add1 = "a"+add1;
@@ -1082,7 +1099,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			//String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String add1 = "";
@@ -1122,7 +1140,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			//fromAddr和toAddr与sendApprove时相反
@@ -1144,9 +1163,7 @@ public class ONG_Native {
 		
 		try {
 			OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
-			Thread.sleep(5000);
 			OntTest.api().node().initOntOng();
-			Thread.sleep(5000);
 			OntTest.logger().step("*******************init_ONGONT_Finish*******************");
 			
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
@@ -1189,7 +1206,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String add2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
@@ -1229,7 +1247,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String add2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
@@ -1269,7 +1288,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			String add2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
@@ -1309,7 +1329,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			String add1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			//String add2 = OntTest.common().getAccount(1).getAddressU160().toBase58();	
@@ -1350,7 +1371,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1381,7 +1403,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1419,7 +1442,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1457,7 +1481,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1495,7 +1520,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1533,7 +1559,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1570,7 +1597,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1607,7 +1635,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1647,7 +1676,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance2 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance2:"+Allowance2);
@@ -1661,7 +1691,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_abnormal_061_sendApprove() throws Exception {
+	public void test_normal_061_sendApprove() throws Exception {
 		OntTest.logger().description("测试sendApprove参数sendAcct");
 		
 		try {
@@ -1678,27 +1708,22 @@ public class ONG_Native {
 			
 			String Approve0 = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, 1, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve0);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve0);
+			assertEquals(true,r);
 			
 			long Allowance1 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance1:"+Allowance1);
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc3, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r2 = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r2);
 			
 			long Allowance2 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance2:"+Allowance2);
-			
-			
-			long ong1 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr3);
-			OntTest.logger().description("ong1:"+ong1);
-			OntTest.sdk().nativevm().ong().sendTransferFrom(acc3, addr1, addr3, amount, acc3, gaslimit, gasprice);
-			Thread.sleep(8000);
-			long ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr3);
-			OntTest.logger().description("ong2:"+ong2);
 
-			assertEquals(false,Allowance2==1000000);
+
+			assertEquals(true,Allowance2==1000000);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1722,7 +1747,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, null, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1759,7 +1785,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1802,7 +1829,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance2 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance2 : "+Allowance2);
@@ -1832,7 +1860,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1869,7 +1898,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
@@ -1902,7 +1932,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(8000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description("Allowance0 = "+Allowance0);
@@ -1911,7 +1942,9 @@ public class ONG_Native {
 				OntTest.logger().description("start : addr2 has "+ongnum_addr2+" ong");
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, gaslimit, gasprice);
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r2);
+				
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
 				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
@@ -1942,7 +1975,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -1952,7 +1986,8 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc1, addr1, addr2, amount, acc2, gaslimit, gasprice);
 				//sendAcct并非sendApprove的账户
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
 				assertEquals(false,(ongnum_addr3-ongnum_addr2)==1000000000);
@@ -1983,7 +2018,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -1993,10 +2029,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(null, addr1, addr2, amount, acc2, gaslimit, gasprice);
 				//sendacct留空
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2031,7 +2066,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2041,7 +2077,8 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr3, addr2, amount, acc2, gaslimit, gasprice);
 				//fromAddr存在，但并非sendApprove的地址
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
 				assertEquals(false,(ongnum_addr3-ongnum_addr2)==1000000000);
@@ -2072,7 +2109,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2082,10 +2120,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, "", addr2, amount, acc2, gaslimit, gasprice);
 				//fromaddr留空
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2121,7 +2158,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2131,7 +2169,8 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr3, amount, acc2, gaslimit, gasprice);
 				//toAddr存在，但并非sendApprove的地址
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
 				assertEquals(false,(ongnum_addr3-ongnum_addr2)==1000000000);
@@ -2162,7 +2201,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2172,10 +2212,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, "a"+addr2, amount, acc2, gaslimit, gasprice);
 				//toAddr长度为35及以上
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2210,7 +2249,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2220,10 +2260,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2.substring(0,addr2.length()-1), amount, acc2, gaslimit, gasprice);
 				//toAddr长度为33及以下
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2258,7 +2297,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2268,10 +2308,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, "", amount, acc2, gaslimit, gasprice);
 				//留空
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				System.out.println("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2306,7 +2345,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2316,10 +2356,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, 0L, acc2, gaslimit, gasprice);
 				//正确的数量0
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==0);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2354,7 +2393,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2364,10 +2404,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, -100000L, acc2, gaslimit, gasprice);
 				//amount为负数
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(false,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2402,7 +2441,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2412,13 +2452,12 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, Allowance0+1000000000L, acc2, gaslimit, gasprice);
 				//amount大于Allowance中实际所有的ONG数量
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
 				assertEquals(true,(ongnum_addr3-ongnum_addr2)==0);
-			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
-				assertEquals(true,false);
 			}
 		} catch(Exception e) {
 			System.out.println(e);
@@ -2428,7 +2467,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_abnormal_094_sendTransferFrom() throws Exception {
+	public void test_normal_094_sendTransferFrom() throws Exception {
 		OntTest.logger().description("测试sendTransferFrom参数sendAcct");
 		
 		try {
@@ -2444,7 +2483,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2454,10 +2494,12 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc3, gaslimit, gasprice);
 				//payerAcct为第三方，与sendAcct不一致
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
+				
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(false,(ongnum_addr3-ongnum_addr2)==amount);
+				assertEquals(true,(ongnum_addr3-ongnum_addr2)==amount);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2485,7 +2527,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(8000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2495,10 +2538,9 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, null, gaslimit, gasprice);
 				//payer留空
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2533,7 +2575,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2543,10 +2586,11 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, 0, gasprice);
 				//gaslimit错误的数量0（但实际步数大于0小于20000且ONG足够）
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2581,7 +2625,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2591,10 +2636,11 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, -20000L, gasprice);
 				//正确的数量gaslimit为负数（实际步数小于20000且ONG足够）
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2629,7 +2675,7 @@ public class ONG_Native {
 //			
 //			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 //			System.out.println(Approve);
-//			Thread.sleep(5000);
+//			boolean r = OntTest.common().waitTransactionResult(Transfer);
 //			
 //			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 //			System.out.println(Allowance0);
@@ -2639,7 +2685,7 @@ public class ONG_Native {
 //				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, gaslimit, gasprice);
 //				//错误的数量gaslimit为20000（实际步数大于20000但ONG足够）
 //				System.out.println(TransferFrom);
-//				Thread.sleep(5000);
+//				boolean r = OntTest.common().waitTransactionResult(Transfer);
 //				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 //				System.out.println("final : addr2 has "+ongnum_addr3+" ong");
 //				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
@@ -2670,21 +2716,24 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
 			if(Allowance0==1000000000) {
 				long ongnum_addr2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("before ong : "+ongnum_addr2);
-				OntTest.sdk().nativevm().ong().sendTransfer(acc2, addr1, ongnum_addr2, acc2, 20000L, 0L);
-				Thread.sleep(5000);
+				String ongtf = OntTest.sdk().nativevm().ong().sendTransfer(acc2, addr1, ongnum_addr2, acc2, 20000L, 0L);
+				boolean r2 = OntTest.common().waitTransactionResult(ongtf);
+				assertEquals(true,r2);
 				long ongnum_addr_should0 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("start : addr2_should0 has "+ongnum_addr_should0+" ong");
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, gaslimit, 1000000000L);
 				//错误的数量20000，自身ONG小于gaslimit与gasprice的乘积
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r3 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r3);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
 				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
@@ -2717,7 +2766,7 @@ public class ONG_Native {
 			OntTest.logger().step("***************************init_ONT_ONG***************************");
 			OntTest.api().node().initOntOng();
 			OntTest.logger().step("***************************init finish***************************");
-			Thread.sleep(5000);
+
 			
 			
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
@@ -2730,23 +2779,27 @@ public class ONG_Native {
 			long gasprice = 0;
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			System.out.println(Approve);
-			Thread.sleep(5000);
+			OntTest.logger().description(Approve);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
-			System.out.println(Allowance0);
+			OntTest.logger().description("allowance = "+String.valueOf(Allowance0));
 			if(Allowance0==1000000000) {
 				long ongnum_addr2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
-				System.out.println("start : addr2 has "+ongnum_addr2+" ong");
+				OntTest.logger().description("start : addr2 has "+String.valueOf(ongnum_addr2)+" ong");
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, 9223372036854775807L, 1L);
 				//错误的数量1000000000，sendAcct的ONG充足
 				System.out.println(TransferFrom);
-				Thread.sleep(8000);
+				boolean r2 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
-				System.out.println("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,true);
+				OntTest.logger().description("final : addr2 has "+String.valueOf(ongnum_addr3)+" ong");
+				long inc = ongnum_addr3-ongnum_addr2;
+				OntTest.logger().description("实际到帐: "+String.valueOf(inc));
+				assertEquals(true,inc==999980000);
 			}else {
-				System.out.println("Allowance与sendApprove的amount不一致");
+				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
 			}
 		} catch(Exception e) {
@@ -2772,7 +2825,8 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
@@ -2782,10 +2836,11 @@ public class ONG_Native {
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, gaslimit, -100000L);
 				//正确的数量（负数）
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r2);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2820,23 +2875,27 @@ public class ONG_Native {
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
 			OntTest.logger().description(Approve);
-			Thread.sleep(5000);
+			boolean r = OntTest.common().waitTransactionResult(Approve);
+			assertEquals(true,r);
 			
 			long Allowance0 = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance0));
 			if(Allowance0==1000000000) {
 				long ongnum_addr2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
-				OntTest.sdk().nativevm().ong().sendTransfer(acc2, addr1, ongnum_addr2, acc2, 20000L, 0L);
-				Thread.sleep(5000);
+				String ongnum_ret = OntTest.sdk().nativevm().ong().sendTransfer(acc2, addr1, ongnum_addr2, acc2, 20000L, 0L);
+				boolean r1 = OntTest.common().waitTransactionResult(ongnum_ret);
+				assertEquals(true,r1);
+				
 				long ongnum_addr_should0 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("start : addr2_should0 has "+ongnum_addr_should0+" ong");
 				String TransferFrom = OntTest.sdk().nativevm().ong().sendTransferFrom(acc2, addr1, addr2, amount, acc2, gaslimit, 1000000000L);
 				//错误的数量10（自身ONG小于gaslimit与gasprice的乘积）
 				OntTest.logger().description(TransferFrom);
-				Thread.sleep(5000);
+				boolean r3 = OntTest.common().waitTransactionResult(TransferFrom);
+				assertEquals(true,r3);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2941,9 +3000,10 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
-			
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r =OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true, r);
+
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
 			OntTest.logger().description(String.valueOf(ongnum));
@@ -2952,7 +3012,9 @@ public class ONG_Native {
 				OntTest.logger().description("start : "+addr1_Ong1);
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1, addr1, amount, acc1, gaslimit, gasprice);
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
+				
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
@@ -2982,8 +3044,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -2994,11 +3057,12 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(null, addr1, amount, acc1, gaslimit, gasprice);
 				//留空
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3031,8 +3095,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3043,11 +3108,12 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1.substring(0,addr1.length()-3)+"abc", amount, acc1, gaslimit, gasprice);
 				//toAddr不存在（乱码但符合toAddr34个字符要求）
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3080,8 +3146,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3092,11 +3158,12 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1 ,"a"+addr1, amount, acc1, gaslimit, gasprice);
 				//toAddr长度为35及以上
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3130,8 +3197,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3142,11 +3210,12 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1.substring(0,addr1.length()-3)+"@#$", amount, acc1, gaslimit, gasprice);
 				//34个字符的toAddr中包含非法符号（%￥#）
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3178,8 +3247,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3190,11 +3259,13 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,"", amount, acc1, gaslimit, gasprice);
 				//留空
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
+				
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3227,8 +3298,8 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3238,11 +3309,11 @@ public class ONG_Native {
 				OntTest.logger().description("start : "+addr1_Ong1);
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc1, gaslimit, gasprice);
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
-				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3276,8 +3347,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3285,7 +3357,7 @@ public class ONG_Native {
 			if(ongnum>1) {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1, addr1, amount, acc1, gaslimit, gasprice);
 				OntTest.logger().description(withdrawOng);
-				assertEquals(true,true);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3319,8 +3391,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount0, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount0, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3333,7 +3406,8 @@ public class ONG_Native {
 				OntTest.logger().description("start : "+addr1_Ong1);
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc1, gaslimit, gasprice);
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
@@ -3371,8 +3445,9 @@ public class ONG_Native {
 			long gasprice = 0;
 
 			OntTest.logger().description(String.valueOf(OntTest.sdk().nativevm().ong().queryBalanceOf(addr1)));
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3383,7 +3458,9 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc1, gaslimit, gasprice);
 				//正确的payerAcct
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
+				
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
@@ -3400,7 +3477,7 @@ public class ONG_Native {
 	}
 	
 	@Test
-	public void test_abnormal_122_claimOng() throws Exception {
+	public void test_normal_122_claimOng() throws Exception {
 		OntTest.logger().description("测试claimOng参数sendAcct");
 		
 		try {
@@ -3412,9 +3489,10 @@ public class ONG_Native {
 			long amount = 1;
 			long gaslimit = 20000;
 			long gasprice = 0;
-
-			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(10000);
+			
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3425,11 +3503,13 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc2, gaslimit, gasprice);
 				//payerAcct与sendAcct不一致，payerAcct为第三方
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
+				
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==0);
+				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3455,8 +3535,9 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3467,7 +3548,9 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, null, gaslimit, gasprice);
 				//留空
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(Transfer);
+				assertEquals(true,r2);
+				
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
@@ -3504,8 +3587,9 @@ public class ONG_Native {
 			long gaslimit = -20000;
 			long gasprice = 0;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3516,7 +3600,8 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc1, gaslimit, gasprice);
 				//正确的数量gaslimit为负数（实际步数小于20000且ONG足够）
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
@@ -3553,22 +3638,24 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 100000L;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, 0);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
 			OntTest.logger().description(String.valueOf(ongnum));
 			if(ongnum>1) {
 				long addr1_Ong1 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
-				OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, addr1_Ong1, acc1, gaslimit, 0);
-				Thread.sleep(5000);
+				String ret = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, addr1_Ong1, acc1, gaslimit, 0);
+				boolean r2 = OntTest.common().waitTransactionResult(ret);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("start(should be 0) : "+addr1_Ong2);
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc1, gaslimit, 100000L);
 				//错误的数量20000，自身ONG小于gaslimit与gasprice的乘积
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r3 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r3);
 				long addr1_Ong3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong3);
 				
@@ -3606,8 +3693,9 @@ public class ONG_Native {
 			long gasprice = -100000L;
 			//正确的数量（负数）
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, 0);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
@@ -3615,7 +3703,8 @@ public class ONG_Native {
 			if(ongnum>1) {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1, addr1, amount, acc1, gaslimit, gasprice);
 				OntTest.logger().description(withdrawOng);
-				assertEquals(true,false);
+				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
+				assertEquals(true,r2);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3648,22 +3737,25 @@ public class ONG_Native {
 			long gaslimit = 20000;
 			long gasprice = 100000L;
 
-			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-			Thread.sleep(5000);
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, amount, acc1, gaslimit, 0);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			long ongnum = Long.valueOf(unboundOng);
 			OntTest.logger().description(String.valueOf(ongnum));
 			if(ongnum>1) {
 				long addr1_Ong1 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
-				OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, addr1_Ong1, acc1, gaslimit, gasprice);
-				Thread.sleep(5000);
+				String ret = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, addr1_Ong1, acc1, gaslimit, 0);
+				boolean r2 = OntTest.common().waitGenBlock();
+				assertEquals(true,r2);
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("start(should be 0) : "+addr1_Ong2);
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1,addr1, amount, acc1, gaslimit, gasprice);
 				//错误的数量10（自身ONG小于gaslimit与gasprice的乘积）
 				OntTest.logger().description(withdrawOng);
-				Thread.sleep(5000);
+				boolean r3 = OntTest.common().waitGenBlock();
+				assertEquals(true,r3);
 				long addr1_Ong3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong3);
 				
@@ -3672,13 +3764,20 @@ public class ONG_Native {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
 			}
-		} catch(RpcException e) {
+		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
-			int err_code = (int) err.get("error");
-			int exp_errcode = 43001;
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58005;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
+//		} catch(RpcException e) {
+//	        Map err = (Map) JSON.parse(e.getMessage()); 
+//			System.out.println("err = "+err);
+//			int err_code = (int) err.get("error");
+//			int exp_errcode = 43001;
+//			OntTest.logger().error(e.toString());
+//			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -3692,23 +3791,25 @@ public class ONG_Native {
 		
 		try {
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
-//			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
-//			 
-//			Account acc1 = OntTest.common().getAccount(0);
-//			Account acc2 = OntTest.common().getAccount(1);
-//			long amount = 1000000000;
-//			long gaslimit = 20000;
-//			long gasprice = 0;
-//
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
+			 
+			Account acc1 = OntTest.common().getAccount(0);
+			Account acc2 = OntTest.common().getAccount(1);
+			long amount = 1000000000;
+			long gaslimit = 20000;
+			long gasprice = 0;
+
+			String Transfer = OntTest.sdk().nativevm().ont().sendTransfer(acc1, addr1, 1, acc1, gaslimit, gasprice);
+			boolean r = OntTest.common().waitTransactionResult(Transfer);
+			assertEquals(true,r);
+			System.out.println("1111");
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			//正确的address值
 			long ongnum = Long.valueOf(unboundOng);
-			System.out.println(ongnum);
+			OntTest.logger().description(String.valueOf(ongnum));
 
-			assertEquals(true,true);
+			assertEquals(true,ongnum!=0);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -3731,8 +3832,8 @@ public class ONG_Native {
 //			long gaslimit = 20000;
 //			long gasprice = 0;
 //
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+//			OntTest.common().waitTransactionResult(txhash);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			//address不存在，未创建的地址（34个字符）
@@ -3769,15 +3870,15 @@ public class ONG_Native {
 //			long gaslimit = 20000;
 //			long gasprice = 0;
 //
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
-//			Thread.sleep(5000);
+//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
+//			OntTest.common().waitTransactionResult(txhash);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng(addr1);
 			//address长度为35及以上
 			long ongnum = Long.valueOf(unboundOng);
 			OntTest.logger().description(String.valueOf(ongnum));
 
-			assertEquals(true,true);
+			assertEquals(true,false);
 		} catch(RpcException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -3806,7 +3907,7 @@ public class ONG_Native {
 //			long gaslimit = 20000;
 //			long gasprice = 0;
 //
-//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr2, amount, acc1, gaslimit, gasprice);
+//			String Transfer = OntTest.sdk().nativevm().ong().sendTransfer(acc1, addr1, amount, acc1, gaslimit, gasprice);
 //			Thread.sleep(5000);
 			
 			String unboundOng = OntTest.sdk().nativevm().ong().unboundOng("");
@@ -3814,7 +3915,7 @@ public class ONG_Native {
 			long ongnum = Long.valueOf(unboundOng);
 			OntTest.logger().description(String.valueOf(ongnum));
 
-			assertEquals(true,true);
+			assertEquals(true,false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);

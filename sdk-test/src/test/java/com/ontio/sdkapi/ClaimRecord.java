@@ -31,8 +31,8 @@ public class ClaimRecord {
 			
 			OntTest.logger().step("create identity");
 			ClaimRecord.identity = OntTest.sdk().getWalletMgr().createIdentity(password);
-			OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
-	        Thread.sleep(6000);
+			String tx1 = OntTest.sdk().nativevm().ontId().sendRegister(identity,password,payerAcct,OntTest.sdk().DEFAULT_GAS_LIMIT,0);
+			OntTest.common().waitTransactionResult(tx1);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());

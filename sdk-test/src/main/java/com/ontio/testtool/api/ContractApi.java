@@ -87,16 +87,15 @@ public class ContractApi {
             //System.out.println(result);
             //System.out.println("txhash:" + tx.hash().toString());
             String txhash = tx.hash().toHexString();
-            Thread.sleep(6000);
-            //DeployCode t = (DeployCode) ontSdk.getConnect().getTransaction(txhash);
-            //System.out.println(t.txType.value() & 0xff);
-            Map smartevent = (Map)ontSdk.getConnect().getSmartCodeEvent(txhash);
-            if ((int)smartevent.get("State") == 1) {
-            	Map ret = new HashMap();
+	        boolean txstate = OntTest.common().waitTransactionResult(txhash);
+	        if (txstate) {
+	        	Map ret = new HashMap();
             	ret.put("address", Address.AddressFromVmCode(avmcode).toHexString());
             	ret.put("abi", abi);
             	return ret;
-            }
+	        }
+            //DeployCode t = (DeployCode) ontSdk.getConnect().getTransaction(txhash);
+            //System.out.println(t.txType.value() & 0xff);
 			return null;
 		}
 		catch (Exception e) {

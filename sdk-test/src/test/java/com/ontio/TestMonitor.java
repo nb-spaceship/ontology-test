@@ -19,8 +19,6 @@ public class TestMonitor extends RunListener {
 	
 	@Override
     public void testRunStarted(Description description) throws Exception {
-		blockDescription.clear();
-		
         System.out.println("Number of tests to execute: " + description.testCount());
     }
 	
@@ -53,7 +51,7 @@ public class TestMonitor extends RunListener {
 		}
 		
 		if (contents.toLowerCase().contains("connect error:") && OntTest.logger().state().toLowerCase().equals("fail")) {
-			blockDescription.add(description);
+			TestMonitor.blockDescription.add(description);
 			// recover
 			OntTest.api().node().restartAll();
 			
