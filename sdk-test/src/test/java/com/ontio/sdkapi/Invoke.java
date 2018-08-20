@@ -242,7 +242,8 @@ public class Invoke {
 		
 		try {
 //			Map ret_deploy = OntTest.api().contract().deployContract(invoke_address, null);
-//			String codeAddr = String.valueOf(ret_deploy.get("address"));codeAddr = Helper.reverse(codeAddr);
+//			String codeAddr = String.valueOf(ret_deploy.get("address"));
+//			codeAddr = Helper.reverse(codeAddr);
 //			codeAddr = codeAddr.substring(0,codeAddr.length()-1)+"#";
 			String codeAddr = "";
 			//留空

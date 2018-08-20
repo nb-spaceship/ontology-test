@@ -342,7 +342,6 @@ public class ONG_Native {
 			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
 			 
 			Account acc1 = OntTest.common().getAccount(0);
-
 			Account acc2 = OntTest.common().getAccount(1);
 			long amount = 1000000000;
 			long gaslimit = 20000;
@@ -1817,7 +1816,8 @@ public class ONG_Native {
 			Account acc1 = OntTest.common().getAccount(0);
 			Account acc2 = OntTest.common().getAccount(1);
 			OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, 1L, acc1, 20000L, 0L);
-			OntTest.logger().description("ONG = "+ OntTest.sdk().nativevm().ong().queryBalanceOf(addr1));
+			OntTest.common().waitGenBlock();
+			OntTest.logger().description("ONG(addr1) = "+ OntTest.sdk().nativevm().ong().queryBalanceOf(addr1));
 			long amount = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1)+2000000000L;
 			OntTest.logger().description("amount : "+amount);
 			long gaslimit = 20000;
@@ -1828,6 +1828,8 @@ public class ONG_Native {
 			OntTest.logger().description("Allowance1 : "+Allowance1);
 			
 			String Approve = OntTest.sdk().nativevm().ong().sendApprove(acc1, addr2, amount, acc1, gaslimit, gasprice);
+			OntTest.common().waitGenBlock();
+			OntTest.logger().description("ONG_now(addr1) = "+ OntTest.sdk().nativevm().ong().queryBalanceOf(addr1));
 			OntTest.logger().description(Approve);
 			boolean r = OntTest.common().waitTransactionResult(Approve);
 			assertEquals(true,r);

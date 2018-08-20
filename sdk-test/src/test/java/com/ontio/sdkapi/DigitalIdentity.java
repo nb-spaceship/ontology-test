@@ -179,11 +179,12 @@ public class DigitalIdentity {
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
 		} catch(SDKException e) {
-			OntTest.logger().description(e.toString());
-			String act_error = String.valueOf(e);
-			System.out.println(act_error);
-			String exp_error = "com.github.ontio.sdk.exception.SDKException: {\"Desc\":\"Account Error,encryptedPriKey address password not match.\",\"Error\":51015}";
-			assertEquals(true,act_error.equals(exp_error));
+	        Map err = (Map) JSON.parse(e.getMessage()); 
+			OntTest.logger().description("err = "+err);
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 51015;
+			OntTest.logger().error(e.toString());
+			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -821,7 +822,7 @@ public class DigitalIdentity {
 	}	
 	
 	@Test
-	public void test_normal_031_createIdentityFromPriKey() throws Exception {
+	public void test_abnormal_031_createIdentityFromPriKey() throws Exception {
 		OntTest.logger().description("Digital identity  031  createIdentityFromPriKey()");
 
 		try {
