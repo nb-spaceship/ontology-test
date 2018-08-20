@@ -204,12 +204,14 @@ class ContractApi:
             #判断交易state是否成功，代替等待区块
             if check_state and response and ("txhash" in response) and (twice or pre == False):
                 result2 = nodeapi.wait_tx_result(response["txhash"])
-                if expect_response and expect_response["error"] != 0:
+                print ("+++++result2", result2)
+                print (expect_response["error"])
+                if expect_response and expect_response.has_key("error") and expect_response["error"] != 0:
                     result = result and not result2
                 else:
                     result = result and result2
                 # result = (result and result2) or (not result and not result2)  
-                
+
             if not result:
                 raise Error("tx state not match")
 
@@ -247,6 +249,10 @@ class ContractApi:
     def call_multisig_contract(self, task, m, pubkeyArray, sleep = 5, check_state = True):
         taskdata = task.data()
         expect_signresponse = None
+        expect_response = None
+
+        if "RESPONSE" in taskdata:
+            expect_response = taskdata["RESPONSE"]
         if "SIGN_RESPONSE" in taskdata:
             expect_signresponse = taskdata["SIGN_RESPONSE"]
 
@@ -305,7 +311,11 @@ class ContractApi:
 
                 if check_state and response and ("txhash" in response):
                     result2 = nodeapi.wait_tx_result(response["txhash"])
-                    result = (result and result2) or (not result and not result2)
+                    if expect_response and expect_response["error"] != 0:
+                        result = result and not result2
+                    else:
+                        result = result and result2
+                    # result = (result and result2) or (not result and not result2)  
 
                 time.sleep(sleep)
                 return (result,response)
