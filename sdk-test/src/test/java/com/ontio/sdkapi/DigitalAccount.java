@@ -61,7 +61,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("001",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			assertEquals(true,act.address.equals(address));
 		} 
 		catch(Exception e) {
@@ -84,7 +84,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("002", key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -119,7 +119,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("003",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -141,7 +141,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("004",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			
 		} 
 		catch(SDKException e) {
@@ -176,7 +176,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("005",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			
 		} catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -197,7 +197,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("006",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			
 		}
 		catch(SDKException e) {
@@ -234,7 +234,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("007",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			assertEquals(true,act.address.equals(address));
 
 		}
@@ -258,7 +258,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("008",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			
 
 		} 
@@ -281,32 +281,21 @@ public class DigitalAccount {
 	}
 	
 	@Test
-	public void test_abnormal_009_importAccount() throws Exception {
+	public void test_normal_009_importAccount() throws Exception {
 		OntTest.logger().description("----------importAccount----------");
 		
 		try {
 			OntTest.logger().step("1.生成账户");
-			String key = "QrxoFSIRPhjdNK1oVRimKVhGJOJZU/iQJE4NjmU+IEK2/5EYjZYjJu89VfympHTr";
+			String key = "WUoF55QJ/yo3/0x+OYcD6kQ6TGpyJeEHGi1AnoQBLe1AnRxgU0tQKxre3ny4SGDm";
 			String password = "";
-			String address = "AcNadNbsRwNDjN2XRAVyqD9LL4qSedd8WK";
-			byte[] salt = Base64.getDecoder().decode("zCBkHt+u2iuytAXZfHfm+w==");
+			String address = "AKcgbuwrXsnrH5YXtaYB7jYJg7VCQq2q8T";
+			byte[] salt = Base64.getDecoder().decode("IjnXmLQTTJ0+UxWvkBUAUA==");
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("009",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
+			assertEquals(true,act.address.equals(address));
 		} 
-		catch(SDKException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("Error").toString();
-			if("51015".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
-			
-		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -327,7 +316,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("010",key, password, address, salt);
 			
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			assertEquals(true,act.address.equals(address));
 		} 
 		catch(Exception e) {
@@ -353,7 +342,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("011",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			assertEquals(false, address.equals(""));
 		} 
 		catch(SDKException e) {
@@ -388,7 +377,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("012",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -421,7 +410,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("013",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 			assertEquals(true,act.address.equals(address));
 		} 
 		catch(Exception e) {
@@ -443,7 +432,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("014",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -477,7 +466,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("015",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -510,7 +499,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("016",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -544,7 +533,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("017",key, password, address, salt);
 			Account act2 = OntTest.sdk().getWalletMgr().importAccount("017",key, password, address, salt);
-			OntTest.logger().write(act2.toString());
+			OntTest.logger().print(act2.toString());
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -579,7 +568,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("018",key, password, address, salt);
 
-			OntTest.logger().write(act.toString());
+			OntTest.logger().print(act.toString());
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -606,7 +595,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccount("019", "123456");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -621,8 +610,8 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccount("020","");
-			OntTest.logger().write(acc.toString());
-			assertEquals(true,true);
+			OntTest.logger().print(acc.toString());
+			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -636,7 +625,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccount("021",",./0-=/pojh/guiyg''[]-#$^&(*&^!#@~!@#$%^&*(");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -674,7 +663,7 @@ public class DigitalAccount {
 				+ "fnkwcirwqfufufuweoq2m395rj8219630489671qcwbfnkwcirwqfufufuweoq2m395rj8219630489671qcwbrj8219630489671qcwbfnkwcirwqfufufuweoq2m"
 				+ "395rj8219630489671qcuqtfnkwcirwqfufufuweoq2m395rj8219630489671qcwbueuqtfnkwcirwqfufufuweoq2m395rj821963"
 				+ "uqtfnkwcirwqfufufuweoq2m395rj8219630489671qcwbueuqtfnkwcirwqfufufuweoq2m395rj821963wbwbrj8219630489671qcwb");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -690,7 +679,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("023","123456", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -706,7 +695,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("024","", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -722,7 +711,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("025","!@#$%^&*()_+,./\"<>\"", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -760,7 +749,7 @@ public class DigitalAccount {
 					+ "j8219630489671qcwbfnkwcirwqfufufuweoq2m395rj8219630489671qcuqtfnkwcirwqfufufuweoq2m395rj8219630489671qcwbueuqtfnkw"
 					+ "cirwqfufufuweoq2m395rj821963uqtfnkwcirwqfufufuweoq2m395rj8219630489671qcwbueuqtfnkwcirwqfufufuweoq2m395rj821963wbw"
 					+ "brj8219630489671qcwb", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -777,7 +766,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("027","123456", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -794,7 +783,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("028","123456", "1234asdfghabcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 		}
 
 		catch(Exception e) {
@@ -810,7 +799,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("029","123456", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef1");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -836,7 +825,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("030","123456", "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcde");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -863,7 +852,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("031","123456", "!@#$%^&*()abcdef1234567890abcdef1234567890abcdef1234567890abcdef");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -891,7 +880,7 @@ public class DigitalAccount {
 		
 		try {
 			Account acc = OntTest.sdk().getWalletMgr().createAccountFromPriKey("032","123456", "");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -918,7 +907,7 @@ public class DigitalAccount {
 		
 		try {
 			AccountInfo acc = OntTest.sdk().getWalletMgr().createAccountInfo("033","123456");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,true);
 		}
 		catch(Exception e) {
@@ -936,7 +925,7 @@ public class DigitalAccount {
 		
 		try {
 			AccountInfo acc = OntTest.sdk().getWalletMgr().createAccountInfo("034","");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -952,7 +941,7 @@ public class DigitalAccount {
 		
 		try {
 			AccountInfo acc = OntTest.sdk().getWalletMgr().createAccountInfo("035",",./0-=/pojh/guiyg''[]-#$^&(*&^!#@~!@#$%^&*(\"");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -989,7 +978,7 @@ public class DigitalAccount {
 					+ "weoq2m395rj8219630489671qcuqtfnkwcirwqfufufuweoq2m395rj8219630489671qcwbueuqtfnkwcirwqfufufuweoq"
 					+ "2m395rj821963uqtfnkwcirwqfufufuweoq2m395rj8219630489671qcwbueuqtfnkwcirwqfufufuweoq2m395rj8219"
 					+ "63wbwbrj8219630489671qcwb");
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true,acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1006,13 +995,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("037","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true, acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1030,13 +1019,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("038","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = "AcNadNbsRwNDjN2XRAVyqD9LL4qSedd8Wl";
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}
 		catch(SDKException e) {
@@ -1064,13 +1053,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("039","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = "AcNadNbsRwNDjN2XRAVyqD9LL4qSedd8WKL";
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}
 		catch(SDKException e) {
@@ -1100,13 +1089,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("040","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = "AcNadNbsRwNDjN2XRAV@#$9LL4qSedd8WK";
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1129,7 +1118,7 @@ public class DigitalAccount {
 			OntTest.sdk().getWalletMgr().importAccount(key, password, address, salt);
 			OntTest.logger().step("3.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true, acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1146,13 +1135,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = "";
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}
 		catch(SDKException e) {
@@ -1174,31 +1163,20 @@ public class DigitalAccount {
 	
 	
 	@Test
-	public void test_abnormal_043_getAccountInfo() throws Exception {
+	public void test_normal_043_getAccountInfo() throws Exception {
 		OntTest.logger().description("----------getAccountInfo----------");
 		
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
-		}
-		catch(SDKException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("Error").toString();
-			if("58004".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1215,13 +1193,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "654321";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}
 		catch(SDKException e) {
@@ -1249,13 +1227,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("!@#$%^");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "!@#$%^";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true, acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1273,13 +1251,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true, acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1297,13 +1275,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true, acc.addressBase58.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1321,14 +1299,14 @@ public class DigitalAccount {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("123456");
 			Account createaccinfo1 = OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write(createaccinfo.toString());
-			OntTest.logger().write(createaccinfo1.toString());			
+			OntTest.logger().print(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo1.toString());			
 			String password = "123456";
 			String address = createaccinfo.address;
 			byte[] salt = createaccinfo1.getSalt();
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}
 		catch(SDKException e) {
@@ -1355,13 +1333,13 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String password = "123456";
 			String address = createaccinfo.address;
 			byte[] salt = Base64.getDecoder().decode("");
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 
 		}
 		catch(SDKException e) {
@@ -1391,16 +1369,16 @@ public class DigitalAccount {
 		try {
 			OntTest.logger().step("1.创建账户");
 			OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write("第一个创建成功！");
+			OntTest.logger().print("第一个创建成功！");
 			OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write("第二个创建成功！");
+			OntTest.logger().print("第二个创建成功！");
 			OntTest.sdk().getWalletMgr().createAccount("123456");
-			OntTest.logger().write("第三个创建成功！");
-			OntTest.logger().write("查询所有账号");
+			OntTest.logger().print("第三个创建成功！");
+			OntTest.logger().print("查询所有账号");
 			
 			List<Account> act = OntTest.sdk().getWalletMgr().getWallet().getAccounts();
 			for(int i = 0; i < act.size(); i ++) {
-				OntTest.logger().write(act.get(i).toString());
+				OntTest.logger().print(act.get(i).toString());
 			}
 			assertEquals(true, act.isEmpty()==false);
 		}
@@ -1416,13 +1394,13 @@ public class DigitalAccount {
 		OntTest.logger().description("----------getAccount----------");
 		
 		try {
-			OntTest.logger().write("1.创建账户");
+			OntTest.logger().print("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("051","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String address = createaccinfo.address;
-			OntTest.logger().write("2.获取账号信息");
+			OntTest.logger().print("2.获取账号信息");
 			Account acc = OntTest.sdk().getWalletMgr().getWallet().getAccount(address);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			assertEquals(true, acc.address.equals("")==false);
 		}
 		catch(Exception e) {
@@ -1437,13 +1415,13 @@ public class DigitalAccount {
 		OntTest.logger().description("----------getAccount----------");
 		
 		try {
-			OntTest.logger().write("1.创建账户");
+			OntTest.logger().print("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("052","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String address = "Aa1TynaaMkeD2yVn1tjJ5RcxXTFd2CXFQ5";
-			OntTest.logger().write("2.获取账号信息");
+			OntTest.logger().print("2.获取账号信息");
 			Account acc = OntTest.sdk().getWalletMgr().getWallet().getAccount(address);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			
 		}catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1458,13 +1436,13 @@ public class DigitalAccount {
 		OntTest.logger().description("----------getAccount----------");
 		
 		try {
-			OntTest.logger().write("1.创建账户");
+			OntTest.logger().print("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("053","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String address = "Aa1TynKGMkeD2yVn1tjJ5RcxXTFd2CXFQ5123";
-			OntTest.logger().write("2.获取账号信息");
+			OntTest.logger().print("2.获取账号信息");
 			Account acc = OntTest.sdk().getWalletMgr().getWallet().getAccount(address);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			
 		}catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1479,13 +1457,13 @@ public class DigitalAccount {
 		OntTest.logger().description("----------getAccount----------");
 		
 		try {
-			OntTest.logger().write("1.创建账户");
+			OntTest.logger().print("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("054","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String address = "Aa1Ty!@#$%^&*()_+jJXTCX";
-			OntTest.logger().write("2.获取账号信息");
+			OntTest.logger().print("2.获取账号信息");
 			Account acc = OntTest.sdk().getWalletMgr().getWallet().getAccount(address);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			
 		}catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1499,13 +1477,13 @@ public class DigitalAccount {
 		OntTest.logger().description("----------getAccount----------");
 		
 		try {
-			OntTest.logger().write("1.创建账户");
+			OntTest.logger().print("1.创建账户");
 			Account createaccinfo = OntTest.sdk().getWalletMgr().createAccount("055","123456");
-			OntTest.logger().write(createaccinfo.toString());
+			OntTest.logger().print(createaccinfo.toString());
 			String address = "";
-			OntTest.logger().write("2.获取账号信息");
+			OntTest.logger().print("2.获取账号信息");
 			Account acc = OntTest.sdk().getWalletMgr().getWallet().getAccount(address);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			
 		}
 		catch(Exception e) {
@@ -1524,7 +1502,7 @@ public class DigitalAccount {
 			OntTest.logger().step("获取默认账户");
 			Account acc = OntTest.sdk().getWalletMgr().getDefaultAccount();
 			System.out.println(acc.address);
-			OntTest.logger().write(acc.toString());
+			OntTest.logger().print(acc.toString());
 			
 			assertEquals(true, OntTest.common().getAccount(0).getAddressU160().toBase58().equals(acc.address));
 		}
