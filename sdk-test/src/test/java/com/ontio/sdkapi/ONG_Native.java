@@ -3764,13 +3764,20 @@ public class ONG_Native {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
 			}
-		} catch(RpcException e) {
+		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
-			int err_code = (int) err.get("error");
-			int exp_errcode = 43001;
+			int err_code = (int) err.get("Error");
+			int exp_errcode = 58005;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
+//		} catch(RpcException e) {
+//	        Map err = (Map) JSON.parse(e.getMessage()); 
+//			System.out.println("err = "+err);
+//			int err_code = (int) err.get("error");
+//			int exp_errcode = 43001;
+//			OntTest.logger().error(e.toString());
+//			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
