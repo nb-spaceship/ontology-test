@@ -93,7 +93,7 @@ class Config():
 	
 	INIT_AMOUNT_ONG = cfg_json["INIT_AMOUNT_ONG"]
 
-	GEN_BLOCK_TIMEOUT = 30
+	GEN_BLOCK_TIMEOUT = 40
 	
 #####################################################################################
 	ontid_map = {}
