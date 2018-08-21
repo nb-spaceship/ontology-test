@@ -77,7 +77,7 @@ def sample(contract_address,pay_address,get_address,node_index,charge=False,node
 	else:
 		(result, response) = forNeo(contract_address,pay_address,get_address, node_index)
 	#API.node().wait_gen_block()
-	API.node().wait_gen_block()
+	API.node().wait_gen_block(True)
 	
 	
 	#getont/ong

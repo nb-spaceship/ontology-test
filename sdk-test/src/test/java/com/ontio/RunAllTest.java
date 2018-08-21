@@ -181,7 +181,9 @@ public class RunAllTest {
 	        System.out.println(TestMonitor.blockDescription.isEmpty());
 	        if (!TestMonitor.blockDescription.isEmpty()) {
 	        	
-	        	for (Description blockDescription : TestMonitor.blockDescription){
+	        	for (int i = 0; i < TestMonitor.blockDescription.size(); i++){
+	        		Description blockDescription = TestMonitor.blockDescription.get(i);
+	        		System.out.println("*********");
 	        		Request retryRequest = Request.method(blockDescription.getTestClass(), blockDescription.getMethodName());
 	        		result = junitRunner.run(retryRequest);
 	        		if (!result.wasSuccessful()) {
@@ -191,6 +193,7 @@ public class RunAllTest {
 	        		// System.out.println(result.wasSuccessful());
 	        	}
 	        	TestMonitor.blockDescription.clear();
+	    		System.out.println(TestMonitor.blockDescription.isEmpty());
 	        }
 	        
 	        System.out.println(failed_cases / (double)total_cases);
