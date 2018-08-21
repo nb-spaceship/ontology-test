@@ -199,7 +199,6 @@ class ContractApi:
             if response is None or "error" not in response:# or str(response["error"]) != '0':
                 raise Error("call contract error")
 
-
             response["signed_tx"] = signed_tx
             if deploy_contract_addr:
                 response["address"] = taskdata["REQUEST"]["Params"]["address"]
@@ -207,15 +206,13 @@ class ContractApi:
             #判断交易state是否成功，代替等待区块
             if check_state and response and ("txhash" in response) and (twice or pre == False):
                 result2 = nodeapi.wait_tx_result(response["txhash"])
-                if expect_response and "error" in expect_response and expect_response["error"] != 0:
-                    result = Common.cmp(expect_response, response)
-                    result = result and not result2
+                result3 = False
+                if response["error"] == 0:
+                    result3 = result2
                 else:
-                    result = result and result2
-                # result = (result and result2) or (not result and not result2)  
-
-            if not result:
-                raise Error("tx state not match")
+                    result3 = not result2
+                if not result3:
+                    raise Error("tx state not match")
 
             if judge and expect_response:
                 result = Common.cmp(expect_response, response)
@@ -313,11 +310,18 @@ class ContractApi:
 
                 if check_state and response and ("txhash" in response):
                     result2 = nodeapi.wait_tx_result(response["txhash"])
-                    if expect_response and expect_response["error"] != 0:
-                        result = result and not result2
+                    result3 = False
+                    if response["error"] == 0:
+                        result3 = result2
                     else:
-                        result = result and result2
-                    # result = (result and result2) or (not result and not result2)  
+                        result3 = not result2
+                    if not result3:
+                        raise Error("tx state not match")
+
+                if judge and expect_response:
+                    result = Common.cmp(expect_response, response)
+                    if not result:
+                        raise Error("not except result")
 
                 time.sleep(sleep)
                 return (result,response)
