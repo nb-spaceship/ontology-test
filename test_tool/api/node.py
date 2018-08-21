@@ -35,29 +35,30 @@ class NodeApi:
 			currentheight = RPC_API.getblockcount()
 			if (lastheight != currentheight):
 				return True
-			if (times > 40):
+			if (times > GEN_BLOCK_TIMEOUT):
 				return False
 
 	def wait_tx_result(self, txhash):
-		for i in range(40):
+		for i in range(Config.GEN_BLOCK_TIMEOUT):
 			time.sleep(1)
-			(ret, response) = RPC_API.getsmartcodeevent(tx_hash=txhash)
+			(ret, response) = RPC_API.getsmartcodeevent(tx_hash=txhash, True)
 			if ret:
 				try:
+					logger.info("tx hash:" + str(txhash) + " " + json.dumps(response))
 					state = response["result"]["State"]
 					if state == 1:
-						logger.info("tx hash: " + txhash +" state = 1")
+						logger.info("tx hash:" + str(txhash) +" state = 1")
 						return True
 					else:
 						return False
 				except Exception as e:
-					logger.print("no tx state info, may be block not generate yet...")
+					logger.print("tx hash:" + str(txhash) + " no tx state info, may be block not generate yet...")
 				continue
 			else:
-				logger.error("tx hash: " + txhash +" getsmartcodeevent error")
+				logger.error("tx hash:" + str(txhash) +" getsmartcodeevent error")
 				return False
 
-		logger.error("tx hash: " + txhash + " state timeout!")
+		logger.error("tx hash:" + str(txhash) + " state timeout!")
 		return False
 
 	def get_current_node(self):
