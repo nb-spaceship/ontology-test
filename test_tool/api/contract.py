@@ -216,8 +216,8 @@ class ContractApi:
 
             if judge and expect_response:
                 result = Common.cmp(expect_response, response)
-                if not result:
-                    raise Error("not except result")
+                #if not result:
+                #    raise Error("not except result")
 
             #time.sleep(sleep)
             return (result, response)
@@ -320,8 +320,8 @@ class ContractApi:
 
                 if expect_response:
                     result = Common.cmp(expect_response, response)
-                    if not result:
-                        raise Error("not except result")
+                    #if not result:
+                    #    raise Error("not except result")
 
                 time.sleep(sleep)
                 return (result,response)
