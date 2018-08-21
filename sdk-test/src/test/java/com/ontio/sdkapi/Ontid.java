@@ -36,8 +36,8 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		OntTest.api().node().restartAll();
-		OntTest.api().node().initOntOng();
+//		OntTest.api().node().restartAll();
+//		OntTest.api().node().initOntOng();
 	}
 	
 	@Before
@@ -748,7 +748,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1049,7 +1049,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1117,7 +1117,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "!@#$%^", salt, atr, acc1, 20000L, 0l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1197,7 +1197,7 @@ public class Ontid {
 					+ "TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXd"
 					+ "CWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNa", salt, atr, acc1, 20000L, 0l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1221,7 +1221,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1265,7 +1265,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_abnoraml_036_sendAddAttributes() throws Exception {
+	public void test_abnormal_036_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1304,7 +1304,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_noraml_037_sendAddAttributes() throws Exception {
+	public void test_normal_037_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1320,7 +1320,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1330,7 +1330,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_noraml_038_sendAddAttributes() throws Exception {
+	public void test_normal_038_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1349,7 +1349,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1358,7 +1358,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_noraml_039_sendAddAttributes() throws Exception {
+	public void test_normal_039_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1375,7 +1375,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1385,7 +1385,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_abnoraml_040_sendAddAttributes() throws Exception {
+	public void test_normal_040_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1404,7 +1404,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1414,7 +1414,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_noraml_041_sendAddAttributes() throws Exception {
+	public void test_normal_041_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1431,7 +1431,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 0l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 
 		catch(Exception e) {
@@ -1461,7 +1461,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1509,7 +1509,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_noraml_044_sendAddAttributes() throws Exception {
+	public void test_normal_044_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1528,7 +1528,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 40000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1537,7 +1537,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_abnoraml_045_sendAddAttributes() throws Exception {
+	public void test_abnormal_045_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1576,7 +1576,7 @@ public class Ontid {
 	}
 	
 	@Test
-	public void test_abnoraml_046_sendAddAttributes() throws Exception {
+	public void test_abnormal_046_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1615,7 +1615,7 @@ public class Ontid {
 	}	
 	
 //	@Test
-//	public void test_abnoraml_047_sendAddAttributes() throws Exception {
+//	public void test_abnormal_047_sendAddAttributes() throws Exception {
 //		OntTest.logger().description("----------sendAddAttributes----------");
 //		
 //		try {
@@ -1652,7 +1652,7 @@ public class Ontid {
 //	}	
 	
 	@Test
-	public void test_noraml_048_sendAddAttributes() throws Exception {
+	public void test_normal_048_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1671,7 +1671,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 10000000000L, 0);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1699,7 +1699,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
@@ -1708,7 +1708,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_abnoraml_050_sendAddAttributes() throws Exception {
+	public void test_abnormal_050_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1747,7 +1747,7 @@ public class Ontid {
 	}	
 	
 	@Test
-	public void test_abnoraml_051_sendAddAttributes() throws Exception {
+	public void test_abnormal_051_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1788,7 +1788,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_abnoraml_052_sendAddAttributes() throws Exception {
+	public void test_abnormal_052_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
