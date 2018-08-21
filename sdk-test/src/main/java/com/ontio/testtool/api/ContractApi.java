@@ -29,10 +29,6 @@ public class ContractApi {
 				return null;
 			} 
 			
-			if (smartxclient == null) {
-				smartxclient = new RpcClient("http://139.219.97.24:8080/api/v1.0/compile");
-			}
-			
 			String codeContent = "";
 	        BufferedReader codefilereader = null;  
         	codefilereader = new BufferedReader(new FileReader(codePath));  
@@ -41,37 +37,43 @@ public class ContractApi {
         		codeContent += tempString;
             }  
             codefilereader.close();  
-	
-	        String avmcode = "";
-	        String abi = "";
-			Map request = new HashMap();
-	        request.put("code", codeContent);
-	        request.put("type", "CSharp");
-			Map response = (Map) smartxclient.send(request);
-	        if (response == null) {
-	        	return null;
-	        } else if ((Integer)response.get("errcode") == 0) {
-	        	avmcode  = (String)response.get("avm");
-	        	if (avmcode.startsWith("b'")) {
-	        		avmcode = avmcode.substring(2);
-	        	}
-	        	if (avmcode.endsWith("'")) {
-	        		avmcode = avmcode.substring(0, avmcode.length() - 1);
-	        	}
-	        	
-	        	abi = (String)response.get("abi");
-	        	if (abi.startsWith("b'")) {
-	        		abi = abi.substring(2);
-	        	}
-	        	if (abi.endsWith("'")) {
-	        		abi = abi.substring(0, abi.length() - 1);
-	        	}
-	        	abi = abi.replace("\\n", "");
 
-	        	System.out.println(avmcode);
-	        	System.out.println(abi);
-	        } else {
-	        	return null;
+	        String avmcode = codeContent;
+	        String abi = "";
+	        
+	        if (codefile.getName().contains(".cs")) {
+				if (smartxclient == null) {
+					smartxclient = new RpcClient("http://139.219.97.24:8080/api/v1.0/compile");
+				}
+				Map request = new HashMap();
+		        request.put("code", codeContent);
+		        request.put("type", "CSharp");
+				Map response = (Map) smartxclient.send(request);
+		        if (response == null) {
+		        	return null;
+		        } else if ((Integer)response.get("errcode") == 0) {
+		        	avmcode  = (String)response.get("avm");
+		        	if (avmcode.startsWith("b'")) {
+		        		avmcode = avmcode.substring(2);
+		        	}
+		        	if (avmcode.endsWith("'")) {
+		        		avmcode = avmcode.substring(0, avmcode.length() - 1);
+		        	}
+		        	
+		        	abi = (String)response.get("abi");
+		        	if (abi.startsWith("b'")) {
+		        		abi = abi.substring(2);
+		        	}
+		        	if (abi.endsWith("'")) {
+		        		abi = abi.substring(0, abi.length() - 1);
+		        	}
+		        	abi = abi.replace("\\n", "");
+	
+		        	System.out.println(avmcode);
+		        	System.out.println(abi);
+		        } else {
+		        	return null;
+		        }
 	        }
 
 			System.out.println("ContractAddress:" + Address.AddressFromVmCode(avmcode).toHexString());
