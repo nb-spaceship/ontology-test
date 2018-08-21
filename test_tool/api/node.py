@@ -41,7 +41,7 @@ class NodeApi:
 	def wait_tx_result(self, txhash):
 		for i in range(Config.GEN_BLOCK_TIMEOUT):
 			time.sleep(1)
-			(ret, response) = RPC_API.getsmartcodeevent(tx_hash=txhash, True)
+			(ret, response) = RPC_API.getsmartcodeevent(tx_hash=txhash, process_log = False)
 			if ret:
 				try:
 					logger.info("tx hash:" + str(txhash) + " " + json.dumps(response))
