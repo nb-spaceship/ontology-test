@@ -1919,6 +1919,8 @@ public class ONG_Native {
 		OntTest.logger().description("测试sendTransferFrom参数sendAcct");
 		
 		try {	
+			OntTest.api().node().restartAll("ontology", "config.json", Config.DEFAULT_NODE_ARGS);
+			OntTest.api().node().initOntOng();
 			String addr1 = OntTest.common().getAccount(0).getAddressU160().toBase58();
 			//正确的sendAcct
 			String addr2 = OntTest.common().getAccount(1).getAddressU160().toBase58();
