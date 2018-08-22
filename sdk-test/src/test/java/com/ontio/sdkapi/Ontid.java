@@ -36,8 +36,8 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-		// OntTest.api().node().restartAll();
-		// OntTest.api().node().initOntOng();
+		OntTest.api().node().restartAll();
+		OntTest.api().node().initOntOng();
 	}
 	
 	@Before
@@ -690,6 +690,7 @@ public class Ontid {
 		}
 	}
 	
+	/*
 	@Test
 	public void test_createIdentity() throws Exception {
 		OntTest.logger().description("----------sendRegister----------");
@@ -719,6 +720,7 @@ public class Ontid {
 			fail();
 		}
 	}
+	*/
 	
 	@Test
 	public void test_normal_020_sendRegister() throws Exception {
