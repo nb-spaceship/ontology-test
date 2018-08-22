@@ -43,7 +43,7 @@ public class ContractApi {
 	        
 	        if (codefile.getName().contains(".cs")) {
 				if (smartxclient == null) {
-					smartxclient = new RpcClient("http://139.219.97.24:8080/api/v1.0/compile");
+					smartxclient = new RpcClient("http://42.159.94.234:8080/api/v1.0/compile");
 				}
 				Map request = new HashMap();
 		        request.put("code", codeContent);

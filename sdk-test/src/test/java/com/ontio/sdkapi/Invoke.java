@@ -866,6 +866,7 @@ public class Invoke {
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
+			e.printStackTrace();
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();

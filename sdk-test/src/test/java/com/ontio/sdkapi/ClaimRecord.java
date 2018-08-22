@@ -75,7 +75,7 @@ public class ClaimRecord {
 	}
 	
 	@Test
-	public void test_abnormal_002_exportIdentityQRCode() throws Exception {
+	public void test_normal_002_exportIdentityQRCode() throws Exception {
 		OntTest.logger().description("test_api   : exportIdentityQRCode");
 		OntTest.logger().description("test_param : walletFile - wrong walletFiles");
 
@@ -94,11 +94,8 @@ public class ClaimRecord {
 	        
 	        System.out.println(ret.toString());
 			
-	        assertEquals(true, ret == null);
+	        assertEquals(false, ret == null);
 			
-		} catch(SDKException e) {
-			System.out.println(e);
-			assertEquals(true, true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -243,7 +240,7 @@ public class ClaimRecord {
 	}
 	
 	@Test
-	public void test_abnormal_008_exportAccountQRCode() throws Exception {
+	public void test_normal_008_exportAccountQRCode() throws Exception {
 		OntTest.logger().description("test_api   : exportAccountQRCode");
 		OntTest.logger().description("test_param : walletFile - wrong walletFiles");
 
@@ -264,11 +261,8 @@ public class ClaimRecord {
 	        
 	        System.out.println(ret.toString());
 			
-			assertEquals(true, ret == null);
+			assertEquals(false, ret == null);
 			
-		} catch(SDKException e) {
-			System.out.println(e);
-			assertEquals(true, true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());

@@ -36,8 +36,8 @@ public class Ontid {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		OntTest.init();
-//		OntTest.api().node().restartAll();
-//		OntTest.api().node().initOntOng();
+		// OntTest.api().node().restartAll();
+		// OntTest.api().node().initOntOng();
 	}
 	
 	@Before
@@ -77,6 +77,7 @@ public class Ontid {
 			assertEquals(true, getid.equals(ontid1));
 			
 		} catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -111,6 +112,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -138,6 +140,7 @@ public class Ontid {
 			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -174,6 +177,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -208,6 +212,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -236,6 +241,7 @@ public class Ontid {
 			
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -301,6 +307,7 @@ public class Ontid {
 		} 
 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -329,6 +336,7 @@ public class Ontid {
 			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -363,6 +371,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -391,6 +400,7 @@ public class Ontid {
 			assertEquals(true, getid.equals(ontid1));
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -425,6 +435,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -459,6 +470,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -494,6 +506,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -528,6 +541,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -558,6 +572,7 @@ public class Ontid {
 			
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -593,6 +608,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -628,6 +644,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -667,6 +684,37 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
+			OntTest.logger().error(e.toString());
+			fail();
+		}
+	}
+	
+	@Test
+	public void test_createIdentity() throws Exception {
+		OntTest.logger().description("----------sendRegister----------");
+		
+		try {
+			int i = 0;
+			while(true){
+				System.out.println(i);
+				Identity ci = OntTest.sdk().getWalletMgr().createIdentity("123456");
+				i++;
+			}
+		} 
+		catch(RpcException e) {
+			Map er = (Map)JSON.parse(e.getMessage());
+			OntTest.logger().error(er.toString());
+			String er_code = er.get("error").toString();
+			if("43001".equals(er_code)) {
+				assertEquals(true,true);
+			}
+			else {
+				assertEquals(true,false);
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -694,6 +742,7 @@ public class Ontid {
 			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -716,12 +765,13 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, true);
 			String getid = OntTest.sdk().getWalletMgr().getWallet().getDefaultOntid();
-
+			
 			OntTest.logger().print("getDefaultOntid: "+getid);
 
 			assertEquals(true, getid.equals(ontid1));
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -751,6 +801,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -790,6 +841,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -829,6 +881,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -868,6 +921,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -907,6 +961,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -946,6 +1001,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -985,6 +1041,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1024,6 +1081,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1052,6 +1110,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1091,6 +1150,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1120,6 +1180,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1200,6 +1261,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1224,6 +1286,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1259,6 +1322,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1298,6 +1362,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1323,6 +1388,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1352,6 +1418,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1378,6 +1445,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1397,7 +1465,7 @@ public class Ontid {
 			byte[] salt = OntTest.sdk().getWalletMgr().getDefaultAccount().getSalt();
 			String ontid = "did:ont:"+acc1.getAddressU160().toBase58();
 			
-			Attribute[] atr = new Attribute[1];
+			Attribute[] atr = new Attribute[3];
 			atr[0] = new Attribute("zCBkHt+u2iu#$^$^ZfHfm+w==".getBytes(),"zCBkHt+u2iu$#^*ZfHfm+w==".getBytes(),"zCBkHt+#^%^@tAXZfm+w==".getBytes());
 			atr[1] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
 			atr[2] = new Attribute("zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes(),"zCBkHt+u2iuytAXZfHfm+w==".getBytes());
@@ -1407,6 +1475,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1435,6 +1504,7 @@ public class Ontid {
 		} 
 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1464,6 +1534,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1503,6 +1574,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1531,6 +1603,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1570,6 +1643,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1609,6 +1683,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1674,6 +1749,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1702,6 +1778,7 @@ public class Ontid {
 			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1741,6 +1818,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1781,6 +1859,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1821,6 +1900,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1856,6 +1936,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1877,6 +1958,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1899,6 +1981,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1921,6 +2004,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1943,6 +2027,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1965,6 +2050,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1987,6 +2073,7 @@ public class Ontid {
 			}
 		} 
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -2016,6 +2103,7 @@ public class Ontid {
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
 		}
