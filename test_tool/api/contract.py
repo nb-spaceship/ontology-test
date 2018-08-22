@@ -216,14 +216,14 @@ class ContractApi:
 
             if judge and expect_response:
                 result = Common.cmp(expect_response, response)
-                if not result:
-                    raise Error("not except result")
+                #if not result:
+                #    raise Error("not except result")
 
             #time.sleep(sleep)
             return (result, response)
 
         except Error as err:
-            return (False, err.msg)
+            return (False, {"error_info" : err.msg})
 
     def sign_multi_transction(self, task, judge = True, process_log = True):
         if task.node_index() != None:
@@ -246,87 +246,90 @@ class ContractApi:
             return (result, response)
 
     def call_multisig_contract(self, task, m, pubkeyArray, sleep = 5, check_state = True):
-        taskdata = task.data()
-        expect_signresponse = None
-        expect_response = None
+        try:
+            taskdata = task.data()
+            expect_signresponse = None
+            expect_response = None
 
-        if "RESPONSE" in taskdata:
-            expect_response = taskdata["RESPONSE"]
-        if "SIGN_RESPONSE" in taskdata:
-            expect_signresponse = taskdata["SIGN_RESPONSE"]
+            if "RESPONSE" in taskdata:
+                expect_response = taskdata["RESPONSE"]
+            if "SIGN_RESPONSE" in taskdata:
+                expect_signresponse = taskdata["SIGN_RESPONSE"]
 
-        (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
-        if not result:
-            logger.error("call_multisig_contract.sign_transction error!")
-            return (result, response)
-        
-        if expect_signresponse != None:             
-            result = Common.cmp(expect_signresponse, response)
-            if result and "error_code" in response and int(response["error_code"]) != 0:
-                return (result, response) 
-
+            (result, response) = self.sign_transction(task)#Task(name="multi", ijson=request))
             if not result:
-                raise Error("not except sign result")
+                logger.error("call_multisig_contract.sign_transction error!")
+                return (result, response)
+            
+            if expect_signresponse != None:             
+                result = Common.cmp(expect_signresponse, response)
+                if result and "error_code" in response and int(response["error_code"]) != 0:
+                    return (result, response) 
 
-        signed_tx = response["result"]["signed_tx"]
+                if not result:
+                    raise Error("not except sign result")
 
-        #print(request1)
-        execNum=0
-        signed_raw=signed_tx
-        for pubkey in pubkeyArray:
-            request1 = {
-                "REQUEST": {
-                    "qid":"1",
-                    "method":"sigmutilrawtx",
-                    "params":{
-                        "raw_tx":signed_raw,
-                        "m":m,
-                        "pub_keys":pubkeyArray
-                    }
-                },
-                "RESPONSE": {"error_code" : 0}
-            }
-            for node_index in range(len(Config.NODES)):
-                if Config.NODES[node_index]["pubkey"] == pubkey:
-                    request1["NODE_INDEX"] = node_index 
-                    (result, response) = self.sign_multi_transction(Task(name="multi", ijson=request1))
-                    if not result:
-                        logger.error("call_multisig_contract.sign_multi_transction error![1]")
-                        return (result, response)
-                    if "error_code" not in response or response["error_code"] != 0:
-                        logger.error("call_multisig_contract.sign_multi_transction error![2]")
-                        return (False, response)
-                    signed_raw = response["result"]["signed_tx"]
-                    logger.info("multi sign tx:" + str(execNum)+pubkey)
-                    execNum=execNum+1
-                    break
+            signed_tx = response["result"]["signed_tx"]
+
+            #print(request1)
+            execNum=0
+            signed_raw=signed_tx
+            for pubkey in pubkeyArray:
+                request1 = {
+                    "REQUEST": {
+                        "qid":"1",
+                        "method":"sigmutilrawtx",
+                        "params":{
+                            "raw_tx":signed_raw,
+                            "m":m,
+                            "pub_keys":pubkeyArray
+                        }
+                    },
+                    "RESPONSE": {"error_code" : 0}
+                }
+                for node_index in range(len(Config.NODES)):
+                    if Config.NODES[node_index]["pubkey"] == pubkey:
+                        request1["NODE_INDEX"] = node_index 
+                        (result, response) = self.sign_multi_transction(Task(name="multi", ijson=request1))
+                        if not result:
+                            logger.error("call_multisig_contract.sign_multi_transction error![1]")
+                            return (result, response)
+                        if "error_code" not in response or response["error_code"] != 0:
+                            logger.error("call_multisig_contract.sign_multi_transction error![2]")
+                            return (False, response)
+                        signed_raw = response["result"]["signed_tx"]
+                        logger.info("multi sign tx:" + str(execNum)+pubkey)
+                        execNum=execNum+1
+                        break
+                        
+                if execNum >= m:
+                    (result,response)=self.call_signed_contract(signed_raw, True)
+                    (result2,response2) = self.call_signed_contract(signed_raw, False)
+                    #判断交易state是否成功，代替等待区块
+                    if response and response2 and "result" in response2:
+                        response["txhash"] = response2["result"]
+
+                    if check_state and response and ("txhash" in response):
+                        result2 = nodeapi.wait_tx_result(response["txhash"])
+                        result3 = False
+                        if response["error"] == 0:
+                            result3 = result2
+                        else:
+                            result3 = not result2
+                        if not result3:
+                            raise Error("tx state not match")
+
+                    if expect_response:
+                        result = Common.cmp(expect_response, response)
+                        #if not result:
+                        #    raise Error("not except result")
+
+                    time.sleep(sleep)
+                    return (result,response)
                     
-            if execNum >= m:
-                (result,response)=self.call_signed_contract(signed_raw, True)
-                (result2,response2) = self.call_signed_contract(signed_raw, False)
-                #判断交易state是否成功，代替等待区块
-                if response and response2 and "result" in response2:
-                    response["txhash"] = response2["result"]
-
-                if check_state and response and ("txhash" in response):
-                    result2 = nodeapi.wait_tx_result(response["txhash"])
-                    result3 = False
-                    if response["error"] == 0:
-                        result3 = result2
-                    else:
-                        result3 = not result2
-                    if not result3:
-                        raise Error("tx state not match")
-
-                if judge and expect_response:
-                    result = Common.cmp(expect_response, response)
-                    if not result:
-                        raise Error("not except result")
-
-                time.sleep(sleep)
-                return (result,response)
-                
-        return (False, {"error_info":"multi times lesss than except!only "+str(execNum)})
+            return (False, {"error_info":"multi times lesss than except!only "+str(execNum)})
+        except Exception as e:
+            return (False, {"error_info": e})
 
     def init_admin(self, contract_address, admin_address, node_index = None, sleep = 5):
         request = {

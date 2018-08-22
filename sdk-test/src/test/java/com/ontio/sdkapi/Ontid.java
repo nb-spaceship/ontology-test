@@ -798,7 +798,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1107,7 +1107,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1177,7 +1177,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "!@#$%^", salt, atr, acc1, 20000L, 0l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1258,7 +1258,7 @@ public class Ontid {
 					+ "TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNaAf296@#$TqHV5byLvXd"
 					+ "CWCheW3HcpMpcNaAf296@#$TqHV5byLvXdCWCheW3HcpMpcNa", salt, atr, acc1, 20000L, 0l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1283,7 +1283,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1385,7 +1385,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1415,7 +1415,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1442,7 +1442,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1500,7 +1500,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 0l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 
 		catch(Exception e) {
@@ -1531,7 +1531,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1600,7 +1600,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 40000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1746,7 +1746,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 10000000000L, 0);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();
@@ -1775,7 +1775,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertEquals(false, sr == null);
 		} 
 		catch(Exception e) {
 			e.printStackTrace();

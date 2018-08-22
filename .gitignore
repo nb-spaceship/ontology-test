@@ -3,3 +3,7 @@
 
 *.log
 *.csv
+*.ini
+*.tmp
+test_tool/test/tmp
+*.prefs
