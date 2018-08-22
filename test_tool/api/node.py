@@ -35,7 +35,7 @@ class NodeApi:
 			currentheight = RPC_API.getblockcount()
 			if (lastheight != currentheight):
 				return True
-			if (times > GEN_BLOCK_TIMEOUT):
+			if (times > Config.GEN_BLOCK_TIMEOUT):
 				return False
 
 	def wait_tx_result(self, txhash):
