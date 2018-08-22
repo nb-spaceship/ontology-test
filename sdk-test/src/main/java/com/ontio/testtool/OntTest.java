@@ -40,6 +40,11 @@ public class OntTest {
 			//copy wallte tmp files
 			for(int i = 0; i < Config.NODES.size(); i++) {
 				String walletorg = Config.nodeWallet(i);
+				File file = new File(walletorg);
+				if (file.exists()) {
+					file.delete();
+				}
+				
 				BufferedReader br = new BufferedReader(new FileReader(walletorg.replace(".tmp", "")));
 				BufferedWriter bw = new BufferedWriter(new FileWriter(walletorg));
 				String line;
