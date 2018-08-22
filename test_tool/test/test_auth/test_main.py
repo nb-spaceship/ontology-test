@@ -327,7 +327,7 @@ class test_auth_1(ParametrizedTestCase):
             else:
                 self.ASSERT(True, "")
         except Exception as e:
-            logger.print(e.args[0])
+            logger.print(traceback.print_exc())
 
     def test_abnormal_021_transfer(self):
         try:
