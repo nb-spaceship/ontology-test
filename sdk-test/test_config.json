@@ -4,7 +4,7 @@
 	"RESTFUL_PORT": "20334",
 	"WS_PORT": "20335",
 	"TEST_SERVICE_PORT" : "23635",
-	"TEST_MODE":true,
+	"TEST_MODE":false,
 	"DEFAULT_NODE_ARGS" : "--ws --rest --loglevel=0 --enableconsensus --networkid=377 --gasprice=0 --gaslimit=20000",
 	"MULTI_SIGNED_ADDRESS" : "",
 	"INIT_AMOUNT_ONG" : "7000000000000000",
