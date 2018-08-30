@@ -1920,7 +1920,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertTrue(true);
+				assertTrue(false);
 			}
 			
 		}
@@ -2064,7 +2064,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2160,7 +2160,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2302,7 +2302,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2355,7 +2355,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2407,7 +2407,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2546,7 +2546,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2598,7 +2598,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2692,7 +2692,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(SDKException e) {
@@ -2745,7 +2745,7 @@ public class ONT_Native {
 			}
 			else {
 				OntTest.logger().print("失败！");
-				assertEquals(true, true);
+				assertEquals(true, false);
 			}
 		}
 		catch(RpcException e) {
