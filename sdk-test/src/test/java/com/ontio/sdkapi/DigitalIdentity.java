@@ -1079,7 +1079,7 @@ public class DigitalIdentity {
 			OntTest.logger().step("测试参数createIdentityInfoFromPriKey_prikey");
 			String label = "label";
 			String password = "123456";
-			String prikey = "edfabc1111111111111111111111111111111111111111111111111111111111";
+			String prikey = "zzedfabc1111111111111111111111111111111111111111111111111111111111";
 					
 			IdentityInfo ret = OntTest.sdk().getWalletMgr().createIdentityInfoFromPriKey(label, password, prikey);
 			OntTest.logger().description(ret.toString());	
@@ -1090,7 +1090,6 @@ public class DigitalIdentity {
 			System.out.println(e);
 			assertTrue(true);
 		} catch(Exception e) {
-			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1811,10 +1810,7 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
-		} catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(false);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
