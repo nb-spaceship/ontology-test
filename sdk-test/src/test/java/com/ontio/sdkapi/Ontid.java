@@ -1848,7 +1848,7 @@ public class Ontid {
 	
 	
 	@Test
-	public void test_abnormal_052_sendAddAttributes() throws Exception {
+	public void test_normal_052_sendAddAttributes() throws Exception {
 		OntTest.logger().description("----------sendAddAttributes----------");
 		
 		try {
@@ -1867,18 +1867,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 1000000000l);
 			OntTest.logger().print(sr);
-			assertTrue(false);
-		} 
-		catch(RpcException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("error").toString();
-			if("43001".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
+			assertTrue(true);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
