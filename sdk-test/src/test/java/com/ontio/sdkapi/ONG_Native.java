@@ -370,7 +370,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEqual(true,amount==inc);
+			assertEquals(true,amount==inc);
 		} catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(false);
@@ -515,7 +515,7 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 
-			assertEqual(true,inc==0);
+			assertEquals(true,inc==0);
 		}catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(false);
@@ -562,7 +562,7 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 
-			assertEqual(true,inc==0);
+			assertEquals(true,inc==0);
 		}catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(false);
@@ -839,7 +839,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEqual(true,inc==0);
+			assertEquals(true,inc==0);
 		}catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(false);
@@ -967,7 +967,7 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(Allowance));
 			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
 			OntTest.logger().description(String.valueOf(Allowance1));
-			assertEqual(true,Allowance1==0);
+			assertEquals(true,Allowance1==0);
 		}catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(false);
