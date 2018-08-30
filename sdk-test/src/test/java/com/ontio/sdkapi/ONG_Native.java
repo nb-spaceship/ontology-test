@@ -3438,19 +3438,12 @@ public class ONG_Native {
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				//assertEquals(true,(addr1_Ong2-addr1_Ong1)==0);
-				assertEquals(true,false);
+				assertEquals(true,(addr1_Ong2-addr1_Ong1)==0);
+				//assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
 			}
-		} catch(SDKException e) {
-	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58005;
-			OntTest.logger().error(e.toString());
-			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
