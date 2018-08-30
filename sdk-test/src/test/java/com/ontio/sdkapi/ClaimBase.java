@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.*;
 
@@ -193,7 +194,7 @@ public class ClaimBase {
 		try {
 									
 			OntTest.sdk().nativevm().ontId().getMerkleProof("");
-			
+			assertTrue(false);
 			
 		} catch(SDKException e) {
 			System.out.println(e);
@@ -258,7 +259,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -279,7 +280,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -350,7 +351,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -387,7 +388,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -458,7 +459,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -493,7 +494,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -565,7 +566,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -602,7 +603,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -710,7 +711,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -786,7 +787,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -823,7 +824,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -898,7 +899,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -935,7 +936,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1039,7 +1040,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1110,7 +1111,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1144,7 +1145,7 @@ public class ClaimBase {
 			OntTest.logger().step("verify OntIdClaim");
 			boolean b = OntTest.sdk().nativevm().ontId().verifyOntIdClaim(claim);
 			
-			assertEquals(false, b);
+			assertTrue(false);
 			
 		} catch(SDKException e) {
 			System.out.println(e);
@@ -1204,7 +1205,7 @@ public class ClaimBase {
 			
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertEquals(true, true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
