@@ -119,7 +119,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -169,7 +169,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -219,7 +219,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -370,7 +370,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==amount);
+			assertTrue(false);
 		} catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(true);
@@ -415,7 +415,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -464,7 +464,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -515,7 +515,7 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 
-			assertEquals(true,inc==0);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -566,7 +566,7 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 
-			assertEquals(true,inc==0);
+			assertTrue(false);
 		} catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(true);
@@ -655,7 +655,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -704,7 +704,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -794,7 +794,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==1000000000);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -843,7 +843,7 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertEquals(true,inc==0);
+			assertTrue(false);
 		} catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(true);
@@ -935,7 +935,7 @@ public class ONG_Native {
 			long ongnum = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 			OntTest.logger().description(String.valueOf(ongnum));
 
-			assertEquals(true,true);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -971,7 +971,7 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(Allowance));
 			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
 			OntTest.logger().description(String.valueOf(Allowance1));
-			assertEquals(true,Allowance==Allowance1);
+			assertTrue(false);
 		} catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(true);
@@ -1041,7 +1041,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(true,Allowance==1000000000);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1082,7 +1082,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1123,7 +1123,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		}catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1166,7 +1166,7 @@ public class ONG_Native {
 			assertEquals(false,Allowance==1000000000);
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1188,7 +1188,7 @@ public class ONG_Native {
 			 
 			Account acc1 = OntTest.common().getAccount(0);
 			Account acc2 = OntTest.common().getAccount(1);
-			long amount = 1000000000;
+			long amount = 0;
 			long gaslimit = 20000;
 			long gasprice = 0;
 			
@@ -1197,12 +1197,10 @@ public class ONG_Native {
 			//toAddr存在，但并没有前提sendApprove
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
-			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
-			OntTest.logger().description(String.valueOf(Allowance1));
-			assertEquals(true,Allowance==Allowance1);
+			assertEquals(true,Allowance==amount);
 		}  catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1236,7 +1234,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(true,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1277,7 +1275,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1318,7 +1316,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(true,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1359,7 +1357,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(add1, add2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(true,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1429,7 +1427,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1468,7 +1466,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1507,7 +1505,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1546,7 +1544,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1585,7 +1583,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1623,7 +1621,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1661,7 +1659,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1773,7 +1771,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(false,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1811,7 +1809,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(true,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -1889,7 +1887,7 @@ public class ONG_Native {
 			long Allowance = OntTest.sdk().nativevm().ong().queryAllowance(addr1, addr2);
 			OntTest.logger().description(String.valueOf(Allowance));
 
-			assertEquals(true,Allowance==1000000000);
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -2022,7 +2020,7 @@ public class ONG_Native {
 			}
 		}  catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2116,7 +2114,7 @@ public class ONG_Native {
 			}
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		}  catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2211,7 +2209,7 @@ public class ONG_Native {
 			}
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2495,7 +2493,7 @@ public class ONG_Native {
 			}
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2773,7 +2771,7 @@ public class ONG_Native {
 				assertEquals(true,r3);
 				long ongnum_addr3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 				OntTest.logger().description("final : addr2 has "+ongnum_addr3+" ong");
-				assertEquals(true,(ongnum_addr3-ongnum_addr2)==1000000000);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
@@ -2841,7 +2839,7 @@ public class ONG_Native {
 			}
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2945,13 +2943,6 @@ public class ONG_Native {
 			System.out.println("err = "+err);
 			int err_code = (int) err.get("error");
 			int exp_errcode = 43001;
-			OntTest.logger().error(e.toString());
-			assertEquals(true,err_code==exp_errcode);
-		} catch(SDKException e) {
-	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58005;
 			OntTest.logger().error(e.toString());
 			assertEquals(true,err_code==exp_errcode);
 		} catch(Exception e) {
@@ -3451,7 +3442,8 @@ public class ONG_Native {
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==0);
+				//assertEquals(true,(addr1_Ong2-addr1_Ong1)==0);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3594,7 +3586,8 @@ public class ONG_Native {
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				//assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3645,7 +3638,8 @@ public class ONG_Native {
 				long addr1_Ong2 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong2);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				//assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3699,7 +3693,8 @@ public class ONG_Native {
 				long addr1_Ong3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong3);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				//assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3744,7 +3739,8 @@ public class ONG_Native {
 				String withdrawOng = OntTest.sdk().nativevm().ong().withdrawOng(acc1, addr1, amount, acc1, gaslimit, gasprice);
 				OntTest.logger().description(withdrawOng);
 				boolean r2 = OntTest.common().waitTransactionResult(withdrawOng);
-				assertEquals(true,r2);
+				//assertEquals(true,r2);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
@@ -3799,7 +3795,8 @@ public class ONG_Native {
 				long addr1_Ong3 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr1);
 				OntTest.logger().description("final : "+addr1_Ong3);
 				
-				assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				//assertEquals(true,(addr1_Ong2-addr1_Ong1)==1);
+				assertEquals(true,false);
 			}else {
 				OntTest.logger().description("可提取的ong数量不足");
 				assertEquals(true,false);
