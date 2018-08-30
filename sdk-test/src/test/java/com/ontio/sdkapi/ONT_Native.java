@@ -749,7 +749,7 @@ public class ONT_Native {
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf("AbwJsJYQPBSw67SVP7hctkWsfzgikwNkvh");
 			String bal = String.valueOf(l);
 			OntTest.logger().print(bal);
-			assertEquals(true,bal=="0");
+			assertEquals(true,l==0);
 		}catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
@@ -1127,16 +1127,16 @@ public class ONT_Native {
 			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
 			OntTest.common().waitTransactionResult(ts);
 			OntTest.logger().step("2.调用queryAllowance");
-			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr2 , addr2);
+			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr2 , addr1);
 			OntTest.logger().print("queryAllowance:"+l);
 			
 			if(l == 0) {
 			OntTest.logger().print("成功！");
-			assertEquals(true, false);
+			assertEquals(true, true);
 			}
 		else{
 			OntTest.logger().print("失败！");
-			assertEquals(true, true);
+			assertEquals(true, false);
 			}
 		} catch(SDKException e) {
 			System.out.println(e);
