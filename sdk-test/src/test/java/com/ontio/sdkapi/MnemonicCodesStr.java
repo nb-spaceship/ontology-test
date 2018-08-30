@@ -377,10 +377,7 @@ public class MnemonicCodesStr {
 			
 			OntTest.logger().description("PriKey = "+PriKey);
 			assertEquals(true,false);
-		} catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(true);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
@@ -398,10 +395,7 @@ public class MnemonicCodesStr {
 			
 			OntTest.logger().description("PriKey = "+PriKey);
 			assertEquals(true,false);
-		} catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(true);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
@@ -579,9 +573,6 @@ public class MnemonicCodesStr {
 			
 			assertEquals(true,false);
 			
-		}catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -605,10 +596,7 @@ public class MnemonicCodesStr {
 			
 			assertEquals(true,false);
 			
-		} catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(true);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
@@ -631,9 +619,6 @@ public class MnemonicCodesStr {
 			
 			assertEquals(true,false);
 			
-		}catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -657,9 +642,6 @@ public class MnemonicCodesStr {
 			
 			assertEquals(true,false);
 			
-		}catch(SDKException e) {
-			System.out.println(e);
-			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());

@@ -74,8 +74,8 @@ public class RpcClient {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setDoOutput(true);
-            //connection.setConnectTimeout(5000);
-            //connection.setReadTimeout(5000);
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
             try (OutputStreamWriter w = new OutputStreamWriter(connection.getOutputStream())) {
                 w.write(JSON.toJSONString(request));
             }
