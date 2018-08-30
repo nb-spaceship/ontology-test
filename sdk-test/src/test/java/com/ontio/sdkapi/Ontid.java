@@ -671,7 +671,8 @@ public class Ontid {
 
 			OntTest.logger().print("getDefaultOntid: "+getid);
 
-			assertEquals(true, getid.equals(ontid1));
+			//assertEquals(true, getid.equals(ontid1));
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1959,11 +1960,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		}  catch(SDKException e) {
+		}catch(SDKException e) {
 			System.out.println(e);
 			assertTrue(false);
-		}
-		catch(Exception e) {
+		}catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
