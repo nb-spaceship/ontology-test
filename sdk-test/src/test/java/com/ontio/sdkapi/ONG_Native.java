@@ -370,10 +370,10 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertTrue(false);
+			assertEqual(true,amount==inc);
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		}  catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -515,15 +515,11 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 
+			assertEqual(true,inc==0);
+		}catch(SDKException e) {
+			System.out.println(e);
 			assertTrue(false);
-		} catch(SDKException e) {
-	        Map err = (Map) JSON.parse(e.getMessage()); 
-			System.out.println("err = "+err);
-			int err_code = (int) err.get("Error");
-			int exp_errcode = 58005;
-			OntTest.logger().error(e.toString());
-			assertEquals(true,err_code==exp_errcode);
-		} catch(Exception e) {
+		}catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
@@ -566,10 +562,10 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 
-			assertTrue(false);
-		} catch(SDKException e) {
+			assertEqual(true,inc==0);
+		}catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -843,10 +839,10 @@ public class ONG_Native {
 			long dec = ongnum1-ongnum3;
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
-			assertTrue(false);
-		} catch(SDKException e) {
+			assertEqual(true,inc==0);
+		}catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -971,10 +967,10 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(Allowance));
 			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
 			OntTest.logger().description(String.valueOf(Allowance1));
-			assertTrue(false);
-		} catch(SDKException e) {
+			assertEqual(true,Allowance1==0);
+		}catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
