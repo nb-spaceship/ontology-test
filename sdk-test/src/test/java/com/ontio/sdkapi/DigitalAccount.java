@@ -84,8 +84,8 @@ public class DigitalAccount {
 			byte[] salt = Base64.getDecoder().decode("zCBkHt+u2iuytAXZfHfm+w==");
 			OntTest.logger().step("2.导入账户");
 			Account act = OntTest.sdk().getWalletMgr().importAccount("002", key, password, address, salt);
-			
 			OntTest.logger().print(act.toString());
+			assertTrue(false);
 		}
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -148,7 +148,7 @@ public class DigitalAccount {
 			Account act = OntTest.sdk().getWalletMgr().importAccount("004",key, password, address, salt);
 			
 			OntTest.logger().print(act.toString());
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1208,7 +1208,7 @@ public class DigitalAccount {
 			OntTest.logger().step("2.获取账号信息");
 			AccountInfo acc = OntTest.sdk().getWalletMgr().getAccountInfo(address, password, salt);
 			OntTest.logger().print(acc.toString());
-
+			assertEquals(true,true);
 		}
 		catch(Exception e) {
 			OntTest.logger().error(e.toString());
