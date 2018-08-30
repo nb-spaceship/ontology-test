@@ -749,20 +749,8 @@ public class ONT_Native {
 			long l = OntTest.sdk().nativevm().ont().queryBalanceOf("AbwJsJYQPBSw67SVP7hctkWsfzgikwNkvh");
 			String bal = String.valueOf(l);
 			OntTest.logger().print(bal);
-			assertTrue(false);
-		}
-		catch(SDKException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("Error").toString();
-			if("58004".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
-		}
-		catch(Exception e) {
+			assertEquals(true,bal=="0");
+		}catch(Exception e) {
 			OntTest.logger().error(e.toString());
 			fail();
 		}
@@ -1139,13 +1127,13 @@ public class ONT_Native {
 			String ts = OntTest.sdk().nativevm().ont().sendApprove(acc1, addr2, 10L, acc1, 20000L, 1L);
 			OntTest.common().waitTransactionResult(ts);
 			OntTest.logger().step("2.调用queryAllowance");
-			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr2 , addr1);
+			long l = OntTest.sdk().nativevm().ont().queryAllowance(addr2 , addr2);
 			OntTest.logger().print("queryAllowance:"+l);
 			
 			if(l == 0) {
 			OntTest.logger().print("成功！");
 			assertEquals(true, false);
-		}
+			}
 		else{
 			OntTest.logger().print("失败！");
 			assertEquals(true, true);
