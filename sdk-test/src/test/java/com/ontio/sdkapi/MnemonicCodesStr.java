@@ -439,8 +439,7 @@ public class MnemonicCodesStr {
 			String password = "111111";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);			
 			OntTest.logger().description("PriKey = "+PriKey);
-			//assertEquals(true, PriKey == null);
-			assertTrue(false);
+			assertEquals(true, PriKey == null);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -469,8 +468,7 @@ public class MnemonicCodesStr {
 			String password = "@#$%^&";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);			
 			OntTest.logger().description("PriKey = "+PriKey);
-			//assertEquals(true, PriKey == null);
-			assertTrue(false);
+			assertEquals(true, PriKey == null);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
@@ -499,8 +497,7 @@ public class MnemonicCodesStr {
 			String password = "";
 			String PriKey = WalletQR.getPriKeyFromQrCode(qrcode, password);
 			OntTest.logger().description("PriKey = "+PriKey);
-			//assertEquals(true, PriKey == null);
-			assertTrue(false);
+			assertEquals(true, PriKey == null);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			System.out.println("err = "+err);
