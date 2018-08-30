@@ -1,6 +1,7 @@
 package com.ontio.sdkapi;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.security.PrivateKey;
@@ -98,7 +99,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(null, "123456", acc1, 20000, 1, false);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -163,7 +164,7 @@ public class Ontid {
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "654321", acc1, 20000, 1, false);
 
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -198,7 +199,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "", acc1, 20000, 0, false);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -357,7 +358,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", null, 20000, 1, false);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -421,7 +422,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 0, 1, false);
-			
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -456,7 +457,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, -20000, 1, false);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -492,7 +493,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 1, false);
-			
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -527,7 +528,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 1000000000, false);
-			assertEquals(true, true);
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -594,7 +595,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, -10, false);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -630,7 +631,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 20000, 10, false);
-			
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -829,7 +830,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcA", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -869,7 +870,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN1", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -909,7 +910,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("did:ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpc", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -949,7 +950,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("did:ont:Af296avw#$qHV5byLvXdCWCheW3HcpMpcN", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -989,7 +990,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("did:Af296avwQTqHV5byLvXdCWCheW3HcpMpcN", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1029,7 +1030,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("ont:Af296avwQTqHV5byLvXdCWCheW3HcpMpcA", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1069,7 +1070,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes("", "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1138,7 +1139,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "654321", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1310,7 +1311,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1350,7 +1351,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456",salt , atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1562,7 +1563,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, null, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1631,7 +1632,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 0, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1671,7 +1672,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, -20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1806,7 +1807,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, -10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(SDKException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1847,7 +1848,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 10l);
 			OntTest.logger().print(sr);
-			
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1888,7 +1889,7 @@ public class Ontid {
 
 			String sr = OntTest.sdk().nativevm().ontId().sendAddAttributes(ontid, "123456", salt, atr, acc1, 20000L, 1000000000l);
 			OntTest.logger().print(sr);
-			assertEquals(true, true);
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
@@ -1958,7 +1959,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		} 
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(false);
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
@@ -1981,7 +1985,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		} 
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(false);
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
@@ -2004,7 +2011,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		} 
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(false);
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
@@ -2027,7 +2037,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		} 
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(false);
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
@@ -2050,7 +2063,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		} 
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(false);
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
@@ -2073,7 +2089,10 @@ public class Ontid {
 			else {
 				assertEquals(true, false);
 			}
-		} 
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(false);
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
@@ -2092,6 +2111,7 @@ public class Ontid {
 			if(sd.equals("")) {
 				OntTest.logger().print("ontid为空");
 			}
+			assertTrue(false);
 		} 
 		catch(RpcException e) {
 			Map er = (Map)JSON.parse(e.getMessage());
