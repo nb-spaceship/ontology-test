@@ -197,7 +197,7 @@ public class Invoke {
 	        assertEquals(true,ret.equals(exp));
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		}  catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -235,7 +235,7 @@ public class Invoke {
 	        assertEquals(true,ret.equals(exp));
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -274,7 +274,7 @@ public class Invoke {
 	        assertEquals(true,ret.equals(exp));
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		}  catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -776,7 +776,7 @@ public class Invoke {
 	        assertEquals(true,ret!=exp);
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -830,7 +830,7 @@ public class Invoke {
 //			assertEquals(true,err_code==exp_errcode);
 		} catch(SDKException e) {
 				System.out.println(e);
-				assertTrue(true);
+				assertTrue(false);
 			 
 		} catch(Exception e) {
 			System.out.println(e);
@@ -1061,7 +1061,7 @@ public class Invoke {
 //			assertEquals(true,err_code==exp_errcode);
 		} catch(SDKException e) {
 			System.out.println(e);
-			assertTrue(true);
+			assertTrue(false);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
