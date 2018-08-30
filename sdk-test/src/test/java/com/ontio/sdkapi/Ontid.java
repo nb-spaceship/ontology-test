@@ -514,7 +514,7 @@ public class Ontid {
 	}
 	
 	@Test
-	public void test_abnormal_014_sendRegister() throws Exception {
+	public void test_normal_014_sendRegister() throws Exception {
 		OntTest.logger().description("----------sendRegister----------");
 		
 		try {
@@ -528,18 +528,7 @@ public class Ontid {
 			OntTest.logger().print("createIdentity: "+ontid1);
 			Identity id1 = OntTest.sdk().getWalletMgr().getWallet().getIdentity(ontid1);
 			OntTest.sdk().nativevm().ontId().sendRegister(id1, "123456", acc1, 1000000000, 1000000000, false);
-			assertTrue(false);
-		} 
-		catch(RpcException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("error").toString();
-			if("43001".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
+			assertTrue(true);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -652,7 +641,7 @@ public class Ontid {
 	}
 	
 	@Test
-	public void test_abnormal_019_sendRegister() throws Exception {
+	public void test_normal_019_sendRegister() throws Exception {
 		OntTest.logger().description("----------sendRegister----------");
 		
 		try {
@@ -671,21 +660,9 @@ public class Ontid {
 
 			OntTest.logger().print("getDefaultOntid: "+getid);
 
-			//assertEquals(true, getid.equals(ontid1));
-			assertTrue(false);
-		} 
-		catch(RpcException e) {
-			Map er = (Map)JSON.parse(e.getMessage());
-			OntTest.logger().error(er.toString());
-			String er_code = er.get("error").toString();
-			if("43001".equals(er_code)) {
-				assertEquals(true,true);
-			}
-			else {
-				assertEquals(true,false);
-			}
-		}
-		catch(Exception e) {
+			assertEquals(true, getid.equals(ontid1));
+			//assertTrue(false);
+		} catch(Exception e) {
 			e.printStackTrace();
 			OntTest.logger().error(e.toString());
 			fail();
