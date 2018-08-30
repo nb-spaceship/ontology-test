@@ -1,6 +1,7 @@
 package com.ontio.sdkapi;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Map;
@@ -313,7 +314,9 @@ public class ONG_Native {
 			long ongnum4 = OntTest.sdk().nativevm().ong().queryBalanceOf(addr2);
 			OntTest.logger().description("final:");
 			OntTest.logger().description("ongnum3 = "+String.valueOf(ongnum3));
-			OntTest.logger().description("ongnum4 = "+String.valueOf(ongnum4));			
+			OntTest.logger().description("ongnum4 = "+String.valueOf(ongnum4));	
+			
+			assertTrue(false);
 //			
 //			long dec = ongnum1-ongnum3;
 //			long inc = ongnum4-ongnum2;
@@ -368,7 +371,10 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 			assertEquals(true,inc==amount);
-		} catch(Exception e) {
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
+		}  catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
@@ -561,6 +567,9 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(inc));
 
 			assertEquals(true,inc==0);
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -835,6 +844,9 @@ public class ONG_Native {
 			long inc = ongnum4-ongnum2;
 			OntTest.logger().description(String.valueOf(inc));
 			assertEquals(true,inc==0);
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -960,6 +972,9 @@ public class ONG_Native {
 			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
 			OntTest.logger().description(String.valueOf(Allowance1));
 			assertEquals(true,Allowance==Allowance1);
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1149,6 +1164,9 @@ public class ONG_Native {
 			OntTest.logger().description(String.valueOf(Allowance));
 
 			assertEquals(false,Allowance==1000000000);
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1182,6 +1200,9 @@ public class ONG_Native {
 			long Allowance1 = Long.valueOf(OntTest.sdk().getRpc().getAllowance("ong",add1,add2));
 			OntTest.logger().description(String.valueOf(Allowance1));
 			assertEquals(true,Allowance==Allowance1);
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1999,6 +2020,9 @@ public class ONG_Native {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
 			}
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2090,7 +2114,10 @@ public class ONG_Native {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
 			}
-		} catch(Exception e) {
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
+		}  catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
 			fail();
@@ -2182,6 +2209,9 @@ public class ONG_Native {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
 			}
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2463,6 +2493,9 @@ public class ONG_Native {
 				assertEquals(true,(ongnum_addr3-ongnum_addr2)==0);
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 			}
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -2806,6 +2839,9 @@ public class ONG_Native {
 				OntTest.logger().description("Allowance与sendApprove的amount不一致");
 				assertEquals(true,false);
 			}
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
