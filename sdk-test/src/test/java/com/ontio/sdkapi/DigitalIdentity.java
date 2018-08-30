@@ -1,6 +1,7 @@
 package com.ontio.sdkapi;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Base64;
@@ -90,6 +91,7 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -120,6 +122,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -149,6 +153,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -178,6 +184,7 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -207,6 +214,7 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -259,6 +267,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -289,6 +299,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -347,6 +359,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -376,6 +390,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -428,6 +444,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -457,6 +475,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -486,6 +506,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -517,6 +539,7 @@ public class DigitalIdentity {
 			Identity ret1 = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret1.toString());
 			
+			assertTrue(false);
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
 			OntTest.logger().description("err = "+err);
@@ -546,6 +569,8 @@ public class DigitalIdentity {
 			OntTest.logger().step("导入身份");
 			Identity ret = OntTest.sdk().getWalletMgr().importIdentity(encryptedPrikey, pwd, salt, address);
 			OntTest.logger().description(ret.toString());
+			
+			assertTrue(false);
 			
 		} catch(SDKException e) {
 	        Map err = (Map) JSON.parse(e.getMessage()); 
@@ -1597,6 +1622,9 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
+		}  catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1622,6 +1650,9 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1649,6 +1680,9 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1676,6 +1710,9 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1705,6 +1742,9 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
@@ -1733,6 +1773,9 @@ public class DigitalIdentity {
 			String ret1 = String.valueOf(ret);
 			String exp = "null";
 			assertEquals(true,ret1.equals(exp));
+		} catch(SDKException e) {
+			System.out.println(e);
+			assertTrue(true);
 		} catch(Exception e) {
 			System.out.println(e);
 			OntTest.logger().error(e.toString());
